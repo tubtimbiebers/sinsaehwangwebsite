@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>แก้ไขหน้าแรก – ซินแสหวาง Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Noto+Sans+Thai:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .section-divider {
+      border: none; border-top: 2px solid var(--crimson);
+      margin: var(--sp-xl) 0; opacity: 0.15;
+    }
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      color: var(--gold-deep); text-transform: uppercase;
+      margin-bottom: var(--sp-md);
+    }
+    .preview-box {
+      background: var(--cream); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: var(--sp-lg);
+      margin-top: var(--sp-md); font-size: 0.85rem;
+    }
+    .preview-hero {
+      background: linear-gradient(135deg, #1a0a00 0%, #3d1a00 100%);
+      color: #fff; border-radius: var(--r-lg); padding: 2rem;
+      text-align: center; margin-top: var(--sp-md);
+    }
+    .preview-hero .zh { font-size: 2.5rem; color: var(--gold); font-family: 'Ma Shan Zheng', cursive; }
+    .preview-hero .th { font-size: 1.5rem; font-weight: 700; }
+    .preview-hero .sub { font-size: 0.9rem; color: rgba(255,255,255,0.7); }
+    .preview-hero .desc { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem; white-space: pre-line; }
+    .save-indicator {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.8rem; color: #4caf50; opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .save-indicator.show { opacity: 1; }
+    .tab-nav {
+      display: flex; gap: 4px; border-bottom: 2px solid var(--border);
+      margin-bottom: var(--sp-xl);
+    }
+    .tab-btn {
+      padding: 0.6rem 1.2rem; border: none; background: transparent;
+      font-size: 0.875rem; font-weight: 500; color: var(--text-secondary);
+      cursor: pointer; border-bottom: 2px solid transparent;
+      margin-bottom: -2px; transition: all var(--t-fast);
+    }
+    .tab-btn.active { color: var(--crimson); border-bottom-color: var(--crimson); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+  </style>
+</head>
+<body class="admin-body">
+<script>if(!sessionStorage.getItem('admin_auth')) window.location.href='login.html';</script>
+
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-logo">
+      <span class="logo-zh" style="font-family:'Ma Shan Zheng',cursive;">王</span>
+      <div class="logo-text"><span class="logo-main">ซินแสหวาง</span><span class="logo-sub">Admin Panel</span></div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">
+        <a href="dashboard.html" class="admin-nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">เนื้อหา</div>
+        <a href="homepage.html" class="admin-nav-item active"><span class="nav-icon">🏠</span> แก้ไขหน้าแรก</a>
+        <a href="posts.html" class="admin-nav-item"><span class="nav-icon">📝</span> บทความ</a>
+        <a href="categories.html" class="admin-nav-item"><span class="nav-icon">🏷️</span> หมวดหมู่</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">ลูกค้า</div>
+        <a href="consultations.html" class="admin-nav-item"><span class="nav-icon">🔮</span> คำปรึกษา</a>
+        <a href="customers.html" class="admin-nav-item"><span class="nav-icon">👥</span> ลูกค้า</a>
+        <a href="appointments.html" class="admin-nav-item"><span class="nav-icon">📅</span> นัดหมาย</a>
+      </div>
+      <div class="admin-nav-section">
+        <a href="settings.html" class="admin-nav-item"><span class="nav-icon">⚙️</span> ตั้งค่า</a>
+        <a href="#" class="admin-nav-item" onclick="sessionStorage.removeItem('admin_auth');window.location.href='login.html'"><span class="nav-icon">🚪</span> ออก</a>
+      </div>
+    </nav>
+    <div style="padding:var(--sp-lg);border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="font-size:0.7rem;color:var(--gray-600);text-align:center;">
+        <a href="../index.html" target="_blank" style="color:var(--gold-bright);">ดูหน้าเว็บ ↗</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div style="display:flex;align-items:center;gap:var(--sp-md);">
+        <button onclick="document.getElementById('adminSidebar').classList.toggle('open')"
+          style="display:none;padding:6px;border:1px solid var(--border);border-radius:var(--r-md);cursor:pointer;background:var(--white);" id="menuToggle">☰</button>
+        <span class="admin-topbar-title">🏠 แก้ไขหน้าแรก</span>
+      </div>
+      <div class="admin-topbar-actions">
+        <span class="save-indicator" id="saveIndicator">✓ บันทึกแล้ว</span>
+        <div class="admin-user"><div class="admin-avatar">ซ</div><span>ซินแสหวาง</span></div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- Tabs -->
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('hero')">🌟 Hero Section</button>
+        <button class="tab-btn" onclick="switchTab('stats')">📊 สถิติ</button>
+        <button class="tab-btn" onclick="switchTab('contact')">📞 ติดต่อ</button>
+        <button class="tab-btn" onclick="switchTab('seo')">🔍 SEO</button>
+      </div>
+
+      <!-- ── HERO TAB ── -->
+      <div class="tab-panel active" id="tab-hero">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span class="admin-card-title">🌟 Hero Section — ส่วนหัวหน้าแรก</span>
+          </div>
+          <div class="admin-form">
+            <div class="section-label">Badge (ป้ายด้านบน)</div>
+            <div class="form-row">
+              <div class="form-group" style="grid-column:1/-1">
+                <label>ข้อความใน Badge</label>
+                <input type="text" class="form-control" id="heroBadge" placeholder="เช่น 星師皇 · โหราศาสตร์ชั้นสูง" />
+              </div>
+            </div>
+            <hr class="section-divider" />
+            <div class="section-label">ชื่อหลัก</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>อักษรจีน (大字)</label>
+                <input type="text" class="form-control" id="heroTitleZh" placeholder="เช่น 天命" maxlength="4" />
+              </div>
+              <div class="form-group">
+                <label>ชื่อหลัก (ไทย)</label>
+                <input type="text" class="form-control" id="heroTitleTh" placeholder="เช่น ซินแสหวาง" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group" style="grid-column:1/-1">
+                <label>Subtitle (ใต้ชื่อ)</label>
+                <input type="text" class="form-control" id="heroTitleSub" placeholder="เช่น ศูนย์รวมโหราศาสตร์จีนไทย" />
+              </div>
+            </div>
+            <hr class="section-divider" />
+            <div class="section-label">คำอธิบาย</div>
+            <div class="form-row">
+              <div class="form-group" style="grid-column:1/-1">
+                <label>คำอธิบาย Hero (รองรับ \\n สำหรับขึ้นบรรทัดใหม่)</label>
+                <textarea class="form-control" id="heroDesc" rows="3" placeholder="เช่น ความรู้โหราศาสตร์จีน-ไทย อี้จิง ฮวงจุ้ย คู่สีมงคล&#10;โดยผู้เชี่ยวชาญด้านศาสตร์ตะวันออกกว่า 30 ปี"></textarea>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-primary" onclick="saveSection('hero')">💾 บันทึก Hero Section</button>
+            </div>
+          </div>
+
+          <!-- Preview -->
+          <div style="padding:0 var(--sp-xl) var(--sp-xl);">
+            <div class="section-label">ตัวอย่าง Preview</div>
+            <div class="preview-hero" id="heroPreview">
+              <div style="font-size:0.7rem;color:rgba(255,255,255,0.5);margin-bottom:0.5rem;" id="prevBadge"></div>
+              <div class="zh" id="prevZh"></div>
+              <div class="th" id="prevTh"></div>
+              <div class="sub" id="prevSub"></div>
+              <div class="desc" id="prevDesc"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STATS TAB ── -->
+      <div class="tab-panel" id="tab-stats">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span class="admin-card-title">📊 สถิติแสดงผลในหน้าแรก</span>
+          </div>
+          <div class="admin-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>ปีประสบการณ์</label>
+                <input type="number" class="form-control" id="statsExp" min="0" max="100" placeholder="30" />
+                <small style="color:var(--gray-500);">แสดงเป็น "XX+ ปีประสบการณ์"</small>
+              </div>
+              <div class="form-group">
+                <label>จำนวนลูกค้า</label>
+                <input type="number" class="form-control" id="statsClients" min="0" placeholder="15000" />
+                <small style="color:var(--gray-500);">แสดงเป็น "XX,XXX+ ลูกค้าที่ไว้วางใจ"</small>
+              </div>
+              <div class="form-group">
+                <label>จำนวนศาสตร์</label>
+                <input type="number" class="form-control" id="statsArts" min="0" max="50" placeholder="8" />
+                <small style="color:var(--gray-500);">แสดงเป็น "X ศาสตร์โหราศาสตร์"</small>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-primary" onclick="saveSection('stats')">💾 บันทึกสถิติ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CONTACT TAB ── -->
+      <div class="tab-panel" id="tab-contact">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span class="admin-card-title">📞 ข้อมูลติดต่อ (แสดงใน Footer)</span>
+          </div>
+          <div class="admin-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>เบอร์โทรศัพท์</label>
+                <input type="text" class="form-control" id="contactPhone" placeholder="062-xxx-xxxx" />
+              </div>
+              <div class="form-group">
+                <label>อีเมล</label>
+                <input type="email" class="form-control" id="contactEmail" placeholder="info@sinsaehwang.com" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Line ID</label>
+                <input type="text" class="form-control" id="contactLine" placeholder="@sinsaehwang" />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-primary" onclick="saveSection('contact')">💾 บันทึกข้อมูลติดต่อ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SEO TAB ── -->
+      <div class="tab-panel" id="tab-seo">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span class="admin-card-title">🔍 SEO — ตั้งค่า Meta สำหรับหน้าแรก</span>
+          </div>
+          <div class="admin-form">
+            <div class="form-row">
+              <div class="form-group" style="grid-column:1/-1">
+                <label>Page Title (ชื่อหน้าในแท็บ / Google)</label>
+                <input type="text" class="form-control" id="seoTitle" maxlength="70" placeholder="ซินแสหวาง – โหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย" />
+                <small id="seoTitleCount" style="color:var(--gray-500);">0/70 ตัวอักษร</small>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group" style="grid-column:1/-1">
+                <label>Meta Description (คำอธิบาย SEO)</label>
+                <textarea class="form-control" id="seoDesc" rows="3" maxlength="160" placeholder="ซินแสหวาง ศูนย์รวมโหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย คู่สี..."></textarea>
+                <small id="seoDescCount" style="color:var(--gray-500);">0/160 ตัวอักษร</small>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group" style="grid-column:1/-1">
+                <label>Keywords (คีย์เวิร์ด, คั่นด้วยจุลภาค)</label>
+                <input type="text" class="form-control" id="seoKeywords" placeholder="โหราศาสตร์จีน, อี้จิง, ฮวงจุ้ย..." />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-primary" onclick="saveSection('seo')">💾 บันทึก SEO</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </main>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+const API_KEY = sessionStorage.getItem('admin_key') || '';
+let homepageData = {};
+
+async function loadHomepage() {
+  try {
+    const res = await fetch('/api/homepage');
+    homepageData = await res.json();
+    fillForm(homepageData);
+  } catch(e) {
+    console.warn('Cannot load homepage data:', e);
+  }
+}
+
+function fillForm(data) {
+  // Hero
+  if (data.hero) {
+    setVal('heroBadge',    data.hero.badge    || '');
+    setVal('heroTitleZh',  data.hero.titleZh  || '');
+    setVal('heroTitleTh',  data.hero.titleTh  || '');
+    setVal('heroTitleSub', data.hero.titleSub || '');
+    setVal('heroDesc',     data.hero.desc     || '');
+    updatePreview();
+  }
+  // Stats
+  if (data.stats) {
+    setVal('statsExp',     data.stats.experience || '');
+    setVal('statsClients', data.stats.clients    || '');
+    setVal('statsArts',    data.stats.arts       || '');
+  }
+  // Contact
+  if (data.contact) {
+    setVal('contactPhone', data.contact.phone  || '');
+    setVal('contactEmail', data.contact.email  || '');
+    setVal('contactLine',  data.contact.lineId || '');
+  }
+  // SEO
+  if (data.seo) {
+    setVal('seoTitle',    data.seo.title    || '');
+    setVal('seoDesc',     data.seo.desc     || '');
+    setVal('seoKeywords', data.seo.keywords || '');
+    updateSeoCount();
+  }
+}
+
+function setVal(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val;
+}
+
+function gatherAll() {
+  return {
+    hero: {
+      badge:    document.getElementById('heroBadge').value,
+      titleZh:  document.getElementById('heroTitleZh').value,
+      titleTh:  document.getElementById('heroTitleTh').value,
+      titleSub: document.getElementById('heroTitleSub').value,
+      desc:     document.getElementById('heroDesc').value
+    },
+    stats: {
+      experience: parseInt(document.getElementById('statsExp').value)     || 0,
+      clients:    parseInt(document.getElementById('statsClients').value) || 0,
+      arts:       parseInt(document.getElementById('statsArts').value)    || 0
+    },
+    contact: {
+      phone:  document.getElementById('contactPhone').value,
+      email:  document.getElementById('contactEmail').value,
+      lineId: document.getElementById('contactLine').value
+    },
+    seo: {
+      title:    document.getElementById('seoTitle').value,
+      desc:     document.getElementById('seoDesc').value,
+      keywords: document.getElementById('seoKeywords').value
+    }
+  };
+}
+
+async function saveSection(section) {
+  const allData = gatherAll();
+  try {
+    const res = await fetch('/api/homepage', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': API_KEY },
+      body: JSON.stringify(allData)
+    });
+    if (!res.ok) throw new Error('Save failed');
+    homepageData = allData;
+    showSaved();
+  } catch(e) {
+    alert('เกิดข้อผิดพลาด: ' + e.message);
+  }
+}
+
+function showSaved() {
+  const el = document.getElementById('saveIndicator');
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    const tabs = ['hero', 'stats', 'contact', 'seo'];
+    b.classList.toggle('active', tabs[i] === name);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+function updatePreview() {
+  document.getElementById('prevBadge').textContent = document.getElementById('heroBadge').value;
+  document.getElementById('prevZh').textContent    = document.getElementById('heroTitleZh').value;
+  document.getElementById('prevTh').textContent    = document.getElementById('heroTitleTh').value;
+  document.getElementById('prevSub').textContent   = document.getElementById('heroTitleSub').value;
+  document.getElementById('prevDesc').textContent  = document.getElementById('heroDesc').value;
+}
+
+function updateSeoCount() {
+  const t = document.getElementById('seoTitle');
+  const d = document.getElementById('seoDesc');
+  document.getElementById('seoTitleCount').textContent = (t.value.length) + '/70 ตัวอักษร';
+  document.getElementById('seoDescCount').textContent  = (d.value.length) + '/160 ตัวอักษร';
+}
+
+// Live preview for hero fields
+['heroBadge','heroTitleZh','heroTitleTh','heroTitleSub','heroDesc'].forEach(id => {
+  document.getElementById(id)?.addEventListener('input', updatePreview);
+});
+document.getElementById('seoTitle')?.addEventListener('input', updateSeoCount);
+document.getElementById('seoDesc')?.addEventListener('input', updateSeoCount);
+
+// Responsive sidebar toggle
+const mq = window.matchMedia('(max-width: 900px)');
+document.getElementById('menuToggle').style.display = mq.matches ? 'block' : 'none';
+mq.addEventListener('change', e => {
+  document.getElementById('menuToggle').style.display = e.matches ? 'block' : 'none';
+});
+
+document.addEventListener('DOMContentLoaded', loadHomepage);
+</script>
+</body>
+</html>

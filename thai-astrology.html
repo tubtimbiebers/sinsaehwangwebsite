@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>โหราศาสตร์ไทย – ซินแสหวาง</title>
+  <meta name="description" content="คำนวณลัคนา ดูฤกษ์มงคล และศึกษายามอุบากองตามหลักโหราศาสตร์ไทยโบราณ โดยซินแสหวาง" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;600;700;900&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero { background:var(--grad-hero); padding:calc(var(--nav-h) + 3rem) 0 3rem; text-align:center; }
+    .thai-calculator { background:var(--white); border:1px solid var(--border); border-radius:var(--r-xl); padding:var(--sp-2xl); margin:var(--sp-3xl) 0; }
+    
+    .chart-container {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--sp-2xl);
+      align-items: center;
+      margin-top: var(--sp-xl);
+    }
+    
+    /* Thai Star Chart (ดวงอีแปะ) */
+    .star-chart {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+      background: var(--cream);
+      border: 3px double var(--gold-deep);
+      border-radius: 8px;
+    }
+    .chart-line {
+      position: absolute;
+      background: var(--gold-deep);
+    }
+    .chart-line.diag-1 { width: 424px; height: 1px; top: 147px; left: -62px; transform: rotate(45deg); }
+    .chart-line.diag-2 { width: 424px; height: 1px; top: 147px; left: -62px; transform: rotate(-45deg); }
+    .chart-line.horiz { width: 100%; height: 1px; top: 50%; left: 0; }
+    .chart-line.vert { height: 100%; width: 1px; left: 50%; top: 0; }
+    
+    .chart-center {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      top: 100px;
+      left: 100px;
+      background: var(--white);
+      border: 1px solid var(--gold);
+      transform: rotate(45deg);
+      z-index: 2;
+    }
+    
+    .chart-house {
+      position: absolute;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: var(--charcoal);
+      z-index: 3;
+    }
+    /* Placing houses (1-12) around the Thai star chart */
+    .house-1  { top: 10px; left: 140px; } /* ตนุ */
+    .house-2  { top: 50px; left: 230px; }
+    .house-3  { top: 140px; left: 270px; }
+    .house-4  { top: 230px; left: 230px; }
+    .house-5  { top: 270px; left: 140px; }
+    .house-6  { top: 230px; left: 50px; }
+    .house-7  { top: 140px; left: 10px; }
+    .house-8  { top: 50px; left: 50px; }
+    
+    /* Ubakong Section */
+    .ubakong-container {
+      background: var(--charcoal-mid);
+      color: var(--cream);
+      border-radius: var(--r-xl);
+      padding: var(--sp-2xl);
+      margin: var(--sp-3xl) 0;
+    }
+    .ubakong-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--sp-sm);
+      margin-top: var(--sp-lg);
+    }
+    .ubakong-cell {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--r-md);
+      padding: var(--sp-md);
+      text-align: center;
+      transition: all var(--t-fast);
+    }
+    .ubakong-cell.active {
+      border-color: var(--gold-bright);
+      background: rgba(201,146,42,0.15);
+      box-shadow: var(--shadow-glow);
+    }
+    .ubakong-cell h4 { font-size: 0.8rem; color: var(--gold-light); margin-bottom: var(--sp-xs); }
+    .ubakong-dots { font-size: 1.5rem; color: var(--gold-bright); line-height: 1; margin: var(--sp-xs) 0; }
+    .ubakong-desc { font-size: 0.75rem; color: var(--gray-300); }
+    
+    .day-selector {
+      display: flex;
+      justify-content: center;
+      gap: var(--sp-sm);
+      margin-bottom: var(--sp-lg);
+      flex-wrap: wrap;
+    }
+    .day-btn {
+      padding: 0.4rem 1rem;
+      border-radius: var(--r-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--cream);
+      transition: all var(--t-fast);
+    }
+    .day-btn.active, .day-btn:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--charcoal);
+    }
+    
+    .topic-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-lg); }
+    .topic-card { background:var(--white); border:1px solid var(--border); border-radius:var(--r-lg); padding:var(--sp-xl); transition:all var(--t-mid); }
+    .topic-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); border-color:var(--crimson-light); }
+    .topic-icon { font-size:2rem; margin-bottom:var(--sp-sm); }
+    .topic-card h3 { font-family:var(--font-serif); font-size:1.05rem; font-weight:700; color:var(--charcoal); margin-bottom:var(--sp-sm); }
+    .topic-card p { font-size:0.84rem; color:var(--text-secondary); line-height:1.65; }
+    
+    @media(max-width:768px) {
+      .chart-container { grid-template-columns: 1fr; }
+      .ubakong-grid { grid-template-columns: 1fr; }
+      .topic-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ✦ NAVIGATION ✦ -->
+<header id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-zh">王</span>
+      <div class="logo-text">
+        <span class="logo-main">ซินแสหวาง</span>
+        <span class="logo-sub">Sinsae Hwang · 星師皇</span>
+      </div>
+    </a>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link">หน้าแรก</a>
+      <a href="chinese-astrology.html" class="nav-link">โหราศาสตร์จีน</a>
+      <a href="thai-astrology.html" class="nav-link active">โหราศาสตร์ไทย</a>
+      <a href="iching.html" class="nav-link">อี้จิง</a>
+      <a href="fengshui.html" class="nav-link">ฮวงจุ้ย</a>
+      <a href="lucky-colors.html" class="nav-link">คู่สีมงคล</a>
+      <a href="contact.html" class="nav-link">ติดต่อ</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="consult.html" class="btn-consult">ปรึกษาซินแส</a>
+      <button class="nav-toggle" id="navToggle" aria-label="เปิดเมนู">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ✦ HERO ✦ -->
+<div class="page-hero">
+  <div class="container">
+    <div class="section-tag section-tag--light">โหราศาสตร์ไทยโบราณ</div>
+    <h1 class="hero-title" style="margin-bottom:1rem;">
+      <span class="title-zh" style="font-size:clamp(3rem,8vw,5rem);color:var(--gold-bright);">星</span>
+      <span class="title-th" style="font-size:clamp(1.8rem,4vw,2.8rem);">โหราศาสตร์ไทย</span>
+      <span class="title-sub">ลัคนา · ดาวเคราะห์นพเคราะห์ · ยามอุบากอง</span>
+    </h1>
+    <p style="color:rgba(255,255,255,0.75);max-width:600px;margin:0 auto;">วิเคราะห์ดวงชะตาตามจักรราศีไทยโบราณ คำนวณลัคนา หาฤกษ์ยามมงคลเพื่อความรุ่งเรือง</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    
+    <!-- ✦ LAGNA CALCULATOR ✦ -->
+    <div class="thai-calculator">
+      <h2 style="font-family:var(--font-serif);font-size:1.4rem;color:var(--charcoal);margin-bottom:var(--sp-sm);">🔮 คำนวณหาลัคนา (ดวงไทยเบื้องต้น)</h2>
+      <p style="color:var(--text-secondary);font-size:0.875rem;margin-bottom:var(--sp-xl);">กรอกวันเวลาเกิดของคุณเพื่อสมผุสลัคนาในจักรราศี</p>
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-md);margin-bottom:var(--sp-lg);">
+        <div class="form-group">
+          <label style="font-size:0.8rem;font-weight:600;color:var(--gray-700);display:block;margin-bottom:4px;">วันเกิด (ค.ศ.)</label>
+          <input type="date" class="form-control" id="birthDate" style="width:100%;padding:0.6rem;border:1px solid var(--border);border-radius:var(--r-md);" />
+        </div>
+        <div class="form-group">
+          <label style="font-size:0.8rem;font-weight:600;color:var(--gray-700);display:block;margin-bottom:4px;">เวลาเกิด (น.)</label>
+          <input type="time" class="form-control" id="birthTime" style="width:100%;padding:0.6rem;border:1px solid var(--border);border-radius:var(--r-md);" />
+        </div>
+      </div>
+      
+      <button class="btn-primary" onclick="calculateLagna()" id="calcBtn">คำนวณลัคนา</button>
+      
+      <div id="lagnaResult" class="chart-container" style="display:none;">
+        <div class="star-chart">
+          <!-- Lines -->
+          <div class="chart-line diag-1"></div>
+          <div class="chart-line diag-2"></div>
+          <div class="chart-line horiz"></div>
+          <div class="chart-line vert"></div>
+          <div class="chart-center"></div>
+          
+          <!-- Houses -->
+          <div class="chart-house house-1" id="star-1">ลั</div>
+          <div class="chart-house house-2" id="star-2">๑</div>
+          <div class="chart-house house-3" id="star-3">๒</div>
+          <div class="chart-house house-4" id="star-4">๓</div>
+          <div class="chart-house house-5" id="star-5">๔</div>
+          <div class="chart-house house-6" id="star-6">๕</div>
+          <div class="chart-house house-7" id="star-7">๖</div>
+          <div class="chart-house house-8" id="star-8">๗</div>
+        </div>
+        
+        <div style="background:var(--cream);border-radius:var(--r-lg);padding:var(--sp-xl);border:1px solid var(--border);">
+          <h3 style="font-family:var(--font-serif);font-size:1.2rem;color:var(--crimson);margin-bottom:var(--sp-sm);" id="resultTitle">ลัคนาของคุณ</h3>
+          <p style="font-size:0.9rem;color:var(--text-primary);line-height:1.8;" id="resultDesc"></p>
+          <div style="margin-top:var(--sp-lg);">
+            <a href="consult.html" class="btn-primary" style="font-size:0.8rem;">ขอฤกษ์มงคลส่วนตัวจากซินแส</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ✦ UBAKONG DAILY ORACLE ✦ -->
+    <div class="ubakong-container">
+      <h2 style="font-family:var(--font-serif);font-size:1.4rem;text-align:center;margin-bottom:var(--sp-sm);color:var(--gold-bright);">🧭 ยามอุบากอง (ยามสามตาโบราณ)</h2>
+      <p style="text-align:center;color:var(--gray-300);font-size:0.875rem;margin-bottom:var(--sp-xl);">เลือกวันสำคัญในการเดินทาง เจรจาธุรกิจ หรือริเริ่มงานใหญ่ เพื่อเลือกยามมงคลที่ดีที่สุด</p>
+      
+      <div class="day-selector">
+        <button class="day-btn active" onclick="selectUbakong(0)" id="ub-0">วันอาทิตย์</button>
+        <button class="day-btn" onclick="selectUbakong(1)" id="ub-1">วันจันทร์</button>
+        <button class="day-btn" onclick="selectUbakong(2)" id="ub-2">วันอังคาร</button>
+        <button class="day-btn" onclick="selectUbakong(3)" id="ub-3">วันพุธ</button>
+        <button class="day-btn" onclick="selectUbakong(4)" id="ub-4">วันพฤหัสบดี</button>
+        <button class="day-btn" onclick="selectUbakong(5)" id="ub-5">วันศุกร์</button>
+        <button class="day-btn" onclick="selectUbakong(6)" id="ub-6">วันเสาร์</button>
+      </div>
+      
+      <div class="ubakong-grid" id="ubakongGrid">
+        <!-- populated by JS -->
+      </div>
+      
+      <div style="margin-top:var(--sp-lg);font-size:0.75rem;color:var(--gray-400);text-align:center;">
+        หมายเหตุ: ยามอุบากองเป็นหลักสถิติยามโบราณ นิยมใช้เป็นหลักการตัดสินใจเดินทางเบื้องต้น
+      </div>
+    </div>
+    
+    <!-- ✦ TOPICS ✦ -->
+    <div class="section-header">
+      <div class="section-tag">ความรู้โหราศาสตร์ไทย</div>
+      <h2 class="section-title">หัวข้อสำคัญ<span>ของดวงไทย</span></h2>
+    </div>
+    
+    <div class="topic-grid">
+      <div class="topic-card">
+        <div class="topic-icon">🪐</div>
+        <h3>ดาวนพเคราะห์ทั้ง ๙</h3>
+        <p>วิเคราะห์อิทธิพลของเทวดานพเคราะห์ ตั้งแต่พระอาทิตย์ (๑) ถึงพระเกตุ (๙) และดาวมฤตยู (๐) ที่ทำหน้าที่ส่งผลต่อวิถีชีวิตในแต่ละช่วงวัย</p>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">📅</div>
+        <h3>การหาฤกษ์ยามโบราณ</h3>
+        <p>ฤกษ์แต่งงาน ฤกษ์ขึ้นบ้านใหม่ ฤกษ์ออกรถใหม่ โดยใช้ดิถีมงคลกาล ฤกษ์บน-ฤกษ์ล่าง เช่น ฤกษ์ภูมิปาโล ฤกษ์มหัทธโน</p>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">🧿</div>
+        <h3>การแก้เคล็ดและสะเดาะเคราะห์</h3>
+        <p>พิธีบูชาเทวดานพเคราะห์ การทำบุญตักบาตรตามกำลังดาวนพเคราะห์เพื่อปัดเป่าอุปสรรคและเสริมดวงชะตา</p>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<!-- ✦ FOOTER ✦ -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-zh">王</span>
+          <div>
+            <span class="logo-main">ซินแสหวาง</span>
+            <span class="logo-sub">星師皇 · Sinsae Hwang</span>
+          </div>
+        </div>
+        <p>ศูนย์รวมความรู้โหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย คู่สีมงคล โดยผู้เชี่ยวชาญกว่า 30 ปี</p>
+      </div>
+      <div class="footer-links">
+        <h4>บริการ</h4>
+        <ul>
+          <li><a href="chinese-astrology.html">โหราศาสตร์จีน</a></li>
+          <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+          <li><a href="iching.html">อี้จิง 易經</a></li>
+          <li><a href="fengshui.html">ฮวงจุ้ย 風水</a></li>
+          <li><a href="lucky-colors.html">คู่สีมงคล</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>เกี่ยวกับ</h4>
+        <ul>
+          <li><a href="about.html">เกี่ยวกับซินแสหวาง</a></li>
+          <li><a href="blog.html">บทความ</a></li>
+          <li><a href="consult.html">นัดปรึกษา</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+          <li><a href="admin/login.html">ระบบหลังบ้าน</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>ติดต่อ</h4>
+        <div class="contact-item"><span>📞</span><a href="tel:+6600000000">062-xxx-xxxx</a></div>
+        <div class="contact-item"><span>📧</span><a href="mailto:info@sinsaehwang.com">info@sinsaehwang.com</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2568 ซินแสหวาง · Sinsae Hwang · 星師皇 · All Rights Reserved</p>
+      <p><a href="privacy.html">นโยบายความเป็นส่วนตัว</a> · <a href="terms.html">ข้อกำหนดการใช้งาน</a></p>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="กลับขึ้นด้านบน">
+  <span>↑</span>
+</button>
+
+<script src="js/main.js"></script>
+<script>
+// Zodiac descriptions for Thai Astrology
+const THAI_ZODIAC = [
+  { name: 'เมษ (Aries)', element: 'ไฟ', trait: 'มีความเป็นผู้นำสูง กล้าหาญ มุ่งมั่นและรักการผจญภัย เสริมด้วยเครื่องประดับโทนสีแดงและทอง', stars: ['๑','๓'] },
+  { name: 'พฤษภ (Taurus)', element: 'ดิน', trait: 'มั่นคง หนักแน่น มีความอดทนสูง รักสงบและชื่นชอบศิลปะ เสริมดวงด้วยสีครีมและเหลืองอ่อน', stars: ['๖','๒'] },
+  { name: 'เมถุน (Gemini)', element: 'ลม', trait: 'เจรจาเก่ง เรียนรู้เร็ว ปรับตัวง่าย มีมนุษยสัมพันธ์ดี เสริมดวงด้วยสีเขียวและลายตาราง', stars: ['๔'] },
+  { name: 'กรกฎ (Cancer)', element: 'น้ำ', trait: 'อ่อนโยน รักครอบครัว มีเซนส์หรือลางสังหรณ์แม่นยำสูง เสริมดวงด้วยสีขาวมุกและสีน้ำเงิน', stars: ['๒'] },
+  { name: 'สิงห์ (Leo)', element: 'ไฟ', trait: 'สง่างาม กล้าหาญ มีบารมี ใจกว้างและเป็นผู้นำที่ดี เสริมดวงด้วยสีทองและส้มสว่าง', stars: ['๑'] },
+  { name: 'กันย์ (Virgo)', element: 'ดิน', trait: 'ละเอียดรอบคอบ มีระเบียบวินัย รักความสะอาด เก่งเรื่องจัดการ เสริมดวงด้วยสีน้ำตาลและสีครีม', stars: ['๔'] },
+  { name: 'ตุลย์ (Libra)', element: 'ลม', trait: 'รักความยุติธรรม มีเสน่ห์ ชอบความสุนทรีย์ รักสงบและมิตรภาพ เสริมดวงด้วยสีน้ำเงินและฟ้าอ่อน', stars: ['๖'] },
+  { name: 'พิจิก (Scorpio)', element: 'น้ำ', trait: 'มีเสน่ห์ลึกลับ ใจเด็ดเดี่ยว มีสัญชาตญาณสูงและมีความสามารถเฉพาะตัว เสริมดวงด้วยสีแดงเข้มและดำ', stars: ['๓','๘'] },
+  { name: 'ธนู (Sagittarius)', element: 'ไฟ', trait: 'รักอิสระ มีปัญญาความรู้ ชอบแสวงหาความจริงและชอบเดินทาง เสริมดวงด้วยสีเหลืองทองและส้ม', stars: ['๕'] },
+  { name: 'มังกร (Capricorn)', element: 'ดิน', trait: 'มีความรับผิดชอบสูง มุ่งมั่น มีความอดทนและจริงจังกับเป้าหมายชีวิต เสริมดวงด้วยสีเทาและเทาเข้ม', stars: ['๗'] },
+  { name: 'กุมภ์ (Aquarius)', element: 'ลม', trait: 'คิดสร้างสรรค์ มีความคิดแปลกใหม่ รักเพื่อนฝูงและอุดมการณ์ เสริมดวงด้วยสีฟ้าอมเทาและสีดำ', stars: ['๘','๗'] },
+  { name: 'มีน (Pisces)', element: 'น้ำ', trait: 'มีจินตนาการสูง อ่อนโยน มีน้ำใจ ชอบช่วยเหลือผู้อื่น เสริมดวงด้วยสีเหลืองและเขียวอ่อน', stars: ['๕','๙'] }
+];
+
+const UBAKONG_DATA = [
+  // Sun (0)
+  [
+    { name: '06:00 - 08:24', dots: '✕', desc: 'ยามปลอด: ไม่ดีไม่เสีย หลีกเลี่ยงงานสำคัญ' },
+    { name: '08:24 - 10:48', dots: '🔴🔴🔴🔴', desc: 'ยามสี่หน้า: มหาโชคลาภ เดินทางสำเร็จสูงสุด' },
+    { name: '10:48 - 13:12', dots: '🔴🔴', desc: 'ยามสองตา: โชคดีมีลาภ เจรจาค้าขายสำเร็จ' },
+    { name: '13:12 - 15:36', dots: '✕', desc: 'ยามบอด: ห้ามเดินทางไกลหรือทำสัญญา' },
+    { name: '15:36 - 18:00', dots: '🔴', desc: 'ยามหนึ่งตา: พอมีโชคลาภปานกลาง' }
+  ],
+  // Mon (1)
+  [
+    { name: '06:00 - 08:24', dots: '🔴🔴', desc: 'ยามสองตา: เหมาะกับการเจรจาติดต่อการงาน' },
+    { name: '08:24 - 10:48', dots: '✕', desc: 'ยามบอด: มีอุปสรรคขัดขวาง' },
+    { name: '10:48 - 13:12', dots: '🔴', desc: 'ยามหนึ่งตา: โชคดีปานกลาง' },
+    { name: '13:12 - 15:36', dots: '🔴🔴🔴🔴', desc: 'ยามสี่หน้า: ลาภลอยล้นพ้น เหมาะเสี่ยงโชค' },
+    { name: '15:36 - 18:00', dots: '✕', desc: 'ยามปลอด: ราบเรียบไม่มีโชคสะดุด' }
+  ],
+  // Tue (2)
+  [
+    { name: '06:00 - 08:24', dots: '✕', desc: 'ยามบอด: ห้ามออกเดินทางหรือเริ่มต้นสิ่งใหม่' },
+    { name: '08:24 - 10:48', dots: '🔴', desc: 'ยามหนึ่งตา: พอสมควรแก่เหตุผล' },
+    { name: '10:48 - 13:12', dots: '🔴🔴🔴🔴', desc: 'ยามสี่หน้า: ทำการใดก็จะสำเร็จ มีคนเกื้อหนุน' },
+    { name: '13:12 - 15:36', dots: '✕', desc: 'ยามปลอด: เดินทางปลอดภัยปานกลาง' },
+    { name: '15:36 - 18:00', dots: '🔴🔴', desc: 'ยามสองตา: มีคนนำลาภผลมาให้' }
+  ],
+  // Wed (3)
+  [
+    { name: '06:00 - 08:24', dots: '🔴🔴🔴🔴', desc: 'ยามสี่หน้า: อภิมหาโชคลาภ เจรจาค้าขายดีเยี่ยม' },
+    { name: '08:24 - 10:48', dots: '🔴🔴', desc: 'ยามสองตา: จะพบมิตรสหายที่ดีช่วยเหลือ' },
+    { name: '10:48 - 13:12', dots: '✕', desc: 'ยามบอด: ระวังการเสียทรัพย์และเจ็บป่วย' },
+    { name: '13:12 - 15:36', dots: '🔴', desc: 'ยามหนึ่งตา: มีลาภผลพองาม' },
+    { name: '15:36 - 18:00', dots: '✕', desc: 'ยามปลอด: แคล้วคลาดปลอดภัย' }
+  ],
+  // Thu (4)
+  [
+    { name: '06:00 - 08:24', dots: '🔴', desc: 'ยามหนึ่งตา: เริ่มต้นงานเช้ามีโชคเล็กน้อย' },
+    { name: '08:24 - 10:48', dots: '🔴🔴🔴🔴', desc: 'ยามสี่หน้า: ทำอะไรก็สำเร็จราบรื่นดั่งใจ' },
+    { name: '10:48 - 13:12', dots: '✕', desc: 'ยามปลอด: ปลอดภัยดี ไม่มีภัยอันตราย' },
+    { name: '13:12 - 15:36', dots: '🔴🔴', desc: 'ยามสองตา: เจรจาสัญญาสำเร็จผล' },
+    { name: '15:36 - 18:00', dots: '✕', desc: 'ยามบอด: งดเดินทางเย็น ระวังอันตราย' }
+  ],
+  // Fri (5)
+  [
+    { name: '06:00 - 08:24', dots: '🔴🔴', desc: 'ยามสองตา: โชคดีมีชัยเรื่องธุรกิจค้าขาย' },
+    { name: '08:24 - 10:48', dots: '✕', desc: 'ยามปลอด: ไม่มีภัยร้าย เดินทางสะดวก' },
+    { name: '10:48 - 13:12', dots: '🔴🔴🔴🔴', desc: 'ยามสี่หน้า: โชคลาภมั่งคั่ง ได้เงินก้อนโต' },
+    { name: '13:12 - 15:36', dots: '✕', desc: 'ยามบอด: มีเกณฑ์สะดุดหกล้มและเสียเงิน' },
+    { name: '15:36 - 18:00', dots: '🔴', desc: 'ยามหนึ่งตา: สมประโยชน์ตามควร' }
+  ],
+  // Sat (6)
+  [
+    { name: '06:00 - 08:24', dots: '✕', desc: 'ยามปลอด: ไร้อุปสรรค ปลอดภัย' },
+    { name: '08:24 - 10:48', dots: '🔴🔴', desc: 'ยามสองตา: เจรจาประสบความสำเร็จดี' },
+    { name: '10:48 - 13:12', dots: '✕', desc: 'ยามบอด: ระวังอุบัติเหตุหรือคดีความ' },
+    { name: '13:12 - 15:36', dots: '🔴', desc: 'ยามหนึ่งตา: มีผลลาภตามหวังเล็กน้อย' },
+    { name: '15:36 - 18:00', dots: '🔴🔴🔴🔴', desc: 'ยามสี่หน้า: เวลาดีที่สุด ทิศตะวันออกเป็นมงคล' }
+  ]
+];
+
+function calculateLagna() {
+  const birthDateVal = document.getElementById('birthDate').value;
+  const birthTimeVal = document.getElementById('birthTime').value;
+  
+  if (!birthDateVal || !birthTimeVal) {
+    alert('กรุณากรอกข้อมูลวันเกิดและเวลาเกิดให้ครบถ้วน');
+    return;
+  }
+  
+  const date = new Date(birthDateVal);
+  const [hour, minute] = birthTimeVal.split(':').map(Number);
+  
+  // Calculate based on month to find approximate starting zodiac at sunrise (06:00)
+  // traditional approximation: Sunrise is in the zodiac of the month
+  const month = date.getMonth(); // 0 = Jan, 11 = Dec
+  
+  // Array offset for months: Jan starting with Capricorn (index 9)
+  // Jan (Capricorn)=9, Feb (Aquarius)=10, Mar (Pisces)=11, Apr (Aries)=0...
+  const monthStartOffset = [9, 10, 11, 0, 1, 2, 3, 4, 5, 6, 7, 8];
+  let startZodiacIdx = monthStartOffset[month];
+  
+  // Calculate time offset from sunrise (06:00)
+  // 1 zodiac sign changes approximately every 2 hours
+  let timeInMinutes = hour * 60 + minute;
+  let minutesSinceSunrise = timeInMinutes - 360; // 06:00 is sunrise
+  if (minutesSinceSunrise < 0) {
+    minutesSinceSunrise += 1440; // wrap around for pre-sunrise times
+  }
+  
+  const zodiacShift = Math.floor(minutesSinceSunrise / 120);
+  const finalZodiacIdx = (startZodiacIdx + zodiacShift) % 12;
+  
+  const zodiac = THAI_ZODIAC[finalZodiacIdx];
+  
+  // Show Result UI
+  document.getElementById('resultTitle').textContent = `ลัคนาของคุณ: ราศี${zodiac.name}`;
+  document.getElementById('resultDesc').innerHTML = `
+    <strong>ธาตุประจำตัว:</strong> ธาตุ${zodiac.element} <br/>
+    <strong>ลักษณะนิสัย:</strong> ${zodiac.trait} <br/>
+    <strong>ดวงดาวเกื้อหนุน:</strong> ดาวประจำตัวของคุณคือ เลข ${zodiac.stars.join(' และ ')}
+  `;
+  
+  // Update Chart display (randomize placement of other stars just for visual effect)
+  const numbers = ['๑','๒','๓','๔','๕','๖','๗','๘','๙','๐'];
+  document.getElementById('star-1').textContent = `ลั ${zodiac.name.slice(0,3)}`;
+  document.getElementById('star-1').style.color = 'var(--crimson)';
+  
+  for(let i=2; i<=8; i++) {
+    const starEl = document.getElementById(`star-${i}`);
+    starEl.textContent = numbers[(finalZodiacIdx + i) % 10];
+    starEl.style.color = 'var(--charcoal)';
+  }
+  
+  document.getElementById('lagnaResult').style.display = 'grid';
+  document.getElementById('lagnaResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function selectUbakong(dayIdx) {
+  // Update active buttons
+  for(let i=0; i<7; i++) {
+    document.getElementById(`ub-${i}`).classList.toggle('active', i === dayIdx);
+  }
+  
+  const grid = document.getElementById('ubakongGrid');
+  const dayData = UBAKONG_DATA[dayIdx];
+  
+  // Get current time to highlight current time slot if matching
+  const now = new Date();
+  const currentHour = now.getHours();
+  const currentMin = now.getMinutes();
+  const currentVal = currentHour * 60 + currentMin;
+  
+  grid.innerHTML = dayData.map((slot, idx) => {
+    let isActive = false;
+    // Check slot bounds
+    if (idx === 0 && currentVal >= 360 && currentVal < 504) isActive = true;
+    else if (idx === 1 && currentVal >= 504 && currentVal < 648) isActive = true;
+    else if (idx === 2 && currentVal >= 648 && currentVal < 792) isActive = true;
+    else if (idx === 3 && currentVal >= 792 && currentVal < 936) isActive = true;
+    else if (idx === 4 && currentVal >= 936 && currentVal < 1080) isActive = true;
+    
+    // Format dots color
+    let dotsColor = '#4caf50'; // green for good
+    if (slot.dots.includes('✕')) dotsColor = 'var(--gray-500)';
+    else if (slot.dots.length <= 2) dotsColor = '#ff9800'; // orange
+    else dotsColor = 'var(--gold-bright)'; // gold/yellow
+    
+    return `
+      <div class="ubakong-cell ${isActive ? 'active' : ''}">
+        <h4>${slot.name}</h4>
+        <div class="ubakong-dots" style="color: ${dotsColor}">${slot.dots}</div>
+        <div class="ubakong-desc">${slot.desc}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Init Ubakong on page load using today's day of week
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().getDay(); // 0 = Sun, 6 = Sat
+  selectUbakong(today);
+});
+</script>
+
+</body>
+</html>

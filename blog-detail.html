@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>บทความความรู้ – ซินแสหวาง</title>
+  <meta name="description" content="ความรู้และเคล็ดลับดีๆ ด้านโหราศาสตร์จากสำนักงานซินแสหวาง" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;600;700;900&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero { background:var(--grad-hero); padding:calc(var(--nav-h) + 2rem) 0 2rem; text-align:center; }
+    
+    .article-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: var(--sp-3xl);
+      margin: var(--sp-3xl) 0;
+    }
+    
+    .article-body {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-2xl);
+    }
+    
+    .article-content {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-primary);
+      margin-top: var(--sp-xl);
+    }
+    .article-content h2, .article-content h3 {
+      font-family: var(--font-serif);
+      color: var(--crimson);
+      margin: var(--sp-lg) 0 var(--sp-sm);
+    }
+    .article-content p {
+      margin-bottom: var(--sp-md);
+    }
+    .article-figure {
+      margin: 0 0 var(--sp-xl);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--cream-deep);
+      box-shadow: var(--shadow-sm);
+    }
+    .article-figure img {
+      width: 100%;
+      max-height: 440px;
+      object-fit: cover;
+    }
+    .article-figure figcaption {
+      padding: 0.65rem var(--sp-md);
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      background: var(--cream);
+    }
+    
+    .sidebar-box {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-xl);
+      position: sticky;
+      top: calc(var(--nav-h) + 2rem);
+    }
+    
+    .related-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-md);
+      margin-top: var(--sp-md);
+    }
+    .related-item {
+      display: flex;
+      gap: var(--sp-sm);
+      text-decoration: none;
+      color: inherit;
+      align-items: center;
+    }
+    .related-item:hover { color: var(--crimson); }
+    .related-icon {
+      width: 36px; height: 36px;
+      border-radius: var(--r-sm);
+      background: var(--white);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-zh);
+      font-size: 1.1rem;
+      color: var(--crimson);
+      flex-shrink: 0;
+    }
+    
+    @media(max-width:768px) {
+      .article-container { grid-template-columns: 1fr; }
+      .sidebar-box { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ✦ NAVIGATION ✦ -->
+<header id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-zh">王</span>
+      <div class="logo-text">
+        <span class="logo-main">ซินแสหวาง</span>
+        <span class="logo-sub">Sinsae Hwang · 星師皇</span>
+      </div>
+    </a>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link">หน้าแรก</a>
+      <a href="chinese-astrology.html" class="nav-link">โหราศาสตร์จีน</a>
+      <a href="thai-astrology.html" class="nav-link">โหราศาสตร์ไทย</a>
+      <a href="iching.html" class="nav-link">อี้จิง</a>
+      <a href="fengshui.html" class="nav-link">ฮวงจุ้ย</a>
+      <a href="lucky-colors.html" class="nav-link">คู่สีมงคล</a>
+      <a href="contact.html" class="nav-link">ติดต่อ</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="consult.html" class="btn-consult">ปรึกษาซินแส</a>
+      <button class="nav-toggle" id="navToggle" aria-label="เปิดเมนู">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ✦ HERO ✦ -->
+<div class="page-hero">
+  <div class="container">
+    <div class="section-tag section-tag--light" id="heroCategory">โหราศาสตร์</div>
+    <h1 class="hero-title" style="margin-bottom:0.5rem;font-size:clamp(1.5rem,4vw,2.2rem);" id="heroTitle">หัวข้อบทความ</h1>
+    <p style="color:rgba(255,255,255,0.7);font-size:0.8rem;" id="heroMeta">เผยแพร่เมื่อ: - · เวลาอ่าน: -</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    
+    <div class="article-container">
+      <!-- ✦ BODY ✦ -->
+      <article class="article-body">
+        <div style="font-family:var(--font-zh);font-size:5rem;color:var(--crimson-pale);text-align:center;line-height:1;" id="articleIcon">命</div>
+        <div class="article-content" id="articleContent">
+          <!-- loaded dynamically by JS -->
+        </div>
+      </article>
+      
+      <!-- ✦ SIDEBAR ✦ -->
+      <aside>
+        <div class="sidebar-box">
+          <h3 style="font-family:var(--font-serif);font-size:1.1rem;color:var(--charcoal);border-bottom:2px solid var(--gold);padding-bottom:6px;">บทความอื่นๆ</h3>
+          <div class="related-list" id="relatedList">
+            <!-- populated by JS -->
+          </div>
+        </div>
+      </aside>
+    </div>
+    
+  </div>
+</section>
+
+<!-- ✦ FOOTER ✦ -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-zh">王</span>
+          <div>
+            <span class="logo-main">ซินแสหวาง</span>
+            <span class="logo-sub">星師皇 · Sinsae Hwang</span>
+          </div>
+        </div>
+        <p>ศูนย์รวมความรู้โหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย คู่สีมงคล โดยผู้เชี่ยวชาญกว่า 30 ปี</p>
+      </div>
+      <div class="footer-links">
+        <h4>บริการ</h4>
+        <ul>
+          <li><a href="chinese-astrology.html">โหราศาสตร์จีน</a></li>
+          <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+          <li><a href="iching.html">อี้จิง 易經</a></li>
+          <li><a href="fengshui.html">ฮวงจุ้ย 風水</a></li>
+          <li><a href="lucky-colors.html">คู่สีมงคล</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>เกี่ยวกับ</h4>
+        <ul>
+          <li><a href="about.html">เกี่ยวกับซินแสหวาง</a></li>
+          <li><a href="blog.html">บทความ</a></li>
+          <li><a href="consult.html">นัดปรึกษา</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+          <li><a href="admin/login.html">ระบบหลังบ้าน</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>ติดต่อ</h4>
+        <div class="contact-item"><span>📞</span><a href="tel:+6600000000">062-xxx-xxxx</a></div>
+        <div class="contact-item"><span>📧</span><a href="mailto:info@sinsaehwang.com">info@sinsaehwang.com</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2568 ซินแสหวาง · Sinsae Hwang · 星師皇 · All Rights Reserved</p>
+      <p><a href="privacy.html">นโยบายความเป็นส่วนตัว</a> · <a href="terms.html">ข้อกำหนดการใช้งาน</a></p>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="กลับขึ้นด้านบน">
+  <span>↑</span>
+</button>
+
+<script src="js/main.js"></script>
+<script src="js/blog-images.js"></script>
+<script>
+// Detailed articles contents database
+const DETAILED_ARTICLES = {
+  "1": {
+    title: "ปาจื้อคืออะไร? ศาสตร์ 8 ตัวอักษรแห่งโชคชะตา",
+    cat: "โหราศาสตร์จีน",
+    icon: "命",
+    date: "15 มิ.ย. 2568",
+    read: "5 นาที",
+    content: `
+      <p>ปาจื้อ (八字) หรือ BaZi ในภาษาจีนแปลว่า "แปดตัวอักษร" หรือเป็นที่รู้จักในนาม "สี่เสาหลักแห่งโชคชะตา" (Four Pillars of Destiny) เป็นวิชาการทำนายดวงชะตาของจีนโบราณที่มีอายุกว่าหนึ่งพันปี โดยวิเคราะห์แผนที่ชีวิตของมนุษย์จากช่วงเวลาที่ก้าวเข้าสู่โลกนี้ ได้แก่ ปี เกิด, เดือนเกิด, วันเกิด, และเวลาเกิด</p>
+      
+      <blockquote>"ชะตาฟ้ากำหนดมาแต่กำเนิด แต่ปาจื้อช่วยให้เราเข้าใจแผนที่ชีวิตนั้นเพื่อเดินทางได้อย่างปลอดภัย"</blockquote>
+      
+      <h2>โครงสร้างของเสาชะตาทั้งสี่</h2>
+      <p>ข้อมูลเวลาเกิดของบุคคลจะถูกแปลงให้อยู่ในรูปของ อักษรฟากฟ้า (Heavenly Stems) และอักษรพสุธา (Earthly Branches) รวมสี่หลักหรือสี่เสาหลัก ประกอบด้วย:</p>
+      <ul>
+        <li><strong>เสาปีเกิด (Year Pillar):</strong> สะท้อนเรื่องราวของวงศ์ตระกูล ปู่ย่าตายาย และภาพลักษณ์ภายนอกที่เราแสดงออกต่อสังคม</li>
+        <li><strong>เสาเดือนเกิด (Month Pillar):</strong> สะท้อนเรื่องการทำงาน อาชีพ สังคม และพ่อแม่ผู้ปกครอง</li>
+        <li><strong>เสาวันเกิด (Day Pillar):</strong> ถือเป็น "ตัวแทนของเจ้าชะตา" (Day Master) สะท้อนตัวตนภายใน คู่ครอง และสุขภาพ</li>
+        <li><strong>เสาชั่วโมงเกิด (Hour Pillar):</strong> สะท้อนความหวังในอนาคต ลูกหลาน บริวาร และความคิดในส่วนลึก</li>
+      </ul>
+      
+      <h2>วัฏจักรห้าธาตุและการปรับสมดุล</h2>
+      <p>หัวใจสำคัญของปาจื้อไม่ใช่การทำนายว่ารวยหรือจนอย่างตายตัว แต่เป็นการวิเคราะห์ความสมดุลของ "ธาตุทั้งห้า" (ไม้, ไฟ, ดิน, ทอง, น้ำ) ในดวงชะตา ชะตาที่ดีคือชะตาที่มีธาตุหมุนเวียนสมดุลดี หากขาดธาตุใดหรือมีธาตุใดล้นเกินไป ซินแสจะแนะนำให้ทำการปรับพลังงานผ่านพฤติกรรม อาชีพ ทิศทางที่อยู่อาศัย หรือสีสันรอบตัวเพื่อบรรเทาอุปสรรค</p>
+    `
+  },
+  "2": {
+    title: "64 กวาในอี้จิง — ความหมายและการทำนาย",
+    cat: "อี้จิง",
+    icon: "易",
+    date: "10 มิ.ย. 2568",
+    read: "8 นาที",
+    content: `
+      <p>อี้จิง (易經 Yì Jīng) หรือคัมภีร์แห่งการเปลี่ยนแปลง เป็นหนึ่งในคัมภีร์ที่เก่าแก่ที่สุดของจีน ได้รับการขนานนามว่าเป็นรากฐานปรัชญาจีนทั้งมวล รวมถึงลัทธิเต๋าและลัทธิขงจื๊อ ศาสตร์อี้จิงไม่ได้มองโลกเป็นสิ่งหยุดนิ่ง แต่มองทุกสรรพสิ่งในสถานะการเปลี่ยนแปลงที่วนเวียนเป็นวัฏจักร</p>
+      
+      <h2>สัญลักษณ์ 64 กวา (Hexagrams)</h2>
+      <p>กวา (卦) หรือขีดสัญลักษณ์ เกิดจากการผสมผสานกันของเส้นสองประเภท คือ เส้นหยาง (⚊ - ขีดเต็ม แทนพลังบวก ความแข็งแกร่ง แสงสว่าง) และเส้นหยิน (⚋ - ขีดขาด แทนพลังลบ ความอ่อนโยน ความมืด) เมื่อนำขีดสามเส้นมารวมกันจะได้รูป 8 ขีดพื้นฐาน (Trigrams) และเมื่อนำ 8 ขีดนี้มาซ้อนกันบนล่าง 2 ชุด จะได้สัญลักษณ์ 6 ขีดทั้งหมด 64 รูปแบบ เรียกว่า "64 กวา"</p>
+      
+      <h2>หัวใจสำคัญของการพยากรณ์อี้จิง</h2>
+      <p>การเสี่ยงทายอี้จิงไม่ได้มีวัตถุประสงค์เพื่อบอกว่าอนาคตจะร้ายหรือดีอย่างเลี่ยงไม่ได้ แต่เป็นการขอคำชี้แนะจากธรรมชาติว่า ณ สถานการณ์ปัจจุบัน เจ้าชะตาควรแสดงออกอย่างไรเพื่อรักษาสมดุล เช่น ควรนิ่งสงบ รอคอยอย่างอดทน (กวาซวี่) หรือถึงเวลาลุยอย่างกล้าหาญ (กวาเฉียน) นั่นทำให้ศาสตร์อี้จิงมีความลึกซึ้งทางปรัชญาและสอนให้มนุษย์ใช้ชีวิตอย่างมีสติ</p>
+    `
+  },
+  "3": {
+    title: "5 หลักการฮวงจุ้ยบ้านที่ควรรู้ก่อนย้ายเข้า",
+    cat: "ฮวงจุ้ย",
+    icon: "風",
+    date: "5 มิ.ย. 2568",
+    read: "6 นาที",
+    content: `
+      <p>ฮวงจุ้ย (風水 Feng Shui) มาจากคำสองคำคือ ลม (ฮวง) และ น้ำ (จุ้ย) ซึ่งเป็นตัวแทนของกระแสพลังงานชี่ (Qi) ที่หมุนเวียนอยู่รอบตัวเรา การจัดฮวงจุ้ยบ้านเป็นการจัดระบบสภาพแวดล้อมให้เกื้อหนุนและรวบรวมพลังงานที่ดีเข้าสู่บ้าน เพื่อให้ผู้อยู่อาศัยมีสุขภาพดี ประสบความสำเร็จ และมั่งคั่ง</p>
+      
+      <h2>1. ประตูหน้าบ้านต้องเปิดกว้างและสะอาด</h2>
+      <p>ประตูหน้าบ้านถือเป็น "ปากของพลังงานชี่" (Mouth of Qi) พลังงานทั้งหมดจะเข้าสู่บ้านทางนี้ ดังนั้นทางเดินเข้าบ้านต้องสว่าง ไม่มีสิ่งของวางเกะกะ ขวางทาง เพื่อให้กระแสพลังงานไหลเข้าสู่บ้านได้อย่างเต็มที่และราบรื่น</p>
+      
+      <h2>2. ตำแหน่งเตียงนอน (Commanding Position)</h2>
+      <p>เตียงนอนควรอยู่ในตำแหน่งทแยงมุมกับประตูห้องนอน เพื่อให้คุณเห็นประตูขณะนอนหลับ แต่ไม่ควรตั้งเตียงอยู่ในแนวตรงกับประตูโดยตรง (เรียกว่า ตำแหน่งโลงศพ) หัวเตียงควรพิงกำแพงทึบเพื่อความมั่นคงในชีวิต</p>
+      
+      <h2>3. ความสมดุลของหยินหยางและ 5 ธาตุ</h2>
+      <p>การจัดตกแต่งภายในบ้านควรมีความสมดุล ไม่ควรมีแสงสว่างจ้าเกินไป (หยางล้น) หรือมืดสลัวและชื้นเกินไป (หยินล้น) นอกเหนือจากนี้ ควรประดับประดาด้วยสิ่งของของธาตุทั้งห้าให้สอดรับกันอย่างลงตัวในแต่ละทิศทางของบ้าน</p>
+    `
+  },
+  "4": {
+    title: "คู่สีมงคลตามธาตุทั้ง 5 เลือกสีที่เสริมดวงคุณ",
+    cat: "คู่สีมงคล",
+    icon: "色",
+    date: "1 มิ.ย. 2568",
+    read: "4 นาที",
+    content: `
+      <p>ในศาสตร์โหราศาสตร์จีนโบราณ พลังงานสีสันรอบตัวเราล้วนสั่นสะเทือนตามพลังของธาตุทั้ง 5 (ไม้, ไฟ, ดิน, ทอง, น้ำ) การเลือกคู่สีให้เหมาะสมและช่วยส่งเสริมธาตุของตัวเรา (Day Master ในปาจื้อ) จึงเป็นวิธีง่ายๆ แต่มีประสิทธิภาพในการปรับพลังงานชีวิตประจำวัน</p>
+      
+      <h2>การวิเคราะห์ธาตุและโทนสีมงคล</h2>
+      <ul>
+        <li><strong>ผู้มีธาตุไม้:</strong> เสริมโชคด้วย สีเขียวทุกโทน และสีน้ำเงิน/ดำ (ธาตุน้ำหล่อเลี้ยงไม้)</li>
+        <li><strong>ผู้มีธาตุไฟ:</strong> เสริมโชคด้วย สีแดง ส้ม ชมพู และสีเขียว (ธาตุไม้ก่อเกิดไฟ)</li>
+        <li><strong>ผู้มีธาตุดิน:</strong> เสริมโชคด้วย สีเหลือง น้ำตาล ครีม และสีแดง (ธาตุไฟเผาไหม้เป็นดิน)</li>
+        <li><strong>ผู้มีธาตุทอง:</strong> เสริมโชคด้วย สีขาว เทา ทอง และสีเหลือง (ธาตุดินให้กำเนิดทอง)</li>
+        <li><strong>ผู้มีธาตุน้ำ:</strong> เสริมโชคด้วย สีน้ำเงิน ดำ และสีขาว/เงิน (ธาตุทองให้กำเนิดน้ำ)</li>
+      </ul>
+      
+      <p>ลองนำสีเหล่านี้ไปประยุกต์ใช้กับเครื่องแต่งกาย เคสมือถือ สีกระเป๋าสตางค์ หรือสีตกแต่งห้องทำงาน เพื่อเสริมพลังขับเคลื่อนโชคดีในทุกวัน</p>
+    `
+  },
+  "5": {
+    title: "ราศีจีน 12 นักษัตร วิเคราะห์ชงปี 2568",
+    cat: "ราศีจีน",
+    icon: "生",
+    date: "28 พ.ค. 2568",
+    read: "7 นาที",
+    content: `
+      <p>ปี 2568 ถือเป็นปีมะเส็ง (งู) ตามระบบปฏิทินจีน นักษัตรแต่ละราศีจะได้รับผลกระทบจากกระแสพลังงานไท่ส่วยเอี๊ย (เทพผู้คุ้มครองชะตา) ที่แตกต่างกันออกไป สำหรับปีนี้ มีนักษัตรที่ควรระมัดระวังเป็นพิเศษดังนี้</p>
+      
+      <h2>นักษัตรปีชงและคำแนะนำแก้เคล็ด</h2>
+      <ul>
+        <li><strong>ปีชงโดยตรง (100%): ปีชวด</strong> ควรระมัดระวังเรื่องอุบัติเหตุ การตัดสินใจใหญ่ๆ และเรื่องของเอกสารสัญญา</li>
+        <li><strong>ปีชงร่วม: ปีมะเส็ง (ทับตัวตน), ปีกุน (ชงเฉียง), ปีขาล (ร่วมชง)</strong> ควรระวังปัญหาความสัมพันธ์และการเงินรั่วไหล</li>
+      </ul>
+      <p>วิธีแก้ชงโบราณ แนะนำให้ไปไหว้องค์ไท่ส่วยเอี๊ยเพื่อปัดเป่าภัย และหลีกเลี่ยงการไปร่วมงานศพหรือการเดินทางท่องเที่ยวที่เสี่ยงอันตรายในช่วงเดือนชงของปี</p>
+    `
+  },
+  "6": {
+    title: "เคล็ดลับเลขมงคลจีนสำหรับทะเบียนรถและเบอร์โทรศัพท์",
+    cat: "โหราศาสตร์จีน",
+    icon: "數",
+    date: "20 พ.ค. 2568",
+    read: "5 นาที",
+    content: `
+      <p>ในวัฒนธรรมจีน ตัวเลขมีความหมายพ้องเสียงที่เป็นบวกและลบอย่างเห็นได้ชัด การเลือกกลุ่มตัวเลขสำหรับเบอร์โทรศัพท์หรือเลขทะเบียนรถจึงเปรียบเสมือนการสร้างคลื่นเสียงนำโชคป้อนเข้าสู่การทำงานและการเดินทางทุกวัน</p>
+      
+      <h2>เลขมหาโชคที่นิยมสูงสุด</h2>
+      <ul>
+        <li><strong>เลข 8:</strong> ออกเสียงพ้องกับคำว่า "ฟา" (发) แปลว่าความมั่งคั่ง ร่ำรวยสูงสุด</li>
+        <li><strong>เลข 9:</strong> ออกเสียงพ้องกับคำว่า "จิ่ว" (久) แปลว่าความยั่งยืนถาวร</li>
+        <li><strong>เลข 6:</strong> ออกเสียงพ้องกับคำว่า "ลิ่ว" (流) แปลว่ากระแสเงินที่ไหลคล่องและราบรื่น</li>
+      </ul>
+      <p>หลีกเลี่ยงการจับคู่เลขที่มีเลข 4 ปิดท้ายในกรณีทำธุรกิจจีน (เนื่องจากพ้องเสียงคำว่าตาย) แต่อย่างไรก็ตามตามหลักของดวงไทย เลข 4 หมายถึงสติปัญญาและการค้าเจรจาที่ดี ซินแสแนะนำให้พิจารณาตามความเหมาะสมกับอาชีพและผู้ติดต่อคู่ค้าเป็นหลัก</p>
+    `
+  }
+};
+
+function renderArticleFigure(art, imageSrc, imageTitle) {
+  const src = imageSrc || art.image;
+  if (!src) return '';
+  const alt = imageTitle || art.imageAlt || art.title;
+  return `
+    <figure class="article-figure">
+      <img src="${src}" alt="${alt}" loading="eager" />
+      <figcaption>${alt}</figcaption>
+    </figure>
+  `;
+}
+
+function initArticleDetail() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id') || '1';
+  const art = DETAILED_ARTICLES[id] || DETAILED_ARTICLES["1"];
+  const articleImage = (window.ARTICLE_IMAGES || {})[id] || art.image;
+  const articleImageTitle = (window.ARTICLE_IMAGE_TITLES || {})[id];
+  
+  // Update HTML content
+  document.getElementById('heroCategory').textContent = art.cat;
+  document.getElementById('heroTitle').textContent = art.title;
+  document.getElementById('heroMeta').textContent = `เผยแพร่เมื่อ: ${art.date} · เวลาอ่าน: ${art.read}`;
+  document.getElementById('articleIcon').textContent = art.icon;
+  document.getElementById('articleContent').innerHTML = renderArticleFigure(art, articleImage, articleImageTitle) + art.content;
+  document.title = `${art.title} – ซินแสหวาง`;
+  
+  // Populate related list (excluding current)
+  const relatedList = document.getElementById('relatedList');
+  relatedList.innerHTML = '';
+  
+  Object.keys(DETAILED_ARTICLES).forEach(key => {
+    if (key !== id) {
+      const item = DETAILED_ARTICLES[key];
+      relatedList.innerHTML += `
+        <a href="blog-detail.html?id=${key}" class="related-item">
+          <div class="related-icon">${item.icon}</div>
+          <span style="font-size:0.85rem;font-weight:500;">${item.title}</span>
+        </a>
+      `;
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initArticleDetail);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – ซินแสหวาง Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Noto+Sans+Thai:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .chart-bar { display:flex; align-items:flex-end; gap:6px; height:80px; }
+    .chart-bar span {
+      flex:1; background:var(--grad-crimson); border-radius:4px 4px 0 0;
+      min-height:8px; transition:height 0.8s cubic-bezier(0.16,1,0.3,1);
+      position:relative; cursor:pointer;
+    }
+    .chart-bar span:hover { opacity:0.8; }
+    .chart-bar span::after {
+      content:attr(data-val); position:absolute; top:-22px; left:50%;
+      transform:translateX(-50%); font-size:0.65rem; color:var(--gold);
+      white-space:nowrap; opacity:0; transition:opacity 0.2s;
+    }
+    .chart-bar span:hover::after { opacity:1; }
+    .quick-actions { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--sp-md); margin-bottom:var(--sp-xl); }
+    .quick-btn {
+      display:flex; flex-direction:column; align-items:center; gap:var(--sp-sm);
+      padding:var(--sp-lg); background:var(--white); border:1px solid var(--border);
+      border-radius:var(--r-lg); font-size:0.82rem; font-weight:600;
+      color:var(--charcoal); cursor:pointer; text-decoration:none;
+      transition:all var(--t-fast);
+    }
+    .quick-btn:hover { border-color:var(--crimson); color:var(--crimson); transform:translateY(-2px); box-shadow:var(--shadow-md); }
+    .quick-btn .qicon { font-size:1.5rem; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-lg); }
+    .status-badge { display:inline-flex; align-items:center; gap:4px; font-size:0.72rem; }
+    .status-dot { width:6px; height:6px; border-radius:50%; }
+    .status-dot.online { background:#4caf50; }
+    .status-dot.busy   { background:#ff9800; }
+    .status-dot.offline{ background:#f44336; }
+    @media(max-width:900px){ .quick-actions{grid-template-columns:repeat(2,1fr);} .grid-2{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body class="admin-body">
+<script>
+if(!sessionStorage.getItem('admin_auth')) window.location.href='login.html';
+</script>
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-logo">
+      <span class="logo-zh" style="font-family:'Ma Shan Zheng',cursive;">王</span>
+      <div class="logo-text">
+        <span class="logo-main">ซินแสหวาง</span>
+        <span class="logo-sub">Admin Panel</span>
+      </div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">ภาพรวม</div>
+        <a href="dashboard.html" class="admin-nav-item active" id="nav-dashboard">
+          <span class="nav-icon">📊</span> Dashboard
+        </a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">เนื้อหา</div>
+        <a href="homepage.html" class="admin-nav-item" id="nav-homepage">
+          <span class="nav-icon">🏠</span> แก้ไขหน้าแรก
+        </a>
+        <a href="posts.html" class="admin-nav-item" id="nav-posts">
+          <span class="nav-icon">📝</span> บทความ
+        </a>
+        <a href="categories.html" class="admin-nav-item" id="nav-categories">
+          <span class="nav-icon">🏷️</span> หมวดหมู่
+        </a>
+        <a href="testimonials.html" class="admin-nav-item" id="nav-testimonials">
+          <span class="nav-icon">💬</span> รีวิว
+        </a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">ลูกค้า</div>
+        <a href="consultations.html" class="admin-nav-item" id="nav-consult">
+          <span class="nav-icon">🔮</span> คำปรึกษา
+        </a>
+        <a href="customers.html" class="admin-nav-item" id="nav-customers">
+          <span class="nav-icon">👥</span> ลูกค้า
+        </a>
+        <a href="appointments.html" class="admin-nav-item" id="nav-appointments">
+          <span class="nav-icon">📅</span> นัดหมาย
+        </a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">ระบบ</div>
+        <a href="settings.html" class="admin-nav-item" id="nav-settings">
+          <span class="nav-icon">⚙️</span> ตั้งค่า
+        </a>
+        <a href="seo.html" class="admin-nav-item" id="nav-seo">
+          <span class="nav-icon">🔍</span> SEO
+        </a>
+        <a href="#" class="admin-nav-item" id="nav-logout" onclick="logout()">
+          <span class="nav-icon">🚪</span> ออกจากระบบ
+        </a>
+      </div>
+    </nav>
+    <div style="padding:var(--sp-lg);border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="font-size:0.7rem;color:var(--gray-600);text-align:center;">
+        ซินแสหวาง v2.0 · <a href="../index.html" style="color:var(--gold-bright);">ดูเว็บ ↗</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="admin-main">
+
+    <!-- TOPBAR -->
+    <div class="admin-topbar">
+      <div style="display:flex;align-items:center;gap:var(--sp-md);">
+        <button id="adminMenuToggle" onclick="document.getElementById('adminSidebar').classList.toggle('open')"
+          style="display:none;padding:6px;border:1px solid var(--border);border-radius:var(--r-md);cursor:pointer;background:var(--white);">☰</button>
+        <span class="admin-topbar-title">🏠 Dashboard</span>
+      </div>
+      <div class="admin-topbar-actions">
+        <span id="adminDateTime" style="font-size:0.8rem;color:var(--gray-500);"></span>
+        <div class="admin-user">
+          <div class="admin-avatar">ซ</div>
+          <span>ซินแสหวาง</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="admin-content">
+
+      <!-- Stats -->
+      <div class="admin-stats-grid" id="statsGrid">
+        <div class="admin-stat-card">
+          <div class="stat-icon red">🔮</div>
+          <div class="stat-info">
+            <h3 data-admin-target="247">0</h3>
+            <p>คำปรึกษาทั้งหมด</p>
+            <div class="stat-trend">↑ +12 เดือนนี้</div>
+          </div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="stat-icon gold">👥</div>
+          <div class="stat-info">
+            <h3 data-admin-target="1583">0</h3>
+            <p>ลูกค้าทั้งหมด</p>
+            <div class="stat-trend">↑ +38 เดือนนี้</div>
+          </div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="stat-icon blue">📝</div>
+          <div class="stat-info">
+            <h3 data-admin-target="42">0</h3>
+            <p>บทความที่เผยแพร่</p>
+            <div class="stat-trend">↑ +3 เดือนนี้</div>
+          </div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="stat-icon green">⭐</div>
+          <div class="stat-info">
+            <h3>4.9</h3>
+            <p>คะแนนเฉลี่ย</p>
+            <div class="stat-trend">จาก 247 รีวิว</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <a href="posts.html?new=1" class="quick-btn" id="qa-newpost">
+          <span class="qicon">✍️</span>สร้างบทความใหม่
+        </a>
+        <a href="homepage.html" class="quick-btn" id="qa-homepage">
+          <span class="qicon">🏠</span>แก้ไขหน้าแรก
+        </a>
+        <a href="appointments.html" class="quick-btn" id="qa-appointments">
+          <span class="qicon">📅</span>จัดการนัดหมาย
+        </a>
+        <a href="categories.html" class="quick-btn" id="qa-categories">
+          <span class="qicon">🏷️</span>จัดการหมวดหมู่
+        </a>
+      </div>
+
+      <div class="grid-2">
+        <!-- Chart -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span class="admin-card-title">📈 สถิติคำปรึกษา 7 วันล่าสุด</span>
+            <span style="font-size:0.8rem;color:var(--gray-500);">รายวัน</span>
+          </div>
+          <div style="padding:var(--sp-xl);">
+            <div class="chart-bar" id="weekChart">
+              <!-- filled by JS -->
+            </div>
+            <div style="display:flex;gap:6px;margin-top:8px;">
+              <span style="flex:1;text-align:center;font-size:0.65rem;color:var(--gray-500);">จ</span>
+              <span style="flex:1;text-align:center;font-size:0.65rem;color:var(--gray-500);">อ</span>
+              <span style="flex:1;text-align:center;font-size:0.65rem;color:var(--gray-500);">พ</span>
+              <span style="flex:1;text-align:center;font-size:0.65rem;color:var(--gray-500);">พฤ</span>
+              <span style="flex:1;text-align:center;font-size:0.65rem;color:var(--gray-500);">ศ</span>
+              <span style="flex:1;text-align:center;font-size:0.65rem;color:var(--gray-500);">ส</span>
+              <span style="flex:1;text-align:center;font-size:0.65rem;color:var(--gray-500);">อา</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:var(--sp-lg);padding-top:var(--sp-md);border-top:1px solid var(--border);">
+              <span style="font-size:0.82rem;color:var(--text-secondary);">รวมสัปดาห์นี้</span>
+              <span style="font-size:0.95rem;font-weight:700;color:var(--crimson);" id="weekTotal">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Consultations -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span class="admin-card-title">🔮 คำปรึกษาล่าสุด</span>
+            <a href="consultations.html" style="font-size:0.8rem;color:var(--crimson);">ดูทั้งหมด →</a>
+          </div>
+          <table>
+            <thead>
+              <tr><th>ชื่อ</th><th>บริการ</th><th>สถานะ</th></tr>
+            </thead>
+            <tbody id="recentTable">
+              <tr><td colspan="3" style="text-align:center;color:var(--gray-400);padding:2rem;">กำลังโหลด...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Appointments Today -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <span class="admin-card-title">📅 นัดหมายวันนี้</span>
+          <a href="appointments.html?new=1" class="btn-primary" style="font-size:0.8rem;padding:0.4rem 1rem;">+ เพิ่มนัด</a>
+        </div>
+        <table>
+          <thead>
+            <tr><th>เวลา</th><th>ชื่อลูกค้า</th><th>บริการ</th><th>ช่องทาง</th><th>สถานะ</th><th>จัดการ</th></tr>
+          </thead>
+          <tbody id="apptTable">
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SEO Status -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <span class="admin-card-title">🔍 สถานะ SEO & ระบบ</span>
+          <a href="seo.html" style="font-size:0.8rem;color:var(--crimson);">จัดการ SEO →</a>
+        </div>
+        <div style="padding:var(--sp-xl);display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-md);">
+          <div style="text-align:center;">
+            <div style="font-size:1.8rem;font-weight:700;color:#2e7d32;">A</div>
+            <div style="font-size:0.75rem;color:var(--gray-500);">PageSpeed Score</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.8rem;font-weight:700;color:#2e7d32;">✓</div>
+            <div style="font-size:0.75rem;color:var(--gray-500);">SSL Active</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.8rem;font-weight:700;color:#f57c00;">7</div>
+            <div style="font-size:0.75rem;color:var(--gray-500);">คีย์เวิร์ด Top 10</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.8rem;font-weight:700;color:var(--crimson);">1,284</div>
+            <div style="font-size:0.75rem;color:var(--gray-500);">ผู้เยี่ยมชมเดือนนี้</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </main>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+const RECENT_DATA = [
+  { name:'คุณกิตติ์', svc:'โหราศาสตร์จีน', status:'completed' },
+  { name:'คุณนภา', svc:'ฮวงจุ้ย', status:'pending' },
+  { name:'คุณสมชาย', svc:'อี้จิง', status:'completed' },
+  { name:'คุณวิภา', svc:'คู่สีมงคล', status:'pending' },
+  { name:'คุณอรุณ', svc:'ราศีจีน', status:'completed' },
+];
+const APPT_DATA = [
+  { time:'09:00', name:'คุณกมล', svc:'ปาจื้อ', channel:'ออนไลน์', status:'confirmed' },
+  { time:'11:00', name:'คุณสุดา', svc:'ฮวงจุ้ย', channel:'พบตรง', status:'confirmed' },
+  { time:'14:00', name:'คุณธีร์', svc:'อี้จิง', channel:'ออนไลน์', status:'pending' },
+  { time:'16:30', name:'คุณวรรณ', svc:'โหราศาสตร์ไทย', channel:'ออนไลน์', status:'confirmed' },
+];
+const WEEK_DATA = [5,8,4,12,7,15,9];
+
+function initDashboard() {
+  // DateTime
+  const dtEl = document.getElementById('adminDateTime');
+  function updateDT() {
+    const now = new Date();
+    dtEl.textContent = now.toLocaleDateString('th-TH',{weekday:'long',year:'numeric',month:'long',day:'numeric'}) + ' ' + now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+  }
+  updateDT(); setInterval(updateDT, 1000);
+
+  // Stats counter
+  document.querySelectorAll('[data-admin-target]').forEach(el => {
+    const target = parseInt(el.dataset.adminTarget);
+    let count = 0; const step = target/80;
+    const iv = setInterval(() => { count = Math.min(count+step,target); el.textContent=Math.floor(count).toLocaleString('th-TH'); if(count>=target)clearInterval(iv); },16);
+  });
+
+  // Recent table
+  const tbody = document.getElementById('recentTable');
+  tbody.innerHTML = RECENT_DATA.map(r => `
+    <tr>
+      <td><strong>${r.name}</strong></td>
+      <td>${r.svc}</td>
+      <td><span class="badge badge-${r.status==='completed'?'success':'warning'}">${r.status==='completed'?'เสร็จแล้ว':'รอดำเนินการ'}</span></td>
+    </tr>`).join('');
+
+  // Appointments
+  const apptEl = document.getElementById('apptTable');
+  apptEl.innerHTML = APPT_DATA.map(a => `
+    <tr>
+      <td><strong>${a.time}</strong></td>
+      <td>${a.name}</td>
+      <td>${a.svc}</td>
+      <td><span class="badge badge-info">${a.channel}</span></td>
+      <td><span class="badge badge-${a.status==='confirmed'?'success':'warning'}">${a.status==='confirmed'?'ยืนยัน':'รอยืนยัน'}</span></td>
+      <td>
+        <button onclick="alert('แก้ไขนัด: ${a.name}')" style="background:var(--crimson);color:#fff;border:none;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:0.75rem;">แก้ไข</button>
+      </td>
+    </tr>`).join('');
+
+  // Chart
+  const chart = document.getElementById('weekChart');
+  const max = Math.max(...WEEK_DATA);
+  let total = 0;
+  WEEK_DATA.forEach(v => {
+    total += v;
+    const bar = document.createElement('span');
+    bar.style.height = `${(v/max)*80}%`;
+    bar.dataset.val = v + ' ราย';
+    chart.appendChild(bar);
+  });
+  document.getElementById('weekTotal').textContent = total + ' ราย';
+}
+
+function logout() {
+  if(confirm('ต้องการออกจากระบบ?')) {
+    sessionStorage.removeItem('admin_auth');
+    window.location.href='login.html';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', initDashboard);
+</script>
+</body>
+</html>

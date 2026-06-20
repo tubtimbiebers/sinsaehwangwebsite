@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เลขมงคลจีน – ซินแสหวาง</title>
+  <meta name="description" content="วิเคราะห์เบอร์โทรศัพท์ ทะเบียนรถ บ้านเลขที่ ตามหลักเลขศาสตร์มงคลจีนและไทย โดยซินแสหวาง" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;600;700;900&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero { background:var(--grad-hero); padding:calc(var(--nav-h) + 3rem) 0 3rem; text-align:center; }
+    
+    .num-calculator {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-2xl);
+      margin: var(--sp-3xl) auto;
+      max-width: 700px;
+    }
+    
+    .result-box {
+      margin-top: var(--sp-2xl);
+      background: var(--cream);
+      border-radius: var(--r-lg);
+      padding: var(--sp-xl);
+      border: 1px solid var(--border);
+      display: none;
+    }
+    .result-box.show {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    .score-circle {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 6px solid var(--gold);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--sp-lg);
+      box-shadow: var(--shadow-md);
+    }
+    .score-num { font-size: 2.2rem; font-weight: 700; color: var(--crimson); line-height: 1; }
+    .score-lbl { font-size: 0.75rem; color: var(--gray-500); }
+    
+    .digit-breakdown {
+      display: flex;
+      gap: var(--sp-sm);
+      justify-content: center;
+      margin: var(--sp-lg) 0;
+      flex-wrap: wrap;
+    }
+    .digit-chip {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 0.5rem 1rem;
+      text-align: center;
+      min-width: 60px;
+    }
+    .digit-chip .val { font-size: 1.25rem; font-weight: 700; color: var(--crimson); }
+    .digit-chip .lbl { font-size: 0.65rem; color: var(--gray-500); }
+    
+    .meanings-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--sp-sm);
+      margin-top: var(--sp-xl);
+    }
+    .meaning-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: var(--sp-sm);
+      text-align: center;
+      font-size: 0.8rem;
+    }
+    .meaning-card strong { font-size: 1.25rem; color: var(--crimson); display: block; margin-bottom: 2px; }
+    .meaning-card span { color: var(--text-secondary); font-size: 0.72rem; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @media(max-width:768px) {
+      .meanings-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ✦ NAVIGATION ✦ -->
+<header id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-zh">王</span>
+      <div class="logo-text">
+        <span class="logo-main">ซินแสหวาง</span>
+        <span class="logo-sub">Sinsae Hwang · 星師皇</span>
+      </div>
+    </a>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link">หน้าแรก</a>
+      <a href="chinese-astrology.html" class="nav-link">โหราศาสตร์จีน</a>
+      <a href="thai-astrology.html" class="nav-link">โหราศาสตร์ไทย</a>
+      <a href="iching.html" class="nav-link">อี้จิง</a>
+      <a href="fengshui.html" class="nav-link">ฮวงจุ้ย</a>
+      <a href="lucky-colors.html" class="nav-link">คู่สีมงคล</a>
+      <a href="contact.html" class="nav-link">ติดต่อ</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="consult.html" class="btn-consult">ปรึกษาซินแส</a>
+      <button class="nav-toggle" id="navToggle" aria-label="เปิดเมนู">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ✦ HERO ✦ -->
+<div class="page-hero">
+  <div class="container">
+    <div class="section-tag section-tag--light">ตัวเลขมงคล</div>
+    <h1 class="hero-title" style="margin-bottom:1rem;">
+      <span class="title-zh" style="font-size:clamp(3rem,8vw,5rem);color:var(--gold-bright);">數</span>
+      <span class="title-th" style="font-size:clamp(1.8rem,4vw,2.8rem);">เลขมงคลจีน-ไทย</span>
+      <span class="title-sub">วิเคราะห์เบอร์โทรศัพท์ ทะเบียนรถ บ้านเลขที่</span>
+    </h1>
+    <p style="color:rgba(255,255,255,0.75);max-width:600px;margin:0 auto;">ถอดรหัสความหมายของตัวเลขคู่และเลขรวมตามสถิติมงคลโบราณ</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    
+    <!-- ✦ CALCULATOR ✦ -->
+    <div class="num-calculator">
+      <h2 style="font-family:var(--font-serif);font-size:1.3rem;color:var(--charcoal);margin-bottom:var(--sp-sm);text-align:center;">🔮 วิเคราะห์เลขศาสตร์มงคล</h2>
+      <p style="color:var(--text-secondary);font-size:0.875rem;margin-bottom:var(--sp-xl);text-align:center;">กรอกตัวเลขทั้งหมดที่ต้องการวิเคราะห์ (เฉพาะตัวเลข 0-9 เท่านั้น)</p>
+      
+      <div style="display:flex;gap:var(--sp-sm);justify-content:center;margin-bottom:var(--sp-lg);">
+        <input type="text" id="numberInput" class="form-control" placeholder="เช่น 0951688888 หรือ 168" style="max-width:300px;text-align:center;font-size:1.2rem;letter-spacing:0.05em;" />
+        <button class="btn-primary" onclick="analyzeNumber()">วิเคราะห์ตัวเลข</button>
+      </div>
+      
+      <!-- RESULT -->
+      <div class="result-box" id="resultBox">
+        <div class="score-circle">
+          <span class="score-num" id="scoreNum">95%</span>
+          <span class="score-lbl" id="scoreGrade">ดีเยี่ยม</span>
+        </div>
+        
+        <h3 style="font-family:var(--font-serif);font-size:1.15rem;color:var(--charcoal);text-align:center;margin-bottom:var(--sp-sm);">ความหมายรวม</h3>
+        <p style="font-size:0.9rem;color:var(--text-primary);line-height:1.75;text-align:center;max-width:550px;margin:0 auto var(--sp-lg);" id="totalMeaning"></p>
+        
+        <h4 style="font-family:var(--font-serif);font-size:1rem;color:var(--crimson);margin-bottom:6px;text-align:center;">วิเคราะห์ความหมายแยกหลัก</h4>
+        <div class="digit-breakdown" id="digitBreakdown">
+          <!-- populated by JS -->
+        </div>
+        
+        <div style="background:var(--white);border-radius:var(--r-md);padding:var(--sp-lg);border:1px solid var(--border);margin-top:var(--sp-lg);">
+          <h4 style="font-family:var(--font-serif);font-size:0.95rem;color:var(--gold-deep);margin-bottom:4px;">💡 คำแนะนำเสริมดวงชะตา</h4>
+          <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;" id="numTip"></p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ✦ KNOWLEDGE GUIDE ✦ -->
+    <div class="section-header">
+      <div class="section-tag">คู่มือศาสตร์ตัวเลข</div>
+      <h2 class="section-title">ความหมายตัวเลข<span>0 - 9</span></h2>
+      <p class="section-desc">ความหมายตามเสียงพ้องในภาษาจีนกลางและคติความเชื่อไทยโบราณ</p>
+    </div>
+    
+    <div class="meanings-grid">
+      <div class="meaning-card"><strong>0</strong><span>(หลิง)</span><br/>ความว่างเปล่า เริ่มต้นใหม่ พลังงานที่ยังไม่กระจาย</div>
+      <div class="meaning-card"><strong>1</strong><span>(อี)</span><br/>ความเป็นหนึ่ง ความเป็นผู้นำ ยศตำแหน่ง ชื่อเสียง</div>
+      <div class="meaning-card"><strong>2</strong><span>(เอ้อร์)</span><br/>การเงินไหลง่าย ความสะดวก สบายใจ ความสมดุล</div>
+      <div class="meaning-card"><strong>3</strong><span>(ซาน)</span><br/>การเกิดใหม่ ความคิดสร้างสรรค์ การเจริญเติบโต</div>
+      <div class="meaning-card"><strong>4</strong><span>(ซื่อ)</span><br/>ความรู้ สติปัญญา (จีน: ระวังออกเสียงคล้ายคำว่าตาย)</div>
+      <div class="meaning-card"><strong>5</strong><span>(อู่)</span><br/>ความสมดุล มั่นคง การมีศีลธรรม ธาตุทั้ง 5</div>
+      <div class="meaning-card"><strong>6</strong><span>(ลิ่ว)</span><br/>ความราบรื่น รุ่งเรือง ไม่มีสะดุด ปลอดภัย</div>
+      <div class="meaning-card"><strong>7</strong><span>(ชี)</span><br/>ความเพียรพยายาม ลางสังหรณ์ มีเสน่ห์เฉพาะตัว</div>
+      <div class="meaning-card"><strong>8</strong><span>(ปา)</span><br/>โชคลาภลอย ความมั่งคั่ง ร่ำรวยสูงสุด (เลขดีที่สุด)</div>
+      <div class="meaning-card"><strong>9</strong><span>(จิ่ว)</span><br/>ความยั่งยืน ยาวนาน ความก้าวหน้า สิ่งศักดิ์สิทธิ์คุ้มครอง</div>
+    </div>
+    
+  </div>
+</section>
+
+<!-- ✦ FOOTER ✦ -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-zh">王</span>
+          <div>
+            <span class="logo-main">ซินแสหวาง</span>
+            <span class="logo-sub">星師皇 · Sinsae Hwang</span>
+          </div>
+        </div>
+        <p>ศูนย์รวมความรู้โหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย คู่สีมงคล โดยผู้เชี่ยวชาญกว่า 30 ปี</p>
+      </div>
+      <div class="footer-links">
+        <h4>บริการ</h4>
+        <ul>
+          <li><a href="chinese-astrology.html">โหราศาสตร์จีน</a></li>
+          <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+          <li><a href="iching.html">อี้จิง 易經</a></li>
+          <li><a href="fengshui.html">ฮวงจุ้ย 風水</a></li>
+          <li><a href="lucky-colors.html">คู่สีมงคล</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>เกี่ยวกับ</h4>
+        <ul>
+          <li><a href="about.html">เกี่ยวกับซินแสหวาง</a></li>
+          <li><a href="blog.html">บทความ</a></li>
+          <li><a href="consult.html">นัดปรึกษา</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+          <li><a href="admin/login.html">ระบบหลังบ้าน</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>ติดต่อ</h4>
+        <div class="contact-item"><span>📞</span><a href="tel:+6600000000">062-xxx-xxxx</a></div>
+        <div class="contact-item"><span>📧</span><a href="mailto:info@sinsaehwang.com">info@sinsaehwang.com</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2568 ซินแสหวาง · Sinsae Hwang · 星師皇 · All Rights Reserved</p>
+      <p><a href="privacy.html">นโยบายความเป็นส่วนตัว</a> · <a href="terms.html">ข้อกำหนดการใช้งาน</a></p>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="กลับขึ้นด้านบน">
+  <span>↑</span>
+</button>
+
+<script src="js/main.js"></script>
+<script>
+const DIGIT_DESC = {
+  '0': { zh: 'ว่างเปล่า/เปลี่ยนผ่าน', th: 'สัญลักษณ์ของการเริ่มต้นสิ่งใหม่ หรือการเปลี่ยนแปลงครั้งใหญ่เพื่อโอกาสที่ดีขึ้น' },
+  '1': { zh: 'หนึ่งเดียว/ผู้นำ', th: 'ส่งเสริมด้านอำนาจบารมี ความเป็นผู้นำ และการก้าวขึ้นสู่จุดสูงสุดในสายงาน' },
+  '2': { zh: 'คู่มิตร/ราบรื่น', th: 'ส่งเสริมการติดต่อสื่อสาร ความสัมพันธ์ การเงินเข้ามือได้ง่าย ไม่ติดขัด' },
+  '3': { zh: 'เติบโต/คล่องแคล่ว', th: 'ส่งเสริมความกระตือรือร้น การเติบโต และความเพียรในการแก้ปัญหาเฉพาะหน้า' },
+  '4': { zh: 'ปัญญา/การศึกษา', th: 'ส่งเสริมทักษะทางวิชาการ สติปัญญา และในความเชื่อไทยหมายถึงคำพูดและเสน่ห์เจรจา' },
+  '5': { zh: 'ศีลธรรม/สมดุล', th: 'ส่งเสริมสติปัญญา ความมั่นคง ความสมดุลของชีวิต และได้รับการคุ้มครองจากผู้ใหญ่' },
+  '6': { zh: 'มั่งคั่ง/ราบรื่น', th: 'ส่งเสริมความร่ำรวย โชคดี และการเงินที่ไหลคล่อง ไม่มีสะดุดติดขัด' },
+  '7': { zh: 'อดทน/สมาธิ', th: 'ส่งเสริมความอดทน มุมานะในการสร้างตัว และความมั่นใจเฉพาะตัวด้านจิตวิญญาณ' },
+  '8': { zh: 'โชคลาภสูงสุด', th: 'เป็นเลขแห่งความมั่งคั่งไม่สิ้นสุด ลาภลอย และโอกาสทองทางธุรกิจที่ดีที่สุด' },
+  '9': { zh: 'ยืนยาว/ก้าวหน้า', th: 'ส่งเสริมความเจริญก้าวหน้า ความยั่งยืนถาวร และมีพลังศักดิ์สิทธิ์คอยเกื้อหนุน' }
+};
+
+function analyzeNumber() {
+  const input = document.getElementById('numberInput').value.trim();
+  const digits = input.replace(/\D/g, ''); // filter only digits
+  
+  if (!digits) {
+    alert('กรุณากรอกตัวเลขที่ต้องการวิเคราะห์');
+    return;
+  }
+  
+  // Calculate Score (Demo analysis logic based on lucky numbers 8, 9, 6, 2)
+  let score = 50; // base score
+  const charArray = digits.split('');
+  
+  charArray.forEach(d => {
+    if (d === '8' || d === '9') score += 7;
+    else if (d === '6' || d === '2') score += 5;
+    else if (d === '4') score -= 5; // offset slightly for Chinese preference, though Thai is fine
+    else if (d === '5' || d === '1') score += 3;
+  });
+  
+  // cap score between 30 and 100
+  score = Math.max(30, Math.min(100, score));
+  
+  let grade = 'ปานกลาง';
+  let totalText = 'ตัวเลขโดยรวมของคุณมีพลังขับเคลื่อนในระดับสมดุล มีเลขนำโชคเกื้อหนุนพอสมควรแก่การประคองชะตาชีวิต';
+  let numTip = 'หากต้องการเพิ่มพลังบวกของตัวเลขนี้ แนะนำให้ใช้คู่สีมงคล (ตามธาตุวันเกิดของคุณ) ร่วมด้วย เช่น การเลือกสีกระเป๋าสตางค์ เคสมือถือ หรือของประดับโต๊ะทำงาน เพื่อช่วยเหนี่ยวนำความร่ำรวยและลาภลอย';
+  
+  if (score >= 90) {
+    grade = 'ดีเยี่ยมมหาโชค';
+    totalText = 'ตัวเลขนี้อุดมไปด้วยเลขมงคลชั้นสูง ส่งผลดีเลิศต่อการเงิน ความมั่งคั่ง และความยั่งยืนทางธุรกิจ เหมาะกับการเป็นเบอร์หลักหรือเลขป้ายมงคล';
+    numTip = 'ตัวเลขของคุณมีความสมบูรณ์แบบมากอยู่แล้ว ควรเน้นการทำบุญตักบาตรเสริมบารมีเพื่อเหนี่ยวนำให้พลังงานมงคลของตัวเลขส่งผลลัพธ์ที่รวดเร็วและยั่งยืนยิ่งขึ้น';
+  } else if (score >= 75) {
+    grade = 'ดีมาก';
+    totalText = 'ตัวเลขนี้อยู่ในเกณฑ์ดีมาก มีโครงสร้างที่ช่วยส่งเสริมการงาน ชื่อเสียง และอำนาจบารมี สามารถนำพาโอกาสใหม่ๆ เข้ามาสู่ชีวิตได้บ่อยครั้ง';
+  } else if (score < 50) {
+    grade = 'ควรระมัดระวัง';
+    totalText = 'ตัวเลขมีเลขชงหรือเลขที่ฉุดดึงพลังงานบวกอยู่หลายจุด อาจส่งผลให้การเงินรั่วไหลง่าย หรือเหน็ดเหนื่อยมากกว่าคนอื่นในการทำงาน';
+    numTip = 'คำแนะนำทางแก้: สำหรับเบอร์มือถือ หากยังไม่สะดวกเปลี่ยนเบอร์ใหม่ สามารถใช้วิธีนำแผ่นสติกเกอร์สีทองหรือสีแดงแปะไว้ที่หลังเคสมือถือเพื่อช่วยแก้เคล็ดและลดทอนพลังงานลบลงได้';
+  }
+  
+  // Update Score UI
+  document.getElementById('scoreNum').textContent = `${score}%`;
+  document.getElementById('scoreGrade').textContent = grade;
+  document.getElementById('totalMeaning').textContent = totalText;
+  document.getElementById('numTip').textContent = numTip;
+  
+  // Update Digit Breakdown
+  const breakdownEl = document.getElementById('digitBreakdown');
+  breakdownEl.innerHTML = charArray.map(d => {
+    const desc = DIGIT_DESC[d] || { zh: 'ทั่วไป', th: 'พลังงานธรรมดา' };
+    return `
+      <div class="digit-chip">
+        <div class="val">${d}</div>
+        <div class="lbl" style="font-weight:600;color:var(--crimson);">${desc.zh}</div>
+        <div class="lbl" style="margin-top:4px;font-size:0.65rem;">${desc.th.slice(0,35)}...</div>
+      </div>
+    `;
+  }).join('');
+  
+  // Show results
+  const resultBox = document.getElementById('resultBox');
+  resultBox.classList.add('show');
+  resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+</script>
+
+</body>
+</html>

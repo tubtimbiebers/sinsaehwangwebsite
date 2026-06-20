@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ปรึกษาซินแสหวาง – นัดหมายออนไลน์</title>
+  <meta name="description" content="นัดปรึกษาซินแสหวางออนไลน์ ทั้งโหราศาสตร์จีน อี้จิง ฮวงจุ้ย คู่สีมงคล" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;600;700;900&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .consult-hero {
+      background: var(--grad-hero);
+      padding: calc(var(--nav-h) + 4rem) 0 4rem;
+      text-align: center;
+    }
+    .consult-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: var(--sp-3xl);
+      align-items: start;
+      padding: var(--sp-4xl) 0;
+    }
+    .consult-info { position: sticky; top: calc(var(--nav-h) + 2rem); }
+    .info-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-xl);
+      margin-bottom: var(--sp-md);
+    }
+    .service-option {
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      padding: var(--sp-md);
+      cursor: pointer;
+      transition: all var(--t-fast);
+      margin-bottom: var(--sp-sm);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-md);
+    }
+    .service-option:hover, .service-option.selected {
+      border-color: var(--crimson);
+      background: var(--crimson-pale);
+    }
+    .service-option input[type=radio] { accent-color: var(--crimson); }
+    .step-indicator {
+      display: flex;
+      gap: 0;
+      margin-bottom: var(--sp-2xl);
+    }
+    .step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      padding-top: 3rem;
+    }
+    .step::before {
+      content: attr(data-num);
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--gray-200);
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all var(--t-mid);
+    }
+    .step.active::before { background: var(--crimson); color: var(--white); }
+    .step.done::before { background: #4caf50; color: var(--white); content: '✓'; }
+    .step::after {
+      content: '';
+      position: absolute;
+      top: 18px; right: 0;
+      width: 50%; height: 2px;
+      background: var(--gray-200);
+    }
+    .step:first-child::after { display: none; }
+    .step.done::after, .step.active::after { background: var(--crimson); }
+    .step-label { font-size: 0.75rem; color: var(--gray-500); margin-top: 0.25rem; }
+    .step.active .step-label { color: var(--crimson); font-weight: 600; }
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+    .success-panel {
+      text-align: center;
+      padding: var(--sp-3xl);
+      display: none;
+    }
+    .success-panel.show { display: block; }
+    .success-icon { font-size: 4rem; margin-bottom: var(--sp-lg); }
+    @media(max-width:900px){ .consult-layout { grid-template-columns:1fr; } .consult-info { position: static; } }
+  </style>
+</head>
+<body>
+
+<header id="navbar" class="navbar scrolled">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-zh">王</span>
+      <div class="logo-text">
+        <span class="logo-main">ซินแสหวาง</span>
+        <span class="logo-sub">Sinsae Hwang · 星師皇</span>
+      </div>
+    </a>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link">หน้าแรก</a>
+      <a href="chinese-astrology.html" class="nav-link">โหราศาสตร์จีน</a>
+      <a href="thai-astrology.html" class="nav-link">โหราศาสตร์ไทย</a>
+      <a href="iching.html" class="nav-link">อี้จิง</a>
+      <a href="fengshui.html" class="nav-link">ฮวงจุ้ย</a>
+      <a href="lucky-colors.html" class="nav-link">คู่สีมงคล</a>
+      <a href="contact.html" class="nav-link">ติดต่อ</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="consult-hero">
+  <div class="container">
+    <div class="section-tag section-tag--light">นัดหมายออนไลน์</div>
+    <h1 class="hero-title" style="margin-bottom:var(--sp-md);">
+      <span class="title-th" style="font-size:clamp(1.8rem,4vw,2.8rem);">ปรึกษาซินแสหวาง</span>
+    </h1>
+    <p style="color:rgba(255,255,255,0.75);font-size:1rem;">ขอคำปรึกษาเฉพาะตัวจากซินแสผู้เชี่ยวชาญ ออนไลน์หรือพบตรง</p>
+  </div>
+</div>
+
+<section style="background:var(--cream);">
+  <div class="container">
+    <div class="consult-layout">
+
+      <!-- LEFT INFO -->
+      <div class="consult-info">
+        <div class="info-card">
+          <h3 style="font-family:var(--font-serif);font-size:1.1rem;color:var(--charcoal);margin-bottom:var(--sp-md);">🔮 บริการที่เปิดให้ปรึกษา</h3>
+          <ul style="display:flex;flex-direction:column;gap:var(--sp-sm);">
+            <li style="display:flex;gap:var(--sp-sm);align-items:center;font-size:0.875rem;">
+              <span style="color:var(--gold);">✦</span> โหราศาสตร์จีน – ปาจื้อ (八字)
+            </li>
+            <li style="display:flex;gap:var(--sp-sm);align-items:center;font-size:0.875rem;">
+              <span style="color:var(--gold);">✦</span> โหราศาสตร์ไทย – ลัคนา ดาว
+            </li>
+            <li style="display:flex;gap:var(--sp-sm);align-items:center;font-size:0.875rem;">
+              <span style="color:var(--gold);">✦</span> อี้จิง – ทำนายเหตุการณ์
+            </li>
+            <li style="display:flex;gap:var(--sp-sm);align-items:center;font-size:0.875rem;">
+              <span style="color:var(--gold);">✦</span> ฮวงจุ้ย – บ้าน ออฟฟิศ
+            </li>
+            <li style="display:flex;gap:var(--sp-sm);align-items:center;font-size:0.875rem;">
+              <span style="color:var(--gold);">✦</span> คู่สีมงคลตามธาตุ
+            </li>
+            <li style="display:flex;gap:var(--sp-sm);align-items:center;font-size:0.875rem;">
+              <span style="color:var(--gold);">✦</span> เลขมงคลจีน
+            </li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h3 style="font-family:var(--font-serif);font-size:1rem;color:var(--charcoal);margin-bottom:var(--sp-md);">⏰ ช่องทาง & เวลา</h3>
+          <div style="font-size:0.875rem;color:var(--text-secondary);display:flex;flex-direction:column;gap:var(--sp-sm);">
+            <span>📞 โทรศัพท์: 062-xxx-xxxx</span>
+            <span>💬 LINE: @sinsaehwang</span>
+            <span>🌐 วิดีโอคอล: Zoom / Google Meet</span>
+            <span>🏠 พบตรง: กรุงเทพฯ (นัดล่วงหน้า)</span>
+            <hr style="border-color:var(--border);margin:var(--sp-sm) 0;" />
+            <span>⏱ จันทร์–ศุกร์: 09:00–18:00</span>
+            <span>⏱ เสาร์: 10:00–16:00</span>
+          </div>
+        </div>
+        <div class="info-card" style="background:var(--crimson);border-color:transparent;">
+          <h3 style="font-family:var(--font-serif);font-size:1rem;color:var(--white);margin-bottom:var(--sp-md);">💬 ติดต่อด่วน</h3>
+          <p style="font-size:0.85rem;color:rgba(255,255,255,0.85);margin-bottom:var(--sp-md);">ต้องการติดต่อด่วน กดปุ่มด้านล่าง</p>
+          <a href="tel:062-xxx-xxxx" class="btn-primary" style="display:block;text-align:center;" id="callNowBtn">📞 โทรเลย</a>
+        </div>
+      </div>
+
+      <!-- RIGHT FORM -->
+      <div>
+        <div class="admin-card consult-form">
+          <div style="padding:var(--sp-xl);">
+
+            <!-- Step indicator -->
+            <div class="step-indicator">
+              <div class="step active" data-num="1" id="step1"><div class="step-label">เลือกบริการ</div></div>
+              <div class="step" data-num="2" id="step2"><div class="step-label">ข้อมูลส่วนตัว</div></div>
+              <div class="step" data-num="3" id="step3"><div class="step-label">วันนัดหมาย</div></div>
+            </div>
+
+            <!-- Panel 1: Service -->
+            <div class="form-panel active" id="panel1">
+              <h3 style="font-family:var(--font-serif);margin-bottom:var(--sp-lg);">เลือกบริการที่ต้องการ</h3>
+              <div id="serviceOptions">
+                <label class="service-option" onclick="selectService(this)">
+                  <input type="radio" name="service" value="chinese" /> 🔮 โหราศาสตร์จีน (ปาจื้อ)
+                </label>
+                <label class="service-option" onclick="selectService(this)">
+                  <input type="radio" name="service" value="thai" /> ⭐ โหราศาสตร์ไทย
+                </label>
+                <label class="service-option" onclick="selectService(this)">
+                  <input type="radio" name="service" value="iching" /> 易 อี้จิง ทำนาย
+                </label>
+                <label class="service-option" onclick="selectService(this)">
+                  <input type="radio" name="service" value="fengshui" /> 🏠 ฮวงจุ้ย บ้าน/ออฟฟิศ
+                </label>
+                <label class="service-option" onclick="selectService(this)">
+                  <input type="radio" name="service" value="colors" /> 🎨 คู่สีมงคล
+                </label>
+                <label class="service-option" onclick="selectService(this)">
+                  <input type="radio" name="service" value="number" /> 🔢 เลขมงคลจีน
+                </label>
+              </div>
+              <div style="margin-top:var(--sp-lg);">
+                <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--gray-700);margin-bottom:var(--sp-sm);">ช่องทางที่ต้องการ</label>
+                <select class="form-control" id="channelSelect">
+                  <option>ออนไลน์ (Zoom / Google Meet)</option>
+                  <option>LINE Chat</option>
+                  <option>พบตรง (กรุงเทพฯ)</option>
+                </select>
+              </div>
+              <div style="display:flex;justify-content:flex-end;margin-top:var(--sp-xl);">
+                <button class="btn-primary" onclick="goStep(2)" id="step1Next">ถัดไป →</button>
+              </div>
+            </div>
+
+            <!-- Panel 2: Personal Info -->
+            <div class="form-panel" id="panel2">
+              <h3 style="font-family:var(--font-serif);margin-bottom:var(--sp-lg);">ข้อมูลส่วนตัว</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>ชื่อ–นามสกุล *</label>
+                  <input type="text" class="form-control" id="cName" placeholder="ชื่อ–นามสกุล" required />
+                </div>
+                <div class="form-group">
+                  <label>โทรศัพท์ *</label>
+                  <input type="tel" class="form-control" id="cPhone" placeholder="0xx-xxx-xxxx" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>อีเมล</label>
+                  <input type="email" class="form-control" id="cEmail" placeholder="email@example.com" />
+                </div>
+                <div class="form-group">
+                  <label>วันเดือนปีเกิด *</label>
+                  <input type="date" class="form-control" id="cBirth" required />
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom:var(--sp-lg);">
+                <label>คำถาม / เรื่องที่ต้องการปรึกษา</label>
+                <textarea class="form-control" id="cQuestion" rows="4" placeholder="อธิบายสิ่งที่ต้องการทราบ..."></textarea>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <button class="btn-outline" onclick="goStep(1)">← ย้อนกลับ</button>
+                <button class="btn-primary" onclick="goStep(3)">ถัดไป →</button>
+              </div>
+            </div>
+
+            <!-- Panel 3: Date/Time -->
+            <div class="form-panel" id="panel3">
+              <h3 style="font-family:var(--font-serif);margin-bottom:var(--sp-lg);">เลือกวันและเวลา</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>วันที่ต้องการ *</label>
+                  <input type="date" class="form-control" id="cDate" min="" required />
+                </div>
+                <div class="form-group">
+                  <label>เวลา *</label>
+                  <select class="form-control" id="cTime">
+                    <option>09:00</option><option>10:00</option>
+                    <option>11:00</option><option>13:00</option>
+                    <option>14:00</option><option>15:00</option>
+                    <option>16:00</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom:var(--sp-lg);">
+                <label>หมายเหตุเพิ่มเติม</label>
+                <textarea class="form-control" id="cNote" rows="3" placeholder="ข้อมูลเพิ่มเติม..."></textarea>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <button class="btn-outline" onclick="goStep(2)">← ย้อนกลับ</button>
+                <button class="btn-primary" onclick="submitForm()" id="submitBtn">✅ ยืนยันการนัดหมาย</button>
+              </div>
+            </div>
+
+            <!-- Success -->
+            <div class="success-panel" id="successPanel">
+              <div class="success-icon">🎉</div>
+              <h2 style="font-family:var(--font-serif);color:var(--charcoal);margin-bottom:var(--sp-md);">ส่งคำขอสำเร็จแล้ว!</h2>
+              <p style="color:var(--text-secondary);margin-bottom:var(--sp-xl);">ทีมงานซินแสหวางจะติดต่อกลับภายใน 24 ชั่วโมง<br/>เพื่อยืนยันการนัดหมาย</p>
+              <a href="index.html" class="btn-primary">← กลับหน้าแรก</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ✦ FOOTER ✦ -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-zh">王</span>
+          <div>
+            <span class="logo-main">ซินแสหวาง</span>
+            <span class="logo-sub">星師皇 · Sinsae Hwang</span>
+          </div>
+        </div>
+        <p>ศูนย์รวมความรู้โหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย คู่สีมงคล โดยผู้เชี่ยวชาญกว่า 30 ปี</p>
+      </div>
+      <div class="footer-links">
+        <h4>บริการ</h4>
+        <ul>
+          <li><a href="chinese-astrology.html">โหราศาสตร์จีน</a></li>
+          <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+          <li><a href="iching.html">อี้จิง 易經</a></li>
+          <li><a href="fengshui.html">ฮวงจุ้ย 風水</a></li>
+          <li><a href="lucky-colors.html">คู่สีมงคล</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>เกี่ยวกับ</h4>
+        <ul>
+          <li><a href="about.html">เกี่ยวกับซินแสหวาง</a></li>
+          <li><a href="blog.html">บทความ</a></li>
+          <li><a href="consult.html">นัดปรึกษา</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+          <li><a href="admin/login.html">ระบบหลังบ้าน</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>ติดต่อ</h4>
+        <div class="contact-item"><span>📞</span><a href="tel:+6600000000">062-xxx-xxxx</a></div>
+        <div class="contact-item"><span>📧</span><a href="mailto:info@sinsaehwang.com">info@sinsaehwang.com</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2568 ซินแสหวาง · Sinsae Hwang · 星師皇 · All Rights Reserved</p>
+      <p><a href="privacy.html">นโยบายความเป็นส่วนตัว</a> · <a href="terms.html">ข้อกำหนดการใช้งาน</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+// Min date = tomorrow
+const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+document.getElementById('cDate').min = tomorrow.toISOString().split('T')[0];
+
+function selectService(el) {
+  document.querySelectorAll('.service-option').forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function goStep(n) {
+  for(let i=1;i<=3;i++){
+    document.getElementById('panel'+i).classList.toggle('active',i===n);
+    const step=document.getElementById('step'+i);
+    step.classList.toggle('active',i===n);
+    step.classList.toggle('done',i<n);
+  }
+}
+function submitForm() {
+  const name=document.getElementById('cName').value.trim();
+  const phone=document.getElementById('cPhone').value.trim();
+  const birth=document.getElementById('cBirth').value;
+  const date=document.getElementById('cDate').value;
+  if(!name||!phone||!birth||!date){ alert('กรุณากรอกข้อมูลให้ครบ'); return; }
+  const btn=document.getElementById('submitBtn');
+  btn.textContent='กำลังส่ง...'; btn.disabled=true;
+  setTimeout(()=>{
+    for(let i=1;i<=3;i++) document.getElementById('panel'+i).classList.remove('active');
+    document.getElementById('successPanel').classList.add('show');
+    [1,2,3].forEach(i=>{ document.getElementById('step'+i).classList.add('done'); document.getElementById('step'+i).classList.remove('active'); });
+  },1200);
+}
+</script>
+</body>
+</html>

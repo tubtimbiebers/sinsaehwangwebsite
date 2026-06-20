@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ติดต่อเรา – ซินแสหวาง</title>
+  <meta name="description" content="ติดต่อสอบถามข้อมูล นัดหมายปรึกษาซินแสหวาง โทรศัพท์ อีเมล ไลน์ และที่ตั้งสำนักงาน" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;600;700;900&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero { background:var(--grad-hero); padding:calc(var(--nav-h) + 3rem) 0 3rem; text-align:center; }
+    
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: var(--sp-3xl);
+      margin: var(--sp-3xl) 0;
+    }
+    
+    .contact-form-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-2xl);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .info-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-2xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-xl);
+    }
+    
+    .contact-method {
+      display: flex;
+      gap: var(--sp-md);
+      align-items: flex-start;
+    }
+    .method-icon {
+      width: 46px; height: 46px;
+      border-radius: var(--r-md);
+      background: var(--crimson-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--crimson);
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+    .method-details h4 {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      color: var(--charcoal);
+      margin-bottom: 2px;
+    }
+    .method-details p, .method-details a {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+    .method-details a:hover {
+      color: var(--crimson);
+    }
+    
+    .map-box {
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      height: 250px;
+      margin-top: var(--sp-md);
+    }
+    
+    .form-group { margin-bottom: var(--sp-lg); }
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 0.75rem var(--sp-md);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color var(--t-fast);
+      background: var(--off-white);
+    }
+    .form-control:focus {
+      border-color: var(--crimson);
+      background: var(--white);
+    }
+    
+    @media(max-width:768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ✦ NAVIGATION ✦ -->
+<header id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-zh">王</span>
+      <div class="logo-text">
+        <span class="logo-main">ซินแสหวาง</span>
+        <span class="logo-sub">Sinsae Hwang · 星師皇</span>
+      </div>
+    </a>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link">หน้าแรก</a>
+      <a href="chinese-astrology.html" class="nav-link">โหราศาสตร์จีน</a>
+      <a href="thai-astrology.html" class="nav-link">โหราศาสตร์ไทย</a>
+      <a href="iching.html" class="nav-link">อี้จิง</a>
+      <a href="fengshui.html" class="nav-link">ฮวงจุ้ย</a>
+      <a href="lucky-colors.html" class="nav-link">คู่สีมงคล</a>
+      <a href="contact.html" class="nav-link active">ติดต่อ</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="consult.html" class="btn-consult">ปรึกษาซินแส</a>
+      <button class="nav-toggle" id="navToggle" aria-label="เปิดเมนู">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ✦ HERO ✦ -->
+<div class="page-hero">
+  <div class="container">
+    <div class="section-tag section-tag--light">ติดต่อสอบถาม</div>
+    <h1 class="hero-title" style="margin-bottom:1rem;">
+      <span class="title-zh" style="font-size:clamp(3rem,8vw,5rem);color:var(--gold-bright);">問</span>
+      <span class="title-th" style="font-size:clamp(1.8rem,4vw,2.8rem);">ติดต่อเรา</span>
+      <span class="title-sub">สอบถามการนัดหมายและที่ตั้งสำนักงาน</span>
+    </h1>
+    <p style="color:rgba(255,255,255,0.75);max-width:600px;margin:0 auto;">สำนักงานซินแสหวาง ยินดีต้อนรับทุกท่านด้วยคำแนะนำและทางออกชีวิต</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    
+    <div class="contact-grid">
+      <!-- ✦ FORM ✦ -->
+      <div class="contact-form-box">
+        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--charcoal);margin-bottom:var(--sp-lg);">✉️ ส่งข้อความถึงเรา</h3>
+        <form id="contactForm" onsubmit="submitForm(event)">
+          <div class="form-group">
+            <label>ชื่อ-นามสกุล</label>
+            <input type="text" class="form-control" id="contactName" placeholder="กรุณากรอกชื่อของคุณ" required />
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-md);">
+            <div class="form-group">
+              <label>เบอร์โทรศัพท์</label>
+              <input type="tel" class="form-control" id="contactPhone" placeholder="08x-xxx-xxxx" required />
+            </div>
+            <div class="form-group">
+              <label>อีเมล</label>
+              <input type="email" class="form-control" id="contactEmail" placeholder="example@email.com" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>หัวข้อที่ต้องการติดต่อ</label>
+            <select class="form-control" id="contactSubject" style="appearance:none;background-image:url('data:image/svg+xml;charset=utf-8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%238c8075\' stroke-width=\'2\'><path d=\'M6 9l6 6 6-6\'/></svg>');background-repeat:no-repeat;background-position:right 1rem center;background-size:1.2rem;">
+              <option>ปรึกษาเรื่องดูดวงส่วนบุคคล (ปาจื้อ/ลัคนา)</option>
+              <option>ปรึกษาเรื่องฮวงจุ้ยบ้าน/อาคารสำนักงาน</option>
+              <option>นัดหมายดูฤกษ์มงคล</option>
+              <option>สอบถามคอร์สเรียนโหราศาสตร์</option>
+              <option>ติดต่อเรื่องอื่นๆ</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>รายละเอียดข้อความ</label>
+            <textarea class="form-control" id="contactMessage" rows="5" placeholder="พิมพ์ข้อความของคุณที่นี่..." required></textarea>
+          </div>
+          
+          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">ส่งข้อความ</button>
+        </form>
+      </div>
+      
+      <!-- ✦ INFO CARD ✦ -->
+      <div class="info-card">
+        <h3 style="font-family:var(--font-serif);font-size:1.25rem;color:var(--charcoal);">🏛 สำนักงานซินแสหวาง</h3>
+        
+        <div class="contact-method">
+          <div class="method-icon">📍</div>
+          <div class="method-details">
+            <h4>ที่ตั้งสำนักงาน</h4>
+            <p>168/9 ถนนสีลม แขวงสุริยวงศ์ เขตบางรัก กรุงเทพมหานคร 10500</p>
+          </div>
+        </div>
+        
+        <div class="contact-method">
+          <div class="method-icon">📞</div>
+          <div class="method-details">
+            <h4>เบอร์โทรศัพท์</h4>
+            <p><a href="tel:+660620000000">062-xxx-xxxx</a> (ฝ่ายนัดหมายและบริการลูกค้า)</p>
+          </div>
+        </div>
+        
+        <div class="contact-method">
+          <div class="method-icon">💬</div>
+          <div class="method-details">
+            <h4>LINE Official</h4>
+            <p><a href="#">@sinsaehwang</a> (สอบถามข้อมูลผ่านไลน์ 24 ชม.)</p>
+          </div>
+        </div>
+        
+        <div class="contact-method">
+          <div class="method-icon">📧</div>
+          <div class="method-details">
+            <h4>อีเมล</h4>
+            <p><a href="mailto:info@sinsaehwang.com">info@sinsaehwang.com</a></p>
+          </div>
+        </div>
+        
+        <!-- Decorative map representation -->
+        <div class="map-box">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.864387817757!2d100.52848971534934!3d13.726613990363695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e298d254b1f48f%3A0xe5a3c9be0768798e!2z4LiW4LiZ4LiZ4Liq4Li14Lil4Lih!5e0!3m2!1sth!2sth!4v1624021234567!5m2!1sth!2sth" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<!-- ✦ FOOTER ✦ -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-zh">王</span>
+          <div>
+            <span class="logo-main">ซินแสหวาง</span>
+            <span class="logo-sub">星師皇 · Sinsae Hwang</span>
+          </div>
+        </div>
+        <p>ศูนย์รวมความรู้โหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย คู่สีมงคล โดยผู้เชี่ยวชาญกว่า 30 ปี</p>
+      </div>
+      <div class="footer-links">
+        <h4>บริการ</h4>
+        <ul>
+          <li><a href="chinese-astrology.html">โหราศาสตร์จีน</a></li>
+          <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+          <li><a href="iching.html">อี้จิง 易經</a></li>
+          <li><a href="fengshui.html">ฮวงจุ้ย 風水</a></li>
+          <li><a href="lucky-colors.html">คู่สีมงคล</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>เกี่ยวกับ</h4>
+        <ul>
+          <li><a href="about.html">เกี่ยวกับซินแสหวาง</a></li>
+          <li><a href="blog.html">บทความ</a></li>
+          <li><a href="consult.html">นัดปรึกษา</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+          <li><a href="admin/login.html">ระบบหลังบ้าน</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>ติดต่อ</h4>
+        <div class="contact-item"><span>📞</span><a href="tel:+6600000000">062-xxx-xxxx</a></div>
+        <div class="contact-item"><span>📧</span><a href="mailto:info@sinsaehwang.com">info@sinsaehwang.com</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2568 ซินแสหวาง · Sinsae Hwang · 星師皇 · All Rights Reserved</p>
+      <p><a href="privacy.html">นโยบายความเป็นส่วนตัว</a> · <a href="terms.html">ข้อกำหนดการใช้งาน</a></p>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="กลับขึ้นด้านบน">
+  <span>↑</span>
+</button>
+
+<script src="js/main.js"></script>
+<script>
+function submitForm(e) {
+  e.preventDefault();
+  const name = document.getElementById('contactName').value;
+  const phone = document.getElementById('contactPhone').value;
+  const email = document.getElementById('contactEmail').value;
+  const message = document.getElementById('contactMessage').value;
+  
+  if (name && phone && email && message) {
+    showToast('ส่งข้อความสำเร็จแล้ว! ซินแสหวางจะติดต่อกลับหาท่านโดยเร็วที่สุด');
+    document.getElementById('contactForm').reset();
+  } else {
+    alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+  }
+}
+</script>
+
+</body>
+</html>

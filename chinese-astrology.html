@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>โหราศาสตร์จีน ปาจื้อ – ซินแสหวาง</title>
+  <meta name="description" content="โหราศาสตร์จีน ปาจื้อ 八字 วิเคราะห์ชะตาชีวิตจากวันเกิด ธาตุ 5 ประการ ดาวมงคล โดยซินแสหวาง" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;600;700;900&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=11" />
+  <style>
+    .page-hero { background:var(--grad-hero); padding:calc(var(--nav-h) + 3rem) 0 3rem; text-align:center; }
+    .bazi-calculator { background:var(--white); border:1px solid var(--border); border-radius:var(--r-xl); padding:var(--sp-2xl); margin:var(--sp-3xl) 0; }
+    .bazi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--sp-md); margin:var(--sp-xl) 0; }
+    .bazi-pillar { background:var(--cream); border:2px solid var(--border); border-radius:var(--r-lg); padding:var(--sp-lg); text-align:center; transition:all var(--t-mid); }
+    .bazi-pillar:hover { border-color:var(--crimson); transform:translateY(-4px); box-shadow:var(--shadow-md); }
+    .pillar-label { font-size:0.7rem; color:var(--gray-500); font-weight:700; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:var(--sp-sm); }
+    .pillar-top { font-family:var(--font-zh); font-size:2.5rem; color:var(--crimson); line-height:1; margin-bottom:var(--sp-sm); }
+    .pillar-bot { font-family:var(--font-zh); font-size:2.5rem; color:var(--charcoal); line-height:1; }
+    .pillar-element { font-size:0.75rem; margin-top:var(--sp-sm); font-weight:600; padding:0.2rem 0.6rem; border-radius:var(--r-full); display:inline-block; }
+    .el-wood  { background:#e8f5e9; color:#2e7d32; }
+    .el-fire  { background:#ffebee; color:#c62828; }
+    .el-earth { background:#fff8e1; color:#f57c00; }
+    .el-metal { background:#f5f5f5; color:#616161; }
+    .el-water { background:#e3f2fd; color:#1565c0; }
+    .content-section { padding:var(--sp-4xl) 0; }
+    .topic-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-lg); }
+    .topic-card { background:var(--white); border:1px solid var(--border); border-radius:var(--r-lg); padding:var(--sp-xl); transition:all var(--t-mid); }
+    .topic-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); border-color:var(--crimson-light); }
+    .topic-zh { font-family:var(--font-zh); font-size:2.5rem; color:var(--crimson); margin-bottom:var(--sp-sm); }
+    .topic-card h3 { font-family:var(--font-serif); font-size:1rem; font-weight:700; color:var(--charcoal); margin-bottom:var(--sp-sm); }
+    .topic-card p { font-size:0.84rem; color:var(--text-secondary); line-height:1.65; }
+    @media(max-width:768px){ .bazi-grid{grid-template-columns:repeat(2,1fr);} .topic-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-zh">王</span>
+      <div class="logo-text"><span class="logo-main">ซินแสหวาง</span><span class="logo-sub">Sinsae Hwang · 星師皇</span></div>
+    </a>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link">หน้าแรก</a>
+      <a href="chinese-astrology.html" class="nav-link active">โหราศาสตร์จีน</a>
+      <a href="blog.html" class="nav-link">บทความ ซินแสหวาง</a>
+      <a href="contact.html" class="nav-link">ติดต่อ</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="consult.html" class="btn-consult">ปรึกษาซินแส</a>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="section-tag section-tag--light">八字命理</div>
+    <h1 class="hero-title" style="margin-bottom:1rem;">
+      <span class="title-zh" style="font-size:clamp(3rem,8vw,5rem);">命</span>
+      <span class="title-th" style="font-size:clamp(1.8rem,4vw,2.8rem);">โหราศาสตร์จีน</span>
+      <span class="title-sub">ปาจื้อ 八字 · ชะตา 8 ตัวอักษร</span>
+    </h1>
+    <p style="color:rgba(255,255,255,0.75);max-width:600px;margin:0 auto;">ศาสตร์แห่งการวิเคราะห์ชะตาชีวิตจากปีเดือนวันชั่วโมงเกิด ผ่านธาตุหยินหยางและห้าธาตุ</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <!-- BaZi Calculator -->
+    <div class="bazi-widget">
+
+<header>
+  <div class="orn">✦ ✦ ✦</div>
+  <div class="h1th">ปาจื้อ ซาจู</div>
+  <h1>ดวงมงคล</h1>
+  <div class="orn" style="font-size:.85rem">八 字 命 盤</div>
+  <div class="hline"></div>
+  
+</header>
+
+<div class="panel">
+  <div class="igrid">
+    <div class="ig"><label>วัน</label><input type="number" id="dd" min="1" max="31" value="8" oninput="updateDayMax()"></div>
+    <div class="ig"><label>เดือน</label><input type="number" id="mm" min="1" max="12" value="2" oninput="updateDayMax()"></div>
+    <div class="ig"><label>ปี พ.ศ.</label><input type="number" id="yy" min="2443" max="2643" value="2512" oninput="updateDayMax()"></div>
+    <div class="ig"><label>ชั่วโมง</label><input type="number" id="hh" min="0" max="23" value="9"></div>
+    <div class="ig"><label>นาที</label><input type="number" id="mn" min="0" max="59" value="54"></div>
+    <div class="ig"><label>เพศ</label>
+      <select id="gd"><option value="1">ชาย</option><option value="2">หญิง</option></select>
+    </div>
+  </div>
+  <button class="btn" onclick="calc()">⊕ คำนวณดวงชะตา</button>
+</div>
+<div style="font-family:Georgia,serif;font-size:.72rem;color:rgba(212,168,67,.6);margin-top:6px;letter-spacing:.5px">* ไม่ทราบเวลาเกิด ให้ใส่ 00.00</div>
+
+<div id="results">
+  <div id="err" class="errmsg" style="display:none"></div>
+  <div id="out"></div>
+</div>
+</div>
+
+</div>
+
+    <!-- Topics -->
+    <div class="section-header">
+      <div class="section-tag">สาระความรู้</div>
+      <h2 class="section-title">หัวข้อ<span>โหราศาสตร์จีน</span></h2>
+    </div>
+    <div class="topic-grid">
+      <div class="topic-card"><div class="topic-zh">八字</div><h3>ปาจื้อ – ชะตา 8 ตัวอักษร</h3><p>ระบบโหราศาสตร์จีนที่ใช้ปีเดือนวันชั่วโมงเกิด ประกอบด้วยเสา 4 เสา แต่ละเสามีอักษรสวรรค์และอักษรพสุธา รวม 8 ตัวอักษร วิเคราะห์ธาตุที่มากเกินหรือขาดในชะตา</p></div>
+      <div class="topic-card"><div class="topic-zh">五行</div><h3>ห้าธาตุ – อู่สิง</h3><p>ธาตุไม้ ไฟ ดิน ทอง น้ำ — ความสัมพันธ์ระหว่างธาตุทั้ง 5 ในวัฏจักรการสร้างและการควบคุม ส่งผลต่อสุขภาพ การงาน ความรัก และโชคลาภ</p></div>
+      <div class="topic-card"><div class="topic-zh">神煞</div><h3>เทพ-มาร – เฉินชา</h3><p>ดาวนำโชคและดาวร้ายในปาจื้อ เช่น ดาวม้าสวรรค์ ดาวดอกท้อ ดาวพิฆาต วิเคราะห์เหตุการณ์สำคัญในชีวิต</p></div>
+      <div class="topic-card"><div class="topic-zh">大運</div><h3>มหาวาระ – ต้าอวิ้น</h3><p>ช่วง 10 ปีที่ดาวเดินทางผ่าน ส่งผลต่อชีวิตในแต่ละทศวรรษ วิเคราะห์จุดสูงสุดและต่ำสุดของชีวิต</p></div>
+      <div class="topic-card"><div class="topic-zh">流年</div><h3>ดวงประจำปี – หลิวเหนียน</h3><p>พลังงานของแต่ละปีที่มีผลต่อชะตา ทำนายเหตุการณ์ที่จะเกิดขึ้นในปีปัจจุบัน</p></div>
+      <div class="topic-card"><div class="topic-zh">合婚</div><h3>ดูฤกษ์คู่ – เหอฮุน</h3><p>วิเคราะห์ความเข้ากันได้ระหว่างคู่รัก ดูธาตุที่สอดคล้องและขัดแย้ง หาวันมงคลสมรส</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+  <div class="cta-bg"></div>
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-text"><h2>ต้องการวิเคราะห์ปาจื้อของคุณ?</h2><p>ซินแสหวางจะวิเคราะห์ปาจื้อเต็มรูปแบบ พร้อมคำแนะนำเฉพาะตัว</p></div>
+      <div class="cta-actions"><a href="consult.html" class="btn-primary btn-lg">นัดปรึกษาเลย</a></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-zh">王</span>
+          <div>
+            <span class="logo-main">ซินแสหวาง</span>
+            <span class="logo-sub">星師皇 · Sinsae Hwang</span>
+          </div>
+        </div>
+        <p>ศูนย์รวมความรู้โหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย คู่สีมงคล โดยผู้เชี่ยวชาญกว่า 30 ปี</p>
+      </div>
+      <div class="footer-links">
+        <h4>บริการ</h4>
+        <ul>
+          <li><a href="chinese-astrology.html">โหราศาสตร์จีน</a></li>
+          <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+          <li><a href="iching.html">อี้จิง 易經</a></li>
+          <li><a href="fengshui.html">ฮวงจุ้ย 風水</a></li>
+          <li><a href="lucky-colors.html">คู่สีมงคล</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>เกี่ยวกับ</h4>
+        <ul>
+          <li><a href="about.html">เกี่ยวกับซินแสหวาง</a></li>
+          <li><a href="blog.html">บทความ</a></li>
+          <li><a href="consult.html">นัดปรึกษา</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+          <li><a href="admin/login.html">ระบบหลังบ้าน</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>ติดต่อ</h4>
+        <div class="contact-item"><span>📞</span><a href="tel:+6600000000">062-xxx-xxxx</a></div>
+        <div class="contact-item"><span>📧</span><a href="mailto:info@sinsaehwang.com">info@sinsaehwang.com</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2568 ซินแสหวาง · Sinsae Hwang · 星師皇 · All Rights Reserved</p>
+      <p><a href="privacy.html">นโยบายความเป็นส่วนตัว</a> · <a href="terms.html">ข้อกำหนดการใช้งาน</a></p>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop">↑</button>
+<script src="js/main.js"></script>
+
+  <script src="js/bazi.js?v=11"></script>
+</body>
+</html>

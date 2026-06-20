@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>จัดการบทความ – ซินแสหวาง Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Noto+Sans+Thai:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .toolbar { display:flex; gap:var(--sp-md); align-items:center; flex-wrap:wrap; margin-bottom:var(--sp-lg); }
+    .search-input { flex:1; min-width:200px; padding:0.6rem var(--sp-md); border:1px solid var(--border); border-radius:var(--r-md); font-size:0.875rem; outline:none; }
+    .search-input:focus { border-color:var(--crimson); }
+    select.form-select { padding:0.6rem var(--sp-md); border:1px solid var(--border); border-radius:var(--r-md); font-size:0.875rem; outline:none; background:var(--white); cursor:pointer; }
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:200; display:none; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+    .modal-overlay.open { display:flex; }
+    .modal { background:var(--white); border-radius:var(--r-xl); width:760px; max-width:96vw; max-height:90vh; overflow-y:auto; }
+    .modal-header { padding:var(--sp-xl); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; background:var(--white); z-index:1; }
+    .modal-close { font-size:1.4rem; cursor:pointer; color:var(--gray-500); border:none; background:none; padding:4px 8px; }
+    .modal-close:hover { color:var(--crimson); }
+    .img-thumb { width:40px; height:40px; border-radius:var(--r-sm); background:var(--cream); display:flex; align-items:center; justify-content:center; font-size:1.4rem; overflow:hidden; flex-shrink:0; }
+    .img-thumb img { width:100%; height:100%; object-fit:cover; }
+    td button { margin-right:4px; }
+    .char-count { font-size:0.7rem; color:var(--gray-400); margin-top:2px; }
+    .upload-area {
+      border:2px dashed var(--border); border-radius:var(--r-md);
+      padding:1rem; text-align:center; cursor:pointer;
+      transition:border-color var(--t-fast);
+    }
+    .upload-area:hover { border-color:var(--crimson); }
+    .upload-area img { max-height:100px; border-radius:var(--r-sm); margin-top:8px; }
+    .loading-row td { text-align:center; padding:2rem; color:var(--gray-400); }
+    .pagination { display:flex; gap:8px; align-items:center; justify-content:center; margin-top:var(--sp-lg); }
+    .page-btn { padding:0.4rem 0.8rem; border:1px solid var(--border); border-radius:var(--r-md); background:var(--white); cursor:pointer; font-size:0.8rem; }
+    .page-btn.active { background:var(--crimson); color:#fff; border-color:var(--crimson); }
+    .page-btn:disabled { opacity:0.4; cursor:not-allowed; }
+  </style>
+</head>
+<body class="admin-body">
+<script>if(!sessionStorage.getItem('admin_auth')) window.location.href='login.html';</script>
+
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-logo">
+      <span class="logo-zh" style="font-family:'Ma Shan Zheng',cursive;">王</span>
+      <div class="logo-text"><span class="logo-main">ซินแสหวาง</span><span class="logo-sub">Admin Panel</span></div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">
+        <a href="dashboard.html" class="admin-nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">เนื้อหา</div>
+        <a href="homepage.html" class="admin-nav-item"><span class="nav-icon">🏠</span> แก้ไขหน้าแรก</a>
+        <a href="posts.html" class="admin-nav-item active"><span class="nav-icon">📝</span> บทความ</a>
+        <a href="categories.html" class="admin-nav-item"><span class="nav-icon">🏷️</span> หมวดหมู่</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">ลูกค้า</div>
+        <a href="consultations.html" class="admin-nav-item"><span class="nav-icon">🔮</span> คำปรึกษา</a>
+        <a href="customers.html" class="admin-nav-item"><span class="nav-icon">👥</span> ลูกค้า</a>
+        <a href="appointments.html" class="admin-nav-item"><span class="nav-icon">📅</span> นัดหมาย</a>
+      </div>
+      <div class="admin-nav-section">
+        <a href="settings.html" class="admin-nav-item"><span class="nav-icon">⚙️</span> ตั้งค่า</a>
+        <a href="#" class="admin-nav-item" onclick="doLogout()"><span class="nav-icon">🚪</span> ออก</a>
+      </div>
+    </nav>
+    <div style="padding:var(--sp-lg);border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="font-size:0.7rem;color:var(--gray-600);text-align:center;">
+        <a href="../index.html" target="_blank" style="color:var(--gold-bright);">ดูหน้าเว็บ ↗</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div style="display:flex;align-items:center;gap:var(--sp-md);">
+        <button id="menuToggle" onclick="document.getElementById('adminSidebar').classList.toggle('open')"
+          style="display:none;padding:6px;border:1px solid var(--border);border-radius:var(--r-md);cursor:pointer;background:var(--white);">☰</button>
+        <span class="admin-topbar-title">📝 จัดการบทความ</span>
+      </div>
+      <div class="admin-user"><div class="admin-avatar">ซ</div><span>ซินแสหวาง</span></div>
+    </div>
+
+    <div class="admin-content">
+      <div class="toolbar">
+        <input type="text" class="search-input" placeholder="🔍 ค้นหาบทความ..." id="searchInput" oninput="filterPosts()" />
+        <select class="form-select" id="catFilter" onchange="filterPosts()">
+          <option value="">ทุกหมวด</option>
+        </select>
+        <select class="form-select" id="statusFilter" onchange="filterPosts()">
+          <option value="">ทุกสถานะ</option>
+          <option value="เผยแพร่">เผยแพร่</option>
+          <option value="แบบร่าง">แบบร่าง</option>
+        </select>
+        <button class="btn-primary" onclick="openModal()">+ สร้างบทความใหม่</button>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <span class="admin-card-title">บทความทั้งหมด</span>
+          <span id="postCount" style="font-size:0.8rem;color:var(--gray-500);"></span>
+        </div>
+        <table id="postsTable">
+          <thead>
+            <tr>
+              <th>บทความ</th><th>หมวด</th><th>ผู้เขียน</th><th>วันที่</th><th>สถานะ</th><th>จัดการ</th>
+            </tr>
+          </thead>
+          <tbody id="postsTbody">
+            <tr class="loading-row"><td colspan="6">⏳ กำลังโหลด...</td></tr>
+          </tbody>
+        </table>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ══ MODAL ══ -->
+<div class="modal-overlay" id="postModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 style="font-family:var(--font-serif);font-size:1.1rem;" id="modalTitle">สร้างบทความใหม่</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="admin-form">
+      <form id="postForm" onsubmit="savePost(event)">
+
+        <!-- Title -->
+        <div class="form-row">
+          <div class="form-group" style="grid-column:1/-1">
+            <label>หัวข้อบทความ <span style="color:var(--crimson)">*</span></label>
+            <input type="text" class="form-control" id="postTitle" placeholder="หัวข้อบทความ" required />
+          </div>
+        </div>
+
+        <!-- Cat + Status + Author -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>หมวดหมู่ <span style="color:var(--crimson)">*</span></label>
+            <select class="form-control" id="postCat"></select>
+          </div>
+          <div class="form-group">
+            <label>สถานะ</label>
+            <select class="form-control" id="postStatus">
+              <option value="เผยแพร่">เผยแพร่</option>
+              <option value="แบบร่าง">แบบร่าง</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Excerpt -->
+        <div class="form-row">
+          <div class="form-group" style="grid-column:1/-1">
+            <label>บทสรุปย่อ (แสดงในการ์ดบทความ)</label>
+            <textarea class="form-control" id="postExcerpt" rows="2" placeholder="สรุปบทความสั้น ๆ..." maxlength="200"></textarea>
+            <div class="char-count" id="excerptCount">0/200</div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="form-row">
+          <div class="form-group" style="grid-column:1/-1">
+            <label>เนื้อหาบทความ (รองรับ HTML)</label>
+            <textarea class="form-control" id="postContent" rows="10" placeholder="เนื้อหาบทความ... (รองรับ HTML เช่น &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;)"></textarea>
+          </div>
+        </div>
+
+        <!-- Image -->
+        <div class="form-row">
+          <div class="form-group" style="grid-column:1/-1">
+            <label>รูปภาพปก</label>
+            <div class="upload-area" id="uploadArea" onclick="document.getElementById('imgFileInput').click()">
+              <div id="uploadPrompt">📷 คลิกเพื่ออัปโหลดรูป (JPG/PNG/WebP ≤5MB)</div>
+              <img id="imgPreview" style="display:none;" alt="preview" />
+            </div>
+            <input type="file" id="imgFileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(this)" />
+            <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+              <small style="color:var(--gray-500);">หรือพิมพ์ path รูปโดยตรง:</small>
+              <input type="text" class="form-control" id="postImage" placeholder="images/blog/covers/article-001.jpg"
+                style="flex:1;" oninput="previewImageFromPath(this.value)" />
+            </div>
+          </div>
+        </div>
+
+        <!-- SEO -->
+        <div style="padding:var(--sp-md) var(--sp-lg);background:var(--cream);border-radius:var(--r-md);margin-bottom:var(--sp-md);">
+          <div style="font-size:0.75rem;font-weight:700;color:var(--gold-deep);letter-spacing:0.08em;margin-bottom:var(--sp-md);">SEO</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Meta Description</label>
+              <input type="text" class="form-control" id="postMeta" placeholder="คำอธิบาย SEO ≤160 ตัวอักษร" maxlength="160" />
+              <div class="char-count" id="metaCount">0/160</div>
+            </div>
+            <div class="form-group">
+              <label>Keywords</label>
+              <input type="text" class="form-control" id="postKeywords" placeholder="คีย์เวิร์ด, คั่นด้วยจุลภาค" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-outline" onclick="closeModal()">ยกเลิก</button>
+          <button type="submit" class="btn-primary" id="saveBtn">💾 บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+const API_KEY = sessionStorage.getItem('admin_key') || '';
+let allPosts  = [];
+let editId    = null;
+let categories = [];
+const PAGE_SIZE = 20;
+let currentPage = 1;
+let filteredPosts = [];
+
+// ── API helpers ──────────────────────────────────────────────────────────
+async function apiFetch(url, options = {}) {
+  const res = await fetch(url, {
+    ...options,
+    headers: { 'Content-Type': 'application/json', 'X-Admin-Key': API_KEY, ...(options.headers || {}) }
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'API error ' + res.status);
+  }
+  return res.json();
+}
+
+// ── Load data ────────────────────────────────────────────────────────────
+async function loadAll() {
+  try {
+    [allPosts, categories] = await Promise.all([
+      apiFetch('/api/articles'),
+      apiFetch('/api/categories')
+    ]);
+    populateCatSelects();
+    filterPosts();
+  } catch(e) {
+    document.getElementById('postsTbody').innerHTML =
+      `<tr class="loading-row"><td colspan="6" style="color:#e57373;">❌ ไม่สามารถเชื่อมต่อ Backend: ${e.message}<br><small>กรุณาตรวจสอบว่ารัน server.js แล้ว</small></td></tr>`;
+  }
+}
+
+function populateCatSelects() {
+  const catFilter = document.getElementById('catFilter');
+  const postCat   = document.getElementById('postCat');
+  catFilter.innerHTML = '<option value="">ทุกหมวด</option>' +
+    categories.map(c => `<option value="${c.name}">${c.icon} ${c.name}</option>`).join('');
+  postCat.innerHTML = categories.map(c => `<option value="${c.name}">${c.icon} ${c.name}</option>`).join('');
+}
+
+// ── Filter & render ──────────────────────────────────────────────────────
+function filterPosts() {
+  const q   = document.getElementById('searchInput').value.toLowerCase();
+  const cat = document.getElementById('catFilter').value;
+  const st  = document.getElementById('statusFilter').value;
+  filteredPosts = allPosts.filter(p =>
+    (!q   || p.title.toLowerCase().includes(q)) &&
+    (!cat || p.cat === cat) &&
+    (!st  || p.status === st)
+  );
+  currentPage = 1;
+  renderPosts();
+}
+
+function renderPosts() {
+  const tbody = document.getElementById('postsTbody');
+  const total = filteredPosts.length;
+  document.getElementById('postCount').textContent = total + ' รายการ';
+
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const page  = filteredPosts.slice(start, start + PAGE_SIZE);
+
+  if (page.length === 0) {
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="6">ไม่พบบทความ</td></tr>';
+    renderPagination(total);
+    return;
+  }
+
+  tbody.innerHTML = page.map(p => {
+    const thumb = p.image
+      ? `<img src="../${p.image}" alt="" onerror="this.style.display='none'" />`
+      : '📜';
+    return `<tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="img-thumb">${thumb}</div>
+          <div>
+            <div style="font-weight:600;font-size:0.875rem;max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(p.title)}</div>
+            <div style="font-size:0.72rem;color:var(--gray-400);">#${p.id}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="badge badge-info">${escHtml(p.cat)}</span></td>
+      <td>${escHtml(p.author || 'ซินแสหวาง')}</td>
+      <td style="white-space:nowrap;">${escHtml(p.date)}</td>
+      <td><span class="badge badge-${p.status === 'เผยแพร่' ? 'success' : 'warning'}">${escHtml(p.status)}</span></td>
+      <td style="white-space:nowrap;">
+        <button onclick="editPost('${p.id}')" style="background:var(--gold);color:var(--charcoal);border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.75rem;">✏️</button>
+        <button onclick="deletePost('${p.id}')" style="background:#f44336;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.75rem;">🗑</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  renderPagination(total);
+}
+
+function renderPagination(total) {
+  const pages = Math.ceil(total / PAGE_SIZE);
+  const el = document.getElementById('pagination');
+  if (pages <= 1) { el.innerHTML = ''; return; }
+  let html = `<button class="page-btn" onclick="gotoPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+  for (let i = 1; i <= pages; i++) {
+    if (i === 1 || i === pages || Math.abs(i - currentPage) <= 2) {
+      html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="gotoPage(${i})">${i}</button>`;
+    } else if (Math.abs(i - currentPage) === 3) {
+      html += '<span style="padding:0 4px;color:var(--gray-400)">…</span>';
+    }
+  }
+  html += `<button class="page-btn" onclick="gotoPage(${currentPage+1})" ${currentPage===pages?'disabled':''}>›</button>`;
+  el.innerHTML = html;
+}
+function gotoPage(n) { currentPage = n; renderPosts(); }
+
+// ── Modal ────────────────────────────────────────────────────────────────
+function openModal(post = null) {
+  editId = post ? post.id : null;
+  document.getElementById('modalTitle').textContent = post ? 'แก้ไขบทความ' : 'สร้างบทความใหม่';
+  document.getElementById('postTitle').value    = post?.title    || '';
+  document.getElementById('postStatus').value   = post?.status   || 'เผยแพร่';
+  document.getElementById('postContent').value  = post?.content  || '';
+  document.getElementById('postExcerpt').value  = post?.excerpt  || '';
+  document.getElementById('postMeta').value     = post?.metaDesc || '';
+  document.getElementById('postKeywords').value = post?.keywords || '';
+  document.getElementById('postImage').value    = post?.image    || '';
+  // Set category
+  const catSel = document.getElementById('postCat');
+  if (post?.cat) catSel.value = post.cat;
+  // Image preview
+  previewImageFromPath(post?.image || '');
+  updateCounts();
+  document.getElementById('postModal').classList.add('open');
+  document.getElementById('postTitle').focus();
+}
+
+function closeModal() { document.getElementById('postModal').classList.remove('open'); }
+
+async function editPost(id) {
+  try {
+    const post = await apiFetch('/api/articles/' + id);
+    openModal(post);
+  } catch {
+    // fallback: find in local array
+    openModal(allPosts.find(p => String(p.id) === String(id)));
+  }
+}
+
+async function deletePost(id) {
+  const post = allPosts.find(p => String(p.id) === String(id));
+  if (!confirm(`ลบบทความ "${post?.title}" ?\nการดำเนินการนี้ไม่สามารถยกเลิกได้`)) return;
+  try {
+    await apiFetch('/api/articles/' + id, { method: 'DELETE' });
+    allPosts = allPosts.filter(p => String(p.id) !== String(id));
+    filterPosts();
+    showToast('ลบบทความแล้ว', 'success');
+  } catch(e) {
+    alert('เกิดข้อผิดพลาด: ' + e.message);
+  }
+}
+
+async function savePost(e) {
+  e.preventDefault();
+  const btn = document.getElementById('saveBtn');
+  btn.textContent = '⏳ กำลังบันทึก...'; btn.disabled = true;
+  const body = {
+    title:    document.getElementById('postTitle').value,
+    cat:      document.getElementById('postCat').value,
+    status:   document.getElementById('postStatus').value,
+    content:  document.getElementById('postContent').value,
+    excerpt:  document.getElementById('postExcerpt').value,
+    metaDesc: document.getElementById('postMeta').value,
+    keywords: document.getElementById('postKeywords').value,
+    image:    document.getElementById('postImage').value
+  };
+  try {
+    if (editId) {
+      const updated = await apiFetch('/api/articles/' + editId, { method:'PUT', body: JSON.stringify(body) });
+      const idx = allPosts.findIndex(p => String(p.id) === String(editId));
+      if (idx > -1) allPosts[idx] = updated;
+    } else {
+      const created = await apiFetch('/api/articles', { method:'POST', body: JSON.stringify(body) });
+      allPosts.unshift(created);
+    }
+    filterPosts();
+    closeModal();
+    showToast('บันทึกบทความสำเร็จ ✓', 'success');
+  } catch(err) {
+    alert('เกิดข้อผิดพลาด: ' + err.message);
+  } finally {
+    btn.textContent = '💾 บันทึก'; btn.disabled = false;
+  }
+}
+
+// ── Image upload ─────────────────────────────────────────────────────────
+async function handleImageUpload(input) {
+  if (!input.files[0]) return;
+  const formData = new FormData();
+  formData.append('image', input.files[0]);
+  document.getElementById('uploadPrompt').textContent = '⏳ กำลังอัปโหลด...';
+  try {
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      headers: { 'X-Admin-Key': API_KEY },
+      body: formData
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    document.getElementById('postImage').value = data.path;
+    previewImageFromPath(data.path);
+    showToast('อัปโหลดรูปสำเร็จ', 'success');
+  } catch(err) {
+    alert('อัปโหลดไม่สำเร็จ: ' + err.message);
+    document.getElementById('uploadPrompt').textContent = '📷 คลิกเพื่ออัปโหลดรูป';
+  }
+  input.value = '';
+}
+
+function previewImageFromPath(path) {
+  const preview  = document.getElementById('imgPreview');
+  const prompt   = document.getElementById('uploadPrompt');
+  if (path) {
+    preview.src = '../' + path;
+    preview.style.display = 'block';
+    prompt.style.display  = 'none';
+    preview.onerror = () => { preview.style.display = 'none'; prompt.style.display = 'block'; prompt.textContent = '📷 รูปไม่พบ — คลิกเพื่ออัปโหลดใหม่'; };
+  } else {
+    preview.style.display = 'none';
+    prompt.style.display  = 'block';
+    prompt.textContent    = '📷 คลิกเพื่ออัปโหลดรูป (JPG/PNG/WebP ≤5MB)';
+  }
+}
+
+// ── Char count ───────────────────────────────────────────────────────────
+function updateCounts() {
+  const ex = document.getElementById('postExcerpt');
+  const mt = document.getElementById('postMeta');
+  document.getElementById('excerptCount').textContent = (ex?.value.length || 0) + '/200';
+  document.getElementById('metaCount').textContent    = (mt?.value.length || 0) + '/160';
+}
+document.getElementById('postExcerpt').addEventListener('input', updateCounts);
+document.getElementById('postMeta').addEventListener('input', updateCounts);
+
+// ── Toast ────────────────────────────────────────────────────────────────
+function showToast(msg, type = 'info') {
+  const t = document.createElement('div');
+  t.style.cssText = `
+    position:fixed;bottom:2rem;right:2rem;z-index:9999;
+    padding:0.8rem 1.4rem;border-radius:var(--r-lg);
+    background:${type === 'success' ? '#2e7d32' : '#c62828'};
+    color:#fff;font-size:0.875rem;font-weight:600;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+    animation:fadeInUp 0.3s ease;
+  `;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2800);
+}
+
+// ── Utils ────────────────────────────────────────────────────────────────
+function escHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function doLogout() {
+  if(confirm('ออกจากระบบ?')) {
+    sessionStorage.removeItem('admin_auth');
+    sessionStorage.removeItem('admin_key');
+    window.location.href = 'login.html';
+  }
+}
+
+// Responsive sidebar
+const mq = window.matchMedia('(max-width:900px)');
+document.getElementById('menuToggle').style.display = mq.matches ? 'block' : 'none';
+mq.addEventListener('change', e => { document.getElementById('menuToggle').style.display = e.matches ? 'block' : 'none'; });
+
+// Close modal on overlay click
+document.getElementById('postModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Open new post modal from URL param
+const params = new URLSearchParams(location.search);
+if (params.get('new') === '1') { document.addEventListener('DOMContentLoaded', () => openModal()); }
+
+document.addEventListener('DOMContentLoaded', loadAll);
+</script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>จัดการหมวดหมู่ – ซินแสหวาง Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Noto+Sans+Thai:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .cat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:var(--sp-md); }
+    .cat-card {
+      background:var(--white); border:1px solid var(--border); border-radius:var(--r-lg);
+      padding:var(--sp-lg); display:flex; align-items:center; gap:var(--sp-md);
+      transition:all var(--t-fast);
+    }
+    .cat-card:hover { border-color:var(--crimson); box-shadow:var(--shadow-sm); }
+    .cat-icon-box {
+      width:48px; height:48px; border-radius:var(--r-md);
+      background:var(--cream-deep); display:flex; align-items:center;
+      justify-content:center; font-size:1.6rem; font-family:'Ma Shan Zheng',cursive;
+      color:var(--crimson); flex-shrink:0;
+    }
+    .cat-info { flex:1; min-width:0; }
+    .cat-name { font-weight:600; font-size:0.9rem; color:var(--charcoal); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .cat-count { font-size:0.72rem; color:var(--gray-400); margin-top:2px; }
+    .del-btn { background:none; border:none; color:var(--gray-400); cursor:pointer; font-size:1rem; padding:4px; }
+    .del-btn:hover { color:#f44336; }
+    .add-form { display:flex; gap:var(--sp-md); align-items:flex-end; flex-wrap:wrap; }
+    .add-form .form-group { margin-bottom:0; }
+  </style>
+</head>
+<body class="admin-body">
+<script>if(!sessionStorage.getItem('admin_auth')) window.location.href='login.html';</script>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-logo">
+      <span class="logo-zh" style="font-family:'Ma Shan Zheng',cursive;">王</span>
+      <div class="logo-text"><span class="logo-main">ซินแสหวาง</span><span class="logo-sub">Admin Panel</span></div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">
+        <a href="dashboard.html" class="admin-nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">เนื้อหา</div>
+        <a href="homepage.html" class="admin-nav-item"><span class="nav-icon">🏠</span> แก้ไขหน้าแรก</a>
+        <a href="posts.html" class="admin-nav-item"><span class="nav-icon">📝</span> บทความ</a>
+        <a href="categories.html" class="admin-nav-item active"><span class="nav-icon">🏷️</span> หมวดหมู่</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">ลูกค้า</div>
+        <a href="consultations.html" class="admin-nav-item"><span class="nav-icon">🔮</span> คำปรึกษา</a>
+        <a href="customers.html" class="admin-nav-item"><span class="nav-icon">👥</span> ลูกค้า</a>
+        <a href="appointments.html" class="admin-nav-item"><span class="nav-icon">📅</span> นัดหมาย</a>
+      </div>
+      <div class="admin-nav-section">
+        <a href="settings.html" class="admin-nav-item"><span class="nav-icon">⚙️</span> ตั้งค่า</a>
+        <a href="#" class="admin-nav-item" onclick="sessionStorage.removeItem('admin_auth');sessionStorage.removeItem('admin_key');window.location.href='login.html'"><span class="nav-icon">🚪</span> ออก</a>
+      </div>
+    </nav>
+    <div style="padding:var(--sp-lg);border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="font-size:0.7rem;color:var(--gray-600);text-align:center;">
+        <a href="../index.html" target="_blank" style="color:var(--gold-bright);">ดูหน้าเว็บ ↗</a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <span class="admin-topbar-title">🏷️ จัดการหมวดหมู่</span>
+      <div class="admin-user"><div class="admin-avatar">ซ</div><span>ซินแสหวาง</span></div>
+    </div>
+    <div class="admin-content">
+
+      <!-- Add new category -->
+      <div class="admin-card" style="margin-bottom:var(--sp-xl);">
+        <div class="admin-card-header">
+          <span class="admin-card-title">+ เพิ่มหมวดหมู่ใหม่</span>
+        </div>
+        <div class="admin-form">
+          <div class="add-form">
+            <div class="form-group">
+              <label>ชื่อหมวดหมู่</label>
+              <input type="text" class="form-control" id="newCatName" placeholder="เช่น โหราศาสตร์ไทย" style="min-width:220px;" />
+            </div>
+            <div class="form-group">
+              <label>อักษรจีน (icon)</label>
+              <input type="text" class="form-control" id="newCatIcon" placeholder="เช่น 星" maxlength="2" style="width:80px;text-align:center;font-size:1.2rem;" />
+            </div>
+            <div class="form-group" style="padding-top:1.5rem;">
+              <button class="btn-primary" onclick="addCategory()">+ เพิ่ม</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category list -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <span class="admin-card-title">หมวดหมู่ทั้งหมด</span>
+          <span id="catCount" style="font-size:0.8rem;color:var(--gray-500);"></span>
+        </div>
+        <div style="padding:var(--sp-xl);">
+          <div class="cat-grid" id="catGrid">
+            <div style="color:var(--gray-400);font-size:0.9rem;">⏳ กำลังโหลด...</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+const API_KEY = sessionStorage.getItem('admin_key') || '';
+let categories = [];
+let articleCounts = {};
+
+async function loadAll() {
+  try {
+    const [cats, arts] = await Promise.all([
+      fetch('/api/categories').then(r => r.json()),
+      fetch('/api/articles').then(r => r.json())
+    ]);
+    categories = cats;
+    arts.forEach(a => { articleCounts[a.cat] = (articleCounts[a.cat] || 0) + 1; });
+    renderCats();
+  } catch(e) {
+    document.getElementById('catGrid').innerHTML = '<div style="color:#e57373;">❌ ไม่สามารถเชื่อมต่อ Backend</div>';
+  }
+}
+
+function renderCats() {
+  const grid = document.getElementById('catGrid');
+  document.getElementById('catCount').textContent = categories.length + ' หมวด';
+  if (!categories.length) {
+    grid.innerHTML = '<div style="color:var(--gray-400);">ยังไม่มีหมวดหมู่</div>';
+    return;
+  }
+  grid.innerHTML = categories.map(c => `
+    <div class="cat-card">
+      <div class="cat-icon-box">${c.icon}</div>
+      <div class="cat-info">
+        <div class="cat-name" title="${escHtml(c.name)}">${escHtml(c.name)}</div>
+        <div class="cat-count">${articleCounts[c.name] || 0} บทความ</div>
+      </div>
+      <button class="del-btn" onclick="deleteCategory('${escHtml(c.name)}')" title="ลบหมวด">✕</button>
+    </div>`).join('');
+}
+
+async function addCategory() {
+  const name = document.getElementById('newCatName').value.trim();
+  const icon = document.getElementById('newCatIcon').value.trim() || '文';
+  if (!name) { alert('กรุณาใส่ชื่อหมวดหมู่'); return; }
+  try {
+    const res = await fetch('/api/categories', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': API_KEY },
+      body: JSON.stringify({ name, icon })
+    });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error); }
+    categories.push({ name, icon });
+    renderCats();
+    document.getElementById('newCatName').value = '';
+    document.getElementById('newCatIcon').value = '';
+    showToast('เพิ่มหมวดหมู่สำเร็จ');
+  } catch(e) {
+    alert('เกิดข้อผิดพลาด: ' + e.message);
+  }
+}
+
+async function deleteCategory(name) {
+  if (!confirm(`ลบหมวด "${name}" ?\nบทความที่อยู่ในหมวดนี้จะยังคงอยู่`)) return;
+  try {
+    await fetch('/api/categories/' + encodeURIComponent(name), {
+      method: 'DELETE',
+      headers: { 'X-Admin-Key': API_KEY }
+    });
+    categories = categories.filter(c => c.name !== name);
+    renderCats();
+    showToast('ลบหมวดแล้ว');
+  } catch(e) {
+    alert('เกิดข้อผิดพลาด: ' + e.message);
+  }
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:2rem;right:2rem;z-index:9999;padding:0.8rem 1.4rem;border-radius:12px;background:#2e7d32;color:#fff;font-size:0.875rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.3);';
+  t.textContent = '✓ ' + msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2500);
+}
+function escHtml(s) { return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+document.addEventListener('DOMContentLoaded', loadAll);
+document.getElementById('newCatName').addEventListener('keydown', e => { if(e.key==='Enter') addCategory(); });
+</script>
+</body>
+</html>

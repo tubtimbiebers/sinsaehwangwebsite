@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เกี่ยวกับซินแสหวาง – ซินแสหวาง</title>
+  <meta name="description" content="ประวัติและประสบการณ์กว่า 30 ปีในศาสตร์โหราศาสตร์ตะวันออก ปรัชญาสามประสาน และปณิธานของซินแสหวาง" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;600;700;900&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero { background:var(--grad-hero); padding:calc(var(--nav-h) + 3rem) 0 3rem; text-align:center; }
+    
+    .bio-container {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: var(--sp-3xl);
+      align-items: center;
+      margin: var(--sp-3xl) 0;
+    }
+    
+    .bio-img {
+      position: relative;
+      border: 3px double var(--gold);
+      border-radius: var(--r-xl);
+      background: var(--cream);
+      padding: var(--sp-md);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bio-img::before {
+      content: '王';
+      font-family: var(--font-zh);
+      font-size: 10rem;
+      color: rgba(201, 146, 42, 0.1);
+      position: absolute;
+    }
+    
+    .bio-content h3 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      color: var(--crimson);
+      margin-bottom: var(--sp-md);
+    }
+    .bio-content p {
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: var(--sp-md);
+    }
+    
+    /* Philosophy (Tian-Di-Ren) */
+    .philosophy-section {
+      background: var(--cream);
+      border-radius: var(--r-xl);
+      padding: var(--sp-3xl);
+      margin: var(--sp-3xl) 0;
+    }
+    .phil-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-xl);
+      margin-top: var(--sp-xl);
+    }
+    .phil-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-xl);
+      text-align: center;
+      transition: all var(--t-mid);
+    }
+    .phil-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--crimson);
+    }
+    .phil-zh {
+      font-family: var(--font-zh);
+      font-size: 3rem;
+      color: var(--crimson);
+      margin-bottom: var(--sp-sm);
+    }
+    .phil-card h4 {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      color: var(--charcoal);
+      margin-bottom: var(--sp-sm);
+    }
+    .phil-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+    
+    @media(max-width:768px) {
+      .bio-container { grid-template-columns: 1fr; }
+      .phil-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ✦ NAVIGATION ✦ -->
+<header id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-zh">王</span>
+      <div class="logo-text">
+        <span class="logo-main">ซินแสหวาง</span>
+        <span class="logo-sub">Sinsae Hwang · 星師皇</span>
+      </div>
+    </a>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link">หน้าแรก</a>
+      <a href="chinese-astrology.html" class="nav-link">โหราศาสตร์จีน</a>
+      <a href="thai-astrology.html" class="nav-link">โหราศาสตร์ไทย</a>
+      <a href="iching.html" class="nav-link">อี้จิง</a>
+      <a href="fengshui.html" class="nav-link">ฮวงจุ้ย</a>
+      <a href="lucky-colors.html" class="nav-link">คู่สีมงคล</a>
+      <a href="contact.html" class="nav-link">ติดต่อ</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="consult.html" class="btn-consult">ปรึกษาซินแส</a>
+      <button class="nav-toggle" id="navToggle" aria-label="เปิดเมนู">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ✦ HERO ✦ -->
+<div class="page-hero">
+  <div class="container">
+    <div class="section-tag section-tag--light">ประวัติซินแส</div>
+    <h1 class="hero-title" style="margin-bottom:1rem;">
+      <span class="title-zh" style="font-size:clamp(3rem,8vw,5rem);color:var(--gold-bright);">王</span>
+      <span class="title-th" style="font-size:clamp(1.8rem,4vw,2.8rem);">เกี่ยวกับซินแสหวาง</span>
+      <span class="title-sub">ศาสตร์แห่งโชคชะตาและการปรับเปลี่ยนพลังชีวิต</span>
+    </h1>
+    <p style="color:rgba(255,255,255,0.75);max-width:600px;margin:0 auto;">ผู้เชี่ยวชาญด้านโหราศาสตร์จีน-ไทย อี้จิง ฮวงจุ้ย ประสบการณ์กว่า 30 ปี</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    
+    <!-- ✦ BIOGRAPHY ✦ -->
+    <div class="bio-container">
+      <div class="bio-img">
+        <div style="text-align:center;position:relative;z-index:2;">
+          <div style="font-family:var(--font-zh);font-size:3rem;color:var(--crimson);">王星師</div>
+          <div style="font-family:var(--font-serif);font-size:1.2rem;font-weight:700;color:var(--charcoal);margin-top:var(--sp-sm);">ซินแสหวาง</div>
+          <div style="font-size:0.8rem;color:var(--gray-500);margin-top:4px;">ผู้ก่อตั้งสำนักงาน</div>
+        </div>
+      </div>
+      
+      <div class="bio-content">
+        <h3>อาจารย์หวาง (ซินแสหวาง)</h3>
+        <p>ซินแสหวาง ได้อุทิศตนศึกษาค้นคว้าศาสตร์ตะวันออกโบราณมาตั้งแต่เยาว์วัย โดยเริ่มจากการเรียนวิชากลุ่มโหราศาสตร์จีน ปาจื้อ (八字) และวิชาคัมภีร์แห่งการเปลี่ยนแปลง อี้จิง (易經) จากปรมาจารย์ชั้นสูงในมณฑลกวางตุ้งและไต้หวัน ก่อนจะนำมาประยุกต์ร่วมกับวิชาโหราศาสตร์ไทยโบราณและตำแหน่งดวงดาวนพเคราะห์ เพื่อให้สอดคล้องกับวิถีชีวิตและความเป็นอยู่ของสังคมไทย</p>
+        <p>ด้วยประสบการณ์ในการให้คำปรึกษาแก่ผู้คนมากว่า 30 ปี ทั้งกลุ่มผู้ประกอบการธุรกิจ ข้าราชการระดับสูง และบุคคลทั่วไป ทำให้ซินแสหวางได้รับการยอมรับว่าเป็นผู้เชื่อมประสานหลักวิชาการวิเคราะห์ชะตาแบบวิทยาศาสตร์และจริยธรรมเข้าด้วยกัน โดยมุ่งเน้นการให้คำปรึกษาที่ตรงไปตรงมา ชี้ทางสว่าง และปรับเปลี่ยนดวงชะตาด้วยตนเองอย่างมีสติ</p>
+        <p>สำนักงานซินแสหวางก่อตั้งขึ้นด้วยความปรารถนาที่จะให้คนทั่วไปได้เรียนรู้และเข้าถึงปรัชญาธรรมชาติอย่างถูกต้อง ปราศจากความงมงาย โดยยึดหลักแห่งเหตุผลเป็นรากฐาน</p>
+      </div>
+    </div>
+    
+    <!-- ✦ PHILOSOPHY ✦ -->
+    <div class="philosophy-section">
+      <div class="section-header" style="margin-bottom:var(--sp-xl);">
+        <div class="section-tag" style="background:rgba(139,26,26,0.08);border-color:rgba(139,26,26,0.2);color:var(--crimson);">ปรัชญาการนำทาง</div>
+        <h2 class="section-title">สามประสานชะตาชีวิต<br/><span>天·地·人 (ฟ้า ดิน คน)</span></h2>
+        <p class="section-desc">ซินแสหวางมุ่งเน้นการวิเคราะห์ดวงชะตาตามหลักปรัชญาเต๋าโบราณ ซึ่งประกอบด้วยความสัมพันธ์ของ 3 สิ่งสำคัญ</p>
+      </div>
+      
+      <div class="phil-grid">
+        <div class="phil-card">
+          <div class="phil-zh">天</div>
+          <h4>ชะตาฟ้า (Tian Luck)</h4>
+          <p>พลังจากดวงดาวและช่วงเวลาเกิด (ปาจื้อ/ลัคนา) ซึ่งเป็นสิ่งที่ติดตัวเรามาตั้งแต่กำเนิด คิดเป็น 33% ของชะตาชีวิตทั้งหมด เป็นการบอกจุดแข็ง จุดอ่อน และแผนที่นำทางชีวิต</p>
+        </div>
+        <div class="phil-card">
+          <div class="phil-zh">地</div>
+          <h4>ชะตาดิน (Di Luck)</h4>
+          <p>พลังงานจากสิ่งแวดล้อมที่อยู่อาศัย (ฮวงจุ้ย 風水) และคู่สีส่งเสริมธาตุ คิดเป็น 33% เป็นปัจจัยแวดล้อมที่ช่วยโอบอุ้ม ป้องกันอุปสรรค และส่งเสริมโอกาสให้ราบรื่นยิ่งขึ้น</p>
+        </div>
+        <div class="phil-card">
+          <div class="phil-zh">人</div>
+          <h4>ชะตาคน (Ren Luck)</h4>
+          <p>ความคิด การกระทำ จริยธรรม และการตัดสินใจเลือกของเราเอง คิดเป็น 34% ของดวงชะตา เป็นสิ่งสำคัญที่สุดที่กำหนดทิศทางสุดท้ายของชีวิตภายใต้การชี้แนะของ ชะตาฟ้า และ ชะตาดิน</p>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align:center;margin-top:var(--sp-2xl);">
+      <a href="consult.html" class="btn-primary btn-lg">นัดหมายปรึกษาซินแสหวาง</a>
+    </div>
+    
+  </div>
+</section>
+
+<!-- ✦ FOOTER ✦ -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-zh">王</span>
+          <div>
+            <span class="logo-main">ซินแสหวาง</span>
+            <span class="logo-sub">星師皇 · Sinsae Hwang</span>
+          </div>
+        </div>
+        <p>ศูนย์รวมความรู้โหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย คู่สีมงคล โดยผู้เชี่ยวชาญกว่า 30 ปี</p>
+      </div>
+      <div class="footer-links">
+        <h4>บริการ</h4>
+        <ul>
+          <li><a href="chinese-astrology.html">โหราศาสตร์จีน</a></li>
+          <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+          <li><a href="iching.html">อี้จิง 易經</a></li>
+          <li><a href="fengshui.html">ฮวงจุ้ย 風水</a></li>
+          <li><a href="lucky-colors.html">คู่สีมงคล</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>เกี่ยวกับ</h4>
+        <ul>
+          <li><a href="about.html">เกี่ยวกับซินแสหวาง</a></li>
+          <li><a href="blog.html">บทความ</a></li>
+          <li><a href="consult.html">นัดปรึกษา</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+          <li><a href="admin/login.html">ระบบหลังบ้าน</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>ติดต่อ</h4>
+        <div class="contact-item"><span>📞</span><a href="tel:+6600000000">062-xxx-xxxx</a></div>
+        <div class="contact-item"><span>📧</span><a href="mailto:info@sinsaehwang.com">info@sinsaehwang.com</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2568 ซินแสหวาง · Sinsae Hwang · 星師皇 · All Rights Reserved</p>
+      <p><a href="privacy.html">นโยบายความเป็นส่วนตัว</a> · <a href="terms.html">ข้อกำหนดการใช้งาน</a></p>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="กลับขึ้นด้านบน">
+  <span>↑</span>
+</button>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>

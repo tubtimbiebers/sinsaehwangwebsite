@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เข้าสู่ระบบ – ซินแสหวาง Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Noto+Sans+Thai:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body class="admin-body">
+<div class="admin-login-page">
+  <div class="login-card">
+    <div class="login-header">
+      <span class="login-logo-zh">王</span>
+      <h1>ซินแสหวาง</h1>
+      <p>ระบบจัดการเว็บไซต์ · Admin Panel</p>
+    </div>
+    <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+      <div>
+        <label for="username">ชื่อผู้ใช้</label>
+        <input type="text" id="username" name="username" placeholder="กรอกชื่อผู้ใช้" required autocomplete="username" />
+      </div>
+      <div>
+        <label for="password">รหัสผ่าน</label>
+        <input type="password" id="password" name="password" placeholder="กรอกรหัสผ่าน" required autocomplete="current-password" />
+      </div>
+      <div id="loginError" style="color:#e57373;font-size:0.8rem;display:none;text-align:center;"></div>
+      <button type="submit" class="btn-login" id="loginBtn">เข้าสู่ระบบ</button>
+    </form>
+    <p style="text-align:center;margin-top:1.5rem;font-size:0.75rem;color:var(--gray-600);">
+      <a href="../index.html" style="color:var(--gold-bright);">← กลับหน้าหลัก</a>
+    </p>
+  </div>
+</div>
+<script>
+function handleLogin(e) {
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const err = document.getElementById('loginError');
+  const u = document.getElementById('username').value.trim();
+  const p = document.getElementById('password').value;
+  btn.textContent = 'กำลังตรวจสอบ...'; btn.disabled = true;
+  setTimeout(() => {
+    // Simple demo auth — replace with real backend
+    if (u === 'admin' && p === 'sinsae2568') {
+      sessionStorage.setItem('admin_auth', btoa(u + ':' + Date.now()));
+      sessionStorage.setItem('admin_key', p);
+      window.location.href = 'dashboard.html';
+    } else {
+      err.textContent = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'; err.style.display = 'block';
+      btn.textContent = 'เข้าสู่ระบบ'; btn.disabled = false;
+    }
+  }, 900);
+}
+// Auto redirect if already logged in
+if (sessionStorage.getItem('admin_auth')) window.location.href = 'dashboard.html';
+</script>
+</body>
+</html>

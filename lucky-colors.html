@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>คู่สีมงคล ธาตุ 5 – ซินแสหวาง</title>
+  <meta name="description" content="ค้นหาสีมงคลตามวันเกิด ราศีจีน ธาตุทั้ง 5 เสริมดวงโชคลาภ สุขภาพ ความรัก การงาน" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;600;700;900&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero { background:var(--grad-hero); padding:calc(var(--nav-h) + 3rem) 0 3rem; text-align:center; }
+    .color-finder { background:var(--white); border:1px solid var(--border); border-radius:var(--r-xl); padding:var(--sp-2xl); margin:var(--sp-3xl) 0; }
+    .color-result { display:none; margin-top:var(--sp-xl); }
+    .color-result.show { display:block; }
+    .palette-display { display:flex; gap:var(--sp-sm); height:100px; border-radius:var(--r-lg); overflow:hidden; margin:var(--sp-md) 0; box-shadow:var(--shadow-md); }
+    .palette-swatch { flex:1; display:flex; align-items:flex-end; justify-content:center; padding-bottom:var(--sp-sm); font-size:0.7rem; font-weight:600; color:rgba(255,255,255,0.9); text-shadow:0 1px 3px rgba(0,0,0,0.4); transition:flex var(--t-mid); cursor:pointer; }
+    .palette-swatch:hover { flex:2; }
+    .day-cards { display:grid; grid-template-columns:repeat(7,1fr); gap:var(--sp-sm); margin:var(--sp-2xl) 0; }
+    .day-card { border-radius:var(--r-lg); padding:var(--sp-lg) var(--sp-sm); text-align:center; cursor:pointer; transition:transform var(--t-fast); border:3px solid transparent; }
+    .day-card:hover { transform:scale(1.05); }
+    .day-card.selected { border-color:var(--charcoal); transform:scale(1.08); box-shadow:var(--shadow-lg); }
+    .day-name { font-family:var(--font-serif); font-size:0.85rem; font-weight:700; color:var(--white); text-shadow:0 1px 3px rgba(0,0,0,0.5); }
+    .day-planet { font-size:0.7rem; color:rgba(255,255,255,0.8); margin-top:0.2rem; }
+    .lucky-strip { height:12px; border-radius:var(--r-full); margin-top:var(--sp-md); }
+    .zodiac-color-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--sp-md); }
+    .zc-card { border-radius:var(--r-lg); overflow:hidden; cursor:pointer; transition:transform var(--t-mid); box-shadow:var(--shadow-sm); }
+    .zc-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+    .zc-header { padding:var(--sp-lg); text-align:center; color:var(--white); }
+    .zc-emoji { font-size:2.5rem; }
+    .zc-name { font-family:var(--font-serif); font-weight:700; font-size:1rem; }
+    .zc-body { background:var(--white); padding:var(--sp-md); }
+    .zc-colors { display:flex; gap:6px; margin-bottom:var(--sp-sm); }
+    .zc-swatch { width:28px; height:28px; border-radius:50%; border:2px solid rgba(0,0,0,0.08); }
+    .zc-body p { font-size:0.78rem; color:var(--text-secondary); line-height:1.5; }
+    @media(max-width:768px){ .day-cards{grid-template-columns:repeat(4,1fr);} .zodiac-color-grid{grid-template-columns:repeat(2,1fr);} }
+    @media(max-width:480px){ .day-cards{grid-template-columns:repeat(2,1fr);} }
+  </style>
+</head>
+<body>
+<header id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-zh">王</span>
+      <div class="logo-text"><span class="logo-main">ซินแสหวาง</span><span class="logo-sub">Sinsae Hwang · 星師皇</span></div>
+    </a>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link">หน้าแรก</a>
+      <a href="chinese-astrology.html" class="nav-link">โหราศาสตร์จีน</a>
+      <a href="thai-astrology.html" class="nav-link">โหราศาสตร์ไทย</a>
+      <a href="iching.html" class="nav-link">อี้จิง</a>
+      <a href="fengshui.html" class="nav-link">ฮวงจุ้ย</a>
+      <a href="lucky-colors.html" class="nav-link active">คู่สีมงคล</a>
+      <a href="contact.html" class="nav-link">ติดต่อ</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="consult.html" class="btn-consult">ปรึกษาซินแส</a>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="section-tag section-tag--light">五行顏色</div>
+    <h1 class="hero-title" style="margin-bottom:1rem;">
+      <span class="title-zh" style="font-size:clamp(3rem,8vw,5rem);">色</span>
+      <span class="title-th" style="font-size:clamp(1.8rem,4vw,2.8rem);">คู่สีมงคล</span>
+      <span class="title-sub">สีแห่งโชคลาภตามธาตุทั้ง 5</span>
+    </h1>
+    <p style="color:rgba(255,255,255,0.75);max-width:600px;margin:0 auto;">ค้นหาสีมงคลตามวันเกิด ราศีจีน และธาตุของคุณ เพื่อเสริมโชคลาภในทุกด้าน</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- Color by Birthday -->
+    <div class="color-finder">
+      <h2 style="font-family:var(--font-serif);font-size:1.4rem;color:var(--charcoal);margin-bottom:var(--sp-sm);">🎨 ค้นหาสีมงคลของคุณ</h2>
+      <p style="color:var(--text-secondary);font-size:0.875rem;margin-bottom:var(--sp-xl);">กรอกวันเกิดหรือเลือกวันในสัปดาห์เพื่อดูสีมงคล</p>
+      <div style="display:flex;gap:var(--sp-md);flex-wrap:wrap;align-items:flex-end;margin-bottom:var(--sp-xl);">
+        <div class="form-group" style="flex:1;min-width:200px;">
+          <label style="font-size:0.8rem;font-weight:600;color:var(--gray-700);display:block;margin-bottom:4px;">วันเดือนปีเกิด</label>
+          <input type="date" class="form-control" id="colorDate" />
+        </div>
+        <button class="btn-primary" onclick="findColors()" id="findColorBtn">ค้นหาสีมงคล</button>
+      </div>
+      <p style="font-size:0.82rem;color:var(--gray-500);margin-bottom:var(--sp-md);">หรือเลือกวันเกิดในสัปดาห์:</p>
+      <div class="day-cards" id="dayCards"></div>
+      <div class="color-result" id="colorResult">
+        <h3 style="font-family:var(--font-serif);font-size:1.15rem;margin-bottom:var(--sp-md);">🌟 สีมงคลของคุณ: <span id="resultDayName" style="color:var(--crimson);"></span></h3>
+        <div class="palette-display" id="paletteDisplay"></div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-md);margin-top:var(--sp-lg);">
+          <div style="background:var(--cream);border-radius:var(--r-md);padding:var(--sp-md);">
+            <strong style="font-size:0.85rem;">✅ สีมงคลเสริมดวง</strong>
+            <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.35rem;" id="luckyColorsText"></p>
+          </div>
+          <div style="background:#fff5f5;border-radius:var(--r-md);padding:var(--sp-md);">
+            <strong style="font-size:0.85rem;">⚠️ สีที่ควรหลีกเลี่ยง</strong>
+            <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.35rem;" id="unluckyColorsText"></p>
+          </div>
+        </div>
+        <div style="background:var(--gold-pale);border:1px solid var(--border-warm);border-radius:var(--r-md);padding:var(--sp-md);margin-top:var(--sp-md);">
+          <strong style="font-size:0.85rem;">💡 คำแนะนำ</strong>
+          <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.35rem;" id="colorTipText"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colors by Zodiac -->
+    <div class="section-header">
+      <div class="section-tag">ราศีจีน</div>
+      <h2 class="section-title">สีมงคล<span>ตามนักษัตร</span></h2>
+      <p class="section-desc">ค้นหาสีมงคลตามปีเกิดของคุณ</p>
+    </div>
+    <div class="zodiac-color-grid" id="zodiacColorGrid"></div>
+
+  </div>
+</section>
+
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-zh">王</span>
+          <div>
+            <span class="logo-main">ซินแสหวาง</span>
+            <span class="logo-sub">星師皇 · Sinsae Hwang</span>
+          </div>
+        </div>
+        <p>ศูนย์รวมความรู้โหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย คู่สีมงคล โดยผู้เชี่ยวชาญกว่า 30 ปี</p>
+      </div>
+      <div class="footer-links">
+        <h4>บริการ</h4>
+        <ul>
+          <li><a href="chinese-astrology.html">โหราศาสตร์จีน</a></li>
+          <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+          <li><a href="iching.html">อี้จิง 易經</a></li>
+          <li><a href="fengshui.html">ฮวงจุ้ย 風水</a></li>
+          <li><a href="lucky-colors.html">คู่สีมงคล</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>เกี่ยวกับ</h4>
+        <ul>
+          <li><a href="about.html">เกี่ยวกับซินแสหวาง</a></li>
+          <li><a href="blog.html">บทความ</a></li>
+          <li><a href="consult.html">นัดปรึกษา</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+          <li><a href="admin/login.html">ระบบหลังบ้าน</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>ติดต่อ</h4>
+        <div class="contact-item"><span>📞</span><a href="tel:+6600000000">062-xxx-xxxx</a></div>
+        <div class="contact-item"><span>📧</span><a href="mailto:info@sinsaehwang.com">info@sinsaehwang.com</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2568 ซินแสหวาง · Sinsae Hwang · 星師皇 · All Rights Reserved</p>
+      <p><a href="privacy.html">นโยบายความเป็นส่วนตัว</a> · <a href="terms.html">ข้อกำหนดการใช้งาน</a></p>
+    </div>
+  </div>
+</footer>
+<button class="back-to-top" id="backToTop">↑</button>
+<script src="js/main.js"></script>
+<script>
+const DAYS_DATA = [
+  { name:'จันทร์', planet:'พระจันทร์', colors:['#ffd700','#f5f5f5','#fff8e1'], lucky:'เหลือง ขาว ครีม', unlucky:'แดง ดำ', tip:'สวมเสื้อสีเหลืองหรือขาวในวันจันทร์ เสริมดวงการเงินและครอบครัว', bg:'#4a90d9' },
+  { name:'อังคาร', planet:'พระอังคาร', colors:['#c62828','#f44336','#ff8a65'], lucky:'แดง ชมพู ส้ม', unlucky:'เขียว น้ำเงิน', tip:'สีแดงและส้มช่วยเสริมพลังงาน ความมั่นใจ และความกล้า', bg:'#c62828' },
+  { name:'พุธ', planet:'พระพุธ', colors:['#2e7d32','#4caf50','#a5d6a7'], lucky:'เขียว เหลืองอ่อน', unlucky:'แดง ส้ม', tip:'สีเขียวช่วยเสริมสมาธิ การเรียน และการสื่อสาร', bg:'#2e7d32' },
+  { name:'พฤหัสบดี', planet:'พระพฤหัส', colors:['#f9a825','#ffc107','#ffe082'], lucky:'เหลืองทอง ส้ม', unlucky:'น้ำเงิน ดำ', tip:'สีทองและเหลืองช่วยเสริมโชคลาภ การขยายตัว และความสำเร็จ', bg:'#f57c00' },
+  { name:'ศุกร์', planet:'พระศุกร์', colors:['#e91e8c','#f8bbd0','#fff9c4'], lucky:'ชมพู ขาว ฟ้า', unlucky:'เทา ดำ', tip:'สีชมพูและขาวช่วยเสริมความรัก ความสวยงาม และความสัมพันธ์', bg:'#e91e63' },
+  { name:'เสาร์', planet:'พระเสาร์', colors:['#212121','#757575','#bdbdbd'], lucky:'ดำ ม่วง เทา', unlucky:'แดง ส้ม', tip:'สีดำและม่วงช่วยเสริมวินัย ความอดทน และการป้องกัน', bg:'#424242' },
+  { name:'อาทิตย์', planet:'พระอาทิตย์', colors:['#ff6f00','#ffa000','#ffcc02'], lucky:'แดง ส้ม เหลือง', unlucky:'ดำ ม่วง', tip:'สีส้มและทองช่วยเสริมชื่อเสียง อำนาจ และความสำเร็จ', bg:'#e65100' },
+];
+const ZODIAC_COLORS = [
+  { emoji:'🐭', name:'หนู (ชวด)', colors:['#1a237e','#0d47a1','#e8eaf6'], lucky:'น้ำเงิน ดำ ขาว', desc:'เสริมความฉลาดและโชคลาภจากน้ำ' },
+  { emoji:'🐮', name:'วัว (ฉลู)', colors:['#f9a825','#795548','#fff8e1'], lucky:'เหลือง น้ำตาล ขาว', desc:'เสริมความมั่นคงและความอุตสาหะ' },
+  { emoji:'🐯', name:'เสือ (ขาล)', colors:['#2e7d32','#1b5e20','#a5d6a7'], lucky:'เขียว เทา น้ำเงิน', desc:'เสริมความกล้าหาญและอำนาจ' },
+  { emoji:'🐰', name:'กระต่าย (เถาะ)', colors:['#4caf50','#f5f5f5','#e8f5e9'], lucky:'เขียว ขาว ชมพู', desc:'เสริมความเป็นสิริมงคลและความรัก' },
+  { emoji:'🐲', name:'มังกร (มะโรง)', colors:['#ffd700','#c9922a','#fff8e1'], lucky:'ทอง เหลือง เทา', desc:'เสริมความยิ่งใหญ่และโชควาสนา' },
+  { emoji:'🐍', name:'งู (มะเส็ง)', colors:['#c62828','#f9a825','#ffebee'], lucky:'แดง เหลือง ดำ', desc:'เสริมปัญญาและสัญชาตญาณ' },
+  { emoji:'🐴', name:'ม้า (มะเมีย)', colors:['#e65100','#ff7043','#fff3e0'], lucky:'แดง เขียว ม่วง', desc:'เสริมพลังงานและความมีชีวิตชีวา' },
+  { emoji:'🐏', name:'แพะ (มะแม)', colors:['#4caf50','#c62828','#e8f5e9'], lucky:'เขียว แดง ม่วง', desc:'เสริมความสร้างสรรค์และศิลปะ' },
+  { emoji:'🐵', name:'ลิง (วอก)', colors:['#f5f5f5','#ffd700','#e0e0e0'], lucky:'ขาว ทอง น้ำเงิน', desc:'เสริมความฉลาดและความยืดหยุ่น' },
+  { emoji:'🐔', name:'ไก่ (ระกา)', colors:['#ffd700','#f9a825','#fff9c4'], lucky:'ทอง เหลือง ดำ', desc:'เสริมความเป็นระเบียบและความสำเร็จ' },
+  { emoji:'🐶', name:'หมา (จอ)', colors:['#c62828','#4caf50','#ff8a65'], lucky:'แดง เขียว ม่วง', desc:'เสริมความซื่อสัตย์และมิตรภาพ' },
+  { emoji:'🐷', name:'หมู (กุน)', colors:['#f9a825','#1a237e','#fff8e1'], lucky:'เหลือง น้ำเงิน เทา', desc:'เสริมความอุดมสมบูรณ์และโชคดี' },
+];
+
+// Render day cards
+const dayCardsEl = document.getElementById('dayCards');
+DAYS_DATA.forEach((d,i)=>{
+  const card = document.createElement('div');
+  card.className='day-card'; card.id=`day-${i}`;
+  card.style.background=d.bg;
+  card.innerHTML=`<div class="day-name">${d.name}</div><div class="day-planet">${d.planet}</div>
+    <div class="lucky-strip" style="background:linear-gradient(90deg,${d.colors.join(',')});"></div>`;
+  card.onclick=()=>showDayColors(i);
+  dayCardsEl.appendChild(card);
+});
+
+function showDayColors(idx){
+  document.querySelectorAll('.day-card').forEach((c,i)=>c.classList.toggle('selected',i===idx));
+  const d=DAYS_DATA[idx];
+  document.getElementById('resultDayName').textContent='วัน'+d.name;
+  const palette=document.getElementById('paletteDisplay');
+  palette.innerHTML=d.colors.map(c=>`<div class="palette-swatch" style="background:${c};" title="${c}">${c}</div>`).join('');
+  document.getElementById('luckyColorsText').textContent=d.lucky;
+  document.getElementById('unluckyColorsText').textContent=d.unlucky;
+  document.getElementById('colorTipText').textContent=d.tip;
+  document.getElementById('colorResult').classList.add('show');
+  document.getElementById('colorResult').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function findColors(){
+  const dt=document.getElementById('colorDate').value;
+  if(!dt){alert('กรุณาเลือกวันเกิด');return;}
+  const day=new Date(dt).getDay(); // 0=Sun
+  const map=[6,0,1,2,3,4,5]; // Sun=6,Mon=0...
+  showDayColors(map[day]);
+}
+
+// Auto-select today
+const todayIdx = [6,0,1,2,3,4,5][new Date().getDay()];
+setTimeout(()=>showDayColors(todayIdx),300);
+
+// Zodiac color grid
+const zcGrid=document.getElementById('zodiacColorGrid');
+ZODIAC_COLORS.forEach(z=>{
+  const card=document.createElement('div');
+  card.className='zc-card';
+  card.innerHTML=`
+    <div class="zc-header" style="background:linear-gradient(135deg,${z.colors[0]},${z.colors[1]});">
+      <div class="zc-emoji">${z.emoji}</div>
+      <div class="zc-name">${z.name}</div>
+    </div>
+    <div class="zc-body">
+      <div class="zc-colors">${z.colors.map(c=>`<span class="zc-swatch" style="background:${c};"></span>`).join('')}</div>
+      <div style="font-size:0.8rem;font-weight:600;color:var(--charcoal);margin-bottom:0.25rem;">สีมงคล: ${z.lucky}</div>
+      <p>${z.desc}</p>
+    </div>`;
+  zcGrid.appendChild(card);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ราศีจีน 12 นักษัตร – ซินแสหวาง</title>
+  <meta name="description" content="วิเคราะห์ดวงชะตา ค้นหานักษัตรตามปีเกิด จุดเด่น และสีมงคลประจำราศีจีน 12 นักษัตร โดยซินแสหวาง" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;600;700;900&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero { background:var(--grad-hero); padding:calc(var(--nav-h) + 3rem) 0 3rem; text-align:center; }
+    
+    .zodiac-search-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-xl);
+      max-width: 600px;
+      margin: var(--sp-2xl) auto;
+      text-align: center;
+    }
+    
+    .zodiac-grid-detail {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: var(--sp-md);
+      margin: var(--sp-2xl) 0;
+    }
+    .zodiac-card-mini {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-md);
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--t-fast);
+    }
+    .zodiac-card-mini:hover, .zodiac-card-mini.active {
+      border-color: var(--crimson);
+      background: var(--crimson-pale);
+      transform: translateY(-2px);
+    }
+    .zodiac-card-mini .emoji { font-size: 2rem; margin-bottom: 4px; }
+    .zodiac-card-mini .name { font-weight: 700; font-size: 0.95rem; color: var(--charcoal); }
+    .zodiac-card-mini .zh { font-family: var(--font-zh); color: var(--crimson); font-size: 1.1rem; }
+    
+    .zodiac-profile {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-2xl);
+      margin-top: var(--sp-xl);
+      display: none;
+    }
+    .zodiac-profile.show {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-xl);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: var(--sp-md);
+      margin-bottom: var(--sp-md);
+    }
+    .profile-avatar {
+      width: 80px; height: 80px;
+      background: var(--white);
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .profile-title h3 {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      color: var(--crimson);
+    }
+    
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-lg);
+      font-size: 0.9rem;
+      line-height: 1.75;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @media(max-width:768px) {
+      .zodiac-grid-detail { grid-template-columns: repeat(3, 1fr); }
+      .profile-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ✦ NAVIGATION ✦ -->
+<header id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-zh">王</span>
+      <div class="logo-text">
+        <span class="logo-main">ซินแสหวาง</span>
+        <span class="logo-sub">Sinsae Hwang · 星師皇</span>
+      </div>
+    </a>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link">หน้าแรก</a>
+      <a href="chinese-astrology.html" class="nav-link">โหราศาสตร์จีน</a>
+      <a href="thai-astrology.html" class="nav-link">โหราศาสตร์ไทย</a>
+      <a href="iching.html" class="nav-link">อี้จิง</a>
+      <a href="fengshui.html" class="nav-link">ฮวงจุ้ย</a>
+      <a href="lucky-colors.html" class="nav-link">คู่สีมงคล</a>
+      <a href="contact.html" class="nav-link">ติดต่อ</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="consult.html" class="btn-consult">ปรึกษาซินแส</a>
+      <button class="nav-toggle" id="navToggle" aria-label="เปิดเมนู">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ✦ HERO ✦ -->
+<div class="page-hero">
+  <div class="container">
+    <div class="section-tag section-tag--light">十二生肖</div>
+    <h1 class="hero-title" style="margin-bottom:1rem;">
+      <span class="title-zh" style="font-size:clamp(3rem,8vw,5rem);color:var(--gold-bright);">生</span>
+      <span class="title-th" style="font-size:clamp(1.8rem,4vw,2.8rem);">ราศีจีน 12 นักษัตร</span>
+      <span class="title-sub">วิเคราะห์นิสัย คู่สมพงษ์ และเสริมดวงชะตา</span>
+    </h1>
+    <p style="color:rgba(255,255,255,0.75);max-width:600px;margin:0 auto;">ค้นพบจุดเด่น จุดด้อย และคู่แท้ที่เกื้อหนุนตามนักษัตรปีเกิดจีนโบราณ</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    
+    <!-- ✦ YEAR SEARCH ✦ -->
+    <div class="zodiac-search-box">
+      <h3 style="font-family:var(--font-serif);font-size:1.15rem;color:var(--charcoal);margin-bottom:var(--sp-sm);">🔍 ค้นหานักษัตรของคุณ</h3>
+      <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:var(--sp-md);">กรอกปี พ.ศ. เกิดของคุณเพื่อค้นหาและวิเคราะห์ดวงชะตา</p>
+      
+      <div style="display:flex;gap:var(--sp-sm);justify-content:center;">
+        <input type="number" id="birthYearInput" class="form-control" placeholder="เช่น 2538" style="max-width:200px;" />
+        <button class="btn-primary" onclick="searchZodiac()">ค้นหาดวง</button>
+      </div>
+    </div>
+    
+    <!-- ✦ ZODIAC GRID ✦ -->
+    <div class="zodiac-grid-detail" id="zodiacGridDetail">
+      <!-- populated by JS -->
+    </div>
+    
+    <!-- ✦ PROFILE CONTAINER ✦ -->
+    <div class="zodiac-profile" id="zodiacProfile">
+      <div class="profile-header">
+        <div class="profile-avatar" id="profEmoji">🐭</div>
+        <div class="profile-title">
+          <h3 id="profName">ปีชวด (หนู) <span class="zh" id="profZh" style="font-family:var(--font-zh);font-size:1.5rem;margin-left:8px;">子</span></h3>
+          <p style="font-size:0.8rem;color:var(--gray-500);margin-top:2px;">ปีเกิดที่เกี่ยวข้อง: <span id="profYears"></span></p>
+        </div>
+      </div>
+      
+      <div class="profile-grid">
+        <div>
+          <h4 style="font-family:var(--font-serif);color:var(--crimson);margin-bottom:6px;">🌟 ลักษณะนิสัยประจำนักษัตร</h4>
+          <p id="profTrait" style="color:var(--text-primary);"></p>
+          <div style="margin-top:var(--sp-md);display:flex;gap:var(--sp-md);flex-wrap:wrap;">
+            <span style="background:var(--white);padding:0.3rem 0.8rem;border-radius:var(--r-md);font-size:0.8rem;border:1px solid var(--border);">
+              <strong>ธาตุธรรมชาติ:</strong> <span id="profElement"></span>
+            </span>
+            <span style="background:var(--white);padding:0.3rem 0.8rem;border-radius:var(--r-md);font-size:0.8rem;border:1px solid var(--border);">
+              <strong>สีมงคลเสริมโชค:</strong> <span id="profLucky"></span>
+            </span>
+          </div>
+        </div>
+        
+        <div style="background:var(--white);border-radius:var(--r-md);padding:var(--sp-lg);border:1px solid var(--border);">
+          <h4 style="font-family:var(--font-serif);color:var(--gold-deep);margin-bottom:6px;">🤝 คู่สมพงษ์ & ศัตรู</h4>
+          <p style="font-size:0.85rem;margin-bottom:8px;"><strong>สมพงษ์สูงสุด (เกื้อหนุนมาก):</strong> <span id="profBest"></span></p>
+          <p style="font-size:0.85rem;margin-bottom:8px;"><strong>สมพงษ์สามประสาน (เข้ากันได้ดี):</strong> <span id="profGood"></span></p>
+          <p style="font-size:0.85rem;color:var(--crimson);"><strong>ชง/ขัดแย้ง (ควรระวัง):</strong> <span id="profClash"></span></p>
+        </div>
+      </div>
+      
+      <div style="margin-top:var(--sp-xl);text-align:center;">
+        <a href="consult.html" class="btn-primary">วิเคราะห์ดวงราศีจีนเชิงลึกโดยซินแสหวาง</a>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<!-- ✦ FOOTER ✦ -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-zh">王</span>
+          <div>
+            <span class="logo-main">ซินแสหวาง</span>
+            <span class="logo-sub">星師皇 · Sinsae Hwang</span>
+          </div>
+        </div>
+        <p>ศูนย์รวมความรู้โหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย คู่สีมงคล โดยผู้เชี่ยวชาญกว่า 30 ปี</p>
+      </div>
+      <div class="footer-links">
+        <h4>บริการ</h4>
+        <ul>
+          <li><a href="chinese-astrology.html">โหราศาสตร์จีน</a></li>
+          <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+          <li><a href="iching.html">อี้จิง 易經</a></li>
+          <li><a href="fengshui.html">ฮวงจุ้ย 風水</a></li>
+          <li><a href="lucky-colors.html">คู่สีมงคล</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>เกี่ยวกับ</h4>
+        <ul>
+          <li><a href="about.html">เกี่ยวกับซินแสหวาง</a></li>
+          <li><a href="blog.html">บทความ</a></li>
+          <li><a href="consult.html">นัดปรึกษา</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+          <li><a href="admin/login.html">ระบบหลังบ้าน</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>ติดต่อ</h4>
+        <div class="contact-item"><span>📞</span><a href="tel:+6600000000">062-xxx-xxxx</a></div>
+        <div class="contact-item"><span>📧</span><a href="mailto:info@sinsaehwang.com">info@sinsaehwang.com</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2568 ซินแสหวาง · Sinsae Hwang · 星師皇 · All Rights Reserved</p>
+      <p><a href="privacy.html">นโยบายความเป็นส่วนตัว</a> · <a href="terms.html">ข้อกำหนดการใช้งาน</a></p>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="กลับขึ้นด้านบน">
+  <span>↑</span>
+</button>
+
+<script src="js/main.js"></script>
+<script>
+// Extended data for 12 Zodiac animals
+const DETAILED_ZODIAC = [
+  { 
+    emoji:'🐭', name:'ชวด (หนู)', zh:'子', startYear: 1948,
+    element:'น้ำ', lucky:'น้ำเงิน ดำ ขาว',
+    trait:'เฉลียวฉลาด ปรับตัวเก่ง มีไหวพริบปฏิภาณดีเยี่ยม เก็บเงินเก่ง แต่ระวังความคิดมากและความระแวงเกินไป',
+    best:'ฉลู', good:'มะโรง, วอก', clash:'มะเมีย'
+  },
+  { 
+    emoji:'🐮', name:'ฉลู (วัว)', zh:'丑', startYear: 1949,
+    element:'ดิน', lucky:'เหลือง แดง ทอง',
+    trait:'ขยันขันแข็ง อดทน มั่นคง ซื่อสัตย์สุจริตและไว้ใจได้ แต่ค่อนข้างดื้อรั้นและชอบทำตามความคิดตนเองเป็นหลัก',
+    best:'ชวด', good:'มะเส็ง, ระกา', clash:'มะแม'
+  },
+  { 
+    emoji:'🐯', name:'ขาล (เสือ)', zh:'寅', startYear: 1950,
+    element:'ไม้', lucky:'เขียว น้ำเงิน',
+    trait:'มีความเป็นผู้นำสูง กล้าหาญ มั่นใจในตัวเอง รักความยุติธรรม แต่บางครั้งใจร้อน หุนหันพลันแล่น',
+    best:'กุน', good:'มะเมีย, จอ', clash:'วอก'
+  },
+  { 
+    emoji:'🐰', name:'เถาะ (กระต่าย)', zh:'卯', startYear: 1951,
+    element:'ไม้', lucky:'เขียว ฟ้า ชมพู',
+    trait:'สุภาพ อ่อนโยน มีมารยาท รักสงบ ปรับตัวเก่งเข้ากับคนง่าย แต่บางครั้งขี้ลังเลและชอบหลีกเลี่ยงความขัดแย้ง',
+    best:'จอ', good:'มะแม, กุน', clash:'ระกา'
+  },
+  { 
+    emoji:'🐲', name:'มะโรง (มังกร)', zh:'辰', startYear: 1952,
+    element:'ดิน', lucky:'เหลือง ทอง เงิน',
+    trait:'ทรงพลัง มีเสน่ห์ ทะเยอทะยานสูง มุ่งมั่นความสำเร็จ มีความคิดสร้างสรรค์ดีเยี่ยม แต่ใจร้อนและรักอิสระเกินไป',
+    best:'ระกา', good:'ชวด, วอก', clash:'จอ'
+  },
+  { 
+    emoji:'🐍', name:'มะเส็ง (งู)', zh:'巳', startYear: 1953,
+    element:'ไฟ', lucky:'แดง ส้ม เขียว',
+    trait:'ฉลาดลึกซึ้ง มีเซนส์ ลึกลับ มีรสนิยมดี รักความสงบ แต่ค่อนข้างระวังตัวสูงและขี้หึงในเรื่องความสัมพันธ์',
+    best:'วอก', good:'ฉลู, ระกา', clash:'กุน'
+  },
+  { 
+    emoji:'🐴', name:'มะเมีย (ม้า)', zh:'午', startYear: 1954,
+    element:'ไฟ', lucky:'แดง ส้ม เหลือง',
+    trait:'กระตือรือร้น รักอิสระ ชอบเข้าสังคม ร่าเริงแจ่มใส พลังงานล้นเหลือ แต่ใจร้อนและเบื่อง่าย',
+    best:'ขาล', good:'ขาล, จอ', clash:'ชวด'
+  },
+  { 
+    emoji:'🐏', name:'มะแม (แพะ)', zh:'未', startYear: 1955,
+    element:'ดิน', lucky:'เหลือง น้ำตาล ครีม',
+    trait:'มีจิตใจเมตตา รักสงบ อ่อนโยน ชื่นชอบศิลปะและจินตนาการสูง แต่ขี้กังวลและค่อนข้างอ่อนไหวง่าย',
+    best:'มะเมีย', good:'เถาะ, กุน', clash:'ฉลู'
+  },
+  { 
+    emoji:'🐵', name:'วอก (ลิง)', zh:'申', startYear: 1956,
+    element:'ทอง', lucky:'ขาว เงิน ทอง',
+    trait:'ฉลาดแกมโกง ขี้เล่น ร่าเริง มีไหวพริบ คล่องแคล่วว่องไว แก้ปัญหาเฉพาะหน้าเก่ง แต่บางครั้งขาดความอดทน',
+    best:'มะเส็ง', good:'ชวด, มะโรง', clash:'ขาล'
+  },
+  { 
+    emoji:'🐔', name:'ระกา (ไก่)', zh:'酉', startYear: 1957,
+    element:'ทอง', lucky:'ทอง เหลือง ครีม',
+    trait:'ซื่อสัตย์ พูดจริงทำจริง มีระเบียบ ช่างสังเกต รักสวยรักงาม แต่มักพูดจาตรงเกินไปและรักศักดิ์ศรีสูง',
+    best:'มะโรง', good:'ฉลู, มะเส็ง', clash:'เถาะ'
+  },
+  { 
+    emoji:'🐶', name:'จอ (หมา)', zh:'戌', startYear: 1958,
+    element:'ดิน', lucky:'เหลือง แดง เขียว',
+    trait:'ซื่อสัตย์ จงรักภักดี รักความถูกต้อง มีคุณธรรมสูง จริงใจกับเพื่อนฝูง แต่ขี้บ่นและชอบมองโลกแง่ร้ายบางครั้ง',
+    best:'เถาะ', good:'ขาล, มะเมีย', clash:'มะโรง'
+  },
+  { 
+    emoji:'🐷', name:'กุน (หมู)', zh:'亥', startYear: 1959,
+    element:'น้ำ', lucky:'ดำ น้ำเงิน เทา',
+    trait:'ใจกว้าง อารมณ์ดี ซื่อสัตย์ มีน้ำใจ รักความสงบและชอบความสบาย แต่ค่อนข้างเชื่อคนง่ายและใจอ่อนเกินไป',
+    best:'ขาล', good:'เถาะ, มะแม', clash:'มะเส็ง'
+  }
+];
+
+// Generate years based on startYear
+function getYearsList(startYear) {
+  let years = [];
+  for(let y = startYear; y <= new Date().getFullYear(); y += 12) {
+    years.push(y + 543); // convert to B.E.
+  }
+  return years.join(', ');
+}
+
+// Render Grid
+const grid = document.getElementById('zodiacGridDetail');
+DETAILED_ZODIAC.forEach((z, idx) => {
+  const el = document.createElement('div');
+  el.className = 'zodiac-card-mini';
+  el.id = `zcard-${idx}`;
+  el.innerHTML = `
+    <div class="emoji">${z.emoji}</div>
+    <div class="name">${z.name}</div>
+    <div class="zh">${z.zh}</div>
+  `;
+  el.onclick = () => showProfile(idx);
+  grid.appendChild(el);
+});
+
+function showProfile(idx) {
+  // Toggle active card
+  for(let i=0; i<12; i++) {
+    document.getElementById(`zcard-${i}`).classList.toggle('active', i === idx);
+  }
+  
+  const z = DETAILED_ZODIAC[idx];
+  
+  document.getElementById('profEmoji').textContent = z.emoji;
+  document.getElementById('profName').textContent = `ปี${z.name}`;
+  document.getElementById('profZh').textContent = z.zh;
+  document.getElementById('profYears').textContent = getYearsList(z.startYear);
+  document.getElementById('profTrait').textContent = z.trait;
+  document.getElementById('profElement').textContent = z.element;
+  document.getElementById('profLucky').textContent = z.lucky;
+  document.getElementById('profBest').textContent = z.best;
+  document.getElementById('profGood').textContent = z.good;
+  document.getElementById('profClash').textContent = z.clash;
+  
+  const prof = document.getElementById('zodiacProfile');
+  prof.classList.add('show');
+  prof.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function searchZodiac() {
+  const yearInput = document.getElementById('birthYearInput').value;
+  if (!yearInput) {
+    alert('กรุณากรอกปี พ.ศ. เกิด');
+    return;
+  }
+  const yearBE = parseInt(yearInput);
+  if (isNaN(yearBE) || yearBE < 2400 || yearBE > 2650) {
+    alert('กรุณากรอกปี พ.ศ. ที่ถูกต้อง (เช่น 2500 - 2600)');
+    return;
+  }
+  
+  // Chinese zodiac cycle: 1900 was Year of Rat (offset 0)
+  const yearCE = yearBE - 543;
+  // Year of Rat represents offset 0. Index 0 in DETAILED_ZODIAC is Shuat (Rat).
+  // 1996 was a Rat year. (1996 - 1996) % 12 = 0
+  let offset = (yearCE - 1900) % 12;
+  if (offset < 0) offset += 12;
+  
+  // DETAILED_ZODIAC is in order: 0:Rat, 1:Ox, 2:Tiger, 3:Rabbit, 4:Dragon, 5:Snake, 6:Horse, 7:Goat, 8:Monkey, 9:Rooster, 10:Dog, 11:Pig
+  // 1900 CE is Year of Rat. So (1900-1900)%12 = 0, matches index 0. Yes!
+  showProfile(offset);
+}
+
+// Default to first profile (Rat)
+document.addEventListener('DOMContentLoaded', () => {
+  showProfile(0);
+});
+</script>
+
+</body>
+</html>

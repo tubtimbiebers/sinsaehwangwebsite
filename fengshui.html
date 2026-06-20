@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ฮวงจุ้ย 風水 – ซินแสหวาง</title>
+  <meta name="description" content="ฮวงจุ้ย 風水 วิเคราะห์พลังงานที่อยู่อาศัย จัดบ้านมงคล แก้ฮวงจุ้ย โดยซินแสหวาง" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;600;700;900&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero{background:var(--grad-hero);padding:calc(var(--nav-h)+3rem) 0 3rem;text-align:center;}
+    .bagua-section{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3xl);align-items:center;}
+    .bagua-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-sm);width:320px;margin:0 auto;}
+    .bagua-cell{
+      background:var(--white);border:1px solid var(--border);border-radius:var(--r-md);
+      padding:var(--sp-md);text-align:center;cursor:pointer;
+      transition:all var(--t-fast);aspect-ratio:1;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+    }
+    .bagua-cell:hover,.bagua-cell.active{background:var(--crimson);border-color:var(--crimson);color:var(--white);}
+    .bagua-cell:hover .bc-dir,.bagua-cell.active .bc-dir{color:var(--gold-bright);}
+    .bc-tri{font-size:1.8rem;line-height:1;}
+    .bc-dir{font-family:var(--font-zh);font-size:1.5rem;color:var(--crimson);transition:color var(--t-fast);}
+    .bc-th{font-size:0.7rem;margin-top:2px;}
+    .bagua-cell:nth-child(5){background:var(--cream);}
+    .bagua-info{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-xl);min-height:200px;}
+    .bagua-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;color:var(--gray-400);text-align:center;}
+    .room-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-md);}
+    .room-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:all var(--t-mid);}
+    .room-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--crimson-light);}
+    .room-header{padding:var(--sp-lg);display:flex;align-items:center;gap:var(--sp-md);}
+    .room-icon{font-size:2rem;}
+    .room-header h3{font-family:var(--font-serif);font-size:1rem;font-weight:700;}
+    .room-body{padding:0 var(--sp-lg) var(--sp-lg);}
+    .tip-list{display:flex;flex-direction:column;gap:var(--sp-sm);}
+    .tip-item{display:flex;gap:var(--sp-sm);font-size:0.82rem;color:var(--text-secondary);align-items:flex-start;}
+    .tip-item span:first-child{color:var(--gold);font-weight:700;flex-shrink:0;}
+    @media(max-width:768px){.bagua-section{grid-template-columns:1fr;}.room-grid{grid-template-columns:1fr;}.bagua-grid{width:100%;max-width:300px;}}
+  </style>
+</head>
+<body>
+<header id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-zh">王</span>
+      <div class="logo-text"><span class="logo-main">ซินแสหวาง</span><span class="logo-sub">Sinsae Hwang · 星師皇</span></div>
+    </a>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link">หน้าแรก</a>
+      <a href="chinese-astrology.html" class="nav-link">โหราศาสตร์จีน</a>
+      <a href="thai-astrology.html" class="nav-link">โหราศาสตร์ไทย</a>
+      <a href="iching.html" class="nav-link">อี้จิง</a>
+      <a href="fengshui.html" class="nav-link active">ฮวงจุ้ย</a>
+      <a href="lucky-colors.html" class="nav-link">คู่สีมงคล</a>
+      <a href="contact.html" class="nav-link">ติดต่อ</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="consult.html" class="btn-consult">ปรึกษาซินแส</a>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="section-tag section-tag--light">風水堪輿</div>
+    <h1 class="hero-title" style="margin-bottom:1rem;">
+      <span class="title-zh" style="font-size:clamp(3rem,8vw,5rem);">風</span>
+      <span class="title-th" style="font-size:clamp(1.8rem,4vw,2.8rem);">ฮวงจุ้ย</span>
+      <span class="title-sub">ศาสตร์แห่งพลังงานสิ่งแวดล้อม</span>
+    </h1>
+    <p style="color:rgba(255,255,255,0.75);max-width:600px;margin:0 auto;">จัดบ้านตามหลักฮวงจุ้ย เปิดรับพลังงานมงคล เสริมโชคลาภ สุขภาพ และความสุข</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <!-- Bagua Map -->
+    <div class="section-header">
+      <div class="section-tag">แผนผังปากวา</div>
+      <h2 class="section-title">แผนที่<span>ปากวา 八卦</span></h2>
+      <p class="section-desc">คลิกที่ทิศต่างๆ เพื่อดูความหมายและการนำไปใช้</p>
+    </div>
+    <div class="bagua-section">
+      <div>
+        <div class="bagua-grid" id="baguaGrid"></div>
+      </div>
+      <div>
+        <div class="bagua-info" id="baguaInfo">
+          <div class="bagua-placeholder">
+            <div style="font-size:3rem;margin-bottom:var(--sp-md);">🧭</div>
+            <p>คลิกที่ทิศในแผนปากวา<br/>เพื่อดูความหมายและคำแนะนำ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Room Tips -->
+    <div class="section-header" style="margin-top:var(--sp-4xl);">
+      <div class="section-tag">ห้องในบ้าน</div>
+      <h2 class="section-title">ฮวงจุ้ย<span>แต่ละห้อง</span></h2>
+    </div>
+    <div class="room-grid">
+      <div class="room-card">
+        <div class="room-header" style="background:linear-gradient(135deg,#fff3e0,#fff8e1);">
+          <span class="room-icon">🚪</span><h3>ประตูหน้า – ปากมังกร</h3>
+        </div>
+        <div class="room-body">
+          <div class="tip-list">
+            <div class="tip-item"><span>✦</span><span>ประตูควรเปิดเข้าด้านใน ไม่ชนกำแพง</span></div>
+            <div class="tip-item"><span>✦</span><span>แสงสว่างเพียงพอ ไม่มืดหรือทึบ</span></div>
+            <div class="tip-item"><span>✦</span><span>วางต้นไม้มงคลหน้าประตู เช่น ต้นนาค</span></div>
+            <div class="tip-item"><span>✦</span><span>หลีกเลี่ยงสิ่งกีดขวางหน้าประตู</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="room-card">
+        <div class="room-header" style="background:linear-gradient(135deg,#f3e5f5,#fce4ec);">
+          <span class="room-icon">🛏</span><h3>ห้องนอน – พลังงานพักผ่อน</h3>
+        </div>
+        <div class="room-body">
+          <div class="tip-list">
+            <div class="tip-item"><span>✦</span><span>เตียงอย่าตรงกับประตู หัวเตียงชิดกำแพง</span></div>
+            <div class="tip-item"><span>✦</span><span>ไม่วางกระจกหันหน้าเตียง</span></div>
+            <div class="tip-item"><span>✦</span><span>สีห้องนอนควรเป็นโทนอ่อน ครีม เบจ</span></div>
+            <div class="tip-item"><span>✦</span><span>หลีกเลี่ยงพืชหรือน้ำในห้องนอน</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="room-card">
+        <div class="room-header" style="background:linear-gradient(135deg,#e8f5e9,#f1f8e9);">
+          <span class="room-icon">🍳</span><h3>ห้องครัว – ไฟและน้ำ</h3>
+        </div>
+        <div class="room-body">
+          <div class="tip-list">
+            <div class="tip-item"><span>✦</span><span>เตาและอ่างล้างจานไม่ควรอยู่ตรงข้ามกัน</span></div>
+            <div class="tip-item"><span>✦</span><span>ครัวสะอาดเป็นระเบียบ เสริมโชคลาภ</span></div>
+            <div class="tip-item"><span>✦</span><span>ไม่ควรมองเห็นเตาได้จากประตูหน้า</span></div>
+            <div class="tip-item"><span>✦</span><span>วางผลไม้มงคลบนโต๊ะ เช่น ส้ม สับปะรด</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="room-card">
+        <div class="room-header" style="background:linear-gradient(135deg,#e3f2fd,#e8eaf6);">
+          <span class="room-icon">💼</span><h3>ห้องทำงาน – ความสำเร็จ</h3>
+        </div>
+        <div class="room-body">
+          <div class="tip-list">
+            <div class="tip-item"><span>✦</span><span>โต๊ะทำงานหันหลังชิดกำแพงแข็ง</span></div>
+            <div class="tip-item"><span>✦</span><span>มองเห็นประตูแต่ไม่นั่งตรงหน้าประตู</span></div>
+            <div class="tip-item"><span>✦</span><span>วางต้นไม้เล็กๆ เพื่อเพิ่มพลังงานไม้</span></div>
+            <div class="tip-item"><span>✦</span><span>ทิศตะวันออกเฉียงใต้ดีสำหรับโชคลาภ</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="room-card">
+        <div class="room-header" style="background:linear-gradient(135deg,#fff8e1,#fffde7);">
+          <span class="room-icon">🛋</span><h3>ห้องนั่งเล่น – พลังงานครอบครัว</h3>
+        </div>
+        <div class="room-body">
+          <div class="tip-list">
+            <div class="tip-item"><span>✦</span><span>โซฟาพิงกำแพงแข็ง ไม่มีช่องว่างด้านหลัง</span></div>
+            <div class="tip-item"><span>✦</span><span>แสงสว่างเพียงพอ สร้างบรรยากาศอบอุ่น</span></div>
+            <div class="tip-item"><span>✦</span><span>วางปลาทอง 9 ตัวหรือน้ำพุเพิ่มโชค</span></div>
+            <div class="tip-item"><span>✦</span><span>หลีกเลี่ยงคานทับตำแหน่งนั่ง</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="room-card">
+        <div class="room-header" style="background:linear-gradient(135deg,#fce4ec,#f8bbd0);">
+          <span class="room-icon">🚿</span><h3>ห้องน้ำ – ระบายพลังงานลบ</h3>
+        </div>
+        <div class="room-body">
+          <div class="tip-list">
+            <div class="tip-item"><span>✦</span><span>ปิดฝาชักโครกและฝาท่อระบายเสมอ</span></div>
+            <div class="tip-item"><span>✦</span><span>ห้องน้ำไม่ควรอยู่ตรงกลางบ้าน</span></div>
+            <div class="tip-item"><span>✦</span><span>วางกระจกเพื่อขยายพื้นที่พลังงาน</span></div>
+            <div class="tip-item"><span>✦</span><span>ต้นไม้ดูดความชื้นช่วยบาลานซ์พลังงาน</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="cta-bg"></div>
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-text"><h2>ต้องการปรึกษาฮวงจุ้ยบ้านของคุณ?</h2><p>ซินแสหวางพร้อมวิเคราะห์และแนะนำฮวงจุ้ยโดยตรง</p></div>
+      <div class="cta-actions"><a href="consult.html" class="btn-primary btn-lg">นัดปรึกษาเลย</a></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-zh">王</span>
+          <div>
+            <span class="logo-main">ซินแสหวาง</span>
+            <span class="logo-sub">星師皇 · Sinsae Hwang</span>
+          </div>
+        </div>
+        <p>ศูนย์รวมความรู้โหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย คู่สีมงคล โดยผู้เชี่ยวชาญกว่า 30 ปี</p>
+      </div>
+      <div class="footer-links">
+        <h4>บริการ</h4>
+        <ul>
+          <li><a href="chinese-astrology.html">โหราศาสตร์จีน</a></li>
+          <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+          <li><a href="iching.html">อี้จิง 易經</a></li>
+          <li><a href="fengshui.html">ฮวงจุ้ย 風水</a></li>
+          <li><a href="lucky-colors.html">คู่สีมงคล</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>เกี่ยวกับ</h4>
+        <ul>
+          <li><a href="about.html">เกี่ยวกับซินแสหวาง</a></li>
+          <li><a href="blog.html">บทความ</a></li>
+          <li><a href="consult.html">นัดปรึกษา</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+          <li><a href="admin/login.html">ระบบหลังบ้าน</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>ติดต่อ</h4>
+        <div class="contact-item"><span>📞</span><a href="tel:+6600000000">062-xxx-xxxx</a></div>
+        <div class="contact-item"><span>📧</span><a href="mailto:info@sinsaehwang.com">info@sinsaehwang.com</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2568 ซินแสหวาง · Sinsae Hwang · 星師皇 · All Rights Reserved</p>
+      <p><a href="privacy.html">นโยบายความเป็นส่วนตัว</a> · <a href="terms.html">ข้อกำหนดการใช้งาน</a></p>
+    </div>
+  </div>
+</footer>
+<button class="back-to-top" id="backToTop">↑</button>
+<script src="js/main.js"></script>
+<script>
+const BAGUA = [
+  {tri:'☴',dir:'巽',th:'ตะวันออกเฉียงใต้',area:'โชคลาภ การเงิน',color:'#2e7d32',tips:'วางต้นไม้เงินทอง น้ำพุ ปลาทอง เพื่อเสริมโชคลาภและความมั่งคั่ง ห้ามวางขยะในทิศนี้'},
+  {tri:'☲',dir:'離',th:'ใต้',area:'ชื่อเสียง อาชีพ',color:'#c62828',tips:'วางเทียนแดง หินคริสตัล โคมไฟ เพื่อเสริมชื่อเสียงและการยอมรับ สีแดงและส้มเหมาะสม'},
+  {tri:'☷',dir:'坤',th:'ตะวันตกเฉียงใต้',area:'ความรัก ครอบครัว',color:'#f9a825',tips:'วางของเป็นคู่ หินโรสควอตซ์ รูปหัวใจ เพื่อเสริมความรักและความสัมพันธ์ในครอบครัว'},
+  {tri:'☳',dir:'震',th:'ตะวันออก',area:'สุขภาพ ครอบครัว',color:'#388e3c',tips:'วางต้นไม้สีเขียว ต้นแบมบู ไม้เทพพนม เพื่อเสริมสุขภาพและความสัมพันธ์ในครอบครัว'},
+  {tri:'☯',dir:'中',th:'ศูนย์กลาง',area:'สุขภาพ ความสมดุล',color:'#795548',tips:'ศูนย์กลางบ้านควรโล่งและสะอาด ไม่วางสิ่งกีดขวาง เพราะเป็นจุดกระจายพลังงานทั้งบ้าน'},
+  {tri:'☱',dir:'兌',th:'ตะวันตก',area:'ลูกหลาน ความสร้างสรรค์',color:'#9e9e9e',tips:'วางวัตถุโลหะ ระฆังลม หินขาว เพื่อเสริมพลังงานลูกหลานและความคิดสร้างสรรค์'},
+  {tri:'☶',dir:'艮',th:'ตะวันออกเฉียงเหนือ',area:'ความรู้ วิทยาการ',color:'#4e342e',tips:'วางหนังสือ คริสตัล หินธรรมชาติ เพื่อเสริมการเรียนรู้และพัฒนาตนเอง'},
+  {tri:'☵',dir:'坎',th:'เหนือ',area:'อาชีพ เส้นทางชีวิต',color:'#1565c0',tips:'วางน้ำพุ ตู้ปลา กระจกเงา เพื่อเสริมความก้าวหน้าในอาชีพการงาน สีน้ำเงินเหมาะสม'},
+  {tri:'☰',dir:'乾',th:'ตะวันตกเฉียงเหนือ',area:'ผู้ช่วยเหลือ การเดินทาง',color:'#424242',tips:'วางวัตถุโลหะ เหรียญทอง โคมลอย เพื่อดึงดูดผู้ช่วยเหลือและโชคจากการเดินทาง'},
+];
+
+const grid=document.getElementById('baguaGrid');
+BAGUA.forEach((b,i)=>{
+  const cell=document.createElement('div');
+  cell.className='bagua-cell'; cell.id=`bc-${i}`;
+  cell.innerHTML=`<div class="bc-tri">${b.tri}</div><div class="bc-dir">${b.dir}</div><div class="bc-th">${b.th}</div>`;
+  cell.onclick=()=>{
+    document.querySelectorAll('.bagua-cell').forEach(c=>c.classList.remove('active'));
+    cell.classList.add('active');
+    document.getElementById('baguaInfo').innerHTML=`
+      <div style="border-left:4px solid ${b.color};padding-left:var(--sp-md);margin-bottom:var(--sp-md);">
+        <div style="font-family:var(--font-zh);font-size:2rem;color:${b.color};">${b.dir} ${b.tri}</div>
+        <div style="font-family:var(--font-serif);font-size:1.1rem;font-weight:700;color:var(--charcoal);">${b.th}</div>
+        <div style="font-size:0.8rem;color:var(--gold);font-weight:600;margin-top:4px;">${b.area}</div>
+      </div>
+      <p style="font-size:0.875rem;color:var(--text-secondary);line-height:1.8;">${b.tips}</p>
+      <a href="consult.html" class="btn-primary" style="margin-top:var(--sp-lg);display:inline-flex;">ปรึกษาฮวงจุ้ยบ้านของคุณ →</a>
+    `;
+  };
+  grid.appendChild(cell);
+});
+</script>
+</body>
+</html>
