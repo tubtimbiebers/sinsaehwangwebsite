@@ -8,8 +8,24 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "server.js"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "server.js"
+    },
+    {
+      "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|webp|ico|svg|woff|woff2|ttf))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*\\.html)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
     }
   ]
 }
