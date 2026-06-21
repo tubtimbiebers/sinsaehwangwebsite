@@ -6,59 +6,60 @@
 
 /* ── CUSTOM PROPERTIES ── */
 :root {
-  /* Brand Colors (Premium Pastel Theme) */
-  --crimson:      #F56D88; /* Bubblegum Pink */
-  --crimson-deep: #FF845E; /* Coral */
-  --crimson-mid:  #f98cb0;
-  --crimson-light:#fbc5d5;
-  --crimson-pale: #fde8ee;
+  /* Ghibli Style Color Palette */
+  --crimson:      #E07A5F; /* Terracotta / Warm Coral */
+  --crimson-deep: #D96B52;
+  --crimson-mid:  #E58E79;
+  --crimson-light:#F2C5BB;
+  --crimson-pale: #FDF1EE;
 
-  --gold:         #FFE382; /* Jasmine */
-  --gold-deep:    #e5c54f;
-  --gold-bright:  #FFE382;
-  --gold-light:   #fff0b3;
-  --gold-pale:    #fffbe6;
+  --gold:         #F6D365; /* Sunny Gold */
+  --gold-deep:    #E6B830;
+  --gold-bright:  #F6D365;
+  --gold-light:   #FFE8A3;
+  --gold-pale:    #FFF9E6;
 
-  --cream:        #D7F9F1; /* Mint Green */
-  --cream-deep:   #9AD4D6; /* Tiffany Blue */
-  --cream-warm:   #eaffe3;
+  --cream:        #FAF6EE; /* Cozy Cream */
+  --cream-deep:   #EBE3D5; /* Deep Warm Beige */
+  --cream-warm:   #FAF0DD; /* Warm Ivory */
 
-  --charcoal:     #2A2633; /* Deep Eggplant / Premium Dark */
-  --charcoal-mid: #3B3645;
-  --charcoal-soft:#5A5468;
+  --charcoal:     #3D271D; /* Deep Earthy Chestnut Brown */
+  --charcoal-mid: #4E372B;
+  --charcoal-soft:#6C5346;
 
-  --periwinkle:   #C9BBF4; /* Periwinkle */
+  --periwinkle:   #8ECAE6; /* Ghibli Sky Blue */
 
-  --gray-900:     #1C1A22;
-  --gray-800:     #25232D;
-  --gray-700:     #35323E;
-  --gray-600:     #545062;
-  --gray-500:     #7A758B;
-  --gray-400:     #9E9AA9;
-  --gray-300:     #C3C0C9;
-  --gray-200:     #DEE8E7;
-  --gray-100:     #F0F5F4;
-  --gray-50:      #F8FAFA;
+  /* Soft Warm Grays / Paper tones */
+  --gray-900:     #2E1E16;
+  --gray-800:     #3D291F;
+  --gray-700:     #543E32;
+  --gray-600:     #70594B;
+  --gray-500:     #8D7668;
+  --gray-400:     #A69285;
+  --gray-300:     #C7BAAF;
+  --gray-200:     #E8E0D7;
+  --gray-100:     #F4EFEA;
+  --gray-50:      #FAF8F5;
 
   --white:        #ffffff;
-  --off-white:    #fafafc;
+  --off-white:    #FAF6EE; /* Cozy warm background */
 
   /* Semantic */
   --bg-primary:   var(--off-white);
-  --bg-secondary: var(--cream);
-  --bg-dark:      var(--charcoal);
+  --bg-secondary: var(--cream-warm);
+  --bg-dark:      #2B4C3F; /* Deep Moss Green / Ghibli forest */
   --text-primary: var(--charcoal);
   --text-secondary: var(--charcoal-soft);
   --text-muted:   var(--gray-400);
   --border:       var(--gray-200);
-  --border-warm:  rgba(201, 187, 244, 0.25); /* Periwinkle hint */
+  --border-warm:  rgba(224, 122, 95, 0.2); /* Terracotta hint */
 
   /* Gradients */
   --grad-crimson: linear-gradient(135deg, var(--crimson-deep) 0%, var(--crimson) 100%);
-  --grad-gold:    linear-gradient(135deg, var(--gold) 0%, #FFF2B2 100%);
-  --grad-hero:    linear-gradient(160deg, var(--cream) 0%, var(--cream-deep) 40%, var(--periwinkle) 70%, var(--crimson-pale) 100%);
-  --grad-overlay: linear-gradient(180deg, rgba(250,250,252,0) 0%, rgba(250,250,252,0.95) 100%);
-  --grad-cream:   linear-gradient(135deg, var(--cream) 0%, var(--gold-pale) 100%);
+  --grad-gold:    linear-gradient(135deg, var(--gold) 0%, #FFE066 100%);
+  --grad-hero:    linear-gradient(165deg, #BEE1E6 0%, #D8EAF8 30%, #FAF6EE 70%, #FAF0DD 100%); /* Dreamy Ghibli Sunrise Sky */
+  --grad-overlay: linear-gradient(180deg, rgba(250,246,238,0) 0%, rgba(250,246,238,0.98) 100%);
+  --grad-cream:   linear-gradient(135deg, var(--cream-warm) 0%, var(--gold-pale) 100%);
 
   /* Typography */
   --font-serif:  'Noto Serif Thai', 'Georgia', serif;
@@ -76,20 +77,20 @@
   --sp-3xl: 4rem;
   --sp-4xl: 6rem;
 
-  /* Radius */
-  --r-sm:   0.375rem;
-  --r-md:   0.75rem;
-  --r-lg:   1.25rem;
-  --r-xl:   2rem;
+  /* Radius (Ghibli uses friendly rounded shapes) */
+  --r-sm:   0.5rem;
+  --r-md:   1rem;
+  --r-lg:   1.75rem;
+  --r-xl:   2.5rem;
   --r-full: 9999px;
 
-  /* Shadow */
-  --shadow-sm:  0 1px 3px rgba(26,10,5,0.12), 0 1px 2px rgba(26,10,5,0.08);
-  --shadow-md:  0 4px 16px rgba(26,10,5,0.14), 0 2px 6px rgba(26,10,5,0.08);
-  --shadow-lg:  0 10px 40px rgba(26,10,5,0.18), 0 4px 12px rgba(26,10,5,0.10);
-  --shadow-xl:  0 24px 64px rgba(26,10,5,0.22), 0 8px 24px rgba(26,10,5,0.12);
-  --shadow-glow:0 0 30px rgba(255, 227, 130,0.35);
-  --shadow-red: 0 0 30px rgba(201, 187, 244,0.40);
+  /* Shadow (Soft, organic, warm shadow tones) */
+  --shadow-sm:  0 2px 6px rgba(61,39,29,0.06), 0 1px 3px rgba(61,39,29,0.04);
+  --shadow-md:  0 6px 20px rgba(61,39,29,0.08), 0 3px 8px rgba(61,39,29,0.05);
+  --shadow-lg:  0 14px 44px rgba(61,39,29,0.12), 0 6px 16px rgba(61,39,29,0.06);
+  --shadow-xl:  0 28px 72px rgba(61,39,29,0.15), 0 10px 30px rgba(61,39,29,0.08);
+  --shadow-glow:0 0 30px rgba(246, 211, 101, 0.4);
+  --shadow-red: 0 0 30px rgba(224, 122, 95, 0.25);
 
   /* Transitions */
   --t-fast: 0.15s ease;
@@ -191,7 +192,7 @@ input, textarea, select { font-family: inherit; }
   padding: 0 var(--sp-xl);
 }
 .section { padding: var(--sp-4xl) 0; position: relative; z-index: 1; }
-.bg-dark  { background: var(--charcoal); }
+.bg-dark  { background: var(--bg-dark); }
 .bg-cream { background: var(--cream); }
 .mt-md    { margin-top: var(--sp-xl); }
 .text-light { color: var(--cream) !important; }
@@ -2144,3 +2145,152 @@ table.vt tr.now td:first-child{border-left:3px solid var(--bz-gold)}
   border: 1px solid #ef4444 !important;
   color: #ef4444 !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   Ghibli-Style Design Overrides
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes ghibliSway {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50% { transform: rotate(1.5deg); }
+}
+@keyframes ghibliFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.swaying {
+  animation: ghibliSway 5s ease-in-out infinite;
+  display: inline-block;
+}
+.floating {
+  animation: ghibliFloat 4s ease-in-out infinite;
+}
+
+/* Apply Ghibli animations and elements */
+.logo-zh {
+  animation: ghibliSway 4s ease-in-out infinite alternate;
+  display: inline-block;
+}
+.hero-content {
+  border: 3px solid var(--cream-deep) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: var(--shadow-xl) !important;
+}
+.hero-badge {
+  animation: ghibliFloat 3.5s ease-in-out infinite;
+}
+
+/* Cards & Containers */
+.service-card {
+  border: 2px solid var(--cream-deep) !important;
+  background: var(--white) !important;
+  box-shadow: var(--shadow-md) !important;
+  border-radius: var(--r-lg) !important;
+  transition: transform var(--t-mid), box-shadow var(--t-mid), border-color var(--t-mid) !important;
+}
+.service-card:hover {
+  border-color: var(--crimson) !important;
+  transform: translateY(-8px) scale(1.02) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+.service-card .card-icon {
+  border-radius: 50% !important;
+}
+
+.blog-card {
+  border: 2px solid var(--cream-deep) !important;
+  border-radius: var(--r-lg) !important;
+  background: var(--white) !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-md) !important;
+  transition: transform var(--t-mid), box-shadow var(--t-mid), border-color var(--t-mid) !important;
+}
+.blog-card:hover {
+  transform: translateY(-6px) !important;
+  border-color: var(--crimson) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* Buttons (Playful, illustrated comic-border feel) */
+.btn-primary, .btn-consult {
+  border: 2px solid var(--charcoal) !important;
+  box-shadow: 0 4px 0 var(--charcoal) !important;
+  background: var(--grad-gold) !important;
+  color: var(--charcoal) !important;
+  transition: transform var(--t-fast), box-shadow var(--t-fast) !important;
+}
+.btn-primary:hover, .btn-consult:hover {
+  transform: translateY(2px) !important;
+  box-shadow: 0 2px 0 var(--charcoal) !important;
+}
+
+.btn-secondary {
+  border: 2px solid var(--charcoal) !important;
+  box-shadow: 0 4px 0 var(--charcoal) !important;
+  background: var(--white) !important;
+  color: var(--charcoal) !important;
+  transition: transform var(--t-fast), box-shadow var(--t-fast) !important;
+}
+.btn-secondary:hover {
+  transform: translateY(2px) !important;
+  box-shadow: 0 2px 0 var(--charcoal) !important;
+  background: var(--cream-warm) !important;
+}
+
+.btn-outline {
+  border: 2px solid var(--crimson) !important;
+  box-shadow: 0 4px 0 var(--crimson) !important;
+  background: var(--white) !important;
+  color: var(--crimson) !important;
+  transition: transform var(--t-fast), box-shadow var(--t-fast) !important;
+}
+.btn-outline:hover {
+  transform: translateY(2px) !important;
+  box-shadow: 0 2px 0 var(--crimson) !important;
+  background: var(--crimson-pale) !important;
+}
+
+/* Zodiac Badges */
+.zodiac-badge {
+  border: 2px solid var(--cream-deep) !important;
+  background: var(--white) !important;
+  border-radius: var(--r-full) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+.zodiac-badge:hover, .zodiac-badge.active {
+  background: var(--crimson) !important;
+  color: var(--white) !important;
+  border-color: var(--crimson) !important;
+}
+
+/* Forms & Inputs */
+input, select, textarea {
+  border: 2px solid var(--cream-deep) !important;
+  border-radius: var(--r-md) !important;
+  background: var(--white) !important;
+  color: var(--charcoal) !important;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast) !important;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--crimson) !important;
+  box-shadow: 0 0 0 3px var(--crimson-pale) !important;
+  outline: none !important;
+}
+
+/* Footer & Bazi modifications for warm feel */
+.bazi-widget {
+  background: var(--cream-warm) !important;
+  border: 2px solid var(--cream-deep) !important;
+  border-radius: var(--r-lg) !important;
+  padding: var(--sp-lg) !important;
+}
+.bazi-widget .pillar {
+  border: 2px solid var(--cream-deep) !important;
+  border-radius: var(--r-sm) !important;
+}
+.bazi-widget .panel {
+  border: 2px solid var(--cream-deep) !important;
+  background: var(--white) !important;
+}
+
