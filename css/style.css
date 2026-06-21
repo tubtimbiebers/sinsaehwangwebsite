@@ -6,7 +6,7 @@
 
 /* ── CUSTOM PROPERTIES ── */
 :root {
-  /* Ghibli Style Color Palette */
+  /* Hand-painted storybook color palette */
   --crimson:      #E07A5F; /* Terracotta / Warm Coral */
   --crimson-deep: #D96B52;
   --crimson-mid:  #E58E79;
@@ -27,7 +27,7 @@
   --charcoal-mid: #4E372B;
   --charcoal-soft:#6C5346;
 
-  --periwinkle:   #8ECAE6; /* Ghibli Sky Blue */
+  --periwinkle:   #8ECAE6; /* Open sky blue */
 
   /* Soft Warm Grays / Paper tones */
   --gray-900:     #2E1E16;
@@ -47,7 +47,7 @@
   /* Semantic */
   --bg-primary:   var(--off-white);
   --bg-secondary: var(--cream-warm);
-  --bg-dark:      #2B4C3F; /* Deep Moss Green / Ghibli forest */
+  --bg-dark:      #2B4C3F; /* Deep moss green */
   --text-primary: var(--charcoal);
   --text-secondary: var(--charcoal-soft);
   --text-muted:   var(--gray-400);
@@ -57,7 +57,7 @@
   /* Gradients */
   --grad-crimson: linear-gradient(135deg, var(--crimson-deep) 0%, var(--crimson) 100%);
   --grad-gold:    linear-gradient(135deg, var(--gold) 0%, #FFE066 100%);
-  --grad-hero:    linear-gradient(165deg, #BEE1E6 0%, #D8EAF8 30%, #FAF6EE 70%, #FAF0DD 100%); /* Dreamy Ghibli Sunrise Sky */
+  --grad-hero:    linear-gradient(165deg, #BEE1E6 0%, #D8EAF8 30%, #FAF6EE 70%, #FAF0DD 100%); /* Dreamy sunrise sky */
   --grad-overlay: linear-gradient(180deg, rgba(250,246,238,0) 0%, rgba(250,246,238,0.98) 100%);
   --grad-cream:   linear-gradient(135deg, var(--cream-warm) 0%, var(--gold-pale) 100%);
 
@@ -77,7 +77,7 @@
   --sp-3xl: 4rem;
   --sp-4xl: 6rem;
 
-  /* Radius (Ghibli uses friendly rounded shapes) */
+  /* Radius (friendly illustrated shapes) */
   --r-sm:   0.5rem;
   --r-md:   1rem;
   --r-lg:   1.75rem;
@@ -423,7 +423,7 @@ input, textarea, select { font-family: inherit; }
   inset: 0;
   background: 
     linear-gradient(135deg, rgba(147, 197, 253, 0.4) 0%, rgba(196, 181, 253, 0.4) 100%),
-    url('../images/hero-sinsae.png') center top / cover no-repeat;
+    url('../images/hero-sinsae-anime.png') center top / cover no-repeat;
   z-index: 0;
 }
 .hero-overlay {
@@ -2147,29 +2147,29 @@ table.vt tr.now td:first-child{border-left:3px solid var(--bz-gold)}
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Ghibli-Style Design Overrides
+   Hand-Painted Storybook Design Overrides
    ═══════════════════════════════════════════════════════════════ */
 
-@keyframes ghibliSway {
+@keyframes storySway {
   0%, 100% { transform: rotate(-1.5deg); }
   50% { transform: rotate(1.5deg); }
 }
-@keyframes ghibliFloat {
+@keyframes storyFloat {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
 
 .swaying {
-  animation: ghibliSway 5s ease-in-out infinite;
+  animation: storySway 5s ease-in-out infinite;
   display: inline-block;
 }
 .floating {
-  animation: ghibliFloat 4s ease-in-out infinite;
+  animation: storyFloat 4s ease-in-out infinite;
 }
 
-/* Apply Ghibli animations and elements */
+/* Apply hand-painted motion accents */
 .logo-zh {
-  animation: ghibliSway 4s ease-in-out infinite alternate;
+  animation: storySway 4s ease-in-out infinite alternate;
   display: inline-block;
 }
 .hero-content {
@@ -2178,7 +2178,7 @@ table.vt tr.now td:first-child{border-left:3px solid var(--bz-gold)}
   box-shadow: var(--shadow-xl) !important;
 }
 .hero-badge {
-  animation: ghibliFloat 3.5s ease-in-out infinite;
+  animation: storyFloat 3.5s ease-in-out infinite;
 }
 
 /* Cards & Containers */
@@ -2292,5 +2292,289 @@ input:focus, select:focus, textarea:focus {
 .bazi-widget .panel {
   border: 2px solid var(--cream-deep) !important;
   background: var(--white) !important;
+}
+
+/* Storybook homepage refresh */
+.hero {
+  min-height: 92vh;
+  padding-left: max(5vw, 24px);
+  padding-right: max(4vw, 18px);
+  background: #bde8ee;
+}
+.hero-bg {
+  background:
+    linear-gradient(90deg, rgba(255,248,225,0.78) 0%, rgba(255,248,225,0.38) 34%, rgba(255,248,225,0.02) 60%),
+    linear-gradient(180deg, rgba(116,207,194,0.04) 0%, rgba(255,209,102,0.08) 72%, rgba(109,164,99,0.12) 100%),
+    url('../images/hero-sinsae-anime.png') center top / cover no-repeat !important;
+}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 26%;
+  background:
+    linear-gradient(180deg, rgba(250,246,238,0), var(--bg-primary) 88%),
+    radial-gradient(ellipse at 22% 70%, rgba(79,153,106,0.3), transparent 42%),
+    radial-gradient(ellipse at 72% 72%, rgba(255,209,102,0.26), transparent 38%);
+  z-index: 1;
+}
+.hero-overlay {
+  background:
+    radial-gradient(circle at 78% 21%, rgba(255,236,166,0.18), transparent 22%),
+    linear-gradient(90deg, rgba(255,255,255,0.36) 0%, rgba(255,255,255,0.02) 48%, rgba(255,255,255,0) 100%) !important;
+}
+.hero-pattern {
+  opacity: 0.34;
+  background-image:
+    radial-gradient(circle at 18% 34%, rgba(255,255,255,0.8) 0 2px, transparent 3px),
+    radial-gradient(circle at 36% 58%, rgba(255,231,143,0.62) 0 2px, transparent 3px),
+    radial-gradient(circle at 62% 42%, rgba(255,255,255,0.7) 0 1px, transparent 3px) !important;
+  background-size: 120px 120px, 180px 180px, 150px 150px;
+}
+.hero-sun,
+.hero-cloud,
+.hero-leaf {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-sun {
+  width: 130px;
+  height: 130px;
+  right: 18%;
+  top: 13%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,232,126,0.92), rgba(255,191,105,0.28) 62%, transparent 72%);
+  filter: blur(1px);
+  animation: heroGlow 7s ease-in-out infinite;
+}
+.hero-cloud {
+  width: 180px;
+  height: 54px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.7);
+  filter: blur(0.5px);
+  box-shadow: 48px 10px 0 rgba(255,255,255,0.52), 92px -8px 0 rgba(255,255,255,0.42);
+  animation: cloudDrift 18s ease-in-out infinite;
+}
+.hero-cloud-1 { left: 9%; top: 19%; }
+.hero-cloud-2 { left: 35%; top: 10%; transform: scale(0.72); animation-duration: 23s; opacity: 0.62; }
+.hero-leaf {
+  width: 16px;
+  height: 28px;
+  border-radius: 16px 2px 16px 2px;
+  background: linear-gradient(135deg, #5aa469, #d2e56f);
+  box-shadow: 0 0 0 1px rgba(61,39,29,0.08);
+  animation: leafFloat 8s ease-in-out infinite;
+}
+.hero-leaf-1 { left: 42%; top: 28%; }
+.hero-leaf-2 { left: 58%; top: 62%; animation-delay: -3s; transform: scale(0.8) rotate(32deg); }
+.hero-content {
+  max-width: 620px !important;
+  padding: 2.25rem !important;
+  border: 2px solid rgba(255,255,255,0.82) !important;
+  border-radius: 28px !important;
+  background: rgba(255,252,239,0.82) !important;
+  backdrop-filter: blur(14px) saturate(1.18);
+  -webkit-backdrop-filter: blur(14px) saturate(1.18);
+  box-shadow: 0 24px 70px rgba(61,39,29,0.16), inset 0 0 0 1px rgba(255,255,255,0.55) !important;
+}
+.title-th {
+  color: #284d3f !important;
+  text-shadow: 0 2px 0 rgba(255,255,255,0.7), 0 12px 28px rgba(224,122,95,0.16);
+}
+.title-zh {
+  color: rgba(224,122,95,0.12) !important;
+}
+.hero-desc {
+  max-width: 560px;
+  margin-bottom: 1.15rem !important;
+}
+.hero-story {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 1.65rem;
+}
+.hero-story span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid rgba(224,122,95,0.26);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.58);
+  color: #6b4432;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+.hero-note {
+  position: absolute;
+  right: max(3vw, 18px);
+  bottom: 6.5rem;
+  z-index: 3;
+  width: min(350px, 32vw);
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(255,255,255,0.76);
+  border-radius: 22px;
+  background: rgba(255,255,255,0.66);
+  color: var(--charcoal);
+  box-shadow: 0 18px 50px rgba(43,76,63,0.18);
+  backdrop-filter: blur(12px);
+}
+.hero-note-symbol {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffdf6f, #e07a5f);
+  color: #2b4c3f;
+  font-family: var(--font-zh);
+  font-size: 1.75rem;
+}
+.hero-note strong,
+.hero-note span {
+  display: block;
+}
+.hero-note strong {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+}
+.hero-note div span {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--charcoal-soft);
+}
+.story-path {
+  position: relative;
+  z-index: 2;
+  padding: 0 0 4.5rem;
+  margin-top: -2.8rem;
+}
+.story-path-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.story-path-item {
+  min-height: 190px;
+  padding: 1.35rem;
+  border: 1px solid rgba(255,255,255,0.72);
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.88), rgba(255,249,230,0.76)),
+    radial-gradient(circle at top right, rgba(142,202,230,0.34), transparent 42%);
+  box-shadow: 0 16px 45px rgba(61,39,29,0.1);
+}
+.story-path-item:nth-child(2) {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.9), rgba(240,250,225,0.82)),
+    radial-gradient(circle at top right, rgba(90,164,105,0.25), transparent 42%);
+}
+.story-path-item:nth-child(3) {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,239,222,0.84)),
+    radial-gradient(circle at top right, rgba(224,122,95,0.24), transparent 42%);
+}
+.story-step {
+  display: inline-flex;
+  margin-bottom: 0.9rem;
+  color: var(--crimson-deep);
+  font-family: var(--font-serif);
+  font-weight: 900;
+}
+.story-path-item h2 {
+  margin-bottom: 0.45rem;
+  color: #284d3f;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+}
+.story-path-item p {
+  color: var(--charcoal-soft);
+  font-size: 0.93rem;
+  line-height: 1.72;
+}
+.services {
+  background:
+    radial-gradient(circle at 8% 10%, rgba(142,202,230,0.24), transparent 26%),
+    radial-gradient(circle at 92% 18%, rgba(255,209,102,0.2), transparent 24%),
+    linear-gradient(180deg, var(--bg-primary), #fffaf0);
+}
+
+@keyframes heroGlow {
+  0%, 100% { transform: scale(1); opacity: 0.84; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+@keyframes cloudDrift {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 22px 5px; }
+}
+@keyframes leafFloat {
+  0%, 100% { translate: 0 0; rotate: -14deg; opacity: 0.78; }
+  50% { translate: 18px 26px; rotate: 18deg; opacity: 1; }
+}
+
+@media (max-width: 900px) {
+  .hero {
+    min-height: auto;
+    padding: 6.5rem 1rem 7.5rem;
+    align-items: flex-start;
+  }
+  .hero-bg {
+    background:
+      linear-gradient(180deg, rgba(255,248,225,0.88) 0%, rgba(255,248,225,0.58) 44%, rgba(255,248,225,0.16) 100%),
+      url('../images/hero-sinsae-anime.png') 58% top / auto 66vh no-repeat,
+      linear-gradient(180deg, #bde8ee, #fff4cf) !important;
+  }
+  .hero-content {
+    width: min(100%, 620px);
+    margin: 34vh auto 0;
+    padding: 1.45rem !important;
+  }
+  .hero-note {
+    left: 1rem;
+    right: 1rem;
+    bottom: 2rem;
+    width: auto;
+  }
+  .hero-scroll { display: none; }
+  .story-path {
+    margin-top: 0;
+    padding-top: 2rem;
+  }
+  .story-path-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-content {
+    margin-top: 31vh;
+    border-radius: 20px !important;
+  }
+  .hero-story span {
+    min-height: 30px;
+    font-size: 0.78rem;
+  }
+  .hero-note {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: -5rem 1rem 2rem;
+  }
+  .hero-note-symbol {
+    width: 40px;
+    height: 40px;
+    font-size: 1.45rem;
+  }
+  .hero-sun { right: 8%; top: 9%; }
+  .hero-cloud-2,
+  .hero-leaf-2 { display: none; }
 }
 

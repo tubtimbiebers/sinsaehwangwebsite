@@ -202,6 +202,6 @@ app.listen(PORT, () => {
   console.log('║   🌟 ซินแสหวาง Backend Server            ║');
   console.log('╚═══════════════════════════════════════════╝');
   console.log(`   เว็บไซต์ : http://localhost:${PORT}`);
-  console.log(`   Admin   : http://localhost:${PORT}/admin/login.html`);
+  console.log(`   Admin   : http://localhost:${PORT}/admin/`);
   console.log('   กด Ctrl+C เพื่อหยุด\n');
 });
