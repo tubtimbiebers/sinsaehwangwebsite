@@ -5,7 +5,9 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.108.2",
     "esbuild": "^0.28.1",
+    "express": "^5.2.1",
     "formidable": "^3.5.1",
+    "multer": "^2.2.0",
     "thai-astrology": "^0.1.7"
   }
 }

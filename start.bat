@@ -36,5 +36,5 @@ echo.
 :: Open browser after 2 seconds
 start /b cmd /c "timeout /t 2 >nul && start http://localhost:3000"
 
-node server.js
+node local-server.js
 pause
