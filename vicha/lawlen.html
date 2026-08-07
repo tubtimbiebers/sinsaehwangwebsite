@@ -121,42 +121,7 @@
                         <!-- Astrological Parameters -->
                         <div>
                             <h3 class="text-sm font-semibold text-premium-red mb-3 border-b border-premium-gold/20 pb-1">ข้อมูลประกอบ</h3>
-                            <div class="grid grid-cols-2 gap-3 mb-3">
-                                <div>
-                                    <label class="block text-xs text-gray-500 mb-1">เวลาตกฉาก (占時)</label>
-                                    <select id="zhanShi" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold transition-all">
-                                        <option value="子">ชวด (子)</option>
-                                        <option value="丑">ฉลู (丑)</option>
-                                        <option value="寅">ขาล (寅)</option>
-                                        <option value="卯">เถาะ (卯)</option>
-                                        <option value="辰">มะโรง (辰)</option>
-                                        <option value="巳" selected>มะเส็ง (巳)</option>
-                                        <option value="午">มะเมีย (午)</option>
-                                        <option value="未">มะแม (未)</option>
-                                        <option value="申">วอก (申)</option>
-                                        <option value="酉">ระกา (酉)</option>
-                                        <option value="戌">จอ (戌)</option>
-                                        <option value="亥">กุน (亥)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs text-gray-500 mb-1">เดือนยาม (月将)</label>
-                                    <select id="yueJiang" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold transition-all">
-                                        <option value="子">ชวด (子)</option>
-                                        <option value="丑">ฉลู (丑)</option>
-                                        <option value="寅">ขาล (寅)</option>
-                                        <option value="卯">เถาะ (卯)</option>
-                                        <option value="辰">มะโรง (辰)</option>
-                                        <option value="巳">มะเส็ง (巳)</option>
-                                        <option value="午">มะเมีย (午)</option>
-                                        <option value="未" selected>มะแม (未)</option>
-                                        <option value="申">วอก (申)</option>
-                                        <option value="酉">ระกา (酉)</option>
-                                        <option value="戌">จอ (戌)</option>
-                                        <option value="亥">กุน (亥)</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <p class="text-xs text-gray-400 mb-3">เดือนยาม (月將) และเวลาตกฉาก (占時) คำนวณอัตโนมัติจากวันเวลาด้านบน ไม่ต้องเลือกเอง</p>
                             <div class="grid grid-cols-2 gap-3 mb-3">
                                 <div>
                                     <label class="block text-xs text-gray-500 mb-1">กาลเวลา</label>
@@ -258,55 +223,132 @@
         // Initialize with current time
         window.onload = setCurrentTime;
 
+        // Real Da Liu Ren calculation engine, self-hosted fork of
+        // https://github.com/d1210182010/daliuren-web-engine (MIT license)
+        const LIUREN_API = 'https://daliuren-web-engine-xbes.onrender.com/api/v1/shipan/json';
+
         // Form Submission
-        document.getElementById('calcForm').addEventListener('submit', function(e) {
+        document.getElementById('calcForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
+            const loadingEl = document.getElementById('loading');
+            const loadingMsg = loadingEl.querySelector('p');
+
             // UI State transitions
             document.getElementById('initial-state').classList.add('hidden');
             document.getElementById('result-content').classList.add('hidden');
-            document.getElementById('loading').classList.remove('hidden');
-            document.getElementById('loading').style.display = 'flex';
+            loadingEl.classList.remove('hidden');
+            loadingEl.style.display = 'flex';
+            loadingMsg.textContent = 'กำลังคำนวณตำแหน่งดวงดาว...';
 
-            // Simulate server calculation delay
-            setTimeout(() => {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('loading').classList.add('hidden');
-                
-                generateMockResult();
-                
+            // Render free tier can take 20-30s+ to wake from a cold start
+            const slowNoticeTimer = setTimeout(() => {
+                loadingMsg.textContent = 'เซิร์ฟเวอร์กำลังปลุกตัวเอง (อาจใช้เวลาถึง 30 วินาทีในการคำนวณครั้งแรก)...';
+            }, 6000);
+
+            try {
+                const payload = {
+                    year: parseInt(document.getElementById('year').value, 10),
+                    month: parseInt(document.getElementById('month').value, 10),
+                    day: parseInt(document.getElementById('day').value, 10),
+                    hour: parseInt(document.getElementById('hour').value, 10),
+                    minute: parseInt(document.getElementById('minute').value, 10),
+                    second: 0,
+                    gender: document.querySelector('input[name="gender"]:checked').value === '1' ? 1 : 0,
+                    birth_year: parseInt(document.getElementById('birthYear').value, 10),
+                    is_daytime: document.getElementById('zhouZhan').value === '0',
+                    is_mingpan: document.getElementById('mingJu').value === '1',
+                    query_matter: document.getElementById('question').value || 'ทั่วไป'
+                };
+
+                const res = await fetch(LIUREN_API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const body = await res.json();
+                if (!res.ok || body.status !== 'success') {
+                    throw new Error(body.detail || body.message || 'คำนวณไม่สำเร็จ');
+                }
+
+                renderResult(payload, body.data);
                 document.getElementById('result-content').classList.remove('hidden');
-            }, 1500);
+            } catch (err) {
+                document.getElementById('result-content').innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-center space-y-3 my-auto">
+                        <div class="text-5xl">⚠️</div>
+                        <h3 class="text-lg font-medium text-premium-darkred">คำนวณไม่สำเร็จ</h3>
+                        <p class="text-sm text-gray-500 max-w-md">${err.message || 'กรุณาลองใหม่อีกครั้ง'}</p>
+                    </div>`;
+                document.getElementById('result-content').classList.remove('hidden');
+            } finally {
+                clearTimeout(slowNoticeTimer);
+                loadingEl.style.display = 'none';
+                loadingEl.classList.add('hidden');
+            }
         });
 
-        function generateMockResult() {
-            const q = document.getElementById('question').value || "ทั่วไป";
-            const dt = `${document.getElementById('year').value}-${document.getElementById('month').value}-${document.getElementById('day').value} ${document.getElementById('hour').value}:${document.getElementById('minute').value}`;
-            const gender = document.querySelector('input[name="gender"]:checked').value === "0" ? "ชาย" : "หญิง";
+        // 12 earthly-branch palace positions in their fixed classical spatial layout
+        const TIAN_DI_PAN_ROWS = [
+            ['巳', '午', '未', '申'],
+            ['辰', null, '酉'],
+            ['卯', null, '戌'],
+            ['寅', '丑', '子', '亥']
+        ];
 
-            // สร้าง UI ผลลัพธ์จำลองให้ดูหรูหรา (เหมือน UI ที่ได้จาก Python)
+        function palaceCell(dz, tianDiPan) {
+            const p = tianDiPan[dz] || {};
+            return `<td class="py-3 px-2"><div class="text-xs text-gray-400">${dz}</div><div class="text-xl font-medium text-premium-red mt-1">${p.tian_pan || ''}</div><div class="text-xs mt-1">${p.tian_jiang || ''}</div></td>`;
+        }
+
+        function renderResult(payload, data) {
+            const gender = payload.gender === 1 ? 'หญิง' : 'ชาย';
+            const b = data.basic_info;
+
+            const tianDiPanRowsHtml = TIAN_DI_PAN_ROWS.map((row, i) => {
+                if (i === 1) {
+                    return `<tr>
+                        ${palaceCell(row[0], data.tian_di_pan)}
+                        <td colspan="2" rowspan="2" class="align-middle">
+                            <div class="w-24 h-24 mx-auto opacity-10 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Yin_yang.svg/1024px-Yin_yang.svg.png')] bg-cover bg-center rounded-full"></div>
+                        </td>
+                        ${palaceCell(row[2], data.tian_di_pan)}
+                    </tr>`;
+                }
+                if (i === 2) {
+                    return `<tr>${palaceCell(row[0], data.tian_di_pan)}${palaceCell(row[2], data.tian_di_pan)}</tr>`;
+                }
+                return `<tr>${row.map(dz => palaceCell(dz, data.tian_di_pan)).join('')}</tr>`;
+            }).join('');
+
+            const guatiHtml = (data.格局 && data.格局.length)
+                ? data.格局.map(g => `<span class="inline-block bg-white border border-premium-gold/40 rounded-full px-3 py-1 text-sm font-medium text-premium-darkred mr-2 mb-2">${g}</span>`).join('')
+                : '<span class="text-sm text-gray-500">ไม่พบรูปแบบผังพิเศษ</span>';
+
             const resultHTML = `
                 <div class="border-b-2 border-premium-gold/30 pb-4 mb-6">
-                    <h2 class="text-2xl font-semibold text-premium-darkred text-center mb-4">ผลการทำนาย: <span class="text-premium-gold">${q}</span></h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700 text-center bg-premium-lightgold/30 p-4 rounded-lg">
-                        <div><span class="font-semibold text-premium-red">เวลาที่ถาม:</span><br>${dt}</div>
+                    <h2 class="text-2xl font-semibold text-premium-darkred text-center mb-4">ผลการทำนาย: <span class="text-premium-gold">${payload.query_matter}</span></h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm text-gray-700 text-center bg-premium-lightgold/30 p-4 rounded-lg">
+                        <div><span class="font-semibold text-premium-red">เวลาที่ถาม:</span><br>${b.time}</div>
                         <div><span class="font-semibold text-premium-red">ผู้ถาม:</span><br>เพศ ${gender}</div>
-                        <div><span class="font-semibold text-premium-red">เดือนยาม (月将):</span><br>${document.getElementById('yueJiang').options[document.getElementById('yueJiang').selectedIndex].text}</div>
-                        <div><span class="font-semibold text-premium-red">เวลาตกฉาก (占時):</span><br>${document.getElementById('zhanShi').options[document.getElementById('zhanShi').selectedIndex].text}</div>
+                        <div><span class="font-semibold text-premium-red">${b.day_night}:</span><br>เดือนยาม ${b.yue_jiang} / เวลาตกฉาก ${b.zhan_shi}</div>
+                        <div><span class="font-semibold text-premium-red">สี่เสาหลัก (四柱):</span><br>${b.four_pillars.year} ${b.four_pillars.month} ${b.four_pillars.day} ${b.four_pillars.hour}</div>
+                        <div><span class="font-semibold text-premium-red">ว่างเปล่า (空亡):</span><br>${b.kong_wang.join(' ')}</div>
+                        <div><span class="font-semibold text-premium-red">節氣:</span><br>${b.solar_terms.current}</div>
                     </div>
                 </div>
 
                 <div class="flex-1 overflow-y-auto pr-2">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                        
+
                         <!-- สามสืบทอด (三傳) -->
                         <div>
                             <h3 class="text-lg font-medium text-premium-darkred mb-3 flex items-center"><span class="w-2 h-2 rounded-full bg-premium-gold mr-2"></span> สามสืบทอด (三傳)</h3>
                             <div class="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
                                 <table class="w-full text-center text-lg">
-                                    <tr class="border-b border-gray-100"><td class="py-2 text-gray-500 text-sm">初 (แรก)</td><td class="py-2 text-premium-red font-semibold">辰</td><td class="py-2">蛇 (งู)</td></tr>
-                                    <tr class="border-b border-gray-100"><td class="py-2 text-gray-500 text-sm">中 (กลาง)</td><td class="py-2 text-premium-red font-semibold">午</td><td class="py-2">合 (หกประสาน)</td></tr>
-                                    <tr><td class="py-2 text-gray-500 text-sm">末 (ปลาย)</td><td class="py-2 text-premium-red font-semibold">申</td><td class="py-2">龍 (มังกร)</td></tr>
+                                    <tr class="border-b border-gray-100"><td class="py-2 text-gray-500 text-sm">初 (แรก)</td><td class="py-2 text-premium-red font-semibold">${data.san_chuan.chu.di_zhi}</td><td class="py-2">${data.san_chuan.chu.tian_jiang}${data.san_chuan.chu.is_kong_wang ? ' <span class=\"text-xs text-gray-400\">(空)</span>' : ''}</td></tr>
+                                    <tr class="border-b border-gray-100"><td class="py-2 text-gray-500 text-sm">中 (กลาง)</td><td class="py-2 text-premium-red font-semibold">${data.san_chuan.zhong.di_zhi}</td><td class="py-2">${data.san_chuan.zhong.tian_jiang}${data.san_chuan.zhong.is_kong_wang ? ' <span class=\"text-xs text-gray-400\">(空)</span>' : ''}</td></tr>
+                                    <tr><td class="py-2 text-gray-500 text-sm">末 (ปลาย)</td><td class="py-2 text-premium-red font-semibold">${data.san_chuan.mo.di_zhi}</td><td class="py-2">${data.san_chuan.mo.tian_jiang}${data.san_chuan.mo.is_kong_wang ? ' <span class=\"text-xs text-gray-400\">(空)</span>' : ''}</td></tr>
                                 </table>
                             </div>
                         </div>
@@ -320,10 +362,10 @@
                                         <th class="pb-2 font-normal">สี่</th><th class="pb-2 font-normal">สาม</th><th class="pb-2 font-normal">สอง</th><th class="pb-2 font-normal">หนึ่ง</th>
                                     </tr>
                                     <tr class="font-medium">
-                                        <td class="py-1">戌</td><td class="py-1">午</td><td class="py-1">丑</td><td class="py-1">卯</td>
+                                        <td class="py-1">${data.si_ke.ke4.ke_shang}</td><td class="py-1">${data.si_ke.ke3.ke_shang}</td><td class="py-1">${data.si_ke.ke2.ke_shang}</td><td class="py-1">${data.si_ke.ke1.ke_shang}</td>
                                     </tr>
                                     <tr class="text-premium-red font-semibold">
-                                        <td class="py-1 border-t border-gray-100 pt-2">午</td><td class="py-1 border-t border-gray-100 pt-2">寅</td><td class="py-1 border-t border-gray-100 pt-2">卯</td><td class="py-1 border-t border-gray-100 pt-2">子</td>
+                                        <td class="py-1 border-t border-gray-100 pt-2">${data.si_ke.ke4.ke_xia}</td><td class="py-1 border-t border-gray-100 pt-2">${data.si_ke.ke3.ke_xia}</td><td class="py-1 border-t border-gray-100 pt-2">${data.si_ke.ke2.ke_xia}</td><td class="py-1 border-t border-gray-100 pt-2">${data.si_ke.ke1.ke_xia}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -336,44 +378,20 @@
                         <div class="bg-white rounded-lg border border-gray-200 p-6 shadow-sm overflow-x-auto">
                             <table class="w-full text-center table-fixed min-w-[400px]">
                                 <tbody>
-                                    <tr>
-                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">巳</div><div class="text-xl font-medium text-premium-red mt-1">申</div><div class="text-xs mt-1">勾</div></td>
-                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">午</div><div class="text-xl font-medium text-premium-red mt-1">酉</div><div class="text-xs mt-1">青</div></td>
-                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">未</div><div class="text-xl font-medium text-premium-red mt-1">戌</div><div class="text-xs mt-1">空</div></td>
-                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">申</div><div class="text-xl font-medium text-premium-red mt-1">亥</div><div class="text-xs mt-1">虎</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">辰</div><div class="text-xl font-medium text-premium-red mt-1">未</div><div class="text-xs mt-1">合</div></td>
-                                        <td colspan="2" rowspan="2" class="align-middle">
-                                            <div class="w-24 h-24 mx-auto opacity-10 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Yin_yang.svg/1024px-Yin_yang.svg.png')] bg-cover bg-center rounded-full"></div>
-                                        </td>
-                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">酉</div><div class="text-xl font-medium text-premium-red mt-1">子</div><div class="text-xs mt-1">常</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">卯</div><div class="text-xl font-medium text-premium-red mt-1">午</div><div class="text-xs mt-1">朱</div></td>
-                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">戌</div><div class="text-xl font-medium text-premium-red mt-1">丑</div><div class="text-xs mt-1">玄</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">寅</div><div class="text-xl font-medium text-premium-red mt-1">巳</div><div class="text-xs mt-1">蛇</div></td>
-                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">丑</div><div class="text-xl font-medium text-premium-red mt-1">辰</div><div class="text-xs mt-1">貴</div></td>
-                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">子</div><div class="text-xl font-medium text-premium-red mt-1">卯</div><div class="text-xs mt-1">后</div></td>
-                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">亥</div><div class="text-xl font-medium text-premium-red mt-1">寅</div><div class="text-xs mt-1">陰</div></td>
-                                    </tr>
+                                    ${tianDiPanRowsHtml}
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- คำทำนายเพิ่มเติม / 格局 -->
+                    <!-- รูปแบบผัง / 格局 -->
                     <div class="bg-premium-lightgold/40 border-l-4 border-premium-gold p-4 rounded-r-lg">
-                        <h4 class="font-medium text-premium-darkred mb-1">รูปแบบผัง (卦體): <span class="font-bold">重審卦 (ฉงเสิ่นกว้า)</span></h4>
-                        <p class="text-sm text-gray-700 leading-relaxed">
-                            สัญลักษณ์แห่งการพิจารณาซ้ำ (始入) เรื่องราวเกิดจากภายใน ต้องไตร่ตรองให้ถี่ถ้วน การวางแผนเริ่มต้นอาจมีความยากลำบากแต่จะสำเร็จในภายหลัง การตัดสินใจควรใช้ความระมัดระวัง
-                        </p>
+                        <h4 class="font-medium text-premium-darkred mb-2">รูปแบบผัง (卦體)</h4>
+                        <div>${guatiHtml}</div>
                     </div>
                 </div>
             `;
-            
+
             document.getElementById('result-content').innerHTML = resultHTML;
         }
     </script>
