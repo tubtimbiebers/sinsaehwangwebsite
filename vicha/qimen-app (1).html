@@ -585,17 +585,29 @@
   }
   .cell .flags{
     display:flex;
+    flex-wrap: wrap;
     gap: 4px;
-    margin-top: 4px;
+    margin-top: 6px;
     z-index:1;
   }
   .cell .flag{
-    font-size: 9px;
+    font-size: 9.5px;
     font-family: var(--font-mono);
+    color: var(--gold);
+    background: rgba(184,134,11,0.08);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 4px;
+    padding: 1px 6px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .cell .flag .th-flag{
+    font-family: var(--font-thai);
+    font-size: 8.5px;
     color: var(--text-dim);
-    border: 1px solid var(--hairline);
-    border-radius: 3px;
-    padding: 1px 4px;
+    font-weight: 400;
   }
   .center .zf-zs{
     font-size: 11px;
@@ -1184,11 +1196,11 @@
       var jx = jxTag(a.jiXiong);
       var elVar = EL_VAR[a.element] || '--text-dim';
       var flags = [];
-      if(a.kongWang) flags.push('空亡 (คงหวาง)');
-      if(a.yiMa) flags.push('驿马 (อี้หม่า)');
-      if(a.menPo) flags.push('门迫 (เหมินโพ่)');
-      if(a.jiXing) flags.push('击刑 (จี้สิง)');
-      if(a.ruMu) flags.push('入墓 (ยู่มู่)');
+      if(a.kongWang) flags.push({ zh:'空亡', th:'คงหวาง (ว่างเปล่า)' });
+      if(a.yiMa)     flags.push({ zh:'驿马', th:'อี้หม่า (ม้าเดินทาง)' });
+      if(a.menPo)    flags.push({ zh:'门迫', th:'เหมินพัว (ประตูถูกกดดัน)' });
+      if(a.jiXing)   flags.push({ zh:'击刑', th:'จี้สิง (โทษปะทะ)' });
+      if(a.ruMu)     flags.push({ zh:'入墓', th:'ยู่มู่ (เข้าสุสาน)' });
 
       var xingAliasStr = (a.xingAlias && a.xingAlias !== 'undefined' && a.xingAlias !== '') ? '（' + a.xingAlias + '）' : '';
       var xingTh = TH_XING[a.xing] || TH_XING[a.xingAlias] || ((a.xing && (a.xing.indexOf('禽')>=0 || a.xing.indexOf('芮')>=0)) ? 'เทียนฉิน/เทียนรุ่ย' : '');
@@ -1208,7 +1220,7 @@
                   '<div class="xing" title="ไทย: ' + xingTh + '">' + a.xing + xingAliasStr + xingThStr + '</div>' +
                   '<div class="shen" title="ไทย: ' + (TH_SHEN[a.shen]||'') + '">' + a.shen + '<span class="th">' + (TH_SHEN[a.shen]||'') + '</span></div>' +
                 '</div>' +
-                (flags.length ? '<div class="flags">' + flags.map(function(f){return '<span class="flag">' + f + '</span>';}).join('') + '</div>' : '') +
+                (flags.length ? '<div class="flags">' + flags.map(function(f){return '<span class="flag">' + f.zh + ' <span class="th-flag">' + f.th + '</span></span>';}).join('') + '</div>' : '') +
               '</div>';
     });
     els.jiugong.innerHTML = html;
