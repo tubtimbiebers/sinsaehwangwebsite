@@ -180,9 +180,19 @@
     }
     .program-selector {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 16px;
       margin-bottom: 40px;
+    }
+    @media (max-width: 992px) {
+      .program-selector {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 576px) {
+      .program-selector {
+        grid-template-columns: 1fr;
+      }
     }
     .selector-btn {
       background: var(--white);
@@ -196,7 +206,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      min-height: 165px;
+      gap: 6px;
     }
     .selector-btn:hover {
       transform: translateY(-4px);
