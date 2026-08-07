@@ -27,6 +27,7 @@
     "title": "ยินดีต้อนรับสู่ซินแสหวาง",
     "desc": "ติดตามบทความความรู้และข่าวสารกิจกรรมล่าสุดจากเรา",
     "articleBtnText": "อ่านบทความ",
+    "articleBtnUrl": "blog.html",
     "newsBtnText": "ข่าวสารและกิจกรรม"
   },
   "newsEvents": [

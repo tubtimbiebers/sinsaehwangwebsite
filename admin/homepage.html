@@ -303,15 +303,22 @@
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label>ข้อความปุ่ม "บทความ"</label>
-                <input type="text" class="form-control" id="popupArticleBtnText" placeholder="อ่านบทความ" />
+                <label>ข้อความปุ่มหลัก</label>
+                <input type="text" class="form-control" id="popupArticleBtnText" placeholder="เช่น อ่านบทความ / ลงทะเบียน" />
               </div>
+              <div class="form-group">
+                <label>ลิงก์ปุ่มหลัก</label>
+                <input type="text" class="form-control" id="popupArticleBtnUrl" placeholder="เช่น blog.html, consult.html หรือ https://..." />
+              </div>
+            </div>
+            <small style="color:var(--gray-500);">ปุ่มหลักตั้งข้อความและลิงก์เองได้อิสระ เช่น ใช้เป็น "อ่านบทความต่อ" ลิงก์ไปบทความ หรือ "ลงทะเบียน" ลิงก์ไปหน้าปรึกษา/แบบฟอร์มภายนอกก็ได้</small>
+            <div class="form-row">
               <div class="form-group">
                 <label>ข้อความปุ่ม "ข่าวสาร/กิจกรรม"</label>
                 <input type="text" class="form-control" id="popupNewsBtnText" placeholder="ข่าวสารและกิจกรรม" />
               </div>
             </div>
-            <small style="color:var(--gray-500);">ปุ่ม "บทความ" ลิงก์ไป blog.html และปุ่ม "ข่าวสาร/กิจกรรม" เลื่อนไปยัง section ข่าวสารในหน้าแรกโดยอัตโนมัติ</small>
+            <small style="color:var(--gray-500);">ปุ่ม "ข่าวสาร/กิจกรรม" เลื่อนไปยัง section ข่าวสารในหน้าแรกโดยอัตโนมัติ และผู้ใช้ปิด popup ได้ด้วยปุ่ม ✕ มุมขวาบน คลิกพื้นหลัง หรือกด Esc</small>
             <div class="form-actions">
               <button type="button" class="btn-primary" onclick="saveSection('popup')">💾 บันทึก Popup</button>
             </div>
@@ -419,6 +426,7 @@ function fillForm(data) {
     setVal('popupTitle',          data.popup.title          || '');
     setVal('popupDesc',           data.popup.desc           || '');
     setVal('popupArticleBtnText', data.popup.articleBtnText || '');
+    setVal('popupArticleBtnUrl',  data.popup.articleBtnUrl  || '');
     setVal('popupNewsBtnText',    data.popup.newsBtnText    || '');
     previewPopupImageFromPath(data.popup.image || '');
   }
@@ -464,6 +472,7 @@ function gatherAll() {
       title:           document.getElementById('popupTitle').value,
       desc:            document.getElementById('popupDesc').value,
       articleBtnText:  document.getElementById('popupArticleBtnText').value,
+      articleBtnUrl:   document.getElementById('popupArticleBtnUrl').value,
       newsBtnText:     document.getElementById('popupNewsBtnText').value
     },
     newsEvents: gatherNewsItems(),

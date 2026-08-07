@@ -750,6 +750,17 @@ function applyPopupContent(popup) {
   if (popup.title) document.getElementById('popupTitle').textContent = popup.title;
   if (popup.desc)  document.getElementById('popupDesc').textContent  = popup.desc;
   if (popup.articleBtnText) document.getElementById('popupArticleBtn').textContent = popup.articleBtnText;
+  if (popup.articleBtnUrl) {
+    const btn = document.getElementById('popupArticleBtn');
+    btn.href = popup.articleBtnUrl;
+    if (/^https?:\/\//i.test(popup.articleBtnUrl)) {
+      btn.target = '_blank';
+      btn.rel = 'noopener';
+    } else {
+      btn.removeAttribute('target');
+      btn.removeAttribute('rel');
+    }
+  }
   if (popup.newsBtnText)    document.getElementById('popupNewsBtn').textContent    = popup.newsBtnText;
   if (popup.image) document.getElementById('popupImage').innerHTML = `<img src="${popup.image}" alt="" />`;
 }
