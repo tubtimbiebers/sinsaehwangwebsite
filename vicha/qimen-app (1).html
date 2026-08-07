@@ -381,29 +381,29 @@
   /* ---------- Main grid layout ---------- */
   .main-grid{
     display:grid;
-    grid-template-columns: minmax(320px, 560px) 1fr;
+    grid-template-columns: minmax(360px, 680px) 1fr;
     gap: 26px;
     align-items:start;
   }
-  @media (max-width: 880px){
+  @media (max-width: 960px){
     .main-grid{ grid-template-columns: 1fr; }
   }
   @media (max-width: 480px){
-    .plate-outer{ padding: 14px; }
-    .cell{ padding: 5px; }
-    .cell .cell-head, .cell .dir-row{ font-size: 8.5px; }
-    .cell .dir-row .th{ font-size: 7.5px; }
-    .cell .tiangan{ font-size: clamp(15px, 5vw, 20px); }
-    .cell .digan{ font-size: 11px; }
-    .cell .men{ font-size: 10.5px; }
-    .cell .men .th{ font-size: 7.5px; }
-    .cell .xing, .cell .shen{ font-size: 9px; }
-    .cell .xing .th, .cell .shen .th{ font-size: 7px; }
-    .cell .flag{ font-size: 7.5px; padding: 0 3px; }
+    .plate-outer{ padding: 10px; }
+    .cell{ padding: 6px 5px; min-height: 140px; }
+    .cell .cell-head, .cell .dir-row{ font-size: 9px; }
+    .cell .dir-row .th{ font-size: 8px; }
+    .cell .tiangan{ font-size: clamp(16px, 5vw, 22px); }
+    .cell .digan{ font-size: 12px; }
+    .cell .men{ font-size: 11px; }
+    .cell .men .th{ font-size: 8px; }
+    .cell .xing, .cell .shen{ font-size: 9.5px; }
+    .cell .xing .th, .cell .shen .th{ font-size: 7.5px; }
+    .cell .flag{ font-size: 8px; padding: 0 3px; }
     .cell .watermark{ font-size: 40px; }
-    .center .zf-zs{ font-size: 8.5px; }
-    .center .zf-zs .th{ font-size: 7.5px; }
-    .center .jushu-badge{ font-size: 11px; }
+    .center .zf-zs{ font-size: 9px; }
+    .center .zf-zs .th{ font-size: 8px; }
+    .center .jushu-badge{ font-size: 12px; }
   }
 
   /* ---------- The instrument (9 palace plate) ---------- */
@@ -414,7 +414,7 @@
       linear-gradient(155deg, #FFFDF7 0%, #FAF0DD 60%, #F5E6CC 100%);
     border: 1px solid var(--hairline-strong);
     border-radius: var(--radius-l);
-    padding: 22px;
+    padding: 20px;
     box-shadow: 0 15px 35px rgba(61,39,29,0.08);
   }
   .plate-ring-label{
@@ -429,24 +429,23 @@
   .jiugong{
     display:grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 1px;
+    grid-template-rows: repeat(3, minmax(160px, auto));
+    gap: 2px;
     background: var(--hairline-strong);
-    border: 1px solid var(--hairline-strong);
+    border: 1.5px solid var(--hairline-strong);
     border-radius: var(--radius-m);
     overflow:hidden;
-    aspect-ratio: 1 / 1;
   }
   .cell{
     position:relative;
     background: var(--bg-cell);
-    padding: 8px;
+    padding: 10px;
     display:flex;
     flex-direction:column;
     cursor:pointer;
-    overflow:hidden;
+    overflow:visible;
     transition: background .15s ease;
-    min-height: 0;
+    min-height: 160px;
   }
   .cell:hover, .cell.selected{
     background: #FFF9E6;
@@ -1098,6 +1097,11 @@
       if(a.kongWang) flags.push('空亡');
       if(a.yiMa) flags.push('驿马');
       if(a.menPo) flags.push('门迫');
+
+      var xingAliasStr = (a.xingAlias && a.xingAlias !== 'undefined') ? '（' + a.xingAlias + '）' : '';
+      var xingTh = TH_XING[a.xing] || TH_XING[a.xingAlias] || ((a.xing && (a.xing.indexOf('禽')>=0 || a.xing.indexOf('芮')>=0)) ? 'เทียนฉิน/เทียนรุ่ย' : '');
+      var xingThStr = xingTh ? '<span class="th">' + xingTh + '</span>' : '';
+
       html += '<div class="cell" data-gong="' + g + '" tabindex="0" role="button" aria-label="' + a.gongName + '宫详解">' +
                 '<span class="watermark">' + a.gongName + '</span>' +
                 '<div class="cell-head"><span class="gong-idx">' + g + ' · ' + a.gongName + '宫</span><span class="jx-badge" style="' + jx.style + '" title="' + jx.thLabel + '">' + jx.label + '</span></div>' +
@@ -1105,8 +1109,8 @@
                 '<div class="gan-row"><span class="tiangan" title="ไทย: ' + ganTh(a.tianGan) + '">' + a.tianGan + '</span><span class="digan" title="ไทย: ' + ganTh(a.diGan) + '">/' + a.diGan + '</span></div>' +
                 '<div class="men-shen-row">' +
                   '<div class="men"><span class="element-dot" style="background:var(' + elVar + ')" title="ธาตุ: ' + TH_EL[a.element] + '"></span>' + a.men + '<span class="th">' + (TH_MEN[a.men]||'') + '</span></div>' +
-                  '<div class="xing" title="ไทย: ' + (TH_XING[a.xing]||'') + '">' + a.xing + '（' + a.xingAlias + '）<span class="th">' + (TH_XING[a.xing]||'') + '</span></div>' +
-                  '<div class="shen" title="ไทย: ' + (TH_SHEN[a.shen]||'') + '">' + a.shen + '<span class="th">' + (TH_SHEN[a.shen]||'') + '</span><span class="th animal">🐾 ' + (TH_SHEN_ANIMAL[a.shen]||'') + '</span></div>' +
+                  '<div class="xing" title="ไทย: ' + xingTh + '">' + a.xing + xingAliasStr + xingThStr + '</div>' +
+                  '<div class="shen" title="ไทย: ' + (TH_SHEN[a.shen]||'') + '">' + a.shen + '<span class="th">' + (TH_SHEN[a.shen]||'') + '</span></div>' +
                 '</div>' +
                 (flags.length ? '<div class="flags">' + flags.map(function(f){return '<span class="flag">' + f + '</span>';}).join('') + '</div>' : '') +
               '</div>';
