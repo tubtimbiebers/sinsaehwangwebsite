@@ -1381,12 +1381,12 @@ input, textarea, select { font-family: inherit; }
 
 /* ── CTA BANNER ── */
 .program-pro-banner {
-  padding: 0;
+  padding: clamp(1.25rem, 3vw, 2.25rem) 0;
   background: transparent;
 }
 .program-pro-banner > .container {
-  width: 100%;
-  max-width: none;
+  width: min(calc(100% - 2rem), 1040px);
+  max-width: 1040px;
   padding: 0;
 }
 .program-pro-banner__link {
@@ -1394,8 +1394,8 @@ input, textarea, select { font-family: inherit; }
   display: block;
   overflow: hidden;
   border: 0;
-  border-radius: 0;
-  box-shadow: none;
+  border-radius: clamp(12px, 1.5vw, 20px);
+  box-shadow: 0 12px 32px rgba(70, 128, 158, 0.14);
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 .program-pro-banner__link:hover {
@@ -1414,6 +1414,9 @@ input, textarea, select { font-family: inherit; }
   object-fit: cover;
 }
 @media (max-width: 640px) {
+  .program-pro-banner > .container {
+    width: min(calc(100% - 1rem), 1040px);
+  }
   .program-pro-banner__link img {
     min-height: 150px;
     object-fit: cover;
