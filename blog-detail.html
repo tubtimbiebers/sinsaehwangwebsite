@@ -412,7 +412,7 @@ async function initArticleDetail() {
       const icon = CATEGORY_ICONS[art.cat] || "文";
       if (articleIcon) articleIcon.textContent = icon;
       
-      const content = art.content ? art.content : '<p><i>เนื้อหาบทความกำลังปรับปรุง กรุณาติดตามเร็วๆ นี้</i></p>';
+      const content = art.content ? autoFormatContent(art.content) : '<p><i>เนื้อหาบทความกำลังปรับปรุง กรุณาติดตามเร็วๆ นี้</i></p>';
       
       // Determine if there's an image
       const imagePath = art.image || (window.ARTICLE_IMAGES || {})[articleId];
@@ -429,7 +429,8 @@ async function initArticleDetail() {
       }
       
       contentEl.innerHTML = figureHtml + content;
-      
+      linkifyContent(contentEl);
+
       loadRelated(articles, art.cat, art.id);
       initLightbox();
     } else {
@@ -472,6 +473,61 @@ function loadRelated(allArticles, currentCat, currentId) {
       </a>
     `;
   }).join('');
+}
+
+// Legacy articles store content as plain text (no HTML tags) — wrap it into
+// paragraphs so blank lines actually break visually instead of collapsing.
+function autoFormatContent(content) {
+  if (!content) return content;
+  if (/<[a-z][\s\S]*>/i.test(content)) return content;
+  return content
+    .split(/\n{2,}/)
+    .map(p => p.trim())
+    .filter(Boolean)
+    .map(p => '<p>' + p.replace(/\n/g, '<br>') + '</p>')
+    .join('');
+}
+
+// Turns bare URLs left as plain text (common in legacy plain-text articles)
+// into clickable links, without touching existing HTML markup/attributes.
+function linkifyContent(container) {
+  const URL_TEST = /https?:\/\//;
+  const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      if (node.parentElement.closest('a')) return NodeFilter.FILTER_REJECT;
+      return URL_TEST.test(node.textContent) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+    }
+  });
+  const nodes = [];
+  let n;
+  while ((n = walker.nextNode())) nodes.push(n);
+
+  nodes.forEach(node => {
+    const text = node.textContent;
+    const urlRegex = /https?:\/\/[^\s<]+/g;
+    const frag = document.createDocumentFragment();
+    let lastIndex = 0;
+    let match;
+    while ((match = urlRegex.exec(text))) {
+      let url = match[0];
+      let trail = '';
+      while (/[.,;:!?)\]}'"]$/.test(url)) {
+        trail = url.slice(-1) + trail;
+        url = url.slice(0, -1);
+      }
+      frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+      const a = document.createElement('a');
+      a.href = url;
+      a.textContent = url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      frag.appendChild(a);
+      if (trail) frag.appendChild(document.createTextNode(trail));
+      lastIndex = match.index + match[0].length;
+    }
+    frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+    node.parentNode.replaceChild(frag, node);
+  });
 }
 
 function initLightbox() {
