@@ -744,6 +744,11 @@
         <span class="title">ลิ่วเหริน</span>
         <span class="desc">ต้าลิ่วเหริน ศาสตร์พยากรณ์ชั้นสูง</span>
       </button>
+      <button type="button" class="selector-btn" data-tab="ziwei">
+        <span class="zh-icon">紫</span>
+        <span class="title">จี่มุ้ยเต้าซิ่ว</span>
+        <span class="desc">ผังพระราชวัง 12 เรือน 紫微斗数</span>
+      </button>
       <a href="https://iching-oracle-app.vercel.app/" target="_blank" class="selector-btn" style="text-decoration: none;">
         <span class="zh-icon">卦</span>
         <span class="title">คำทำนายอี้จิง</span>
@@ -1243,6 +1248,26 @@ function syncAndCalculate() {
       const btn = childForm.querySelector('button[type="submit"]');
       if (btn) btn.click();
     }
+  } else if (activeProgram === 'ziwei') {
+    // จี่มุ้ยเต้าซิ่ว uses the same พ.ศ. year convention and Thai month names
+    // as the parent form, so values pass through directly with no conversion.
+    const setChildVal = (id, val) => {
+      const el = doc.getElementById(id);
+      if (el) el.value = val;
+    };
+    setChildVal('name', document.getElementById('p-name').value);
+    setChildVal('day', document.getElementById('p-day').value);
+    setChildVal('month', document.getElementById('p-month').value);
+    setChildVal('year', document.getElementById('p-year').value);
+    setChildVal('hour', document.getElementById('p-hour').value);
+    setChildVal('minute', document.getElementById('p-minute').value);
+    setChildVal('gender', document.getElementById('p-gender').value);
+
+    const childForm = doc.getElementById('f');
+    if (childForm) {
+      const btn = childForm.querySelector('button[type="submit"]');
+      if (btn) btn.click();
+    }
   } else {
     const setVal = (childId, parentId) => {
       const childEl = doc.getElementById(childId);
@@ -1317,6 +1342,13 @@ function switchTab(tabId) {
     } else {
       injectStyles();
     }
+  } else if (tabId === 'ziwei') {
+    if (activeProgram !== 'ziwei') {
+      activeProgram = 'ziwei';
+      iframe.src = 'vicha/จี่มุ้ยเต้าซิ่ว.html';
+    } else {
+      injectStyles();
+    }
   } else {
     if (activeProgram !== 'main') {
       activeProgram = 'main';
@@ -1363,7 +1395,7 @@ document.querySelectorAll('.selector-btn').forEach(btn => {
 
 iframe.addEventListener('load', function() {
   injectStyles();
-  if (activeProgram === 'main' || activeProgram === 'liuren') {
+  if (activeProgram === 'main' || activeProgram === 'liuren' || activeProgram === 'ziwei') {
     setTimeout(syncAndCalculate, 100);
   } else {
     setTimeout(resizeFrame, 150);
@@ -1376,7 +1408,7 @@ setInterval(resizeFrame, 1000);
 // ── Hash switching logic for header links ──
 function checkHashAndSwitch() {
   const hash = window.location.hash.substring(1);
-  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen', 'liuren'];
+  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen', 'liuren', 'ziwei'];
   if (hash && validTabs.includes(hash)) {
     document.getElementById('resultSection').classList.remove('hidden');
     switchTab(hash);
