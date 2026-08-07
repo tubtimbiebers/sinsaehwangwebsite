@@ -100,6 +100,138 @@
       .article-container { grid-template-columns: 1fr; }
       .sidebar-box { position: static; }
     }
+    
+    /* ── Lightbox Modal ── */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(15, 10, 8, 0.95);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .lightbox-modal.show {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 36px;
+      font-weight: 300;
+      cursor: pointer;
+      z-index: 10001;
+      transition: all 0.2s ease;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .lightbox-close:hover {
+      color: var(--white);
+      transform: scale(1.1) rotate(90deg);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    
+    .lightbox-content-container {
+      max-width: 90%;
+      max-height: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: zoomIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes zoomIn {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    .lightbox-content {
+      max-width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .lightbox-actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 16px;
+      z-index: 10000;
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(16px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .lightbox-btn {
+      background: var(--grad-gold);
+      color: var(--charcoal);
+      border: none;
+      padding: 12px 32px;
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(246, 211, 101, 0.3);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .lightbox-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(246, 211, 101, 0.5);
+      filter: brightness(1.05);
+    }
+    
+    .lightbox-btn:active {
+      transform: translateY(1px);
+    }
+    
+    .lightbox-btn-icon {
+      font-size: 1.1rem;
+    }
+    
+    /* Make article images zoomable */
+    .article-figure img, .article-content img {
+      cursor: zoom-in;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .article-figure img:hover, .article-content img:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 10px 25px rgba(61, 39, 29, 0.15);
+    }
   </style>
 </head>
 <body>
@@ -283,7 +415,7 @@ async function initArticleDetail() {
       const content = art.content ? art.content : '<p><i>เนื้อหาบทความกำลังปรับปรุง กรุณาติดตามเร็วๆ นี้</i></p>';
       
       // Determine if there's an image
-      const imagePath = (window.ARTICLE_IMAGES || {})[articleId] || art.image;
+      const imagePath = art.image || (window.ARTICLE_IMAGES || {})[articleId];
       const imageTitle = (window.ARTICLE_IMAGE_TITLES || {})[articleId] || "";
       let figureHtml = "";
       if (imagePath && typeof renderArticleFigure === "function") {
@@ -299,6 +431,7 @@ async function initArticleDetail() {
       contentEl.innerHTML = figureHtml + content;
       
       loadRelated(articles, art.cat, art.id);
+      initLightbox();
     } else {
       document.title = "ไม่พบบทความ – ซินแสหวาง";
       if (heroTitle) heroTitle.textContent = "ไม่พบบทความ";
@@ -339,6 +472,107 @@ function loadRelated(allArticles, currentCat, currentId) {
       </a>
     `;
   }).join('');
+}
+
+function initLightbox() {
+  let lightbox = document.getElementById('imageLightbox');
+  if (!lightbox) {
+    lightbox = document.createElement('div');
+    lightbox.id = 'imageLightbox';
+    lightbox.className = 'lightbox-modal';
+    lightbox.innerHTML = `
+      <span class="lightbox-close" id="lightboxClose" title="ปิด (ESC)">&times;</span>
+      <div class="lightbox-content-container">
+        <img class="lightbox-content" id="lightboxImg" alt="รูปภาพขยายใหญ่" />
+      </div>
+      <div class="lightbox-actions">
+        <button id="lightboxDownload" class="lightbox-btn" title="บันทึกรูปภาพลงเครื่อง">
+          <span class="lightbox-btn-icon">💾</span> เซฟรูปภาพ
+        </button>
+      </div>
+    `;
+    document.body.appendChild(lightbox);
+
+    const closeBtn = document.getElementById('lightboxClose');
+    const img = document.getElementById('lightboxImg');
+    const downloadBtn = document.getElementById('lightboxDownload');
+
+    const closeLightbox = () => {
+      lightbox.classList.remove('show');
+      setTimeout(() => {
+        lightbox.style.display = 'none';
+      }, 300);
+    };
+
+    closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target.classList.contains('lightbox-content-container')) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('show')) {
+        closeLightbox();
+      }
+    });
+
+    downloadBtn.addEventListener('click', async () => {
+      const src = img.src;
+      let filename = src.split('/').pop() || 'image';
+      if (!filename.includes('.')) {
+        filename += '.jpg';
+      }
+      downloadBtn.innerHTML = '<span class="lightbox-btn-icon">⏳</span> กำลังเซฟ...';
+      downloadBtn.disabled = true;
+      try {
+        await downloadImage(src, filename);
+      } finally {
+        downloadBtn.innerHTML = '<span class="lightbox-btn-icon">💾</span> เซฟรูปภาพ';
+        downloadBtn.disabled = false;
+      }
+    });
+  }
+
+  // Attach click listeners to all images in the article content or the main figure image
+  const images = document.querySelectorAll('.article-figure img, .article-content img');
+  images.forEach(imgEl => {
+    imgEl.addEventListener('click', () => {
+      const lightboxImg = document.getElementById('lightboxImg');
+      lightboxImg.src = imgEl.src;
+      lightboxImg.alt = imgEl.alt || 'รูปภาพขยายใหญ่';
+      
+      const lightboxModal = document.getElementById('imageLightbox');
+      lightboxModal.style.display = 'flex';
+      // Force reflow
+      lightboxModal.offsetHeight;
+      lightboxModal.classList.add('show');
+    });
+  });
+}
+
+async function downloadImage(url, filename) {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(blobUrl);
+  } catch (error) {
+    // Fallback if fetch fails (CORS etc.)
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', initArticleDetail);
