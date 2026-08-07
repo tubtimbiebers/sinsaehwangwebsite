@@ -1381,21 +1381,26 @@ input, textarea, select { font-family: inherit; }
 
 /* ── CTA BANNER ── */
 .program-pro-banner {
-  padding: clamp(1.5rem, 4vw, 3rem) 0;
-  background: linear-gradient(180deg, #f7f2e8 0%, #edf8fc 50%, #f8f4ec 100%);
+  padding: 0;
+  background: transparent;
+}
+.program-pro-banner > .container {
+  width: 100%;
+  max-width: none;
+  padding: 0;
 }
 .program-pro-banner__link {
   position: relative;
   display: block;
   overflow: hidden;
-  border: 1px solid rgba(121, 190, 218, 0.38);
-  border-radius: clamp(14px, 2vw, 24px);
-  box-shadow: 0 16px 42px rgba(70, 128, 158, 0.16);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 .program-pro-banner__link:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 48px rgba(70, 128, 158, 0.24);
+  transform: none;
+  box-shadow: none;
 }
 .program-pro-banner__link:focus-visible {
   outline: 3px solid #38b9e8;
@@ -1409,9 +1414,6 @@ input, textarea, select { font-family: inherit; }
   object-fit: cover;
 }
 @media (max-width: 640px) {
-  .program-pro-banner__link {
-    border-radius: 12px;
-  }
   .program-pro-banner__link img {
     min-height: 150px;
     object-fit: cover;
