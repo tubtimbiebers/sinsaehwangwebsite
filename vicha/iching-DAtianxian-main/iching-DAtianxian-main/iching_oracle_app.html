@@ -1,0 +1,724 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+Thai:wght@300;400;600&display=swap');
+
+  :root {
+    --ink: #1a1207;
+    --gold: #b8933f;
+    --gold-lt: #e8c97a;
+    --paper: #f5f0e8;
+    --paper2: #ece6d6;
+    --red: #8b1a1a;
+    --muted: #7a6e5e;
+    --line-yang: #1a1207;
+    --line-yin: #1a1207;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  #app {
+    font-family: 'Noto Sans Thai', sans-serif;
+    background: var(--paper);
+    min-height: 600px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .screen { display: none; padding: 2rem 1.5rem; animation: fadeIn 0.5s ease; }
+  .screen.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .title-band {
+    text-align: center;
+    padding: 1.5rem 0 1rem;
+    border-bottom: 1px solid var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .title-band h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 28px;
+    color: var(--ink);
+    letter-spacing: 0.15em;
+  }
+
+  .title-band p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .mode-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .mode-card {
+    background: var(--paper2);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .mode-card:hover { background: #e8dfc8; border-color: #8b6e2a; }
+
+  .mode-card .glyph {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 36px;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .mode-card h3 {
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .mode-card p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .divider { text-align: center; color: var(--muted); font-size: 12px; margin: 0.5rem 0; }
+
+  .num-input-zone {
+    background: var(--paper2);
+    border: 1px solid #c9b88a;
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .num-input-zone label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .num-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  input[type="number"] {
+    width: 80px;
+    padding: 8px 12px;
+    font-size: 20px;
+    font-family: 'Noto Serif TC', serif;
+    border: 1px solid var(--gold);
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  .btn-gold {
+    background: var(--gold);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-family: 'Noto Sans Thai', sans-serif;
+    border-radius: 2px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: background 0.2s;
+  }
+
+  .btn-gold:hover { background: #9a7830; }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 10px 20px;
+    font-size: 14px;
+    font-family: 'Noto Sans Thai', sans-serif;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { background: var(--gold); color: #fff; }
+
+  /* === CAST SCREEN === */
+  .hexagram-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0;
+    min-height: 320px;
+    justify-content: flex-end;
+  }
+
+  .line-slot {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 3px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .line-slot.revealed { opacity: 1; transform: translateY(0); }
+
+  .line-num {
+    font-size: 11px;
+    color: var(--muted);
+    width: 28px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .line-graphic { flex-shrink: 0; width: 100px; display: flex; gap: 6px; align-items: center; }
+
+  .yang-bar {
+    height: 10px;
+    background: var(--ink);
+    border-radius: 1px;
+    flex: 1;
+  }
+
+  .yin-bar {
+    height: 10px;
+    background: var(--ink);
+    border-radius: 1px;
+    width: 40%;
+  }
+
+  .yin-gap { flex: 0 0 12px; }
+
+  .line-text {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .line-label {
+    font-size: 11px;
+    color: var(--gold);
+    font-family: 'Noto Serif TC', serif;
+    flex-shrink: 0;
+    width: 32px;
+    text-align: center;
+  }
+
+  /* === RESULT SCREEN === */
+  .result-card {
+    background: var(--paper2);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+  }
+
+  .result-header {
+    background: var(--ink);
+    color: var(--gold-lt);
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .result-header .hex-num {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+  }
+
+  .result-header .hex-name-zh {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 40px;
+    letter-spacing: 0.2em;
+    display: block;
+  }
+
+  .result-header .hex-name-th {
+    font-size: 16px;
+    margin-top: 0.25rem;
+    opacity: 0.85;
+  }
+
+  .hex-symbol-large {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0 0.5rem;
+    gap: 4px;
+  }
+
+  .hex-sym-line { width: 80px; height: 8px; background: var(--gold-lt); border-radius: 1px; }
+  .hex-sym-yin { display: flex; gap: 6px; width: 80px; }
+  .hex-sym-yin span { height: 8px; background: var(--gold-lt); border-radius: 1px; flex: 1; }
+
+  .result-body {
+    padding: 1.5rem;
+  }
+
+  .result-section { margin-bottom: 1.25rem; }
+  .result-section h4 {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    border-bottom: 1px solid #d4c49a;
+    padding-bottom: 4px;
+  }
+
+  .result-section p {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.8;
+  }
+
+  .trigram-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .trigram-pill {
+    background: var(--paper);
+    border: 1px solid #c9b88a;
+    border-radius: 2px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .trigram-pill strong {
+    display: block;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  .no-copy-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .watermark {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 11px;
+    color: rgba(100,80,40,0.25);
+    font-family: 'Noto Serif TC', serif;
+    pointer-events: none;
+    letter-spacing: 0.1em;
+  }
+
+  .action-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .back-link {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 13px;
+    color: var(--gold);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .casting-status {
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    min-height: 28px;
+    margin: 0.5rem 0;
+    font-style: italic;
+  }
+
+  .pulse { animation: pulse 1.2s infinite ease-in-out; }
+  @keyframes pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+  .progress-bar {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto 1rem;
+    height: 2px;
+    background: #d4c49a;
+    border-radius: 1px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 1px;
+    transition: width 0.5s ease;
+  }
+
+  .reveal-btn-zone {
+    text-align: center;
+    margin-top: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.8s ease 0.3s;
+  }
+  .reveal-btn-zone.show { opacity: 1; }
+
+  .shake { animation: shake 0.4s ease; }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-4px)}
+    40%{transform:translateX(4px)}
+    60%{transform:translateX(-3px)}
+    80%{transform:translateX(3px)}
+  }
+</style>
+
+<div id="app">
+
+<!-- ======= SCREEN 1: HOME ======= -->
+<div class="screen active" id="screen-home">
+  <div class="title-band">
+    <h1>易 經 神 諭</h1>
+    <p>อี้จิง โอราเคิล · 64 เฮ็กซะแกรม</p>
+  </div>
+
+  <div style="text-align:center; font-size:13px; color:var(--muted); margin-bottom:1rem; line-height:1.7;">
+    เลือกวิธีถามคำถาม — ตั้งจิตให้สงบ<br>แล้วพยากรณ์ด้วยความตั้งใจ
+  </div>
+
+  <div class="mode-grid">
+    <div class="mode-card" id="btn-random">
+      <span class="glyph">☯</span>
+      <h3>สุ่มพยากรณ์</h3>
+      <p>เปิดเส้นทีละเส้น 6 เส้น ตามพลังจักรวาล</p>
+    </div>
+    <div class="mode-card" id="btn-manual">
+      <span class="glyph">卦</span>
+      <h3>เลือกเลข</h3>
+      <p>ระบุเลขไพ่ 1–64 เพื่อดูคำทำนาย</p>
+    </div>
+  </div>
+
+  <div class="num-input-zone" id="manual-zone" style="display:none;">
+    <label>ระบุหมายเลขเฮ็กซะแกรม (01–64)</label>
+    <div class="num-row">
+      <input type="number" id="hex-num-input" min="1" max="64" value="1" />
+      <button class="btn-gold" id="btn-go-manual">เปิดไพ่ →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======= SCREEN 2: CAST (animation) ======= -->
+<div class="screen" id="screen-cast">
+  <div class="title-band">
+    <h1>易 經 神 諭</h1>
+    <p id="cast-mode-label">กำลังหว่านเส้น...</p>
+  </div>
+
+  <div class="casting-status pulse" id="cast-status">กำลังสุ่มเส้น...</div>
+
+  <div style="display:flex; justify-content:center;">
+    <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+  </div>
+
+  <div class="hexagram-stage" id="hex-stage"></div>
+
+  <div class="reveal-btn-zone" id="reveal-zone">
+    <button class="btn-gold" id="btn-reveal">เปิดคำทำนาย →</button>
+    <div class="back-link" id="back1">← ถามใหม่</div>
+  </div>
+</div>
+
+<!-- ======= SCREEN 3: RESULT ======= -->
+<div class="screen" id="screen-result">
+  <div style="position:relative;">
+    <div class="result-card" id="result-card" oncontextmenu="return false;">
+      <div class="result-header">
+        <div class="hex-num" id="r-num">ไพ่ที่ 01</div>
+        <div class="hex-symbol-large" id="r-symbol"></div>
+        <span class="hex-name-zh" id="r-name-zh">乾</span>
+        <div class="hex-name-th" id="r-name-th">เชี่ยน — ฟ้า</div>
+      </div>
+      <div class="result-body">
+        <div class="trigram-row" id="r-trigrams"></div>
+        <div class="result-section">
+          <h4>คำพยากรณ์</h4>
+          <p id="r-oracle"></p>
+        </div>
+        <div class="result-section">
+          <h4>สัญลักษณ์</h4>
+          <p id="r-symbol-text"></p>
+        </div>
+        <div class="result-section">
+          <h4>คำแนะนำ</h4>
+          <p id="r-advice"></p>
+        </div>
+        <div class="watermark">易經神諭 · The Lucky Living 789</div>
+      </div>
+    </div>
+    <div class="no-copy-overlay"></div>
+  </div>
+  <div class="action-row">
+    <button class="btn-ghost" id="btn-again">ถามใหม่</button>
+    <button class="btn-gold" id="btn-save">บันทึก (JPG)</button>
+  </div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const HEXAGRAMS = {
+  1:  { zh:'乾', th:'เชี่ยน — ฟ้า', upper:'☰ฟ้า(乾)', lower:'☰ฟ้า(乾)', lines:[1,1,1,1,1,1],
+        oracle:'พลังสร้างสรรค์แห่งจักรวาลบรรจบกัน สิ่งยิ่งใหญ่กำลังจะเริ่มต้น ดวงดาวเรียงแถว จงก้าวไปข้างหน้าด้วยความมั่นใจ',
+        symbol:'มังกรทองพุ่งขึ้นฟ้า — เวลาแห่งพลังสูงสุดมาถึงแล้ว',
+        advice:'ริเริ่มสิ่งใหม่ได้เลย พลังทั้งหมดอยู่ในมือคุณ' },
+  2:  { zh:'坤', th:'คุน — แผ่นดิน', upper:'☷แผ่นดิน(坤)', lower:'☷แผ่นดิน(坤)', lines:[0,0,0,0,0,0],
+        oracle:'แผ่นดินหล่อเลี้ยงทุกสรรพสิ่งอย่างเงียบงาม ความอ่อนน้อมและความอดทนคือพลังที่แท้จริง',
+        symbol:'แม่โพสพแห่งจักรวาล — ผลิดอกออกผลในยามที่พร้อม',
+        advice:'รับฟัง อดทน และสนับสนุนผู้อื่น ความสำเร็จมาจากรากฐาน' },
+  11: { zh:'泰', th:'ไท่ — สันติ', upper:'☷แผ่นดิน(坤)', lower:'☰ฟ้า(乾)', lines:[1,1,1,0,0,0],
+        oracle:'ฟ้าดินประสานกัน พลังหยินหยางไหลเวียนสมดุล ช่วงเวลาแห่งความเจริญรุ่งเรืองมาถึงแล้ว',
+        symbol:'ฤดูใบไม้ผลิ — ชีวิตกำลังแตกยอดออกดอก',
+        advice:'สิ่งที่วางแผนไว้จะสำเร็จ ความสัมพันธ์ราบรื่น ธุรกิจรุ่งเรือง' },
+  12: { zh:'否', th:'ปี้ — อุดตัน', upper:'☰ฟ้า(乾)', lower:'☷แผ่นดิน(坤)', lines:[0,0,0,1,1,1],
+        oracle:'ฟ้าดินแยกห่าง การสื่อสารติดขัด อย่าฝืนกระแส รอคอยเวลาอันเหมาะสม',
+        symbol:'ฤดูหนาว — เมล็ดพันธุ์ยังหลับอยู่ใต้ดิน',
+        advice:'หยุดพักและสังเกตการณ์ อย่าตัดสินใจใหญ่ในขณะนี้' },
+  29: { zh:'坎', th:'คั่น — น้ำ', upper:'☵น้ำ(坎)', lower:'☵น้ำ(坎)', lines:[0,1,0,0,1,0],
+        oracle:'น้ำไหลลงสู่ที่ต่ำเสมอ อุปสรรคซ้อนทับกัน จงมีใจมั่นคงดั่งน้ำที่ไหลผ่านหิน',
+        symbol:'แม่น้ำในถ้ำลึก — มืดมนแต่ไม่หยุดไหล',
+        advice:'ฝ่าฟันด้วยความศรัทธา อย่ายอมแพ้ ปัญหาจะผ่านไปได้' },
+  30: { zh:'離', th:'หลี — ไฟ', upper:'☲ไฟ(離)', lower:'☲ไฟ(離)', lines:[1,0,1,1,0,1],
+        oracle:'ไฟสองกองส่องแสงสว่าง ความชัดเจนและปัญญาขึ้นสูงสุด สิ่งที่ซ่อนอยู่จะถูกเปิดเผย',
+        symbol:'ดวงอาทิตย์คู่ที่สาดแสง — ความจริงไม่อาจปิดบัง',
+        advice:'ใช้ปัญญาและความชัดเจนนำทาง ระวังการตัดสินใจที่ร้อนแรงเกินไป' },
+  51: { zh:'震', th:'เจิ้น — ฟ้าผ่า', upper:'☳สายฟ้า(震)', lower:'☳สายฟ้า(震)', lines:[1,0,0,1,0,0],
+        oracle:'ฟ้าร้องสะท้านขึ้น สิ่งที่คาดไม่ถึงมาเยือน ความตื่นกลัวเป็นพลังที่ปลุกจิตสำนึก',
+        symbol:'ฟ้าแลบกลางคืน — ช่วงเวลาที่ทุกอย่างเปลี่ยนแปลงได้ในพริบตา',
+        advice:'รับมือกับการเปลี่ยนแปลงกะทันหันด้วยสติ สิ่งที่กระทบจะนำมาซึ่งการเติบโต' },
+  57: { zh:'巽', th:'ซุ่น — ลม', upper:'☴ลม(巽)', lower:'☴ลม(巽)', lines:[0,1,1,0,1,1],
+        oracle:'ลมพัดอ่อนแต่ซึมซาบทั่วทุกพื้นที่ ความอ่อนโยนและสม่ำเสมอสร้างการเปลี่ยนแปลงที่ยั่งยืน',
+        symbol:'ไม้ไผ่ในสายลม — โค้งงอแต่ไม่หัก',
+        advice:'จงอ่อนน้อมและสม่ำเสมอ อิทธิพลที่แท้จริงมาจากความไว้วางใจ ไม่ใช่อำนาจ' }
+};
+
+const LINE_MEANINGS = {
+  yang: [
+    'รากฐานแข็งแกร่ง เริ่มต้นด้วยพลังบริสุทธิ์',
+    'ผู้ยิ่งใหญ่ปรากฏ ขอคำแนะนำจากผู้มีปัญญา',
+    'ขยันหมั่นเพียรตลอดวัน ระวังในยามค่ำคืน',
+    'กระโดดสู่ห้วงน้ำด้วยความกล้า ไม่มีความผิดพลาด',
+    'มังกรทองโลดแล่นบนฟ้า ฤกษ์ยามนี้งดงาม',
+    'ผู้ที่ขึ้นสูงเกินไปย่อมเสียใจ รู้จักจุดพอดี'
+  ],
+  yin: [
+    'เดินตามรอยน้ำค้าง ความระมัดระวังนำโชค',
+    'ตรงไปตรงมา ยิ่งใหญ่ แผ่กว้าง ไม่จำเป็นต้องฝึกฝน',
+    'ซ่อนคุณงามความดีไว้ รอโอกาสจากราชา',
+    'ถุงผูกปิดสนิท ไม่มีทั้งคำชมและคำตำหนิ',
+    'กระโปรงสีเหลือง — ความสูงส่งสุดยอดแห่งความดี',
+    'มังกรที่ทุ่งหญ้า เลือดสีดำเหลือง — ฟ้าดินปะทะกัน'
+  ]
+};
+
+function getHexByLines(lines) {
+  const key = parseInt(lines.map(l=>l).reverse().join(''), 2) + 1;
+  const closest = [1,2,11,12,29,30,51,57];
+  const num = closest.reduce((prev,curr) => Math.abs(curr-key)<Math.abs(prev-key)?curr:prev);
+  return { num, data: HEXAGRAMS[num] };
+}
+
+let currentHex = null;
+let currentLines = [];
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function buildLineHTML(lineVal, pos, revealed) {
+  const slot = document.createElement('div');
+  slot.className = 'line-slot' + (revealed ? ' revealed' : '');
+  slot.id = 'line-slot-' + pos;
+
+  const numEl = document.createElement('div');
+  numEl.className = 'line-num';
+  numEl.textContent = '六'[0] + pos;
+  numEl.textContent = '爻' + pos;
+
+  const graphic = document.createElement('div');
+  graphic.className = 'line-graphic';
+
+  if (lineVal === 1) {
+    const bar = document.createElement('div');
+    bar.className = 'yang-bar';
+    graphic.appendChild(bar);
+  } else {
+    const b1 = document.createElement('div'); b1.className = 'yin-bar';
+    const gap = document.createElement('div'); gap.className = 'yin-gap';
+    const b2 = document.createElement('div'); b2.className = 'yin-bar';
+    graphic.appendChild(b1); graphic.appendChild(gap); graphic.appendChild(b2);
+  }
+
+  const label = document.createElement('div');
+  label.className = 'line-label';
+  label.textContent = lineVal === 1 ? '陽' : '陰';
+
+  const text = document.createElement('div');
+  text.className = 'line-text';
+  text.textContent = lineVal === 1 ? LINE_MEANINGS.yang[pos-1] : LINE_MEANINGS.yin[pos-1];
+
+  slot.appendChild(numEl);
+  slot.appendChild(graphic);
+  slot.appendChild(label);
+  slot.appendChild(text);
+  return slot;
+}
+
+function startCast(lines) {
+  currentLines = lines;
+  showScreen('screen-cast');
+
+  const stage = document.getElementById('hex-stage');
+  stage.innerHTML = '';
+
+  const slots = [];
+  for (let i = 1; i <= 6; i++) {
+    const slot = buildLineHTML(lines[i-1], i, false);
+    slots.unshift(slot);
+  }
+  slots.forEach(s => stage.appendChild(s));
+
+  const statusEl = document.getElementById('cast-status');
+  const progEl = document.getElementById('prog');
+  const revealZone = document.getElementById('reveal-zone');
+  revealZone.classList.remove('show');
+
+  const lineNodes = stage.querySelectorAll('.line-slot');
+
+  function revealLine(idx) {
+    if (idx >= 6) {
+      statusEl.textContent = 'เฮ็กซะแกรมสมบูรณ์ — กดเปิดคำทำนาย';
+      statusEl.classList.remove('pulse');
+      revealZone.classList.add('show');
+      const { num, data } = getHexByLines(lines);
+      currentHex = { num, data };
+      return;
+    }
+
+    const lineIdx = 5 - idx;
+    const val = lines[lineIdx];
+    statusEl.textContent = `กำลังเปิดเส้นที่ ${lineIdx+1} — ${val===1?'หยาง (陽)':'หยิน (陰)'}`;
+    lineNodes[idx].classList.add('revealed');
+    progEl.style.width = ((idx+1)/6*100) + '%';
+
+    setTimeout(() => revealLine(idx + 1), 900);
+  }
+
+  setTimeout(() => revealLine(0), 600);
+}
+
+function showResult() {
+  const { num, data } = currentHex;
+  showScreen('screen-result');
+
+  document.getElementById('r-num').textContent = `ไพ่ที่ ${String(num).padStart(2,'0')} · ${data.th.split('—')[0].trim()}`;
+  document.getElementById('r-name-zh').textContent = data.zh;
+  document.getElementById('r-name-th').textContent = data.th;
+  document.getElementById('r-oracle').textContent = data.oracle;
+  document.getElementById('r-symbol-text').textContent = data.symbol;
+  document.getElementById('r-advice').textContent = data.advice;
+
+  const triEl = document.getElementById('r-trigrams');
+  triEl.innerHTML = `
+    <div class="trigram-pill"><strong>${data.upper.split('(')[0]}</strong>บนสวรรค์</div>
+    <div class="trigram-pill"><strong>${data.lower.split('(')[0]}</strong>ล่างดิน</div>
+  `;
+
+  const symEl = document.getElementById('r-symbol');
+  symEl.innerHTML = '';
+  const hexLines = [...data.lines].reverse();
+  hexLines.forEach(l => {
+    if (l === 1) {
+      const d = document.createElement('div'); d.className = 'hex-sym-line'; symEl.appendChild(d);
+    } else {
+      const d = document.createElement('div'); d.className = 'hex-sym-yin';
+      d.innerHTML = '<span></span><span></span>'; symEl.appendChild(d);
+    }
+  });
+}
+
+document.getElementById('btn-random').addEventListener('click', () => {
+  const lines = Array.from({length:6}, () => Math.random() < 0.5 ? 0 : 1);
+  document.getElementById('cast-mode-label').textContent = 'สุ่มพยากรณ์ — ตั้งจิตถามคำถามของคุณ';
+  startCast(lines);
+});
+
+document.getElementById('btn-manual').addEventListener('click', () => {
+  const zone = document.getElementById('manual-zone');
+  zone.style.display = zone.style.display === 'none' ? 'block' : 'none';
+});
+
+document.getElementById('btn-go-manual').addEventListener('click', () => {
+  const n = parseInt(document.getElementById('hex-num-input').value);
+  if (n < 1 || n > 64) {
+    document.getElementById('hex-num-input').classList.add('shake');
+    setTimeout(() => document.getElementById('hex-num-input').classList.remove('shake'), 400);
+    return;
+  }
+
+  const available = [1,2,11,12,29,30,51,57];
+  const closest = available.reduce((prev,curr) => Math.abs(curr-n)<Math.abs(prev-n)?curr:prev);
+  const data = HEXAGRAMS[closest];
+  const lines = [...data.lines];
+
+  document.getElementById('cast-mode-label').textContent = `เลือกเลข ${n} → ไพ่ที่ ${closest}`;
+  startCast(lines);
+});
+
+document.getElementById('btn-reveal').addEventListener('click', showResult);
+document.getElementById('back1').addEventListener('click', () => showScreen('screen-home'));
+
+document.getElementById('btn-again').addEventListener('click', () => {
+  showScreen('screen-home');
+  document.getElementById('manual-zone').style.display = 'none';
+});
+
+document.getElementById('btn-save').addEventListener('click', () => {
+  const card = document.getElementById('result-card');
+  if (window.html2canvas) {
+    html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#f5f0e8' }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = `iching-${currentHex.num}-${currentHex.data.zh}.jpg`;
+      link.href = canvas.toDataURL('image/jpeg', 0.92);
+      link.click();
+    });
+  }
+});
+
+document.addEventListener('contextmenu', e => {
+  if (e.target.closest('#result-card')) e.preventDefault();
+});
+</script>

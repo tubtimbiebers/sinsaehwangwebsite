@@ -732,6 +732,11 @@
         <span class="title">ฉีเหมินดุนเจี่ย</span>
         <span class="desc">ผังฉีเหมินดุนเจี่ย 9 วัง</span>
       </button>
+      <button type="button" class="selector-btn" data-tab="iching">
+        <span class="zh-icon">卦</span>
+        <span class="title">คำทำนายอี้จิง</span>
+        <span class="desc">อี้จิงโอราเคิล 64 ฉักลักษณ์</span>
+      </button>
     </div>
     
     <!-- ✦ TOOL IFRAME (SEAMLESSLY STYLED) ✦ -->
@@ -1238,6 +1243,13 @@ function switchTab(tabId) {
     } else {
       injectStyles();
     }
+  } else if (tabId === 'iching') {
+    if (activeProgram !== 'iching') {
+      activeProgram = 'iching';
+      iframe.src = 'vicha/iching/index.html';
+    } else {
+      injectStyles();
+    }
   } else {
     if (activeProgram !== 'main') {
       activeProgram = 'main';
@@ -1297,11 +1309,11 @@ setInterval(resizeFrame, 1000);
 // ── Hash switching logic for header links ──
 function checkHashAndSwitch() {
   const hash = window.location.hash.substring(1);
-  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen'];
+  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen', 'iching'];
   if (hash && validTabs.includes(hash)) {
     document.getElementById('resultSection').classList.remove('hidden');
     switchTab(hash);
-    if (hash !== 'duthit' && hash !== 'qimen') {
+    if (hash !== 'duthit' && hash !== 'qimen' && hash !== 'iching') {
       setTimeout(syncAndCalculate, 100);
     }
   }

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เปิดคำทำนายอี้จิง · 易經神諭</title>
+  <meta name="description" content="ระบบเปิดคำทำนายอี้จิง 64 ฉักลักษณ์ — ถามฟ้า รับคำตอบจากจักรวาล" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;700;900&family=Noto+Sans+Thai:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="/assets/index-CA83nfOO.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-trv67gIz.css">
+</head>
+<body>
+  <div id="particles-bg"></div>
+
+  <div id="app">
+    <!-- ===== SCREEN: HOME ===== -->
+    <section class="screen active" id="screen-home">
+      <header class="app-header">
+        <div class="temple-logo-wrap">
+          <img src="assets/images/5.png" alt="โลโก้วิหารฟ้าพุทธมารดา" class="temple-logo" onerror="this.parentElement.style.display='none'" />
+        </div>
+        <div class="header-ribbon">BEYOND CREATION</div>
+        <div class="red-seal">
+          <div class="seal-inner">
+            <span class="seal-zh">易</span>
+            <span class="seal-zh">經</span>
+          </div>
+        </div>
+        <div class="logo-group">
+          <h1 class="logo-th">เปิดคำทำนายอี้จิง</h1>
+          <p class="logo-sub">ความลับของ 64 ฉักลักษณ์ "คัมภีร์อี้จิง"</p>
+        </div>
+        <div class="header-line"><span></span><span class="diamond">◆</span><span></span></div>
+      </header>
+
+      <div class="home-intro">
+        <p>ตั้งจิตให้สงบ — คิดถึงคำถามของท่าน<br />แล้วเปิดประตูแห่งจักรวาลด้วยความบริสุทธิ์ใจ</p>
+      </div>
+
+      <div class="mode-grid">
+        <button class="mode-card" id="btn-random">
+          <div class="mode-icon">☯</div>
+          <div class="mode-title">สุ่มพยากรณ์</div>
+          <div class="mode-desc">เปิดเส้นทีละเส้น ตามพลังจักรวาล</div>
+          <div class="mode-arrow">→</div>
+        </button>
+        <button class="mode-card" id="btn-manual-toggle">
+          <div class="mode-icon">卦</div>
+          <div class="mode-title">เลือกไพ่</div>
+          <div class="mode-desc">ระบุเลขไพ่ 00–64 โดยตรง</div>
+          <div class="mode-arrow">→</div>
+        </button>
+      </div>
+
+      <div class="manual-zone" id="manual-zone">
+        <label class="manual-label">เลขไพ่ (00 – 64)</label>
+        <div class="manual-row">
+          <div class="num-scroller">
+            <button class="scroller-btn" id="num-up" aria-label="เพิ่ม">▲</button>
+            <div class="num-display" id="num-display">00</div>
+            <button class="scroller-btn" id="num-down" aria-label="ลด">▼</button>
+          </div>
+          <button class="btn-primary" id="btn-go-manual">เปิดไพ่ →</button>
+        </div>
+        <div class="num-slider-track">
+          <input type="range" id="hex-slider" min="0" max="64" value="0" />
+        </div>
+      </div>
+
+      <footer class="home-footer">
+        <div class="footer-seal">易</div>
+        <div class="footer-text">The Lucky Living 789 · เปิดคำทำนายอี้จิง</div>
+      </footer>
+    </section>
+
+    <!-- ===== SCREEN: CAST ===== -->
+    <section class="screen" id="screen-cast">
+      <header class="cast-header">
+        <div class="logo-zh small">易 經</div>
+        <p id="cast-mode-label" class="cast-subtitle">กำลังหว่านเส้น...</p>
+      </header>
+
+      <div class="cast-status-row">
+        <div class="cast-status pulse" id="cast-status">กำลังสุ่มเส้น...</div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+        <div class="progress-label" id="prog-label">0 / 6</div>
+      </div>
+
+      <div class="hexagram-stage" id="hex-stage"></div>
+
+      <div class="reveal-zone" id="reveal-zone" style="display: flex; gap: 1rem; justify-content: center; width: 100%; max-width: 600px; margin: 1.5rem auto;">
+        <button class="btn-primary large" id="btn-reveal">✦ เปิดคำทำนาย</button>
+        <button class="btn-ghost" id="back1">← ถามใหม่</button>
+      </div>
+    </section>
+
+    <!-- ===== SCREEN: RESULT ===== -->
+    <section class="screen" id="screen-result">
+      <div class="result-wrapper">
+        <div class="result-card" id="result-card" oncontextmenu="return false;">
+          <div class="result-top-deco">
+            <span>Beyond Creation</span><span class="deco-line"></span><span>Sinsaehwang</span>
+          </div>
+          
+          <div class="result-split-layout">
+            <!-- Column Left: Visuals & Symbols -->
+            <div class="result-column-left" id="r-col-left">
+              <div class="result-header-visual">
+                <div class="red-seal small">
+                  <div class="seal-inner">
+                    <span class="seal-zh">易</span>
+                    <span class="seal-zh">經</span>
+                  </div>
+                </div>
+                <div class="hex-badge" id="r-num">ไพ่ที่ 01</div>
+              </div>
+
+              <div class="hex-illustration">
+                <img id="r-illust" src="" alt="Hexagram Illustration">
+              </div>
+
+              <!-- Line Matrix Area -->
+              <div class="line-matrix-container" id="r-line-matrix">
+                <!-- Lines & Row-by-row translations will be injected here -->
+              </div>
+
+              <!-- Name Block -->
+              <div class="name-block">
+                <div class="hex-name-zh" id="r-name-zh">乾</div>
+                <div class="hex-name-th-wrapper">
+                  <div class="hex-name-th" id="r-name-th">เชี่ยน — ฟ้า</div>
+                  <div class="name-underline"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column Right: Detailed Meaning -->
+            <div class="result-column-right" id="r-col-right">
+              <div class="trigram-comparison-area" id="r-trigram-boxes">
+                <!-- Inner/Outer Trigrams boxes will be injected here -->
+              </div>
+
+              <div class="result-body">
+                <div class="result-section">
+                  <div class="section-head">
+                    <span class="section-icon">📜</span>
+                    <span>คำพยากรณ์</span>
+                    <div class="head-divider"></div>
+                  </div>
+                  <p id="r-oracle"></p>
+                </div>
+                <div class="result-section">
+                  <div class="section-head">
+                    <span class="section-icon">🔮</span>
+                    <span>สัญลักษณ์</span>
+                    <div class="head-divider"></div>
+                  </div>
+                  <p id="r-symbol-text"></p>
+                </div>
+                <div class="result-section">
+                  <div class="section-head">
+                    <span class="section-icon">☯</span>
+                    <span>คำแนะนำ</span>
+                    <div class="head-divider"></div>
+                  </div>
+                  <p id="r-advice"></p>
+                </div>
+              </div>
+            </div>
+          </div> <!-- End Split Layout -->
+          <div class="result-watermark">易經神諭 · เปิดคำทำนายอี้จิง · The Lucky Living 789</div>
+        </div>
+        <div class="no-select-shield"></div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn-ghost" id="btn-again">← ถามใหม่</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="hexagrams_64_filled.json" type="application/json" id="hex-data-src"></script>
+  <!-- ===== ZOOM MODAL ===== -->
+  <div id="zoom-modal" class="zoom-modal">
+    <div class="zoom-modal-close">&times;</div>
+    <div class="zoom-modal-content">
+      <img id="zoom-img" src="" alt="Enlarged Hexagram">
+    </div>
+    <div class="zoom-modal-hint">แตะค้างหรือเลื่อนเพื่อขยายภาพ</div>
+  </div>
+
+</body>
+</html>
