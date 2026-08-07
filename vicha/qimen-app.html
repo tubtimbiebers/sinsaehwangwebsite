@@ -902,16 +902,12 @@
         <h3>格局<span class="th">เกจวี๋ (รูปแบบพิเศษ)</span></h3>
         <div class="geju-list" id="gejuList"></div>
       </div>
-      <div class="panel">
-        <h3>综合断语<span class="th">บทสรุปคำทำนาย</span></h3>
-        <ul class="suggestions" id="suggestList"></ul>
-      </div>
     </div>
   </div>
 
   <div class="detail-panel" id="detailPanel">
-    <h3 id="dTitle">选择一宫查看详解<span class="th">เลือกวังเพื่อดูคำอธิบาย</span></h3>
-    <div class="d-sub" id="dSub">点击九宫格中的任意一宫，查看完整断辞<br><span class="th">คลิกวังใดก็ได้ในผังเก้าวังเพื่อดูคำทำนายแบบเต็ม</span></div>
+    <h3 id="dTitle">选择一宫查看详解<span class="th">เลือกวังเพื่อดูข้อมูลองค์ประกอบ</span></h3>
+    <div class="d-sub" id="dSub">点击九宫格中的任意一宫，查看宫位详细数据<br><span class="th">คลิกวังใดก็ได้ในผังเก้าวังเพื่อดูองค์ประกอบเชิงลึกของวังนั้น</span></div>
     <div id="dBody"></div>
   </div>
 
@@ -1152,20 +1148,13 @@
       return '<div class="geju-item">' +
                '<span class="tag" style="' + jx.style + '" title="' + jx.thLabel + '">' + jx.label + '</span>' +
                '<div class="body"><b>' + g.name + '</b>　<span style="color:var(--text-dim);font-family:var(--font-mono);font-size:11px;">' + loc + '</span>' +
-               '<span class="th-name">(' + locTh + ')</span>' +
-               '<p>' + g.explain + '</p></div>' +
+               '<span class="th-name">(' + locTh + ')</span></div>' +
              '</div>';
     }).join('');
   }
 
   function renderSuggestions(result){
-    var a = result.analysis || {};
-    var jx = jxTag(a.overallJiXiong);
-    var list = (a.suggestions || []).map(function(s){ return '<li>' + s + '</li>'; }).join('');
-    els.suggestList.innerHTML =
-      '<li style="padding-left:0;"><span class="tag" style="' + jx.style + ';display:inline-block;padding:2px 9px;border-radius:999px;margin-right:8px;">' + jx.label + '</span>整体运势　' + (a.overallJiXiongText || '') +
-      '<span class="th-tag">　ดวงโดยรวม: ' + jx.thLabel + '</span></li>' +
-      list;
+    // Suggestions / prediction texts removed as requested
   }
 
   function selectGong(g){
@@ -1190,11 +1179,8 @@
     if(a.keYing && a.keYing.name) facts.push(['克应','เค่อยิ่ง', a.keYing.name, '']);
     facts.push(['空亡','คงหวาง', a.kongWang ? '是' : '否', a.kongWang ? 'ใช่' : 'ไม่ใช่']);
     facts.push(['驿马','อี้หม่า', a.yiMa ? '是' : '否', a.yiMa ? 'ใช่' : 'ไม่ใช่']);
-    facts.push(['得分','คะแนน', a.score, '']);
 
     els.dBody.innerHTML =
-      '<span class="d-jx" style="' + jx.style + '">断语：' + a.jiXiongText + '<span class="th">(' + jx.thLabel + ')</span></span>' +
-      '<div class="d-explain">' + a.explain + '</div>' +
       '<div class="d-facts">' + facts.map(function(f){
         return '<div class="item"><div class="k">' + f[0] + '<span class="th">' + f[1] + '</span></div><div class="v">' + f[2] + '</div>' +
                (f[3] ? '<div class="v-th">' + f[3] + '</div>' : '') + '</div>';
@@ -1209,7 +1195,6 @@
     renderPlate(result);
     renderInfoGrid(result);
     renderGeju(result);
-    renderSuggestions(result);
 
     // default selection: best palace
     var best = (result.analysis && result.analysis.bestGong) || '1';

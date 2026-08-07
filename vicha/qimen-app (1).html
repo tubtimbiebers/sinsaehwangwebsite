@@ -9,34 +9,36 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:            #0f1116;
-    --bg-panel:      #181b24;
-    --bg-panel-2:    #1e222d;
-    --bg-cell:       #1a1e28;
-    --hairline:      rgba(184,147,90,0.22);
-    --hairline-strong: rgba(184,147,90,0.45);
-    --gold:          #b8935a;
-    --gold-bright:   #e0bc7f;
-    --gold-dim:      #8a7047;
-    --cinnabar:      #c04430;
-    --cinnabar-dim:  #7a3226;
-    --jade:          #4f8a72;
-    --ink-blue:      #4a6fa5;
-    --text:          #e9e3d3;
-    --text-muted:    #a49b83;
-    --text-dim:      #6f6a5c;
+    --bg:            #FAF0DD;
+    --bg-panel:      #FFFFFF;
+    --bg-panel-2:    #FFFDF7;
+    --bg-cell:       #FFFFFF;
+    --hairline:      #E8D5A3;
+    --hairline-strong: #CBB279;
+    --gold:          #B8860B;
+    --gold-bright:   #8a6d3b;
+    --gold-dim:      #D4AF37;
+    --cinnabar:      #C0392B;
+    --cinnabar-dim:  #962D22;
+    --jade:          #388E3C;
+    --ink-blue:      #1976D2;
+    --text:          #3D271D;
+    --text-muted:    #5A453A;
+    --text-dim:      #7D6658;
 
-    --el-jin:  #cbc4a8;
-    --el-mu:   #5f9478;
-    --el-shui: #4e79ac;
-    --el-huo:  #c0492f;
-    --el-tu:   #a17f4f;
+    /* Element colors (สีธาตุ) - Crisp, distinct, and authentic */
+    --el-jin:  #795548;  /* 金 - 金 (ทอง/โลหะ) Brown-Gold */
+    --el-mu:   #2E7D32;  /* 木 - 木 (ไม้) Jade Green */
+    --el-shui: #1565C0;  /* 水 - 水 (น้ำ) Ocean Blue */
+    --el-huo:  #C62828;  /* 火 - 火 (ไฟ) Crimson Red */
+    --el-tu:   #8D6E63;  /* 土 - 土 (ดิน) Warm Earth */
 
-    --ji-da:      #c9a13e;
-    --ji-xiao:    #93995e;
-    --ping:       #7c7768;
-    --xiong-xiao: #8a5a4a;
-    --xiong-da:   #a13a2e;
+    /* Auspiciousness (ระดับโชค/เคราะห์) */
+    --ji-da:      #B8860B;
+    --ji-xiao:    #4E8752;
+    --ping:       #6C5346;
+    --xiong-xiao: #D96B6B;
+    --xiong-da:   #C0392B;
 
     --radius-s: 4px;
     --radius-m: 10px;
@@ -58,7 +60,7 @@
 
   html,body{
     margin:0; padding:0;
-    background: radial-gradient(ellipse 120% 80% at 50% -10%, #1a1e2a 0%, var(--bg) 55%);
+    background: var(--bg);
     color: var(--text);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
@@ -408,12 +410,12 @@
   .plate-outer{
     position:relative;
     background:
-      radial-gradient(ellipse 90% 70% at 30% 20%, rgba(184,147,90,0.10), transparent 60%),
-      linear-gradient(155deg, #1c2029 0%, #14161d 60%, #100f14 100%);
+      radial-gradient(ellipse 90% 70% at 30% 20%, rgba(184,134,11,0.06), transparent 60%),
+      linear-gradient(155deg, #FFFDF7 0%, #FAF0DD 60%, #F5E6CC 100%);
     border: 1px solid var(--hairline-strong);
     border-radius: var(--radius-l);
     padding: 22px;
-    box-shadow: 0 30px 60px -25px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.03);
+    box-shadow: 0 15px 35px rgba(61,39,29,0.08);
   }
   .plate-ring-label{
     display:flex;
@@ -447,7 +449,7 @@
     min-height: 0;
   }
   .cell:hover, .cell.selected{
-    background: #232838;
+    background: #FFF9E6;
   }
   .cell.selected{
     box-shadow: inset 0 0 0 2px var(--gold);
@@ -459,7 +461,7 @@
     font-family: var(--font-display);
     font-size: 64px;
     font-weight: 900;
-    color: rgba(255,255,255,0.025);
+    color: rgba(184,134,11,0.05);
     line-height:1;
     pointer-events:none;
     user-select:none;
@@ -469,7 +471,7 @@
     align-items:center;
     justify-content:center;
     text-align:center;
-    background: linear-gradient(155deg, #20242f, #171a22);
+    background: linear-gradient(155deg, #FFFDF7, #FAF0DD);
     overflow-y: auto;
   }
   .cell .cell-head{
@@ -900,16 +902,12 @@
         <h3>格局<span class="th">เกจวี๋ (รูปแบบพิเศษ)</span></h3>
         <div class="geju-list" id="gejuList"></div>
       </div>
-      <div class="panel">
-        <h3>综合断语<span class="th">บทสรุปคำทำนาย</span></h3>
-        <ul class="suggestions" id="suggestList"></ul>
-      </div>
     </div>
   </div>
 
   <div class="detail-panel" id="detailPanel">
-    <h3 id="dTitle">选择一宫查看详解<span class="th">เลือกวังเพื่อดูคำอธิบาย</span></h3>
-    <div class="d-sub" id="dSub">点击九宫格中的任意一宫，查看完整断辞<br><span class="th">คลิกวังใดก็ได้ในผังเก้าวังเพื่อดูคำทำนายแบบเต็ม</span></div>
+    <h3 id="dTitle">选择一宫查看详解<span class="th">เลือกวังเพื่อดูข้อมูลองค์ประกอบ</span></h3>
+    <div class="d-sub" id="dSub">点击九宫格中的任意一宫，查看宫位详细数据<br><span class="th">คลิกวังใดก็ได้ในผังเก้าวังเพื่อดูองค์ประกอบเชิงลึกของวังนั้น</span></div>
     <div id="dBody"></div>
   </div>
 
@@ -1150,20 +1148,13 @@
       return '<div class="geju-item">' +
                '<span class="tag" style="' + jx.style + '" title="' + jx.thLabel + '">' + jx.label + '</span>' +
                '<div class="body"><b>' + g.name + '</b>　<span style="color:var(--text-dim);font-family:var(--font-mono);font-size:11px;">' + loc + '</span>' +
-               '<span class="th-name">(' + locTh + ')</span>' +
-               '<p>' + g.explain + '</p></div>' +
+               '<span class="th-name">(' + locTh + ')</span></div>' +
              '</div>';
     }).join('');
   }
 
   function renderSuggestions(result){
-    var a = result.analysis || {};
-    var jx = jxTag(a.overallJiXiong);
-    var list = (a.suggestions || []).map(function(s){ return '<li>' + s + '</li>'; }).join('');
-    els.suggestList.innerHTML =
-      '<li style="padding-left:0;"><span class="tag" style="' + jx.style + ';display:inline-block;padding:2px 9px;border-radius:999px;margin-right:8px;">' + jx.label + '</span>整体运势　' + (a.overallJiXiongText || '') +
-      '<span class="th-tag">　ดวงโดยรวม: ' + jx.thLabel + '</span></li>' +
-      list;
+    // Suggestions / prediction texts removed as requested
   }
 
   function selectGong(g){
@@ -1188,11 +1179,8 @@
     if(a.keYing && a.keYing.name) facts.push(['克应','เค่อยิ่ง', a.keYing.name, '']);
     facts.push(['空亡','คงหวาง', a.kongWang ? '是' : '否', a.kongWang ? 'ใช่' : 'ไม่ใช่']);
     facts.push(['驿马','อี้หม่า', a.yiMa ? '是' : '否', a.yiMa ? 'ใช่' : 'ไม่ใช่']);
-    facts.push(['得分','คะแนน', a.score, '']);
 
     els.dBody.innerHTML =
-      '<span class="d-jx" style="' + jx.style + '">断语：' + a.jiXiongText + '<span class="th">(' + jx.thLabel + ')</span></span>' +
-      '<div class="d-explain">' + a.explain + '</div>' +
       '<div class="d-facts">' + facts.map(function(f){
         return '<div class="item"><div class="k">' + f[0] + '<span class="th">' + f[1] + '</span></div><div class="v">' + f[2] + '</div>' +
                (f[3] ? '<div class="v-th">' + f[3] + '</div>' : '') + '</div>';
@@ -1207,7 +1195,6 @@
     renderPlate(result);
     renderInfoGrid(result);
     renderGeju(result);
-    renderSuggestions(result);
 
     // default selection: best palace
     var best = (result.analysis && result.analysis.bestGong) || '1';
