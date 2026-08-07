@@ -106,7 +106,24 @@
   </div>
 </section>
 
-
+<!-- ✦ NEWS & EVENTS HIGHLIGHT (2ND HERO) ✦ -->
+<section class="news-hero-section" id="news-highlight">
+  <div class="container">
+    <div class="news-hero-inner">
+      <div class="news-hero-media" id="newsHeroMedia">📰</div>
+      <div class="news-hero-content">
+        <div class="section-tag">News &amp; Events</div>
+        <h2 class="news-hero-title" id="newsHeroTitle">เปิดคอร์สโหราศาสตร์จีนรุ่นใหม่</h2>
+        <p class="news-hero-desc" id="newsHeroDesc">เปิดรับสมัครผู้สนใจเรียนรู้ศาสตร์โหราศาสตร์จีนกับซินแสหวาง</p>
+        <div class="news-hero-meta">📅 <span id="newsHeroDate">1 ม.ค. 2569</span></div>
+        <div class="news-hero-actions">
+          <a href="javascript:void(0)" class="btn-primary" id="newsHeroCta">อ่านรายละเอียด</a>
+          <a href="#news-events" class="btn-outline">ดูข่าวสารทั้งหมด</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ✦ PROGRAMS ✦ -->
 <section class="services section" id="services">
@@ -711,8 +728,11 @@
         if (ogDesc && data.seo.desc) ogDesc.content = data.seo.desc;
       }
 
-      // News & Events grid
-      if (data.newsEvents && data.newsEvents.length) renderNewsEvents(data.newsEvents);
+      // News & Events grid + highlight banner
+      if (data.newsEvents && data.newsEvents.length) {
+        renderNewsEvents(data.newsEvents);
+        renderNewsHero(data.newsEvents[0]);
+      }
 
       // Landing popup content
       if (data.popup) applyPopupContent(data.popup);
@@ -740,6 +760,21 @@ function renderNewsEvents(items) {
       </div>
     </a>`;
   }).join('');
+}
+
+/* ── NEWS & EVENTS HIGHLIGHT (2ND HERO) ── */
+function renderNewsHero(item) {
+  if (!item) return;
+  const media = document.getElementById('newsHeroMedia');
+  if (media && item.image) media.innerHTML = `<img src="${item.image}" alt="${escHtml(item.title)}" loading="lazy" />`;
+  const title = document.getElementById('newsHeroTitle');
+  if (title && item.title) title.textContent = item.title;
+  const desc = document.getElementById('newsHeroDesc');
+  if (desc && item.desc) desc.textContent = item.desc;
+  const date = document.getElementById('newsHeroDate');
+  if (date && item.date) date.textContent = item.date;
+  const cta = document.getElementById('newsHeroCta');
+  if (cta) cta.href = item.link ? item.link : '#news-events';
 }
 
 /* ── LANDING POPUP ── */
