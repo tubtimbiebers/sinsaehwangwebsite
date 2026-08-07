@@ -1168,19 +1168,25 @@ function syncAndCalculate() {
   const doc = getIframeDoc();
   if (!doc) return;
 
+  const setVal = (childId, parentId) => {
+    const childEl = doc.getElementById(childId);
+    const parentEl = document.getElementById(parentId);
+    if (childEl && parentEl) childEl.value = parentEl.value;
+  };
+
   // Sync inputs
-  doc.getElementById('name').value = document.getElementById('p-name').value;
-  doc.getElementById('gender').value = document.getElementById('p-gender').value;
-  doc.getElementById('day').value = document.getElementById('p-day').value;
-  doc.getElementById('month').value = document.getElementById('p-month').value;
-  doc.getElementById('year').value = document.getElementById('p-year').value;
-  doc.getElementById('hour').value = document.getElementById('p-hour').value;
-  doc.getElementById('minute').value = document.getElementById('p-minute').value;
+  setVal('name', 'p-name');
+  setVal('gender', 'p-gender');
+  setVal('day', 'p-day');
+  setVal('month', 'p-month');
+  setVal('year', 'p-year');
+  setVal('hour', 'p-hour');
+  setVal('minute', 'p-minute');
   
-  doc.getElementById('dhDeg').value = document.getElementById('p-dhDeg').value;
-  doc.getElementById('dhEra').value = document.getElementById('p-dhEra').value;
-  doc.getElementById('dhYear').value = document.getElementById('p-dhYear').value;
-  doc.getElementById('dhMonth').value = document.getElementById('p-dhMonth').value;
+  setVal('dhDeg', 'p-dhDeg');
+  setVal('dhEra', 'p-dhEra');
+  setVal('dhYear', 'p-dhYear');
+  setVal('dhMonth', 'p-dhMonth');
 
   // Submit child form
   const childForm = doc.getElementById('f');
