@@ -727,6 +727,11 @@
         <span class="title">ดูทิศฤกษ์ยาม</span>
         <span class="desc">ตารางหาทิศมงคลรายวัน</span>
       </button>
+      <button type="button" class="selector-btn" data-tab="qimen">
+        <span class="zh-icon">奇</span>
+        <span class="title">คิ้วหมึนกุนฉะ</span>
+        <span class="desc">ผังฉีเหมินตุ้นเจีย 9 วัง</span>
+      </button>
     </div>
     
     <!-- ✦ TOOL IFRAME (SEAMLESSLY STYLED) ✦ -->
@@ -1226,6 +1231,13 @@ function switchTab(tabId) {
     } else {
       injectStyles();
     }
+  } else if (tabId === 'qimen') {
+    if (activeProgram !== 'qimen') {
+      activeProgram = 'qimen';
+      iframe.src = 'vicha/qimen-app.html';
+    } else {
+      injectStyles();
+    }
   } else {
     if (activeProgram !== 'main') {
       activeProgram = 'main';
@@ -1285,11 +1297,11 @@ setInterval(resizeFrame, 1000);
 // ── Hash switching logic for header links ──
 function checkHashAndSwitch() {
   const hash = window.location.hash.substring(1);
-  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit'];
+  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen'];
   if (hash && validTabs.includes(hash)) {
     document.getElementById('resultSection').classList.remove('hidden');
     switchTab(hash);
-    if (hash !== 'duthit') {
+    if (hash !== 'duthit' && hash !== 'qimen') {
       setTimeout(syncAndCalculate, 100);
     }
   }
