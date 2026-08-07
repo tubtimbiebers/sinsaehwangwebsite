@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Noto+Sans+Thai:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/style.css?v=12" />
+  <link rel="stylesheet" href="/css/style.css?v=12" />
   <style>
     .chart-bar { display:flex; align-items:flex-end; gap:6px; height:80px; }
     .chart-bar span {
@@ -43,7 +43,7 @@
 </head>
 <body class="admin-body">
 <script>
-if(!sessionStorage.getItem('admin_auth')) window.location.href='login.html';
+if(!sessionStorage.getItem('admin_auth')) window.location.href='/admin';
 </script>
 <div class="admin-layout">
 
@@ -59,43 +59,43 @@ if(!sessionStorage.getItem('admin_auth')) window.location.href='login.html';
     <nav class="admin-nav">
       <div class="admin-nav-section">
         <div class="admin-nav-label">ภาพรวม</div>
-        <a href="dashboard.html" class="admin-nav-item active" id="nav-dashboard">
+        <a href="/admin/dashboard.html" class="admin-nav-item active" id="nav-dashboard">
           <span class="nav-icon">📊</span> Dashboard
         </a>
       </div>
       <div class="admin-nav-section">
         <div class="admin-nav-label">เนื้อหา</div>
-        <a href="homepage.html" class="admin-nav-item" id="nav-homepage">
+        <a href="/admin/homepage.html" class="admin-nav-item" id="nav-homepage">
           <span class="nav-icon">🏠</span> แก้ไขหน้าแรก
         </a>
-        <a href="posts.html" class="admin-nav-item" id="nav-posts">
+        <a href="/admin/posts.html" class="admin-nav-item" id="nav-posts">
           <span class="nav-icon">📝</span> บทความ
         </a>
-        <a href="categories.html" class="admin-nav-item" id="nav-categories">
+        <a href="/admin/categories.html" class="admin-nav-item" id="nav-categories">
           <span class="nav-icon">🏷️</span> หมวดหมู่
         </a>
-        <a href="testimonials.html" class="admin-nav-item" id="nav-testimonials">
+        <a href="/admin/testimonials.html" class="admin-nav-item" id="nav-testimonials">
           <span class="nav-icon">💬</span> รีวิว
         </a>
       </div>
       <div class="admin-nav-section">
         <div class="admin-nav-label">ลูกค้า</div>
-        <a href="consultations.html" class="admin-nav-item" id="nav-consult">
+        <a href="/admin/consultations.html" class="admin-nav-item" id="nav-consult">
           <span class="nav-icon">🔮</span> คำปรึกษา
         </a>
-        <a href="customers.html" class="admin-nav-item" id="nav-customers">
+        <a href="/admin/customers.html" class="admin-nav-item" id="nav-customers">
           <span class="nav-icon">👥</span> ลูกค้า
         </a>
-        <a href="appointments.html" class="admin-nav-item" id="nav-appointments">
+        <a href="/admin/appointments.html" class="admin-nav-item" id="nav-appointments">
           <span class="nav-icon">📅</span> นัดหมาย
         </a>
       </div>
       <div class="admin-nav-section">
         <div class="admin-nav-label">ระบบ</div>
-        <a href="settings.html" class="admin-nav-item" id="nav-settings">
+        <a href="/admin/settings.html" class="admin-nav-item" id="nav-settings">
           <span class="nav-icon">⚙️</span> ตั้งค่า
         </a>
-        <a href="seo.html" class="admin-nav-item" id="nav-seo">
+        <a href="/admin/seo.html" class="admin-nav-item" id="nav-seo">
           <span class="nav-icon">🔍</span> SEO
         </a>
         <a href="#" class="admin-nav-item" id="nav-logout" onclick="logout()">
@@ -105,7 +105,7 @@ if(!sessionStorage.getItem('admin_auth')) window.location.href='login.html';
     </nav>
     <div style="padding:var(--sp-lg);border-top:1px solid rgba(255,255,255,0.08);">
       <div style="font-size:0.7rem;color:var(--gray-600);text-align:center;">
-        ซินแสหวาง v2.0 · <a href="../index.html" style="color:var(--gold-bright);">ดูเว็บ ↗</a>
+        ซินแสหวาง v2.0 · <a href="/index.html" style="color:var(--gold-bright);">ดูเว็บ ↗</a>
       </div>
     </div>
   </aside>
@@ -170,16 +170,16 @@ if(!sessionStorage.getItem('admin_auth')) window.location.href='login.html';
 
       <!-- Quick Actions -->
       <div class="quick-actions">
-        <a href="posts.html?new=1" class="quick-btn" id="qa-newpost">
+        <a href="/admin/posts.html?new=1" class="quick-btn" id="qa-newpost">
           <span class="qicon">✍️</span>สร้างบทความใหม่
         </a>
-        <a href="homepage.html" class="quick-btn" id="qa-homepage">
+        <a href="/admin/homepage.html" class="quick-btn" id="qa-homepage">
           <span class="qicon">🏠</span>แก้ไขหน้าแรก
         </a>
-        <a href="appointments.html" class="quick-btn" id="qa-appointments">
+        <a href="/admin/appointments.html" class="quick-btn" id="qa-appointments">
           <span class="qicon">📅</span>จัดการนัดหมาย
         </a>
-        <a href="categories.html" class="quick-btn" id="qa-categories">
+        <a href="/admin/categories.html" class="quick-btn" id="qa-categories">
           <span class="qicon">🏷️</span>จัดการหมวดหมู่
         </a>
       </div>
@@ -215,7 +215,7 @@ if(!sessionStorage.getItem('admin_auth')) window.location.href='login.html';
         <div class="admin-card">
           <div class="admin-card-header">
             <span class="admin-card-title">🔮 คำปรึกษาล่าสุด</span>
-            <a href="consultations.html" style="font-size:0.8rem;color:var(--crimson);">ดูทั้งหมด →</a>
+            <a href="/admin/consultations.html" style="font-size:0.8rem;color:var(--crimson);">ดูทั้งหมด →</a>
           </div>
           <table>
             <thead>
@@ -232,7 +232,7 @@ if(!sessionStorage.getItem('admin_auth')) window.location.href='login.html';
       <div class="admin-card">
         <div class="admin-card-header">
           <span class="admin-card-title">📅 นัดหมายวันนี้</span>
-          <a href="appointments.html?new=1" class="btn-primary" style="font-size:0.8rem;padding:0.4rem 1rem;">+ เพิ่มนัด</a>
+          <a href="/admin/appointments.html?new=1" class="btn-primary" style="font-size:0.8rem;padding:0.4rem 1rem;">+ เพิ่มนัด</a>
         </div>
         <table>
           <thead>
@@ -247,7 +247,7 @@ if(!sessionStorage.getItem('admin_auth')) window.location.href='login.html';
       <div class="admin-card">
         <div class="admin-card-header">
           <span class="admin-card-title">🔍 สถานะ SEO & ระบบ</span>
-          <a href="seo.html" style="font-size:0.8rem;color:var(--crimson);">จัดการ SEO →</a>
+          <a href="/admin/seo.html" style="font-size:0.8rem;color:var(--crimson);">จัดการ SEO →</a>
         </div>
         <div style="padding:var(--sp-xl);display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-md);">
           <div style="text-align:center;">
@@ -273,7 +273,7 @@ if(!sessionStorage.getItem('admin_auth')) window.location.href='login.html';
   </main>
 </div>
 
-<script src="../js/main.js"></script>
+<script src="/js/main.js"></script>
 <script>
 const RECENT_DATA = [
   { name:'คุณกิตติ์', svc:'โหราศาสตร์จีน', status:'completed' },
@@ -346,7 +346,7 @@ function initDashboard() {
 function logout() {
   if(confirm('ต้องการออกจากระบบ?')) {
     sessionStorage.removeItem('admin_auth');
-    window.location.href='login.html';
+    window.location.href='/admin';
   }
 }
 
