@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;700;900&family=Noto+Sans+Thai:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-  <script type="module" crossorigin src="/assets/index-CA83nfOO.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-trv67gIz.css">
+  <script type="module" crossorigin src="index-Kgb9uYAH.js"></script>
+  <link rel="stylesheet" crossorigin href="index-D3c8BxCH.css">
 </head>
 <body>
   <div id="particles-bg"></div>
@@ -19,7 +19,7 @@
     <section class="screen active" id="screen-home">
       <header class="app-header">
         <div class="temple-logo-wrap">
-          <img src="assets/images/5.png" alt="โลโก้วิหารฟ้าพุทธมารดา" class="temple-logo" onerror="this.parentElement.style.display='none'" />
+          <img src="images/temple_logo.png" alt="โลโก้วิหารต้าเทียนเซียน" class="temple-logo" onerror="this.parentElement.style.display='none'" />
         </div>
         <div class="header-ribbon">BEYOND CREATION</div>
         <div class="red-seal">
@@ -75,6 +75,21 @@
       </footer>
     </section>
 
+    <!-- ===== SCREEN: PRAY ===== -->
+    <section class="screen" id="screen-pray">
+      <div class="pray-container">
+        <div class="pray-icon-wrap">
+          <div class="yinyang-loop">☯</div>
+        </div>
+        <div class="pray-message">
+          <p>ให้อธิฐานจิตตั้งมั่น และเมื่อคำถามนั้นชัดเจน โปรดกด คำทำนายได้ ณ บัดนี้</p>
+        </div>
+        <div class="pray-actions">
+          <button class="btn-primary large" id="btn-pray-go">กดรับ คำทำนาย</button>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== SCREEN: CAST ===== -->
     <section class="screen" id="screen-cast">
       <header class="cast-header">
@@ -93,7 +108,7 @@
 
       <div class="hexagram-stage" id="hex-stage"></div>
 
-      <div class="reveal-zone" id="reveal-zone" style="display: flex; gap: 1rem; justify-content: center; width: 100%; max-width: 600px; margin: 1.5rem auto;">
+      <div class="reveal-zone" id="reveal-zone">
         <button class="btn-primary large" id="btn-reveal">✦ เปิดคำทำนาย</button>
         <button class="btn-ghost" id="back1">← ถามใหม่</button>
       </div>
@@ -104,7 +119,9 @@
       <div class="result-wrapper">
         <div class="result-card" id="result-card" oncontextmenu="return false;">
           <div class="result-top-deco">
-            <span>Beyond Creation</span><span class="deco-line"></span><span>Sinsaehwang</span>
+            <button class="header-btn" id="btn-result-back">← ย้อนกลับ</button>
+            <div class="deco-seal-mini">易</div>
+            <button class="header-btn" id="btn-result-restart">เริ่มคำถามใหม่ ⟳</button>
           </div>
           
           <div class="result-split-layout">
@@ -120,6 +137,7 @@
                 <div class="hex-badge" id="r-num">ไพ่ที่ 01</div>
               </div>
 
+              <div class="prophecy-hint">อ่านกลอนพยากรณ์ กดรูปด้านล่าง</div>
               <div class="hex-illustration">
                 <img id="r-illust" src="" alt="Hexagram Illustration">
               </div>
@@ -170,6 +188,21 @@
                   </div>
                   <p id="r-advice"></p>
                 </div>
+
+                <!-- Merit Section -->
+                <div class="merit-section">
+                  <div class="merit-qr-wrap">
+                    <img src="images/merit_qr.jpg.png" alt="QR Code สำหรับร่วมบุญ" class="merit-qr" onerror="this.parentElement.style.display='none'">
+                  </div>
+                  <div class="merit-content">
+                    <p class="merit-text">
+                      ร่วมบุญ สร้างวิหารฟ้าพุทธมารดา<br>
+                      ตามศรัทธา โปรดเซฟ QR CODE นี้ไว้ หรือโอนมาที่<br>
+                      <strong>ธนาคาร กสิกรไทย 191-17906-09 สว่าง รงคะศิริพันธ์</strong><br>
+                      ก่อนปิด คำทำนายนี้ ขอจงสำเร็จ
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div> <!-- End Split Layout -->
@@ -184,7 +217,19 @@
     </section>
   </div>
 
-  <script src="hexagrams_64_filled.json" type="application/json" id="hex-data-src"></script>
+  <!-- ===== OVERLAY: MEDITATION ===== -->
+  <div id="meditation-overlay" class="meditation-overlay">
+    <div class="meditation-content">
+      <div class="meditation-zh">靜</div>
+      <div class="meditation-text-wrap">
+        <p id="meditation-text" class="meditation-text">โปรดตั้งสติ...</p>
+      </div>
+      <div class="meditation-loader">
+        <div class="loader-bar"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== ZOOM MODAL ===== -->
   <div id="zoom-modal" class="zoom-modal">
     <div class="zoom-modal-close">&times;</div>
