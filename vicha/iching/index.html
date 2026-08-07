@@ -22,7 +22,7 @@
     <section class="screen active" id="screen-home">
       <header class="app-header">
         <div class="temple-logo-wrap">
-          <img src="images/temple_logo.png" alt="โลโก้วิหารต้าเทียนเซียน" class="temple-logo" onerror="this.parentElement.style.display='none'" />
+          <img id="app-logo-img" src="" alt="โลโก้วิหารต้าเทียนเซียน" class="temple-logo" onerror="this.parentElement.style.display='none'" />
         </div>
         <div class="header-ribbon">BEYOND CREATION</div>
         <div class="red-seal">
@@ -203,7 +203,7 @@
                 <!-- Merit Section -->
                 <div class="merit-section">
                   <div class="merit-qr-wrap">
-                    <img src="images/merit_qr.jpg.png" alt="QR Code สำหรับร่วมบุญ" class="merit-qr" onerror="this.parentElement.style.display='none'">
+                    <img id="merit-qr-img" src="" alt="QR Code สำหรับร่วมบุญ" class="merit-qr" onerror="this.parentElement.style.display='none'">
                   </div>
                   <div class="merit-content">
                     <p class="merit-text">
@@ -1090,8 +1090,9 @@ function showResult() {
 
   const illustEl = document.getElementById('r-illust');
   if (illustEl) {
+    const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
     const paddedNum = String(num).padStart(3, '0');
-    illustEl.src = 'images/ic' + paddedNum + '.webp';
+    illustEl.src = baseUrl + 'images/ic' + paddedNum + '.webp';
     illustEl.style.display = 'block';
     illustEl.onerror = () => { illustEl.style.display = 'none'; };
   }
@@ -1190,6 +1191,12 @@ function doManual() {
 }
 
 function initApp() {
+  const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+  const logoImg = document.getElementById('app-logo-img');
+  if (logoImg) logoImg.src = baseUrl + 'images/temple_logo.png';
+  const meritQrImg = document.getElementById('merit-qr-img');
+  if (meritQrImg) meritQrImg.src = baseUrl + 'images/merit_qr.jpg.png';
+
   const btnRandom = document.getElementById('btn-random');
   if (btnRandom) btnRandom.addEventListener('click', doRandom);
 
