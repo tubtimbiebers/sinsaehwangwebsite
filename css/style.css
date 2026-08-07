@@ -381,14 +381,14 @@ input, textarea, select { font-family: inherit; }
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--gold);
-  background: rgba(255, 227, 130,0.12);
-  border: 1px solid rgba(255, 227, 130,0.3);
+  color: #7A5500;
+  background: rgba(160, 100, 0, 0.10);
+  border: 1.5px solid rgba(160, 100, 0, 0.30);
   padding: 0.3rem 1rem;
   border-radius: var(--r-full);
   margin-bottom: var(--sp-md);
 }
-.section-tag--light { background: rgba(255, 227, 130,0.12); border-color: rgba(255, 227, 130,0.3); color: var(--gold-bright); }
+.section-tag--light { background: rgba(160, 100, 0, 0.10); border-color: rgba(160, 100, 0, 0.30); color: #7A5500; }
 .section-title {
   font-family: var(--font-serif);
   font-size: clamp(1.8rem, 4vw, 2.75rem);
@@ -692,19 +692,19 @@ input, textarea, select { font-family: inherit; }
 .card-body p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.65; }
 .card-tag {
   display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: 0.72rem;
+  font-weight: 700;
   letter-spacing: 0.08em;
-  color: var(--gold-deep);
-  background: rgba(255, 227, 130,0.1);
-  border: 1px solid rgba(255, 227, 130,0.2);
+  color: #8B6000;
+  background: rgba(180, 120, 0, 0.10);
+  border: 1.5px solid rgba(180, 120, 0, 0.35);
   padding: 0.2rem 0.65rem;
   border-radius: var(--r-full);
   margin-top: var(--sp-sm);
 }
 .card-arrow {
   font-size: 1.2rem;
-  color: var(--gray-400);
+  color: #7a6b5a;
   transition: transform var(--t-fast), color var(--t-fast);
   align-self: flex-end;
 }
@@ -2197,6 +2197,17 @@ table.vt tr.now td:first-child{border-left:3px solid var(--bz-gold)}
 .service-card .card-icon {
   border-radius: 50% !important;
 }
+.service-card--cta {
+  background: var(--grad-crimson) !important;
+  border-color: transparent !important;
+  color: white !important;
+}
+.service-card--cta h3,
+.service-card--cta p { color: rgba(255,255,255,0.95) !important; }
+.service-card--cta .card-icon { background: rgba(255,255,255,0.18) !important; }
+.service-card--cta .icon-zh { color: #FFE180 !important; }
+.service-card--cta .card-tag { background: rgba(255,255,255,0.15) !important; color: rgba(255,255,255,0.95) !important; border-color: rgba(255,255,255,0.3) !important; }
+.service-card--cta .card-arrow { color: #FFE180 !important; }
 
 .blog-card {
   border: 2px solid var(--cream-deep) !important;
@@ -2576,5 +2587,74 @@ input:focus, select:focus, textarea:focus {
   .hero-sun { right: 8%; top: 9%; }
   .hero-cloud-2,
   .hero-leaf-2 { display: none; }
+}
+
+/* ── BLOG PROGRAMS MENU ── */
+.blog-programs-menu {
+  background: var(--cream-pale, #FFF9E6);
+  border-bottom: 1px solid rgba(184, 134, 11, 0.15);
+  padding: 1.5rem 0;
+  box-shadow: inset 0 -4px 10px rgba(61, 39, 29, 0.02);
+}
+.blog-programs-menu .menu-title {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.blog-programs-menu .menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.blog-programs-menu .menu-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--white, #ffffff);
+  border: 1px solid rgba(184, 134, 11, 0.15);
+  padding: 0.75rem 1rem;
+  border-radius: var(--r-md, 8px);
+  text-decoration: none;
+  color: var(--charcoal);
+  transition: all var(--t-fast, 0.2s) ease;
+  box-shadow: 0 4px 10px rgba(61, 39, 29, 0.03);
+}
+.blog-programs-menu .menu-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold, #B8860B);
+  box-shadow: 0 6px 15px rgba(184, 134, 11, 0.15);
+}
+.blog-programs-menu .menu-card .zh-icon {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 28px;
+  color: var(--gold, #B8860B);
+  background: var(--cream-pale, #FFF9E6);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(184, 134, 11, 0.25);
+  flex-shrink: 0;
+}
+.blog-programs-menu .menu-card .card-text {
+  display: flex;
+  flex-direction: column;
+}
+.blog-programs-menu .menu-card .title {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--charcoal);
+}
+.blog-programs-menu .menu-card .desc {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--charcoal-soft, #6C5346);
+  margin-top: 1px;
 }
 

@@ -28,13 +28,13 @@ if not exist "node_modules\express" (
 )
 
 echo  กำลังเริ่ม server...
-echo  เว็บไซต์ : http://localhost:3000
-echo  Admin    : http://localhost:3000/admin/login.html
+echo  เว็บไซต์ : http://localhost:3333
+echo  Admin    : http://localhost:3333/admin/login.html
 echo  กด Ctrl+C เพื่อหยุด
 echo.
 
 :: Open browser after 2 seconds
-start /b cmd /c "timeout /t 2 >nul && start http://localhost:3000"
+start /b cmd /c "timeout /t 2 >nul && start http://localhost:3333"
 
 node local-server.js
 pause

@@ -6,12 +6,17 @@ const path    = require('path');
 const multer  = require('multer');
 
 const app      = express();
-const PORT     = process.env.PORT || 3000;
+const PORT     = process.env.PORT || 3008;
 const ROOT     = __dirname;
 const DATA_DIR = path.join(ROOT, 'data');
 
-// ── ensure data dir exists ──────────────────────────────────────────────────
-if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
+// ── ensure directories exist ────────────────────────────────────────────────
+if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+const UPLOAD_DIR = path.join(ROOT, 'images', 'blog', 'covers');
+if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+
+process.on('uncaughtException', err => console.error('Uncaught Exception:', err));
+process.on('unhandledRejection', err => console.error('Unhandled Rejection:', err));
 
 const ARTICLES_FILE  = path.join(DATA_DIR, 'articles.json');
 const HOMEPAGE_FILE  = path.join(DATA_DIR, 'homepage.json');
@@ -196,12 +201,22 @@ app.get('/api/stats', (_req, res) => {
   res.json({ total: articles.length, published, draft, categories: cats.length });
 });
 
-// ── start ───────────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
+const server = app.listen(3333, () => {
   console.log('\n╔═══════════════════════════════════════════╗');
   console.log('║   🌟 ซินแสหวาง Backend Server            ║');
   console.log('╚═══════════════════════════════════════════╝');
-  console.log(`   เว็บไซต์ : http://localhost:${PORT}`);
-  console.log(`   Admin   : http://localhost:${PORT}/admin/`);
+  console.log('   Status:', server.listening, server.address());
+  const addr = server.address();
+  const actualPort = addr ? addr.port : 3008;
+  console.log(`   เว็บไซต์ : http://localhost:${actualPort}`);
+  console.log(`   Admin   : http://localhost:${actualPort}/admin/`);
   console.log('   กด Ctrl+C เพื่อหยุด\n');
 });
+
+server.on('error', (err) => {
+  console.error('[SERVER ERROR]', err);
+});
+
+// Keep event loop alive in background environments
+setInterval(() => {}, 60000);
+

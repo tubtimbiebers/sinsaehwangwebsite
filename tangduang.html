@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>โปรแกรมตั้งดวง – ซินแสหวาง</title>
+  <meta name="description" content="โปรแกรมตั้งดวงออนไลน์ คำนวณเลข 7 ตัว จักรราศี ทักษามหายุค ดาวเหิน โป๊ยหยี่สี่เถี่ยว โดยซินแสหวาง" />
+  <meta name="keywords" content="โปรแกรมตั้งดวง, เลข 7 ตัว, ดวงชะตา, จักรราศี, ทักษา, ดาวเหิน, โป๊ยหยี่, ซินแสหวาง" />
+  <meta property="og:title" content="โปรแกรมตั้งดวง – ซินแสหวาง" />
+  <meta property="og:description" content="โปรแกรมตั้งดวงออนไลน์ คำนวณเลข 7 ตัว จักรราศี ทักษามหายุค ดาวเหิน โป๊ยหยี่สี่เถี่ยว" />
+  <meta property="og:url" content="https://www.sinsaehwang.com/tangduang.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;500;600;700;900&family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Ma+Shan+Zheng&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=12" />
+  <link rel="icon" href="images/favicon.png" type="image/png" />
+  <style>
+    .tangduang-hero {
+      background: var(--grad-hero);
+      padding: 120px 0 60px;
+      text-align: center;
+      position: relative;
+    }
+    .tangduang-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40px;
+      background: var(--grad-overlay);
+      pointer-events: none;
+    }
+    .tangduang-hero .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--crimson-pale);
+      border: 1px solid var(--crimson-light);
+      border-radius: 50px;
+      padding: 6px 18px;
+      font-size: 13px;
+      color: var(--crimson-deep);
+      margin-bottom: 20px;
+    }
+    .tangduang-hero .badge-dot {
+      width: 7px; height: 7px;
+      background: var(--crimson);
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .tangduang-hero h1 {
+      font-size: clamp(32px, 6vw, 48px);
+      color: var(--charcoal);
+      margin: 0 0 12px;
+      font-family: var(--font-serif);
+      font-weight: 900;
+    }
+    .tangduang-hero p {
+      color: var(--charcoal-soft);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    .tangduang-hero .zh-title {
+      font-family: var(--font-zh);
+      font-size: 36px;
+      color: var(--crimson);
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 8px;
+    }
+    
+    /* Premium Form Container */
+    .tangduang-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+      position: relative;
+      z-index: 2;
+    }
+    .parent-form-card {
+      background: var(--white);
+      border: 2px solid var(--cream-deep);
+      border-radius: var(--r-lg);
+      padding: var(--sp-lg) var(--sp-xl);
+      box-shadow: var(--shadow-lg);
+      margin-top: -30px;
+    }
+    .form-section-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 24px;
+      border-bottom: 2px dashed var(--cream-deep);
+      padding-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group.col-2 {
+      grid-column: span 2;
+    }
+    @media (max-width: 768px) {
+      .form-group.col-2 {
+        grid-column: span 1;
+      }
+    }
+    .form-group label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--charcoal-soft);
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 15px;
+      outline: none;
+    }
+    .advanced-divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 40px 0 24px;
+      color: var(--crimson-deep);
+      font-size: 15px;
+      font-weight: 700;
+      font-family: var(--font-serif);
+    }
+    .advanced-divider::before, .advanced-divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 2px dashed var(--cream-deep);
+    }
+    .advanced-divider span {
+      padding: 0 15px;
+      background: var(--white);
+    }
+    .form-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 36px;
+    }
+    .btn-calculate {
+      background: var(--grad-crimson);
+      color: var(--white);
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 18px;
+      padding: 14px 50px;
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-md);
+      transition: all var(--t-mid);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-calculate:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl), var(--shadow-red);
+    }
+    
+    /* Result Section & Premium Selector Grid */
+    .result-section {
+      margin-top: 50px;
+    }
+    .program-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .selector-btn {
+      background: var(--white);
+      border: 2px solid var(--cream-deep);
+      border-radius: var(--r-md);
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--t-mid);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .selector-btn:hover {
+      transform: translateY(-4px);
+      border-color: var(--crimson);
+      box-shadow: var(--shadow-md);
+    }
+    .selector-btn.active {
+      background: var(--cream-warm);
+      border-color: var(--crimson);
+      box-shadow: var(--shadow-md), 0 0 0 3px var(--crimson-pale);
+    }
+    .selector-btn .icon {
+      font-size: 36px;
+    }
+    .selector-btn .title {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--charcoal);
+    }
+    .selector-btn .desc {
+      font-size: 12px;
+      color: var(--charcoal-soft);
+      opacity: 0.8;
+      line-height: 1.4;
+    }
+    
+    /* Iframe Styling */
+    .frame-wrapper {
+      width: 100%;
+      background: transparent;
+      min-height: 500px;
+      border: 2px solid var(--cream-deep);
+      border-radius: var(--r-lg);
+      padding: 30px;
+      box-shadow: var(--shadow-md);
+      background: var(--white);
+    }
+    .frame-wrapper iframe {
+      width: 100%;
+      border: none;
+      display: block;
+      transition: height 0.3s ease;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* ── Celestial Light Theme Overrides (Matching Main Website) ── */
+    :root {
+      --bg-primary: linear-gradient(135deg, #FFF9E6 0%, #FAF0DD 50%, #FFF9E6 100%);
+      --charcoal: #3D271D;
+      --charcoal-soft: #6C5346;
+      --cream-warm: #FAF0DD;
+      --cream-deep: #EBE3D5;
+      --white: #ffffff;
+      --crimson: #E07A5F;
+      --gold: #B8860B;
+      --gold-pale: rgba(184, 134, 11, 0.08);
+    }
+
+    body {
+      background-color: #f8efdc;
+      background-image:
+        linear-gradient(rgba(255, 249, 230, 0.16), rgba(250, 240, 221, 0.32)),
+        url('images/tangduang-celestial-bg.png');
+      background-position: center top;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--charcoal);
+      position: relative;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        background-position: center top;
+        background-attachment: scroll;
+      }
+    }
+
+    /* Mystical floating clouds/nebulae in background */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 5%; left: 10%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(246, 211, 101, 0.22) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(40px);
+      animation: floatNebula 25s infinite alternate;
+    }
+    body::after {
+      content: '';
+      position: absolute;
+      top: 45%; right: 5%;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(224, 122, 95, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(50px);
+      animation: floatNebula 30s infinite alternate-reverse;
+    }
+
+    @keyframes floatNebula {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 20px) scale(1.05); }
+    }
+
+    .tangduang-hero h1 {
+      color: var(--charcoal) !important;
+      text-shadow: none !important;
+    }
+    .tangduang-hero p {
+      color: var(--charcoal-soft) !important;
+    }
+    .tangduang-hero .badge {
+      background: var(--gold-pale) !important;
+      border: 1px solid rgba(184, 134, 11, 0.3) !important;
+      color: var(--gold) !important;
+    }
+    .tangduang-hero .badge-dot {
+      background: var(--gold) !important;
+    }
+
+    /* Glassmorphic light card for the main form */
+    .parent-form-card {
+      background: rgba(255, 255, 255, 0.9) !important;
+      border: 2px solid rgba(184, 134, 11, 0.3) !important;
+      box-shadow: 0 20px 50px rgba(61, 39, 29, 0.08), inset 0 0 15px rgba(246, 211, 101, 0.08) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .form-section-title {
+      color: var(--charcoal) !important;
+      border-bottom: 2px dashed rgba(184, 134, 11, 0.25) !important;
+    }
+    
+    .form-group label {
+      color: var(--charcoal-soft) !important;
+    }
+
+    .form-group input, .form-group select {
+      background: #ffffff !important;
+      border: 1px solid var(--cream-deep) !important;
+      color: var(--charcoal) !important;
+      transition: all 0.3s ease !important;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--gold) !important;
+      box-shadow: 0 0 12px rgba(184, 134, 11, 0.2) !important;
+    }
+
+    .advanced-divider {
+      color: var(--gold) !important;
+    }
+    .advanced-divider::before, .advanced-divider::after {
+      border-bottom: 2px dashed rgba(184, 134, 11, 0.2) !important;
+    }
+    .advanced-divider span {
+      background: #ffffff !important;
+      color: var(--gold) !important;
+    }
+
+    /* Selector Medallion buttons */
+    .selector-btn {
+      background: rgba(255, 255, 255, 0.8) !important;
+      border: 1px solid rgba(184, 134, 11, 0.2) !important;
+      box-shadow: 0 4px 15px rgba(61, 39, 29, 0.04) !important;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .selector-btn:hover {
+      transform: translateY(-4px) scale(1.02) !important;
+      border-color: var(--gold) !important;
+      box-shadow: 0 10px 25px rgba(184, 134, 11, 0.15) !important;
+    }
+    .selector-btn.active {
+      background: var(--gold-pale) !important;
+      border-color: var(--gold) !important;
+      box-shadow: 0 0 20px rgba(184, 134, 11, 0.2) !important;
+    }
+    .selector-btn .zh-icon {
+      font-family: var(--font-zh) !important;
+      font-size: 32px !important;
+      color: var(--gold) !important;
+      text-shadow: 0 0 8px rgba(184, 134, 11, 0.3);
+      margin-bottom: 4px;
+      display: inline-block;
+    }
+    .selector-btn .title {
+      color: var(--charcoal) !important;
+    }
+    .selector-btn .desc {
+      color: var(--charcoal-soft) !important;
+      opacity: 0.9 !important;
+    }
+
+    /* Iframe container */
+    .frame-wrapper {
+      background: rgba(255, 255, 255, 0.95) !important;
+      border: 2px solid rgba(184, 134, 11, 0.25) !important;
+      box-shadow: 0 20px 50px rgba(61, 39, 29, 0.08) !important;
+    }
+
+    /* Footer contact styles */
+    .contact-label {
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      color: var(--gold) !important;
+      border: 1px solid rgba(184, 134, 11, 0.3);
+      padding: 2px 6px;
+      border-radius: 4px;
+      min-width: 48px;
+      text-align: center;
+      background: var(--gold-pale);
+    }
+  
+  .dh-gridouter { 
+      display:grid; grid-template-columns: 35px auto 35px; grid-template-rows: 25px auto 25px; 
+      justify-content:center; align-items:center; margin:35px auto 25px; width:fit-content;
+      background-color: #fffde7; position: relative; padding: 2px;
+  }
+  .dh-gridouter.theme-red { border: 3px solid #c0392b; }
+  .dh-gridouter.theme-red .dh-gridtitle { color: #c0392b; position: absolute; top: -30px; left: 0; }
+  .dh-gridouter.theme-blue { border: 3px solid #2962ff; }
+  .dh-gridouter.theme-blue .dh-gridtitle { color: #2962ff; position: absolute; top: -30px; left: 0; }
+  
+  .dh-gridouter .dh-toplabels, .dh-gridouter .dh-botlabels { display:flex; justify-content:space-between; grid-column:1 / span 3; font-size:16px; font-weight:700; padding: 0 5px; }
+  .dh-gridouter .dh-toplabels { grid-row: 1; align-items: flex-start; }
+  .dh-gridouter .dh-botlabels { grid-row: 3; align-items: flex-end; }
+  
+  .dh-gridouter .dh-leftlabel, .dh-gridouter .dh-rightlabel { font-size:16px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  .dh-gridouter .dh-leftlabel { grid-column: 1; grid-row: 2; }
+  .dh-gridouter .dh-rightlabel { grid-column: 3; grid-row: 2; }
+  
+  .dh-gridouter.theme-red table.dh-9grid { border:3px solid #c0392b; }
+  .dh-gridouter.theme-blue table.dh-9grid { border:3px solid #2962ff; }
+  .dh-gridouter.theme-red table.dh-9grid td.pb-r { border-right:2px solid #c0392b; }
+  .dh-gridouter.theme-red table.dh-9grid td.pb-b { border-bottom:2px solid #c0392b; }
+  .dh-gridouter.theme-blue table.dh-9grid td.pb-r { border-right:2px solid #2962ff; }
+  .dh-gridouter.theme-blue table.dh-9grid td.pb-b { border-bottom:2px solid #2962ff; }
+
+  table.dh-9grid { border-collapse:collapse; grid-column:2; grid-row:2; background:#fff; }
+  table.dh-9grid td { border:1px dotted #999; width:45px; height:30px; text-align:center; vertical-align:middle; font-size:16px; font-weight:700; color:#1a1a1a; padding:0; }
+  
+  td.dh-star-tl { color: #8b4513 !important; } /* สีน้ำตาล (Brown) */
+  td.dh-star-tr { color: #00BFFF !important; } /* สีฟ้า (Light Blue) */
+  td.dh-star-c  { color: #c0392b !important; } /* สีแดง (Red) */
+  td.dh-star-bl, td.dh-star-br { color: #1a1a1a !important; }
+  
+  .dh-arrow-up { position: absolute; top: -35px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-bottom: 22px solid #2962ff; }
+  .dh-arrow-up::after { content: ''; position: absolute; top: 22px; left: -8px; width: 16px; height: 13px; background: #2962ff; }
+  
+  .dh-base-down { position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 16px; height: 15px; background: #2962ff; }
+  .dh-base-down::after { content: ''; position: absolute; top: 15px; left: -24px; width: 64px; height: 8px; background: #2962ff; }
+
+  .dh-sikuay-title { border:2px solid #2e7d32; color:#2e7d32; font-weight:700; font-size:17px; text-align:center; padding:4px; margin-bottom:0px; }
+  table.dh-sikuay { border-collapse:collapse; width:100%; font-size:14px; }
+  table.dh-sikuay td { border:1px solid #333; padding:6px 4px; text-align:center; }
+  table.dh-sikuay tr.dh-sk-num td { font-weight:700; font-size:15px; }
+  table.dh-sikuay tr.dh-sk-sym td { border-top:2px solid #c0392b; border-bottom:2px solid #c0392b; }
+  table.dh-sikuay tr.dh-sk-sym td.dh-sk-o { color:#c0392b; font-weight:700; font-size:16px; }
+  table.dh-sikuay tr.dh-sk-group td { font-size:11px; }
+  table.dh-sikuay tr.dh-sk-data td { height:30px; }
+  .dh-sikuay-legend { display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px 24px; margin-top:10px; font-size:14px; }
+
+  /* จี่มุ้ยเต้าซิ่ว / โป๊ยหยี่สี่เถี่ยว (BaZi) */
+  .bz-hdrbar { background:#8a6d3b; color:#fff; border-radius:6px; padding:8px 14px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; font-size:14px; margin-bottom:10px; }
+  .bz-hdrbar .bz-name { font-weight:700; font-size:17px; }
+  .bz-pillars { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+  table.bz-pillar { border-collapse:collapse; flex:1; min-width:110px; }
+  table.bz-pillar th { background:#2e7d32; color:#fff; font-size:12px; padding:5px; border:1px solid #1b5e20; }
+  table.bz-pillar td { border:1px solid #999; text-align:center; padding:6px 4px; font-size:13px; }
+  table.bz-pillar td.bz-char { font-size:24px; font-weight:700; line-height:1.2; }
+  table.bz-pillar td.bz-elem { font-size:11px; color:#666; }
+  table.bz-pillar td.bz-thai { font-size:11px; color:#666; }
+  table.bz-pillar td.bz-hidden { font-size:15px; }
+  table.bz-pillar td.bz-gua { font-size:12px; color:#888; }
+
+  .bz-side { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+  table.bz-mini { border-collapse:collapse; flex:1; min-width:60px; }
+  table.bz-mini th { background:#eaf3ff; color:#1565c0; font-size:10px; padding:3px 2px; border:1px solid #ccc; }
+  table.bz-mini th .bz-mini-date { font-weight:400; color:#5a7fa8; }
+  table.bz-mini td { border:1px solid #ccc; text-align:center; padding:4px 2px; font-size:15px; font-weight:700; }
+  table.bz-mini td.bz-hidden-mini { font-size:12px; font-weight:400; }
+  table.bz-mini td.bz-elemscore { font-size:10px; font-weight:400; color:#8a6d3b; background:#fbf5e8; }
+  table.bz-pillar td.bz-elemscore { font-size:11px; font-weight:400; color:#8a6d3b; background:#fbf5e8; }
+
+  .bz-section-title { color:#8a6d3b; font-weight:700; font-size:16px; border-bottom:2px solid #8a6d3b; padding-bottom:4px; margin:18px 0 8px; }
+  table.bz-elemsmall { border-collapse:collapse; font-size:12px; margin-bottom:8px; }
+  table.bz-elemsmall td { border:1px solid #ccc; padding:3px 8px; text-align:center; }
+
+  table.bz-decade { border-collapse:collapse; width:100%; font-size:12px; }
+  table.bz-decade td { border:1px solid #999; text-align:center; padding:3px 2px; }
+  table.bz-decade tr.bz-pct td { background:#ddd; font-weight:700; }
+  table.bz-decade td.bz-char { font-size:16px; font-weight:700; }
+
+  table.bz-10y { border-collapse:collapse; width:100%; font-size:11px; }
+  table.bz-10y td { border:1px solid #ccc; text-align:center; padding:3px 2px; }
+  table.bz-10y td.bz-yr { color:#555; }
+
+  table.bz-transit { border-collapse:collapse; width:100%; font-size:12px; margin-bottom:10px; }
+  table.bz-transit td { border:1px solid #999; text-align:center; padding:3px 2px; }
+  table.bz-transit tr.bz-tr-label td { background:#eaf3ff; color:#1565c0; font-weight:700; }
+  table.bz-transit td.bz-char { font-size:15px; font-weight:700; }
+
+  table.bz-elem-table { border-collapse:collapse; width:100%; font-size:11px; }
+  table.bz-elem-table td, table.bz-elem-table th { border:1px solid #999; text-align:center; padding:3px 4px; }
+  table.bz-elem-table th { background:#eaf3ff; color:#1565c0; font-size:10px; }
+  table.bz-elem-table td.bz-char { font-size:15px; font-weight:700; }
+  table.bz-elem-table td.bz-score { font-weight:700; }
+
+  table.bz-ref { border-collapse:collapse; width:100%; font-size:11px; }
+  table.bz-ref td, table.bz-ref th { border:1px solid #999; padding:3px 5px; text-align:center; }
+  table.bz-ref th { background:#eaf3ff; color:#1565c0; }
+  .bz-pie-wrap { display:flex; justify-content:center; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:12px; }
+  .bz-pie-svg svg { display:block; }
+  .bz-pie-legend { display:flex; flex-direction:column; gap:6px; font-size:13px; }
+  .bz-pie-legend-item { display:flex; align-items:center; gap:8px; }
+  .bz-pie-swatch { width:14px; height:14px; border-radius:3px; display:inline-block; flex:none; }
+
+  .bz-worship { display:flex; gap:12px; flex-wrap:wrap; }
+  .bz-worship-box { flex:1; min-width:260px; border:2px solid #2e7d32; border-radius:6px; padding:10px 14px; background:#fdf6ee; }
+  .bz-worship-box .bz-worship-title { font-weight:700; color:#2e7d32; margin-bottom:4px; }
+
+</style>
+</head>
+<body>
+
+<!-- ✦ LOADER ✦ -->
+<div id="loader" class="loader">
+  <div class="loader-inner">
+    <div class="loader-symbol">龍</div>
+    <div class="loader-text">ซินแสหวาง</div>
+    <div class="loader-bar"><div class="loader-progress"></div></div>
+  </div>
+</div>
+
+<!-- ✦ PARTICLES ✦ -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- ✦ NAVIGATION ✦ -->
+<header id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-zh">王</span>
+      <div class="logo-text">
+        <span class="logo-main">ซินแสหวาง</span>
+        <span class="logo-sub">Sinsae Hwang · 星師皇</span>
+      </div>
+    </a>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link">หน้าแรก</a>
+      <a href="blog.html" class="nav-link">บทความ ซินแสหวาง</a>
+      <a href="tangduang.html" class="nav-link">โปรแกรมตั้งดวง</a>
+      <a href="contact.html" class="nav-link">ติดต่อ</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="consult.html" class="btn-consult" id="consultBtn">ปรึกษาซินแส</a>
+      <button class="nav-toggle" id="navToggle" aria-label="เปิดเมนู">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ✦ PAGE HERO ✦ -->
+<section class="tangduang-hero">
+  <div class="badge">
+    <span class="badge-dot"></span>
+    โปรแกรมตั้งดวงออนไลน์ · ซินแสหวาง
+  </div>
+  <span class="zh-title">排盤程式</span>
+  <h1>โปรแกรมตั้งดวง</h1>
+  <p>
+    คำนวณดวงชะตาครบครันด้วยสูตรโบราณผสานระบบคำนวณอัจฉริยะ กรอกข้อมูลเพียงครั้งเดียวเพื่อวิเคราะห์ผลได้ทันที
+  </p>
+</section>
+
+<!-- ✦ MAIN CONTAINER ✦ -->
+<div class="tangduang-container">
+  
+  <!-- ✦ SINGLE UNIFIED INPUT FORM ✦ -->
+  <form id="parentForm" class="parent-form-card">
+    <h3 class="form-section-title">✦ ข้อมูลพื้นฐานดวงชะตา</h3>
+    
+    <div class="form-grid">
+      <div class="form-group col-2">
+        <label for="p-name">ชื่อผู้รับคำพยากรณ์</label>
+        <input id="p-name" type="text" value="เตอร์" placeholder="กรอกชื่อ-นามสกุล">
+      </div>
+      <div class="form-group">
+        <label for="p-gender">เพศ</label>
+        <select id="p-gender">
+          <option value="ชาย" selected>ชาย</option>
+          <option value="หญิง">หญิง</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="p-day">วันที่เกิด (ค.ศ. / พ.ศ.)</label>
+        <input id="p-day" type="number" min="1" max="31" value="12">
+      </div>
+      <div class="form-group">
+        <label for="p-month">เดือนเกิด</label>
+        <select id="p-month">
+          <option>มกราคม</option>
+          <option>กุมภาพันธ์</option>
+          <option>มีนาคม</option>
+          <option selected>เมษายน</option>
+          <option>พฤษภาคม</option>
+          <option>มิถุนายน</option>
+          <option>กรกฎาคม</option>
+          <option>สิงหาคม</option>
+          <option>กันยายน</option>
+          <option>ตุลาคม</option>
+          <option>พฤศจิกายน</option>
+          <option>ธันวาคม</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="p-year">ปีเกิด (พ.ศ.)</label>
+        <input id="p-year" type="number" value="2541">
+      </div>
+      <div class="form-group">
+        <label for="p-hour">เวลาเกิด (ชั่วโมง 0-23)</label>
+        <input id="p-hour" type="number" min="0" max="23" value="2">
+      </div>
+      <div class="form-group">
+        <label for="p-minute">นาทีเกิด (0-59)</label>
+        <input id="p-minute" type="number" min="0" max="59" value="12">
+      </div>
+    </div>
+
+    <!-- Advanced section: Fengshui / Flying Stars -->
+    <div class="advanced-divider">
+      <span>✦ ข้อมูลวิชาดาวเหิน (สำหรับคำนวณฮวงจุ้ยและทิศทางบ้าน)</span>
+    </div>
+    
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="p-dhDeg">ทิศหลังบ้าน (0-360 องศา)</label>
+        <input id="p-dhDeg" type="number" min="0" max="360" value="185">
+      </div>
+      <div class="form-group">
+        <label for="p-dhEra">ยุคของบ้าน (1-9)</label>
+        <select id="p-dhEra">
+          <option value="1">1 (2407-2426)</option>
+          <option value="2">2 (2427-2446)</option>
+          <option value="3">3 (2447-2466)</option>
+          <option value="4">4 (2467-2486)</option>
+          <option value="5">5 (2487-2506)</option>
+          <option value="6">6 (2507-2526)</option>
+          <option value="7">7 (2527-2546)</option>
+          <option value="8">8 (2547-2566)</option>
+          <option value="9" selected>9 (2567-2586)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="p-dhYear">ปีจร (พ.ศ.)</label>
+        <input id="p-dhYear" type="number" value="2569">
+      </div>
+      <div class="form-group">
+        <label for="p-dhMonth">เดือนจร</label>
+        <select id="p-dhMonth">
+          <option>มกราคม</option>
+          <option>กุมภาพันธ์</option>
+          <option selected>มีนาคม</option>
+          <option>เมษายน</option>
+          <option>พฤษภาคม</option>
+          <option>มิถุนายน</option>
+          <option>กรกฎาคม</option>
+          <option>สิงหาคม</option>
+          <option>กันยายน</option>
+          <option>ตุลาคม</option>
+          <option>พฤศจิกายน</option>
+          <option>ธันวาคม</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-calculate">
+        <span>คำนวณดวงชะตาทุกระบบ</span>
+      </button>
+    </div>
+  </form>
+
+  <!-- ✦ RESULT SECTION (HIDDEN UNTIL FIRST CALCULATION) ✦ -->
+  <div id="resultSection" class="result-section hidden">
+    
+    <!-- Large, Premium Touchable Menu (จิ้มเลือกแท็บขนาดใหญ่) -->
+    <div class="program-selector">
+      <button type="button" class="selector-btn active" data-tab="seven">
+        <span class="zh-icon">數</span>
+        <span class="title">เลข ๗ ตัว ๙ ฐาน</span>
+        <span class="desc">เลข 7 ตัว ฐาน 4-11</span>
+      </button>
+      <button type="button" class="selector-btn" data-tab="zodiac">
+        <span class="zh-icon">星</span>
+        <span class="title">จักรราศี</span>
+        <span class="desc">ราศีจักรและตำแหน่งดาว</span>
+      </button>
+      <button type="button" class="selector-btn" data-tab="taksamahayuk">
+        <span class="zh-icon">運</span>
+        <span class="title">ทักษามหายุค</span>
+        <span class="desc">ทักษาและดาวจรเสวยอายุ</span>
+      </button>
+      <button type="button" class="selector-btn" data-tab="daohern">
+        <span class="zh-icon">玄</span>
+        <span class="title">ดาวเหิน</span>
+        <span class="desc">ฮวงจุ้ยและทิศทางพลังงาน</span>
+      </button>
+      <button type="button" class="selector-btn" data-tab="bazi">
+        <span class="zh-icon">命</span>
+        <span class="title">โป๊ยหยี่สี่เถี่ยว</span>
+        <span class="desc">ดวงชะตาจีนปาจื้อ 8 อักษร</span>
+      </button>
+      <button type="button" class="selector-btn" data-tab="duthit">
+        <span class="zh-icon">向</span>
+        <span class="title">ดูทิศฤกษ์ยาม</span>
+        <span class="desc">ตารางหาทิศมงคลรายวัน</span>
+      </button>
+    </div>
+    
+    <!-- ✦ TOOL IFRAME (SEAMLESSLY STYLED) ✦ -->
+    <div class="frame-wrapper">
+      <iframe
+        id="tangduangFrame"
+        src="vicha/เลข7ตัว9ฐาน_v29.html"
+        title="ระบบตั้งดวงอัจฉริยะ ซินแสหวาง"
+        scrolling="no"
+      ></iframe>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ✦ FOOTER ✦ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-zh">王</span>
+          <div>
+            <span class="logo-main">ซินแสหวาง</span>
+            <span class="logo-sub">星師皇 · Sinsae Hwang</span>
+          </div>
+        </div>
+        <p>ศูนย์รวมความรู้โหราศาสตร์จีนไทย อี้จิง ฮวงจุ้ย คู่สีมงคล โดยผู้เชี่ยวชาญกว่า 30 ปี</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" id="socialFb" aria-label="Facebook">f</a>
+          <a href="#" class="social-link" id="socialLine" aria-label="LINE">L</a>
+          <a href="#" class="social-link" id="socialYt" aria-label="YouTube">▶</a>
+          <a href="#" class="social-link" id="socialTk" aria-label="TikTok">♪</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>บริการ</h4>
+        <ul>
+          <li><a href="chinese-astrology.html">โหราศาสตร์จีน</a></li>
+          <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+          <li><a href="iching.html">อี้จิง 易經</a></li>
+          <li><a href="fengshui.html">ฮวงจุ้ย 風水</a></li>
+          <li><a href="lucky-colors.html">คู่สีมงคล</a></li>
+          <li><a href="numerology.html">เลขมงคลจีน</a></li>
+          <li><a href="tangduang.html">โปรแกรมตั้งดวง</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>เกี่ยวกับ</h4>
+        <ul>
+          <li><a href="about.html">เกี่ยวกับซินแสหวาง</a></li>
+          <li><a href="blog.html">บทความ</a></li>
+          <li><a href="consult.html">นัดปรึกษา</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+          <li><a href="admin/login.html">ระบบหลังบ้าน</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>ติดต่อ</h4>
+        <div class="contact-item">
+          <span>📞</span>
+          <a href="tel:+66855145459">085-514-5459</a>
+        </div>
+        <div class="contact-item">
+          <span>📧</span>
+          <a href="mailto:sinsaehwang@yahoo.com">sinsaehwang@yahoo.com</a>
+        </div>
+        <div class="contact-item">
+          <span>🌐</span>
+          <span>www.sinsaehwang.com</span>
+        </div>
+        <div class="contact-item">
+          <span>📍</span>
+          <span>4 thiantalay 22 yak 16 Tha Kham, Bang Khun Thian, Bangkok 10150</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2568 ซินแสหวาง · Sinsae Hwang · 星師皇 · All Rights Reserved</p>
+      <p><a href="privacy.html">นโยบายความเป็นส่วนตัว</a> · <a href="terms.html">ข้อกำหนดการใช้งาน</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ✦ BACK TO TOP ✦ -->
+<button class="back-to-top" id="backToTop" aria-label="กลับขึ้นด้านบน">
+  <span>↑</span>
+</button>
+
+<script src="js/main.js"></script>
+<script>
+const iframe = document.getElementById('tangduangFrame');
+let activeTab = 'seven';
+
+function getIframeDoc() {
+  return iframe.contentDocument || iframe.contentWindow.document;
+}
+
+// ── Inject styling into iframe to match the website theme perfectly ──
+function injectStyles() {
+  const doc = getIframeDoc();
+  if (!doc) return;
+
+  const style = doc.createElement('style');
+  style.id = 'injected-sinsae-styles';
+
+  // Remove old styles first to allow live updates
+  const old = doc.getElementById('injected-sinsae-styles');
+  if (old) old.remove();
+  style.innerHTML = `
+    /* Hide native controls and backgrounds */
+    h1, .sub, #f, .tabs, .note, .warn {
+      display: none !important;
+    }
+    
+    body {
+      background: transparent !important;
+      color: var(--charcoal) !important;
+      font-family: 'Noto Sans Thai', 'Prompt', sans-serif !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    
+    :root {
+      --crimson: #C0392B;
+      --crimson-pale: rgba(192, 57, 43, 0.08);
+      --gold: #B8860B;
+      --gold-pale: rgba(184, 134, 11, 0.12);
+      --cream-warm: #FDF6E3;       /* Warm parchment background */
+      --cream-deep: #E8D5A3;       /* Light golden border */
+      --charcoal: #2C1810;         /* Dark brown readable text */
+      --charcoal-soft: #6B4226;    /* Medium brown soft text */
+      --white: #FFFFFF;            /* Pure white card background */
+    }
+
+    .result {
+      margin-top: 0 !important;
+      padding: 0 !important;
+      background: transparent !important;
+    }
+    
+    /* Typography style overrides */
+    .title-th {
+      color: var(--gold) !important;
+      font-family: 'Noto Serif Thai', serif !important;
+      font-size: 24px !important;
+      font-weight: 700 !important;
+      margin-bottom: 6px !important;
+      text-align: center !important;
+      text-shadow: 0 0 10px rgba(245, 158, 11, 0.3) !important;
+    }
+    .title-sub {
+      color: var(--charcoal-soft) !important;
+      font-size: 15px !important;
+      margin-bottom: 24px !important;
+      text-align: center !important;
+    }
+    .tm-title {
+      color: var(--gold) !important;
+      font-family: 'Noto Serif Thai', serif !important;
+      font-size: 20px !important;
+      font-weight: 700 !important;
+      margin: 24px 0 14px !important;
+      text-shadow: 0 0 8px rgba(245, 158, 11, 0.3) !important;
+    }
+
+    /* Premium styled tables matching the storybook feel */
+    table.chart, table.grid3, table.triwai, table.planets, table.tmblock, table.tmgrid, table.bz-pillar, table.bz-mini, table.bz-elemsmall, table.bz-decade, table.bz-10y, table.bz-transit, table.bz-elem-table, table.bz-ref, table.dt-table {
+      width: 100% !important;
+      background: var(--white) !important;
+      border: 1px solid var(--cream-deep) !important;
+      border-collapse: collapse !important;
+      margin-bottom: 24px !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+    }
+    
+    table.chart td, table.chart th, table.grid3 td, table.triwai td, table.triwai th, table.planets td, table.planets th, table.bz-pillar td, table.bz-pillar th, table.bz-mini td, table.bz-mini th, table.bz-elemsmall td, table.bz-decade td, table.bz-10y td, table.bz-transit td, table.bz-elem-table td, table.bz-elem-table th, table.bz-ref td, table.bz-ref th, table.dt-table td, table.dt-table th {
+      border: 1px solid var(--cream-deep) !important;
+      padding: 10px 8px !important;
+      color: var(--charcoal) !important;
+      font-family: 'Noto Sans Thai', sans-serif !important;
+      font-size: 14px !important;
+    }
+    
+    /* Header row backgrounds */
+    table.chart .rowlabel, table.triwai th, table.planets th, table.bz-pillar th, table.bz-mini th, table.bz-elem-table th, table.bz-ref th, table.dt-table th {
+      background: var(--cream-warm) !important;
+      color: var(--gold) !important;
+      font-weight: 700 !important;
+    }
+    
+    /* Highlight states */
+    table.chart .current {
+      outline: 3px solid var(--gold) !important;
+      outline-offset: -3px !important;
+      background: var(--gold-pale) !important;
+    }
+    
+    table.chart .val, table.triwai .val, table.bz-pillar td.bz-char, table.bz-mini td {
+      color: var(--gold) !important;
+    }
+    
+    .boxrow {
+      display: flex !important;
+      gap: 20px !important;
+      margin-top: 24px !important;
+      flex-wrap: wrap !important;
+    }
+    .box {
+      flex: 1 !important;
+      min-width: 280px !important;
+    }
+    .box-title {
+      font-family: 'Noto Serif Thai', serif !important;
+      font-size: 18px !important;
+      font-weight: 700 !important;
+      margin-bottom: 12px !important;
+    }
+    .box-title.blue { color: var(--gold) !important; text-shadow: 0 0 5px rgba(245,158,11,0.2); }
+    .box-title.red { color: var(--crimson) !important; }
+    
+    /* Bazi specific styles */
+    .bz-hdrbar {
+      background: var(--cream-warm) !important;
+      color: var(--charcoal) !important;
+      border: 1px solid var(--cream-deep) !important;
+      border-radius: 8px !important;
+      padding: 12px 18px !important;
+      font-family: 'Noto Sans Thai', sans-serif !important;
+      margin-bottom: 20px !important;
+    }
+    .bz-hdrbar .bz-name {
+      color: var(--gold) !important;
+      font-weight: 700 !important;
+    }
+    .bz-section-title {
+      color: var(--gold) !important;
+      border-bottom: 2px solid var(--cream-deep) !important;
+      font-family: 'Noto Serif Thai', serif !important;
+      font-weight: 700 !important;
+      font-size: 18px !important;
+      padding-bottom: 6px !important;
+      margin: 28px 0 14px !important;
+      text-shadow: 0 0 5px rgba(245,158,11,0.2) !important;
+    }
+    .bz-worship-box {
+      border: 2px solid var(--cream-deep) !important;
+      background: var(--white) !important;
+      border-radius: 8px !important;
+      padding: 15px !important;
+    }
+    .bz-worship-box .bz-worship-title {
+      color: var(--gold) !important;
+      font-weight: 700 !important;
+      font-size: 15px !important;
+      margin-bottom: 8px !important;
+    }
+    
+    .bz-pie-wrap {
+      display: flex !important;
+      justify-content: center !important;
+      background: var(--white) !important;
+      border: 1px solid var(--cream-deep) !important;
+      border-radius: 12px !important;
+      padding: 20px !important;
+      margin-bottom: 20px !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* ── Doo Thid specific styling overrides ── */
+    .dt-controls {
+      background: var(--cream-warm) !important;
+      border: 1px solid var(--cream-deep) !important;
+      border-radius: 8px !important;
+      padding: 15px 20px !important;
+      margin-bottom: 24px !important;
+      display: flex !important;
+      gap: 16px !important;
+      flex-wrap: wrap !important;
+    }
+    .dt-controls label {
+      color: var(--charcoal) !important;
+      font-weight: 600 !important;
+      margin-bottom: 6px !important;
+      font-size: 13px !important;
+    }
+    .dt-controls select {
+      background: var(--white) !important;
+      border: 1px solid var(--cream-deep) !important;
+      border-radius: 6px !important;
+      padding: 8px 12px !important;
+      color: var(--charcoal) !important;
+      font-family: 'Noto Sans Thai', sans-serif !important;
+      font-size: 14px !important;
+      outline: none !important;
+    }
+    .dt-daybar {
+      font-family: 'Noto Sans Thai', sans-serif !important;
+      color: var(--charcoal) !important;
+      font-size: 15px !important;
+      margin-bottom: 20px !important;
+      background: var(--cream-warm) !important;
+      border-radius: 8px !important;
+      padding: 12px 18px !important;
+      border: 1px solid var(--cream-deep) !important;
+      display: flex !important;
+      gap: 24px !important;
+      flex-wrap: wrap !important;
+    }
+    .dt-daybar b {
+      color: var(--gold) !important;
+      font-size: 17px !important;
+    }
+    .dt-row {
+      display: flex !important;
+      gap: 20px !important;
+      flex-wrap: wrap !important;
+      margin-bottom: 24px !important;
+    }
+    table.dt-table td.dt-label {
+      background: var(--cream-warm) !important;
+      font-weight: 600 !important;
+    }
+    table.dt-table.dt-good th {
+      background: #1b5e20 !important; /* Rich Dark Green */
+      color: var(--charcoal) !important;
+    }
+    table.dt-table.dt-good td.dt-cn, table.dt-table.dt-good td.dt-th {
+      background: rgba(27, 94, 32, 0.15) !important;
+    }
+    table.dt-table.dt-bad th {
+      background: #b71c1c !important; /* Rich Dark Red */
+      color: var(--charcoal) !important;
+    }
+    table.dt-table.dt-bad td.dt-cn, table.dt-table.dt-bad td.dt-th {
+      background: rgba(183, 28, 28, 0.15) !important;
+    }
+    table.dt-table td.dt-cn {
+      font-size: 16px !important;
+      font-weight: 700 !important;
+    }
+
+    /* ── SVG styling overrides for bright theme ── */
+    svg {
+      background: transparent !important;
+    }
+    svg circle[stroke="#111"], svg line[stroke="#111"], svg rect[stroke="#111"] {
+      stroke: #8B6914 !important;
+    }
+    svg text[fill="#111"] {
+      fill: #2C1810 !important;
+    }
+    svg rect[fill="#fff"] {
+      fill: #FFFDF7 !important;
+    }
+
+    /* ── Dao Hern (ดาวเหิน) overrides ── */
+    table.dh-9grid {
+      border: 3px solid #2962ff !important;
+      border-collapse: collapse !important;
+      background: var(--white) !important;
+    }
+    .dh-gridouter.theme-red table.dh-9grid { border-color: #c0392b !important; }
+    
+    table.dh-9grid td {
+      border: 1px solid #ccc !important;
+      width: 45px !important;
+      height: 35px !important;
+      text-align: center !important;
+      vertical-align: middle !important;
+      font-size: 16px !important;
+      font-weight: 700 !important;
+      padding: 0 !important;
+    }
+    
+    .dh-gridouter.theme-red table.dh-9grid td.pb-r { border-right: 2px solid #c0392b !important; }
+    .dh-gridouter.theme-red table.dh-9grid td.pb-b { border-bottom: 2px solid #c0392b !important; }
+    .dh-gridouter.theme-blue table.dh-9grid td.pb-r { border-right: 2px solid #2962ff !important; }
+    .dh-gridouter.theme-blue table.dh-9grid td.pb-b { border-bottom: 2px solid #2962ff !important; }
+
+    td.dh-star-tl { color: #8b4513 !important; } /* ดาวภูเขา Brown */
+    td.dh-star-tr { color: #00BFFF !important; } /* ดาวน้ำ Light Blue */
+    td.dh-star-c  { color: #c0392b !important; } /* ดาวกลาง Red */
+
+    /* Arrow and Base */
+    .dh-arrow-up { 
+      position: absolute !important; 
+      top: -35px !important; 
+      left: 50% !important; 
+      transform: translateX(-50%) !important; 
+      width: 0 !important; 
+      height: 0 !important; 
+      border-left: 16px solid transparent !important; 
+      border-right: 16px solid transparent !important; 
+      border-bottom: 20px solid #2962ff !important; 
+    }
+    .dh-base-down {
+      position: absolute !important;
+      bottom: -20px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      width: 24px !important;
+      height: 12px !important;
+      border-bottom: 4px solid #2962ff !important;
+      background: transparent !important;
+    }
+    .dh-base-down::after {
+      content: "" !important;
+      position: absolute !important;
+      bottom: -4px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      width: 4px !important;
+      height: 16px !important;
+      background: #2962ff !important;
+    }
+  `;
+  doc.head.appendChild(style);
+}
+
+// ── Auto-adjust iframe height to avoid double scrolls ──
+function resizeFrame() {
+  try {
+    const doc = getIframeDoc();
+    if (doc) {
+      const h = doc.body.scrollHeight;
+      if (h > 200) {
+        iframe.style.height = (h + 30) + 'px';
+      }
+    }
+  } catch(e) {}
+}
+
+// ── Sync form data from parent to child iframe & trigger child calculation ──
+function syncAndCalculate() {
+  const doc = getIframeDoc();
+  if (!doc) return;
+
+  // Sync inputs
+  doc.getElementById('name').value = document.getElementById('p-name').value;
+  doc.getElementById('gender').value = document.getElementById('p-gender').value;
+  doc.getElementById('day').value = document.getElementById('p-day').value;
+  doc.getElementById('month').value = document.getElementById('p-month').value;
+  doc.getElementById('year').value = document.getElementById('p-year').value;
+  doc.getElementById('hour').value = document.getElementById('p-hour').value;
+  doc.getElementById('minute').value = document.getElementById('p-minute').value;
+  
+  doc.getElementById('dhDeg').value = document.getElementById('p-dhDeg').value;
+  doc.getElementById('dhEra').value = document.getElementById('p-dhEra').value;
+  doc.getElementById('dhYear').value = document.getElementById('p-dhYear').value;
+  doc.getElementById('dhMonth').value = document.getElementById('p-dhMonth').value;
+
+  // Submit child form
+  const childForm = doc.getElementById('f');
+  if (childForm) {
+    const btn = childForm.querySelector('button[type="submit"]');
+    if (btn) btn.click();
+  }
+
+  // Inject CSS override
+  injectStyles();
+
+  // Show result section on parent
+  document.getElementById('resultSection').classList.remove('hidden');
+
+  // If active tab is duthit, switch back to 'seven' for the birth chart results
+  if (activeTab === 'duthit') {
+    activeTab = 'seven';
+  }
+  // Ensure main program is tracked as loaded
+  activeProgram = 'main';
+
+  // Trigger tab synchronization
+  switchTab(activeTab);
+}
+
+// ── Track which program is currently loaded ──
+let activeProgram = 'main'; // 'main' or 'duthit'
+
+// ── Handle Parent Tab Switching ──
+function switchTab(tabId) {
+  activeTab = tabId;
+  
+  if (tabId === 'duthit') {
+    if (activeProgram !== 'duthit') {
+      activeProgram = 'duthit';
+      iframe.src = 'vicha/ดูทิศ.html';
+    } else {
+      injectStyles();
+    }
+  } else {
+    if (activeProgram !== 'main') {
+      activeProgram = 'main';
+      iframe.src = 'vicha/เลข7ตัว9ฐาน_v29.html';
+    } else {
+      const doc = getIframeDoc();
+      if (doc) {
+        const tabBtnMap = {
+          'seven': 'tabBtnSeven',
+          'zodiac': 'tabBtnZodiac',
+          'taksamahayuk': 'tabBtnTaksaMahayuk',
+          'daohern': 'tabBtnDaoHern',
+          'bazi': 'tabBtnBaZi'
+        };
+        const childBtnId = tabBtnMap[tabId];
+        if (childBtnId) {
+          const btn = doc.getElementById(childBtnId);
+          if (btn) btn.click();
+        }
+      }
+    }
+  }
+
+  // Toggle active parent button styling
+  document.querySelectorAll('.selector-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tabId);
+  });
+
+  // Re-adjust height
+  setTimeout(resizeFrame, 300);
+}
+
+// ── Bind Listeners ──
+document.getElementById('parentForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  syncAndCalculate();
+});
+
+document.querySelectorAll('.selector-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    switchTab(this.dataset.tab);
+  });
+});
+
+iframe.addEventListener('load', function() {
+  injectStyles();
+  if (activeProgram === 'main') {
+    setTimeout(syncAndCalculate, 100);
+  } else {
+    setTimeout(resizeFrame, 150);
+  }
+});
+
+// Periodic check for height adjustments
+setInterval(resizeFrame, 1000);
+
+// ── Hash switching logic for header links ──
+function checkHashAndSwitch() {
+  const hash = window.location.hash.substring(1);
+  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit'];
+  if (hash && validTabs.includes(hash)) {
+    document.getElementById('resultSection').classList.remove('hidden');
+    switchTab(hash);
+    if (hash !== 'duthit') {
+      setTimeout(syncAndCalculate, 100);
+    }
+  }
+}
+window.addEventListener('hashchange', checkHashAndSwitch);
+window.addEventListener('load', () => {
+  setTimeout(checkHashAndSwitch, 300);
+});
+</script>
+</body>
+</html>
