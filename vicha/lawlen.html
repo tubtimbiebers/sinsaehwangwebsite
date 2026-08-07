@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ต้าลิ่วเหริน (大六壬) - พยากรณ์ระดับสูง</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        prompt: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        premium: {
+                            darkred: '#5e0b0b',
+                            red: '#8b0000',
+                            gold: '#d4af37',
+                            lightgold: '#f9f1d8',
+                            bg: '#fdfbf7',
+                            text: '#2d3748'
+                        }
+                    },
+                    boxShadow: {
+                        'gold': '0 4px 14px 0 rgba(212, 175, 55, 0.39)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+        /* Custom scrollbar for premium look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f9f1d8; }
+        ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b5952f; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Hide header when in iframe */
+        .in-iframe header {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="bg-premium-bg min-h-screen text-premium-text bg-[url('https://www.transparenttextures.com/patterns/rice-paper-2.png')]">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-premium-darkred to-premium-red border-b-4 border-premium-gold shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-semibold text-premium-lightgold tracking-wide">
+                    <span class="text-premium-gold mr-2">大六壬</span> ต้าลิ่วเหริน
+                </h1>
+                <div class="text-premium-lightgold text-sm font-light tracking-wider">
+                    ศาสตร์พยากรณ์ชั้นสูง
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- Left Panel: Input Form -->
+            <div class="w-full lg:w-1/3">
+                <div class="glass-panel rounded-2xl shadow-xl border border-premium-gold/30 overflow-hidden">
+                    <div class="bg-premium-darkred text-premium-gold py-4 px-6 border-b border-premium-gold/30">
+                        <h2 class="text-xl font-medium">ตั้งดวงยาม (起課)</h2>
+                    </div>
+                    
+                    <form id="calcForm" class="p-6 space-y-5">
+                        <!-- Date & Time -->
+                        <div>
+                            <h3 class="text-sm font-semibold text-premium-red mb-3 border-b border-premium-gold/20 pb-1">วันและเวลา</h3>
+                            <div class="grid grid-cols-3 gap-3 mb-3">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">ปี (ค.ศ.)</label>
+                                    <input type="number" id="year" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">เดือน</label>
+                                    <input type="number" id="month" min="1" max="12" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">วันที่</label>
+                                    <input type="number" id="day" min="1" max="31" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all" required>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">ชั่วโมง (0-23)</label>
+                                    <input type="number" id="hour" min="0" max="23" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">นาที (0-59)</label>
+                                    <input type="number" id="minute" min="0" max="59" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all" required>
+                                </div>
+                            </div>
+                            <button type="button" onclick="setCurrentTime()" class="mt-2 text-xs text-premium-gold hover:text-premium-red font-medium transition-colors">
+                                🕒 ใช้เวลาปัจจุบัน
+                            </button>
+                        </div>
+
+                        <!-- Astrological Parameters -->
+                        <div>
+                            <h3 class="text-sm font-semibold text-premium-red mb-3 border-b border-premium-gold/20 pb-1">ข้อมูลประกอบ</h3>
+                            <div class="grid grid-cols-2 gap-3 mb-3">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">เวลาตกฉาก (占時)</label>
+                                    <select id="zhanShi" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold transition-all">
+                                        <option value="子">ชวด (子)</option>
+                                        <option value="丑">ฉลู (丑)</option>
+                                        <option value="寅">ขาล (寅)</option>
+                                        <option value="卯">เถาะ (卯)</option>
+                                        <option value="辰">มะโรง (辰)</option>
+                                        <option value="巳" selected>มะเส็ง (巳)</option>
+                                        <option value="午">มะเมีย (午)</option>
+                                        <option value="未">มะแม (未)</option>
+                                        <option value="申">วอก (申)</option>
+                                        <option value="酉">ระกา (酉)</option>
+                                        <option value="戌">จอ (戌)</option>
+                                        <option value="亥">กุน (亥)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">เดือนยาม (月将)</label>
+                                    <select id="yueJiang" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold transition-all">
+                                        <option value="子">ชวด (子)</option>
+                                        <option value="丑">ฉลู (丑)</option>
+                                        <option value="寅">ขาล (寅)</option>
+                                        <option value="卯">เถาะ (卯)</option>
+                                        <option value="辰">มะโรง (辰)</option>
+                                        <option value="巳">มะเส็ง (巳)</option>
+                                        <option value="午">มะเมีย (午)</option>
+                                        <option value="未" selected>มะแม (未)</option>
+                                        <option value="申">วอก (申)</option>
+                                        <option value="酉">ระกา (酉)</option>
+                                        <option value="戌">จอ (戌)</option>
+                                        <option value="亥">กุน (亥)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 mb-3">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">กาลเวลา</label>
+                                    <select id="zhouZhan" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold transition-all">
+                                        <option value="0">กลางวัน (晝占)</option>
+                                        <option value="1">กลางคืน (夜占)</option>
+                                        </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">ประเภท</label>
+                                    <select id="mingJu" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold transition-all">
+                                        <option value="0">ทายเหตุการณ์ (事占)</option>
+                                        <option value="1">ผังชีวิต (命局)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User Info -->
+                        <div>
+                            <h3 class="text-sm font-semibold text-premium-red mb-3 border-b border-premium-gold/20 pb-1">ผู้รับคำทำนาย</h3>
+                            <div class="grid grid-cols-2 gap-3 mb-3">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">ปีเกิด (ค.ศ.)</label>
+                                    <input type="number" id="birthYear" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold transition-all" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">เพศ</label>
+                                    <div class="flex items-center space-x-4 mt-2">
+                                        <label class="inline-flex items-center">
+                                            <input type="radio" name="gender" value="0" class="form-radio text-premium-red focus:ring-premium-gold h-4 w-4" checked>
+                                            <span class="ml-2 text-sm text-gray-700">ชาย</span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="radio" name="gender" value="1" class="form-radio text-premium-red focus:ring-premium-gold h-4 w-4">
+                                            <span class="ml-2 text-sm text-gray-700">หญิง</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-500 mb-1">เรื่องที่ต้องการถาม (占測之事)</label>
+                                <input type="text" id="question" placeholder="เช่น การเงิน, การงาน, สุขภาพ" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-premium-gold transition-all">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-premium-gold to-yellow-500 hover:from-yellow-500 hover:to-premium-gold text-premium-darkred font-semibold py-3 px-4 rounded-lg shadow-gold transform transition hover:-translate-y-0.5">
+                            ✨ ผูกดวงต้าลิ่วเหริน
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Panel: Output Result -->
+            <div class="w-full lg:w-2/3">
+                <div class="glass-panel h-full rounded-2xl shadow-xl border border-premium-gold/30 p-8 flex flex-col relative overflow-hidden">
+                    
+                    <!-- Decorate Corners -->
+                    <div class="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-premium-gold/40 rounded-tl-xl opacity-50 m-2"></div>
+                    <div class="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-premium-gold/40 rounded-tr-xl opacity-50 m-2"></div>
+                    <div class="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-premium-gold/40 rounded-bl-xl opacity-50 m-2"></div>
+                    <div class="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-premium-gold/40 rounded-br-xl opacity-50 m-2"></div>
+
+                    <div id="loading" class="hidden flex-col items-center justify-center h-full space-y-4 fade-in my-auto">
+                        <div class="w-16 h-16 border-4 border-premium-lightgold border-t-premium-gold rounded-full animate-spin"></div>
+                        <p class="text-premium-darkred font-medium animate-pulse">กำลังคำนวณตำแหน่งดวงดาว...</p>
+                    </div>
+
+                    <div id="initial-state" class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-60 my-auto">
+                        <div class="text-6xl mb-2">☯️</div>
+                        <h3 class="text-xl font-medium text-premium-darkred">กรุณากรอกข้อมูลและกดปุ่ม "ผูกดวง"</h3>
+                        <p class="text-sm text-gray-500 max-w-md">ระบบจะแสดงผลการคำนวณสี่เสาหลัก (四柱), สามสืบทอด (三傳), สี่บทเรียน (四課) และตำแหน่งดาวบนแผ่นฟ้าดิน (天地盤) ที่นี่</p>
+                    </div>
+
+                    <div id="result-content" class="hidden h-full flex flex-col fade-in relative z-10">
+                        <!-- Mock Result will be injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        if (window.self !== window.top) {
+            document.documentElement.classList.add('in-iframe');
+        }
+
+        // Set current time to inputs
+        function setCurrentTime() {
+            const now = new Date();
+            document.getElementById('year').value = now.getFullYear();
+            document.getElementById('month').value = now.getMonth() + 1;
+            document.getElementById('day').value = now.getDate();
+            document.getElementById('hour').value = now.getHours();
+            document.getElementById('minute').value = now.getMinutes();
+            document.getElementById('birthYear').value = now.getFullYear() - 30; // default age 30
+        }
+
+        // Initialize with current time
+        window.onload = setCurrentTime;
+
+        // Form Submission
+        document.getElementById('calcForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // UI State transitions
+            document.getElementById('initial-state').classList.add('hidden');
+            document.getElementById('result-content').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('loading').style.display = 'flex';
+
+            // Simulate server calculation delay
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('loading').classList.add('hidden');
+                
+                generateMockResult();
+                
+                document.getElementById('result-content').classList.remove('hidden');
+            }, 1500);
+        });
+
+        function generateMockResult() {
+            const q = document.getElementById('question').value || "ทั่วไป";
+            const dt = `${document.getElementById('year').value}-${document.getElementById('month').value}-${document.getElementById('day').value} ${document.getElementById('hour').value}:${document.getElementById('minute').value}`;
+            const gender = document.querySelector('input[name="gender"]:checked').value === "0" ? "ชาย" : "หญิง";
+
+            // สร้าง UI ผลลัพธ์จำลองให้ดูหรูหรา (เหมือน UI ที่ได้จาก Python)
+            const resultHTML = `
+                <div class="border-b-2 border-premium-gold/30 pb-4 mb-6">
+                    <h2 class="text-2xl font-semibold text-premium-darkred text-center mb-4">ผลการทำนาย: <span class="text-premium-gold">${q}</span></h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700 text-center bg-premium-lightgold/30 p-4 rounded-lg">
+                        <div><span class="font-semibold text-premium-red">เวลาที่ถาม:</span><br>${dt}</div>
+                        <div><span class="font-semibold text-premium-red">ผู้ถาม:</span><br>เพศ ${gender}</div>
+                        <div><span class="font-semibold text-premium-red">เดือนยาม (月将):</span><br>${document.getElementById('yueJiang').options[document.getElementById('yueJiang').selectedIndex].text}</div>
+                        <div><span class="font-semibold text-premium-red">เวลาตกฉาก (占時):</span><br>${document.getElementById('zhanShi').options[document.getElementById('zhanShi').selectedIndex].text}</div>
+                    </div>
+                </div>
+
+                <div class="flex-1 overflow-y-auto pr-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        
+                        <!-- สามสืบทอด (三傳) -->
+                        <div>
+                            <h3 class="text-lg font-medium text-premium-darkred mb-3 flex items-center"><span class="w-2 h-2 rounded-full bg-premium-gold mr-2"></span> สามสืบทอด (三傳)</h3>
+                            <div class="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+                                <table class="w-full text-center text-lg">
+                                    <tr class="border-b border-gray-100"><td class="py-2 text-gray-500 text-sm">初 (แรก)</td><td class="py-2 text-premium-red font-semibold">辰</td><td class="py-2">蛇 (งู)</td></tr>
+                                    <tr class="border-b border-gray-100"><td class="py-2 text-gray-500 text-sm">中 (กลาง)</td><td class="py-2 text-premium-red font-semibold">午</td><td class="py-2">合 (หกประสาน)</td></tr>
+                                    <tr><td class="py-2 text-gray-500 text-sm">末 (ปลาย)</td><td class="py-2 text-premium-red font-semibold">申</td><td class="py-2">龍 (มังกร)</td></tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- สี่บทเรียน (四課) -->
+                        <div>
+                            <h3 class="text-lg font-medium text-premium-darkred mb-3 flex items-center"><span class="w-2 h-2 rounded-full bg-premium-gold mr-2"></span> สี่บทเรียน (四課)</h3>
+                            <div class="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+                                <table class="w-full text-center text-lg">
+                                    <tr class="text-sm text-gray-500">
+                                        <th class="pb-2 font-normal">สี่</th><th class="pb-2 font-normal">สาม</th><th class="pb-2 font-normal">สอง</th><th class="pb-2 font-normal">หนึ่ง</th>
+                                    </tr>
+                                    <tr class="font-medium">
+                                        <td class="py-1">戌</td><td class="py-1">午</td><td class="py-1">丑</td><td class="py-1">卯</td>
+                                    </tr>
+                                    <tr class="text-premium-red font-semibold">
+                                        <td class="py-1 border-t border-gray-100 pt-2">午</td><td class="py-1 border-t border-gray-100 pt-2">寅</td><td class="py-1 border-t border-gray-100 pt-2">卯</td><td class="py-1 border-t border-gray-100 pt-2">子</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- แผ่นฟ้าดิน (天地盤) -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-premium-darkred mb-3 flex items-center"><span class="w-2 h-2 rounded-full bg-premium-gold mr-2"></span> แผ่นฟ้าดิน (天地盤)</h3>
+                        <div class="bg-white rounded-lg border border-gray-200 p-6 shadow-sm overflow-x-auto">
+                            <table class="w-full text-center table-fixed min-w-[400px]">
+                                <tbody>
+                                    <tr>
+                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">巳</div><div class="text-xl font-medium text-premium-red mt-1">申</div><div class="text-xs mt-1">勾</div></td>
+                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">午</div><div class="text-xl font-medium text-premium-red mt-1">酉</div><div class="text-xs mt-1">青</div></td>
+                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">未</div><div class="text-xl font-medium text-premium-red mt-1">戌</div><div class="text-xs mt-1">空</div></td>
+                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">申</div><div class="text-xl font-medium text-premium-red mt-1">亥</div><div class="text-xs mt-1">虎</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">辰</div><div class="text-xl font-medium text-premium-red mt-1">未</div><div class="text-xs mt-1">合</div></td>
+                                        <td colspan="2" rowspan="2" class="align-middle">
+                                            <div class="w-24 h-24 mx-auto opacity-10 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Yin_yang.svg/1024px-Yin_yang.svg.png')] bg-cover bg-center rounded-full"></div>
+                                        </td>
+                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">酉</div><div class="text-xl font-medium text-premium-red mt-1">子</div><div class="text-xs mt-1">常</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">卯</div><div class="text-xl font-medium text-premium-red mt-1">午</div><div class="text-xs mt-1">朱</div></td>
+                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">戌</div><div class="text-xl font-medium text-premium-red mt-1">丑</div><div class="text-xs mt-1">玄</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">寅</div><div class="text-xl font-medium text-premium-red mt-1">巳</div><div class="text-xs mt-1">蛇</div></td>
+                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">丑</div><div class="text-xl font-medium text-premium-red mt-1">辰</div><div class="text-xs mt-1">貴</div></td>
+                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">子</div><div class="text-xl font-medium text-premium-red mt-1">卯</div><div class="text-xs mt-1">后</div></td>
+                                        <td class="py-3 px-2"><div class="text-xs text-gray-400">亥</div><div class="text-xl font-medium text-premium-red mt-1">寅</div><div class="text-xs mt-1">陰</div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- คำทำนายเพิ่มเติม / 格局 -->
+                    <div class="bg-premium-lightgold/40 border-l-4 border-premium-gold p-4 rounded-r-lg">
+                        <h4 class="font-medium text-premium-darkred mb-1">รูปแบบผัง (卦體): <span class="font-bold">重審卦 (ฉงเสิ่นกว้า)</span></h4>
+                        <p class="text-sm text-gray-700 leading-relaxed">
+                            สัญลักษณ์แห่งการพิจารณาซ้ำ (始入) เรื่องราวเกิดจากภายใน ต้องไตร่ตรองให้ถี่ถ้วน การวางแผนเริ่มต้นอาจมีความยากลำบากแต่จะสำเร็จในภายหลัง การตัดสินใจควรใช้ความระมัดระวัง
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('result-content').innerHTML = resultHTML;
+        }
+    </script>
+</body>
+</html>

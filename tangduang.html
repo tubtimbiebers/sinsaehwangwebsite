@@ -1211,32 +1211,23 @@ function syncAndCalculate() {
   if (!doc) return;
 
   if (activeProgram === 'liuren') {
+    // Liu Ren (六壬) casts a hexagram from the exact moment the question is
+    // asked, not the querent's birth date — lawlen.html's own setCurrentTime()
+    // already fills year/month/day/hour/minute with "now" on load, so those
+    // must be left untouched here. Only the querent's birth year (used for
+    // age/zodiac reference in the reading) and gender come from the parent form.
+
     // Convert BE year to CE year
     let yearBE = parseInt(document.getElementById('p-year').value) || 2568;
     let yearCE = yearBE > 2400 ? yearBE - 543 : yearBE;
-    
-    // Convert Thai month name to numeric index (1-12)
-    const monthNames = [
-      "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
-      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
-    ];
-    let parentMonthStr = document.getElementById('p-month').value;
-    let monthNum = monthNames.indexOf(parentMonthStr) + 1;
-    if (monthNum < 1) monthNum = 4; // fallback
-    
-    // Sync to child inputs in lawlen.html
+
     const setChildVal = (id, val) => {
       const el = doc.getElementById(id);
       if (el) el.value = val;
     };
-    
-    setChildVal('year', yearCE);
-    setChildVal('month', monthNum);
-    setChildVal('day', document.getElementById('p-day').value);
-    setChildVal('hour', document.getElementById('p-hour').value);
-    setChildVal('minute', document.getElementById('p-minute').value);
-    setChildVal('birthYear', yearCE); // default birth year same as birth year
-    
+
+    setChildVal('birthYear', yearCE);
+
     // Sync gender (radio input)
     let genderVal = document.getElementById('p-gender').value === 'หญิง' ? '1' : '0';
     const genderRadios = doc.querySelectorAll('input[name="gender"]');
