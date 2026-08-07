@@ -180,16 +180,11 @@
     }
     .program-selector {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       margin-bottom: 40px;
     }
-    @media (max-width: 992px) {
-      .program-selector {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (max-width: 576px) {
+    @media (max-width: 768px) {
       .program-selector {
         grid-template-columns: 1fr;
       }
@@ -744,10 +739,15 @@
         <span class="title">ฉีเหมินดุนเจี่ย</span>
         <span class="desc">ผังฉีเหมินดุนเจี่ย 9 วัง</span>
       </button>
-      <a href="https://iching-d-atianxian.vercel.app/" target="_blank" class="selector-btn" style="text-decoration: none;">
+      <button type="button" class="selector-btn" data-tab="liuren">
+        <span class="zh-icon">六</span>
+        <span class="title">ลิ่วเหริน</span>
+        <span class="desc">ต้าลิ่วเหริน ศาสตร์พยากรณ์ชั้นสูง</span>
+      </button>
+      <a href="https://iching-oracle-app.vercel.app/" target="_blank" class="selector-btn" style="text-decoration: none;">
         <span class="zh-icon">卦</span>
         <span class="title">คำทำนายอี้จิง</span>
-        <span class="desc">อี้จิงโอราเคิล 64 ฉักลักษณ์ ↗</span>
+        <span class="desc">อี้จิงโอราเคิล 64 ฉักลักษณ์ &#x2197;</span>
       </a>
     </div>
     
@@ -1210,31 +1210,75 @@ function syncAndCalculate() {
   const doc = getIframeDoc();
   if (!doc) return;
 
-  const setVal = (childId, parentId) => {
-    const childEl = doc.getElementById(childId);
-    const parentEl = document.getElementById(parentId);
-    if (childEl && parentEl) childEl.value = parentEl.value;
-  };
+  if (activeProgram === 'liuren') {
+    // Convert BE year to CE year
+    let yearBE = parseInt(document.getElementById('p-year').value) || 2568;
+    let yearCE = yearBE > 2400 ? yearBE - 543 : yearBE;
+    
+    // Convert Thai month name to numeric index (1-12)
+    const monthNames = [
+      "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+    ];
+    let parentMonthStr = document.getElementById('p-month').value;
+    let monthNum = monthNames.indexOf(parentMonthStr) + 1;
+    if (monthNum < 1) monthNum = 4; // fallback
+    
+    // Sync to child inputs in lawlen.html
+    const setChildVal = (id, val) => {
+      const el = doc.getElementById(id);
+      if (el) el.value = val;
+    };
+    
+    setChildVal('year', yearCE);
+    setChildVal('month', monthNum);
+    setChildVal('day', document.getElementById('p-day').value);
+    setChildVal('hour', document.getElementById('p-hour').value);
+    setChildVal('minute', document.getElementById('p-minute').value);
+    setChildVal('birthYear', yearCE); // default birth year same as birth year
+    
+    // Sync gender (radio input)
+    let genderVal = document.getElementById('p-gender').value === 'หญิง' ? '1' : '0';
+    const genderRadios = doc.querySelectorAll('input[name="gender"]');
+    genderRadios.forEach(radio => {
+      if (radio.value === genderVal) {
+        radio.checked = true;
+      }
+    });
 
-  // Sync inputs
-  setVal('name', 'p-name');
-  setVal('gender', 'p-gender');
-  setVal('day', 'p-day');
-  setVal('month', 'p-month');
-  setVal('year', 'p-year');
-  setVal('hour', 'p-hour');
-  setVal('minute', 'p-minute');
-  
-  setVal('dhDeg', 'p-dhDeg');
-  setVal('dhEra', 'p-dhEra');
-  setVal('dhYear', 'p-dhYear');
-  setVal('dhMonth', 'p-dhMonth');
+    // Auto-calculate by calling child Form submit event
+    const childForm = doc.getElementById('calcForm');
+    if (childForm) {
+      const btn = childForm.querySelector('button[type="submit"]');
+      if (btn) btn.click();
+    }
+  } else {
+    const setVal = (childId, parentId) => {
+      const childEl = doc.getElementById(childId);
+      const parentEl = document.getElementById(parentId);
+      if (childEl && parentEl) childEl.value = parentEl.value;
+    };
 
-  // Submit child form
-  const childForm = doc.getElementById('f');
-  if (childForm) {
-    const btn = childForm.querySelector('button[type="submit"]');
-    if (btn) btn.click();
+    // Sync inputs
+    setVal('name', 'p-name');
+    setVal('gender', 'p-gender');
+    setVal('day', 'p-day');
+    setVal('month', 'p-month');
+    setVal('year', 'p-year');
+    setVal('hour', 'p-hour');
+    setVal('minute', 'p-minute');
+    
+    setVal('dhDeg', 'p-dhDeg');
+    setVal('dhEra', 'p-dhEra');
+    setVal('dhYear', 'p-dhYear');
+    setVal('dhMonth', 'p-dhMonth');
+
+    // Submit child form
+    const childForm = doc.getElementById('f');
+    if (childForm) {
+      const btn = childForm.querySelector('button[type="submit"]');
+      if (btn) btn.click();
+    }
   }
 
   // Inject CSS override
@@ -1272,6 +1316,13 @@ function switchTab(tabId) {
     if (activeProgram !== 'qimen') {
       activeProgram = 'qimen';
       iframe.src = 'vicha/qimen-app.html';
+    } else {
+      injectStyles();
+    }
+  } else if (tabId === 'liuren') {
+    if (activeProgram !== 'liuren') {
+      activeProgram = 'liuren';
+      iframe.src = 'vicha/lawlen.html';
     } else {
       injectStyles();
     }
@@ -1321,7 +1372,7 @@ document.querySelectorAll('.selector-btn').forEach(btn => {
 
 iframe.addEventListener('load', function() {
   injectStyles();
-  if (activeProgram === 'main') {
+  if (activeProgram === 'main' || activeProgram === 'liuren') {
     setTimeout(syncAndCalculate, 100);
   } else {
     setTimeout(resizeFrame, 150);
@@ -1334,7 +1385,7 @@ setInterval(resizeFrame, 1000);
 // ── Hash switching logic for header links ──
 function checkHashAndSwitch() {
   const hash = window.location.hash.substring(1);
-  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen'];
+  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen', 'liuren'];
   if (hash && validTabs.includes(hash)) {
     document.getElementById('resultSection').classList.remove('hidden');
     switchTab(hash);
