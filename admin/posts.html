@@ -166,7 +166,10 @@
         <!-- Content -->
         <div class="form-row">
           <div class="form-group" style="grid-column:1/-1">
-            <label>เนื้อหาบทความ (รองรับ HTML)</label>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <label>เนื้อหาบทความ (รองรับ HTML)</label>
+              <button type="button" class="btn-outline" style="font-size:0.75rem;padding:0.3rem 0.7rem;" onclick="insertContentLink()">🔗 แทรกลิงก์</button>
+            </div>
             <textarea class="form-control" id="postContent" rows="10" placeholder="เนื้อหาบทความ... (รองรับ HTML เช่น &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;)"></textarea>
           </div>
         </div>
@@ -433,6 +436,24 @@ async function handleImageUpload(input) {
     document.getElementById('uploadPrompt').textContent = '📷 คลิกเพื่ออัปโหลดรูป';
   }
   input.value = '';
+}
+
+// ── Insert link into content ────────────────────────────────────────────
+function insertContentLink() {
+  const textarea = document.getElementById('postContent');
+  const start = textarea.selectionStart;
+  const end   = textarea.selectionEnd;
+  const selectedText = textarea.value.slice(start, end);
+
+  const url = prompt('ใส่ URL ของลิงก์ (เช่น https://... หรือ blog-detail.html?id=1):', 'https://');
+  if (!url) return;
+  const text = prompt('ข้อความที่จะแสดงเป็นลิงก์:', selectedText || url) || url;
+
+  const linkHtml = `<a href="${url.replace(/"/g, '&quot;')}" target="_blank" rel="noopener">${text}</a>`;
+  textarea.value = textarea.value.slice(0, start) + linkHtml + textarea.value.slice(end);
+  textarea.focus();
+  const caretPos = start + linkHtml.length;
+  textarea.setSelectionRange(caretPos, caretPos);
 }
 
 function previewImageFromPath(path) {
