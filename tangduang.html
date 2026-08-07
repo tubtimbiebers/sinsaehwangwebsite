@@ -1248,6 +1248,14 @@ function syncAndCalculate() {
       const btn = childForm.querySelector('button[type="submit"]');
       if (btn) btn.click();
     }
+    // liuren is a standalone top-level program (its own iframe src), not a
+    // sub-tab of 'main' - skip the main-program tail below, which forces
+    // activeProgram back to 'main' and would make switchTab() see this as a
+    // "different" program and reload the iframe, re-triggering this function
+    // via the load event forever.
+    injectStyles();
+    document.getElementById('resultSection').classList.remove('hidden');
+    return;
   } else if (activeProgram === 'ziwei') {
     // จี่มุ้ยเต้าซิ่ว uses the same พ.ศ. year convention and Thai month names
     // as the parent form, so values pass through directly with no conversion.
@@ -1268,6 +1276,11 @@ function syncAndCalculate() {
       const btn = childForm.querySelector('button[type="submit"]');
       if (btn) btn.click();
     }
+    // Same reason as the liuren branch above - ziwei is a standalone
+    // top-level program, so skip the main-program tail (see comment there).
+    injectStyles();
+    document.getElementById('resultSection').classList.remove('hidden');
+    return;
   } else {
     const setVal = (childId, parentId) => {
       const childEl = doc.getElementById(childId);
