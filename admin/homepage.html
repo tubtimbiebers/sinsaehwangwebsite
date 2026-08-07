@@ -549,7 +549,7 @@ function renderNewsItems() {
         <div class="form-group">
           <label>รูปภาพ</label>
           <div style="display:flex;gap:8px;align-items:center;">
-            <img src="${n.image ? '../' + escAttr(n.image) : ''}" style="${n.image ? '' : 'display:none;'}width:48px;height:48px;object-fit:cover;border-radius:8px;flex-shrink:0;" onerror="this.style.display='none';" />
+            <img src="${n.image ? (/^https?:\/\//.test(n.image) ? escAttr(n.image) : '../' + escAttr(n.image)) : ''}" style="${n.image ? '' : 'display:none;'}width:48px;height:48px;object-fit:cover;border-radius:8px;flex-shrink:0;" onerror="this.style.display='none';" />
             <button type="button" class="btn-outline" style="font-size:0.75rem;padding:0.5rem 0.8rem;white-space:nowrap;" onclick="document.getElementById('newsImgFile-${i}').click()">📷 อัปโหลด</button>
             <input type="file" id="newsImgFile-${i}" accept="image/*" style="display:none;" onchange="handleNewsImageUpload(${i}, this)" />
             <input type="text" class="form-control" value="${escAttr(n.image)}" placeholder="หรือพิมพ์ path เอง" oninput="updateNewsItem(${i},'image',this.value)" />
@@ -632,7 +632,7 @@ function previewPopupImageFromPath(path) {
   const prompt  = document.getElementById('popupUploadPrompt');
   if (!preview || !prompt) return;
   if (path) {
-    preview.src = '../' + path;
+    preview.src = /^https?:\/\//.test(path) ? path : '../' + path;
     preview.style.display = 'block';
     prompt.style.display  = 'none';
     preview.onerror = () => { preview.style.display = 'none'; prompt.style.display = 'block'; prompt.textContent = '📷 รูปไม่พบ — คลิกเพื่ออัปโหลดใหม่'; };
