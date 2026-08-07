@@ -1094,11 +1094,13 @@
       var jx = jxTag(a.jiXiong);
       var elVar = EL_VAR[a.element] || '--text-dim';
       var flags = [];
-      if(a.kongWang) flags.push('空亡');
-      if(a.yiMa) flags.push('驿马');
-      if(a.menPo) flags.push('门迫');
+      if(a.kongWang) flags.push('空亡 (คงหวาง)');
+      if(a.yiMa) flags.push('驿马 (อี้หม่า)');
+      if(a.menPo) flags.push('门迫 (เหมินโพ่)');
+      if(a.jiXing) flags.push('击刑 (จี้สิง)');
+      if(a.ruMu) flags.push('入墓 (ยู่มู่)');
 
-      var xingAliasStr = (a.xingAlias && a.xingAlias !== 'undefined') ? '（' + a.xingAlias + '）' : '';
+      var xingAliasStr = (a.xingAlias && a.xingAlias !== 'undefined' && a.xingAlias !== '') ? '（' + a.xingAlias + '）' : '';
       var xingTh = TH_XING[a.xing] || TH_XING[a.xingAlias] || ((a.xing && (a.xing.indexOf('禽')>=0 || a.xing.indexOf('芮')>=0)) ? 'เทียนฉิน/เทียนรุ่ย' : '');
       var xingThStr = xingTh ? '<span class="th">' + xingTh + '</span>' : '';
 
@@ -1106,7 +1108,11 @@
                 '<span class="watermark">' + a.gongName + '</span>' +
                 '<div class="cell-head"><span class="gong-idx">' + g + ' · ' + a.gongName + '宫</span><span class="jx-badge" style="' + jx.style + '" title="' + jx.thLabel + '">' + jx.label + '</span></div>' +
                 '<div class="dir-row">' + a.direction + '<span class="th">' + TH_DIR[a.direction] + '</span></div>' +
-                '<div class="gan-row"><span class="tiangan" title="ไทย: ' + ganTh(a.tianGan) + '">' + a.tianGan + '</span><span class="digan" title="ไทย: ' + ganTh(a.diGan) + '">/' + a.diGan + '</span></div>' +
+                '<div class="gan-row">' +
+                  '<span class="tiangan" title="เทียนผาน (จานฟ้า): ' + ganTh(a.tianGan) + '">' + a.tianGan + '</span>' +
+                  '<span class="digan" title="ตี้ผาน (จานดิน): ' + ganTh(a.diGan) + '">/' + a.diGan + '</span>' +
+                  (a.anGan ? '<span class="angan" style="font-size:10.5px;color:var(--text-dim);margin-left:auto;font-family:var(--font-mono);" title="อันกาน (กานซ่อน): ' + ganTh(a.anGan) + '">暗 ' + a.anGan + '</span>' : '') +
+                '</div>' +
                 '<div class="men-shen-row">' +
                   '<div class="men"><span class="element-dot" style="background:var(' + elVar + ')" title="ธาตุ: ' + TH_EL[a.element] + '"></span>' + a.men + '<span class="th">' + (TH_MEN[a.men]||'') + '</span></div>' +
                   '<div class="xing" title="ไทย: ' + xingTh + '">' + a.xing + xingAliasStr + xingThStr + '</div>' +
