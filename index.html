@@ -327,6 +327,46 @@
   </div>
 </section>
 
+<!-- ✦ NEWS & EVENTS ✦ -->
+<section class="news-events-section section" id="news-events">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">News &amp; Events</div>
+      <h2 class="section-title">ข่าวสาร<span>และกิจกรรม</span></h2>
+      <p class="section-desc">ติดตามข่าวสาร กิจกรรม และคอร์สเรียนล่าสุดจากซินแสหวาง</p>
+    </div>
+    <div class="blog-grid" id="newsGrid">
+      <a href="javascript:void(0)" class="blog-card news-card">
+        <div class="blog-thumb">📰</div>
+        <div class="blog-body">
+          <span class="blog-cat">ข่าวสาร</span>
+          <h3>เปิดคอร์สโหราศาสตร์จีนรุ่นใหม่</h3>
+          <p>เปิดรับสมัครผู้สนใจเรียนรู้ศาสตร์โหราศาสตร์จีนกับซินแสหวาง</p>
+          <div class="blog-meta"><span>📅 1 ม.ค. 2569</span></div>
+        </div>
+      </a>
+      <a href="javascript:void(0)" class="blog-card news-card">
+        <div class="blog-thumb">🎉</div>
+        <div class="blog-body">
+          <span class="blog-cat">กิจกรรม</span>
+          <h3>งานพิธีมงคลประจำปี</h3>
+          <p>ร่วมงานพิธีมงคลเสริมดวงชะตาประจำปีกับซินแสหวางและคณะ</p>
+          <div class="blog-meta"><span>📅 15 ก.พ. 2569</span></div>
+        </div>
+      </a>
+      <a href="javascript:void(0)" class="blog-card news-card">
+        <div class="blog-thumb">💬</div>
+        <div class="blog-body">
+          <span class="blog-cat">กิจกรรม</span>
+          <h3>กิจกรรมให้คำปรึกษาฟรี</h3>
+          <p>พบกับกิจกรรมให้คำปรึกษาดวงชะตาฟรีสำหรับสมาชิกใหม่</p>
+          <div class="blog-meta"><span>📅 1 มี.ค. 2569</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ✦ LUCKY COLORS ✦ -->
 <section class="colors-section section bg-cream" id="colors-preview">
   <div class="container">
@@ -590,6 +630,22 @@
   <span>↑</span>
 </button>
 
+<!-- ✦ LANDING POPUP ✦ -->
+<div class="popup-overlay" id="landingPopup">
+  <div class="popup-card">
+    <button class="popup-close" id="popupClose" aria-label="ปิด">✕</button>
+    <div class="popup-image" id="popupImage">🏮</div>
+    <div class="popup-body">
+      <h3 id="popupTitle">ยินดีต้อนรับสู่ซินแสหวาง</h3>
+      <p id="popupDesc">ติดตามบทความความรู้และข่าวสารกิจกรรมล่าสุดจากเรา</p>
+      <div class="popup-actions">
+        <a href="blog.html" class="btn-primary" id="popupArticleBtn">อ่านบทความ</a>
+        <a href="#news-events" class="btn-outline" id="popupNewsBtn">ข่าวสารและกิจกรรม</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="js/main.js"></script>
 <script>
 /* ── Load dynamic homepage content from backend ────────────────────────── */
@@ -654,8 +710,76 @@
         const ogDesc = document.querySelector('meta[property="og:description"]');
         if (ogDesc && data.seo.desc) ogDesc.content = data.seo.desc;
       }
+
+      // News & Events grid
+      if (data.newsEvents && data.newsEvents.length) renderNewsEvents(data.newsEvents);
+
+      // Landing popup content
+      if (data.popup) applyPopupContent(data.popup);
     })
-    .catch(() => { /* server not running – show default static content */ });
+    .catch(() => { /* server not running – show default static content */ })
+    .finally(() => { setTimeout(showLandingPopup, 900); });
+})();
+
+/* ── NEWS & EVENTS GRID ── */
+function escHtml(s) { return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function renderNewsEvents(items) {
+  const grid = document.getElementById('newsGrid');
+  if (!grid) return;
+  grid.innerHTML = items.slice(0, 6).map(n => {
+    const thumb = n.image ? `<img src="${n.image}" alt="${escHtml(n.title)}" loading="lazy" />` : '📰';
+    const href  = n.link ? n.link : 'javascript:void(0)';
+    return `<a href="${href}" class="blog-card news-card">
+      <div class="blog-thumb">${thumb}</div>
+      <div class="blog-body">
+        <span class="blog-cat">ข่าวสาร/กิจกรรม</span>
+        <h3>${escHtml(n.title)}</h3>
+        <p>${escHtml(n.desc)}</p>
+        <div class="blog-meta"><span>📅 ${escHtml(n.date)}</span></div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+/* ── LANDING POPUP ── */
+function applyPopupContent(popup) {
+  const overlay = document.getElementById('landingPopup');
+  if (!overlay) return;
+  overlay.dataset.enabled = popup.enabled === false ? '0' : '1';
+  if (popup.title) document.getElementById('popupTitle').textContent = popup.title;
+  if (popup.desc)  document.getElementById('popupDesc').textContent  = popup.desc;
+  if (popup.articleBtnText) document.getElementById('popupArticleBtn').textContent = popup.articleBtnText;
+  if (popup.newsBtnText)    document.getElementById('popupNewsBtn').textContent    = popup.newsBtnText;
+  if (popup.image) document.getElementById('popupImage').innerHTML = `<img src="${popup.image}" alt="" />`;
+}
+
+function showLandingPopup() {
+  const overlay = document.getElementById('landingPopup');
+  if (!overlay) return;
+  if (overlay.dataset.enabled === '0') return;
+  if (sessionStorage.getItem('popup_dismissed')) return;
+  overlay.classList.add('show');
+}
+
+(function initPopupControls() {
+  const overlay = document.getElementById('landingPopup');
+  if (!overlay) return;
+  const closeBtn = document.getElementById('popupClose');
+  const newsBtn  = document.getElementById('popupNewsBtn');
+
+  function closePopup() {
+    overlay.classList.remove('show');
+    sessionStorage.setItem('popup_dismissed', '1');
+  }
+  closeBtn.addEventListener('click', closePopup);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closePopup(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
+  newsBtn.addEventListener('click', e => {
+    e.preventDefault();
+    closePopup();
+    document.getElementById('news-events')?.scrollIntoView({ behavior: 'smooth' });
+  });
 })();
 </script>
 </body>

@@ -51,6 +51,25 @@
     .tab-btn.active { color: var(--crimson); border-bottom-color: var(--crimson); font-weight: 600; }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
+    .upload-area {
+      border: 2px dashed var(--border); border-radius: var(--r-md);
+      padding: var(--sp-lg); text-align: center; cursor: pointer;
+      transition: border-color var(--t-fast);
+    }
+    .upload-area:hover { border-color: var(--crimson); }
+    .upload-area img { max-height: 100px; border-radius: var(--r-sm); margin-top: 8px; }
+    .news-item-card {
+      background: var(--cream); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: var(--sp-lg);
+      margin-bottom: var(--sp-md);
+    }
+    .news-item-head {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: var(--sp-md);
+    }
+    .news-item-head span { font-weight: 600; font-size: 0.85rem; color: var(--gold-deep); }
+    .news-del-btn { background: none; border: none; color: var(--gray-400); cursor: pointer; font-size: 1rem; }
+    .news-del-btn:hover { color: #f44336; }
   </style>
 </head>
 <body class="admin-body">
@@ -112,6 +131,8 @@
         <button class="tab-btn active" onclick="switchTab('hero')">🌟 Hero Section</button>
         <button class="tab-btn" onclick="switchTab('stats')">📊 สถิติ</button>
         <button class="tab-btn" onclick="switchTab('contact')">📞 ติดต่อ</button>
+        <button class="tab-btn" onclick="switchTab('popup')">🔔 Popup</button>
+        <button class="tab-btn" onclick="switchTab('news')">📰 ข่าวสาร/กิจกรรม</button>
         <button class="tab-btn" onclick="switchTab('seo')">🔍 SEO</button>
       </div>
 
@@ -235,6 +256,85 @@
         </div>
       </div>
 
+      <!-- ── POPUP TAB ── -->
+      <div class="tab-panel" id="tab-popup">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span class="admin-card-title">🔔 Popup หน้าแรก — แสดงเมื่อเข้าเว็บครั้งแรก</span>
+          </div>
+          <div class="admin-form">
+            <div class="form-row">
+              <div class="form-group" style="grid-column:1/-1;">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                  <input type="checkbox" id="popupEnabled" style="width:auto;" />
+                  เปิดใช้งาน Popup
+                </label>
+              </div>
+            </div>
+            <hr class="section-divider" />
+            <div class="section-label">รูปภาพ Popup</div>
+            <div class="form-row">
+              <div class="form-group" style="grid-column:1/-1">
+                <div class="upload-area" id="popupUploadArea" onclick="document.getElementById('popupImgFileInput').click()">
+                  <div id="popupUploadPrompt">📷 คลิกเพื่ออัปโหลดรูป (JPG/PNG/WebP ≤5MB)</div>
+                  <img id="popupImgPreview" style="display:none;" alt="preview" />
+                </div>
+                <input type="file" id="popupImgFileInput" accept="image/*" style="display:none;" onchange="handlePopupImageUpload(this)" />
+                <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+                  <small style="color:var(--gray-500);">หรือพิมพ์ path รูปโดยตรง:</small>
+                  <input type="text" class="form-control" id="popupImage" placeholder="images/blog/covers/popup.jpg"
+                    style="flex:1;" oninput="previewPopupImageFromPath(this.value)" />
+                </div>
+              </div>
+            </div>
+            <hr class="section-divider" />
+            <div class="section-label">ข้อความ</div>
+            <div class="form-row">
+              <div class="form-group" style="grid-column:1/-1">
+                <label>หัวข้อ</label>
+                <input type="text" class="form-control" id="popupTitle" placeholder="ยินดีต้อนรับสู่ซินแสหวาง" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group" style="grid-column:1/-1">
+                <label>คำอธิบาย</label>
+                <textarea class="form-control" id="popupDesc" rows="2" placeholder="ติดตามบทความความรู้และข่าวสารกิจกรรมล่าสุดจากเรา"></textarea>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>ข้อความปุ่ม "บทความ"</label>
+                <input type="text" class="form-control" id="popupArticleBtnText" placeholder="อ่านบทความ" />
+              </div>
+              <div class="form-group">
+                <label>ข้อความปุ่ม "ข่าวสาร/กิจกรรม"</label>
+                <input type="text" class="form-control" id="popupNewsBtnText" placeholder="ข่าวสารและกิจกรรม" />
+              </div>
+            </div>
+            <small style="color:var(--gray-500);">ปุ่ม "บทความ" ลิงก์ไป blog.html และปุ่ม "ข่าวสาร/กิจกรรม" เลื่อนไปยัง section ข่าวสารในหน้าแรกโดยอัตโนมัติ</small>
+            <div class="form-actions">
+              <button type="button" class="btn-primary" onclick="saveSection('popup')">💾 บันทึก Popup</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── NEWS & EVENTS TAB ── -->
+      <div class="tab-panel" id="tab-news">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span class="admin-card-title">📰 ข่าวสารและกิจกรรม — แสดงในหน้าแรก</span>
+            <button type="button" class="btn-outline" onclick="addNewsItem()" style="font-size:0.8rem;">+ เพิ่มข่าว</button>
+          </div>
+          <div class="admin-form">
+            <div id="newsItemsList"></div>
+            <div class="form-actions">
+              <button type="button" class="btn-primary" onclick="saveSection('news')">💾 บันทึกข่าวสาร/กิจกรรม</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- ── SEO TAB ── -->
       <div class="tab-panel" id="tab-seo">
         <div class="admin-card">
@@ -277,6 +377,7 @@
 <script>
 const API_KEY = sessionStorage.getItem('admin_key') || '';
 let homepageData = {};
+let newsItems = [];
 
 async function loadHomepage() {
   try {
@@ -310,6 +411,20 @@ function fillForm(data) {
     setVal('contactEmail', data.contact.email  || '');
     setVal('contactLine',  data.contact.lineId || '');
   }
+  // Popup
+  if (data.popup) {
+    const enabledEl = document.getElementById('popupEnabled');
+    if (enabledEl) enabledEl.checked = data.popup.enabled !== false;
+    setVal('popupImage',          data.popup.image          || '');
+    setVal('popupTitle',          data.popup.title          || '');
+    setVal('popupDesc',           data.popup.desc           || '');
+    setVal('popupArticleBtnText', data.popup.articleBtnText || '');
+    setVal('popupNewsBtnText',    data.popup.newsBtnText    || '');
+    previewPopupImageFromPath(data.popup.image || '');
+  }
+  // News & Events
+  newsItems = Array.isArray(data.newsEvents) ? data.newsEvents.map(n => ({ ...n })) : [];
+  renderNewsItems();
   // SEO
   if (data.seo) {
     setVal('seoTitle',    data.seo.title    || '');
@@ -343,6 +458,15 @@ function gatherAll() {
       email:  document.getElementById('contactEmail').value,
       lineId: document.getElementById('contactLine').value
     },
+    popup: {
+      enabled:        document.getElementById('popupEnabled').checked,
+      image:           document.getElementById('popupImage').value,
+      title:           document.getElementById('popupTitle').value,
+      desc:            document.getElementById('popupDesc').value,
+      articleBtnText:  document.getElementById('popupArticleBtnText').value,
+      newsBtnText:     document.getElementById('popupNewsBtnText').value
+    },
+    newsEvents: gatherNewsItems(),
     seo: {
       title:    document.getElementById('seoTitle').value,
       desc:     document.getElementById('seoDesc').value,
@@ -375,11 +499,113 @@ function showSaved() {
 
 function switchTab(name) {
   document.querySelectorAll('.tab-btn').forEach((b, i) => {
-    const tabs = ['hero', 'stats', 'contact', 'seo'];
+    const tabs = ['hero', 'stats', 'contact', 'popup', 'news', 'seo'];
     b.classList.toggle('active', tabs[i] === name);
   });
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ── News & Events list ──────────────────────────────────────────────────
+function renderNewsItems() {
+  const list = document.getElementById('newsItemsList');
+  if (!list) return;
+  if (!newsItems.length) {
+    list.innerHTML = '<p style="color:var(--gray-400);font-size:0.85rem;">ยังไม่มีข่าวสาร/กิจกรรม คลิก "+ เพิ่มข่าว" เพื่อเริ่มต้น</p>';
+    return;
+  }
+  list.innerHTML = newsItems.map((n, i) => `
+    <div class="news-item-card">
+      <div class="news-item-head">
+        <span>ข่าว #${i + 1}</span>
+        <button type="button" class="news-del-btn" onclick="removeNewsItem(${i})" title="ลบ">✕ ลบ</button>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>หัวข้อ</label>
+          <input type="text" class="form-control" value="${escAttr(n.title)}" oninput="updateNewsItem(${i},'title',this.value)" />
+        </div>
+        <div class="form-group">
+          <label>วันที่</label>
+          <input type="text" class="form-control" value="${escAttr(n.date)}" placeholder="1 ม.ค. 2569" oninput="updateNewsItem(${i},'date',this.value)" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="grid-column:1/-1">
+          <label>รายละเอียด</label>
+          <textarea class="form-control" rows="2" oninput="updateNewsItem(${i},'desc',this.value)">${escHtmlBody(n.desc)}</textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>รูปภาพ (path)</label>
+          <input type="text" class="form-control" value="${escAttr(n.image)}" placeholder="images/blog/covers/news.jpg" oninput="updateNewsItem(${i},'image',this.value)" />
+        </div>
+        <div class="form-group">
+          <label>ลิงก์ (เว้นว่างได้)</label>
+          <input type="text" class="form-control" value="${escAttr(n.link)}" placeholder="blog-detail.html?id=1" oninput="updateNewsItem(${i},'link',this.value)" />
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function addNewsItem() {
+  newsItems.push({ id: Date.now(), title: '', date: '', desc: '', image: '', link: '' });
+  renderNewsItems();
+}
+
+function removeNewsItem(idx) {
+  if (!confirm('ลบข่าวนี้?')) return;
+  newsItems.splice(idx, 1);
+  renderNewsItems();
+}
+
+function updateNewsItem(idx, field, value) {
+  if (newsItems[idx]) newsItems[idx][field] = value;
+}
+
+function gatherNewsItems() { return newsItems; }
+
+function escAttr(s) { return String(s || '').replace(/"/g, '&quot;'); }
+function escHtmlBody(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── Popup image upload ──────────────────────────────────────────────────
+async function handlePopupImageUpload(input) {
+  if (!input.files[0]) return;
+  const formData = new FormData();
+  formData.append('image', input.files[0]);
+  document.getElementById('popupUploadPrompt').textContent = '⏳ กำลังอัปโหลด...';
+  try {
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      headers: { 'X-Admin-Key': API_KEY },
+      body: formData
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    document.getElementById('popupImage').value = data.path;
+    previewPopupImageFromPath(data.path);
+  } catch (err) {
+    alert('อัปโหลดไม่สำเร็จ: ' + err.message);
+    document.getElementById('popupUploadPrompt').textContent = '📷 คลิกเพื่ออัปโหลดรูป';
+  }
+  input.value = '';
+}
+
+function previewPopupImageFromPath(path) {
+  const preview = document.getElementById('popupImgPreview');
+  const prompt  = document.getElementById('popupUploadPrompt');
+  if (!preview || !prompt) return;
+  if (path) {
+    preview.src = '../' + path;
+    preview.style.display = 'block';
+    prompt.style.display  = 'none';
+    preview.onerror = () => { preview.style.display = 'none'; prompt.style.display = 'block'; prompt.textContent = '📷 รูปไม่พบ — คลิกเพื่ออัปโหลดใหม่'; };
+  } else {
+    preview.style.display = 'none';
+    prompt.style.display  = 'block';
+    prompt.textContent    = '📷 คลิกเพื่ออัปโหลดรูป (JPG/PNG/WebP ≤5MB)';
+  }
 }
 
 function updatePreview() {
