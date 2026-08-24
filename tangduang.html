@@ -754,6 +754,11 @@
         <span class="title">คำทำนายอี้จิง</span>
         <span class="desc">อี้จิงโอราเคิล 64 ฉักลักษณ์ &#x2197;</span>
       </a>
+      <button type="button" class="selector-btn" data-tab="taiyi">
+        <span class="zh-icon">乙</span>
+        <span class="title">ไท่ยี่</span>
+        <span class="desc">太乙神數 พยากรณ์ดวงชาติ</span>
+      </button>
     </div>
     
     <!-- ✦ TOOL IFRAME (SEAMLESSLY STYLED) ✦ -->
@@ -1215,7 +1220,35 @@ function syncAndCalculate() {
   const doc = getIframeDoc();
   if (!doc) return;
 
-  if (activeProgram === 'liuren') {
+  if (activeProgram === 'taiyi') {
+    // Taiyi uses date/time from parent or current date
+    let yearBE = parseInt(document.getElementById('p-year').value) || 2568;
+    let yearCE = yearBE > 2400 ? yearBE - 543 : yearBE;
+    const monthNames = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+    let monthVal = monthNames.indexOf(document.getElementById('p-month').value) + 1;
+    if (monthVal <= 0) monthVal = 4;
+
+    const setChildVal = (id, val) => {
+      const el = doc.getElementById(id);
+      if (el) el.value = val;
+    };
+    setChildVal('inp-year', yearCE);
+    setChildVal('inp-month', monthVal);
+    setChildVal('inp-day', document.getElementById('p-day').value || 9);
+    setChildVal('inp-hour', document.getElementById('p-hour').value || 12);
+    setChildVal('inp-min', document.getElementById('p-minute').value || 59);
+
+    // Trigger calculation via the child's doCalc function
+    if (doc.defaultView && typeof doc.defaultView.doCalc === 'function') {
+      doc.defaultView.doCalc();
+    } else {
+      const btn = doc.getElementById('btnCalculate');
+      if (btn) btn.click();
+    }
+    injectStyles();
+    document.getElementById('resultSection').classList.remove('hidden');
+    return;
+  } else if (activeProgram === 'liuren') {
     // Liu Ren (六壬) casts a hexagram from the exact moment the question is
     // asked, not the querent's birth date — lawlen.html's own setCurrentTime()
     // already fills year/month/day/hour/minute with "now" on load, so those
@@ -1362,6 +1395,13 @@ function switchTab(tabId) {
     } else {
       injectStyles();
     }
+  } else if (tabId === 'taiyi') {
+    if (activeProgram !== 'taiyi') {
+      activeProgram = 'taiyi';
+      iframe.src = 'vicha/taiyi.html';
+    } else {
+      injectStyles();
+    }
   } else {
     if (activeProgram !== 'main') {
       activeProgram = 'main';
@@ -1408,7 +1448,7 @@ document.querySelectorAll('.selector-btn').forEach(btn => {
 
 iframe.addEventListener('load', function() {
   injectStyles();
-  if (activeProgram === 'main' || activeProgram === 'liuren' || activeProgram === 'ziwei') {
+  if (activeProgram === 'main' || activeProgram === 'liuren' || activeProgram === 'ziwei' || activeProgram === 'taiyi') {
     setTimeout(syncAndCalculate, 100);
   } else {
     setTimeout(resizeFrame, 150);
@@ -1421,7 +1461,7 @@ setInterval(resizeFrame, 1000);
 // ── Hash switching logic for header links ──
 function checkHashAndSwitch() {
   const hash = window.location.hash.substring(1);
-  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen', 'liuren', 'ziwei'];
+  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen', 'liuren', 'ziwei', 'taiyi'];
   if (hash && validTabs.includes(hash)) {
     document.getElementById('resultSection').classList.remove('hidden');
     switchTab(hash);
