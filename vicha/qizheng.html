@@ -489,10 +489,26 @@
         </div>
 
         <div class="form-group-compact">
-          <label>ระบบจักรราศี · Zodiac System</label>
+          <label>สถานที่เกิด · Birth place</label>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <input type="number" id="inputLatitude" class="input-control-compact" style="width:92px;" value="13.7563"
+              min="-90" max="90" step="0.0001" aria-label="Latitude" title="ละติจูด: เหนือเป็นบวก ใต้เป็นลบ">
+            <input type="number" id="inputLongitude" class="input-control-compact" style="width:98px;" value="100.5018"
+              min="-180" max="180" step="0.0001" aria-label="Longitude" title="ลองจิจูด: ตะวันออกเป็นบวก ตะวันตกเป็นลบ">
+          </div>
+        </div>
+
+        <div class="form-group-compact">
+          <label>เขตเวลา · UTC offset</label>
+          <input type="number" id="inputTimezone" class="input-control-compact" style="width:90px;" value="7"
+            min="-12" max="14" step="0.25" aria-label="UTC offset">
+        </div>
+
+        <div class="form-group-compact">
+          <label>ระบบ宿界 · Mansion system</label>
           <select id="inputSystem" class="input-control-compact" style="width: 160px;">
-            <option value="tropical">回歸制 (Tropical)</option>
-            <option value="sidereal">恆星制 (Sidereal)</option>
+            <option value="zhengan" selected>鄭案古宿 (แนะนำ)</option>
+            <option value="equal">等分宿 (เพื่อเปรียบเทียบ)</option>
           </select>
         </div>
 
@@ -500,6 +516,7 @@
           <span>☰</span> คำนวณผังดวง · Calculate
         </button>
       </div>
+      <p id="calculationError" role="alert" style="display:none; margin:10px 0 0; color:#fecaca; font-size:.9rem;"></p>
     </header>
 
     <!-- ✦ SUMMARY STATS STRIP ✦ -->
@@ -594,6 +611,7 @@
     </main>
   </div>
 
+  <script src="../js/astronomy.browser.min.js"></script>
   <script>
     // ═══════════════════════════════════════════════════════════════
     //  QI ZHENG SI YU ASTRONOMICAL & ASTROLOGICAL DATA DICTIONARIES
@@ -629,47 +647,37 @@
       { zh: '相貌宮', th: 'วินาศ (รูปร่าง/จิตวิญญาณ)', desc: 'แทนจิตใต้สำนึก สิ่งซ่อนเร้น ภาพลักษณ์ภายนอก' }
     ];
 
+    // 鄭案古宿 boundaries supplied by the reference project. `start` is true
+    // ecliptic-of-date longitude. 奎 crosses the 0° boundary.
     const MANSIONS28_DATA = [
-      // 戌宮 (Aries / จอ · 0°..30°)
-      { name: '奎', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 16.0 },
-      { name: '婁', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 12.0 },
-      // 酉宮 (Taurus / ระกา · 30°..60°)
-      { name: '胃', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 14.0 },
-      { name: '昴', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 11.0 },
-      // 申宮 (Gemini / วอก · 60°..90°)
-      { name: '畢', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 17.0 },
-      { name: '觜', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 1.0 },
-      { name: '參', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 10.0 },
-      // 未宮 (Cancer / มะแม · 90°..120°)
-      { name: '井', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 33.0 },
-      { name: '鬼', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 2.5 },
-      // 午宮 (Leo / มะเมีย · 120°..150°)
-      { name: '柳', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 13.5 },
-      { name: '星', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 7.0 },
-      { name: '張', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 18.0 },
-      // 巳宮 (Virgo / มะเส็ง · 150°..180°)
-      { name: '翼', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 18.0 },
-      { name: '軫', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 17.0 },
-      // 辰宮 (Libra / มะโรง · 180°..210°)
-      { name: '角', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 12.0 },
-      { name: '亢', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 9.0 },
-      // 卯宮 (Scorpio / เถาะ · 210°..240°)
-      { name: '氐', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 15.0 },
-      { name: '房', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 5.0 },
-      { name: '心', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 5.0 },
-      // 寅宮 (Sagittarius / ขาล · 240°..270°)
-      { name: '尾', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 18.0 },
-      { name: '箕', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 11.0 },
-      // 丑宮 (Capricorn / ฉลู · 270°..300°)
-      { name: '斗', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 26.0 },
-      { name: '牛', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 8.0 },
-      // 子宮 (Aquarius / ชวด · 300°..330°)
-      { name: '女', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 12.0 },
-      { name: '虛', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 10.0 },
-      { name: '危', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 17.0 },
-      // 亥宮 (Pisces / กุน · 330°..360°)
-      { name: '室', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 16.0 },
-      { name: '壁', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 6.0 }
+      { name:'奎', element:'木', elemTh:'ไม้', color:'#16a34a', start:358.44 },
+      { name:'婁', element:'金', elemTh:'ทอง', color:'#d97706', start:15.00 },
+      { name:'胃', element:'土', elemTh:'ดิน', color:'#b45309', start:26.50 },
+      { name:'昴', element:'日', elemTh:'อาทิตย์', color:'#dc2626', start:42.03 },
+      { name:'畢', element:'月', elemTh:'จันทร์', color:'#ca8a04', start:53.10 },
+      { name:'觜', element:'火', elemTh:'ไฟ', color:'#dc2626', start:70.16 },
+      { name:'參', element:'水', elemTh:'น้ำ', color:'#2563eb', start:71.08 },
+      { name:'井', element:'木', elemTh:'ไม้', color:'#16a34a', start:81.02 },
+      { name:'鬼', element:'金', elemTh:'ทอง', color:'#d97706', start:113.73 },
+      { name:'柳', element:'土', elemTh:'ดิน', color:'#b45309', start:115.94 },
+      { name:'星', element:'日', elemTh:'อาทิตย์', color:'#dc2626', start:128.96 },
+      { name:'張', element:'月', elemTh:'จันทร์', color:'#ca8a04', start:135.15 },
+      { name:'翼', element:'火', elemTh:'ไฟ', color:'#dc2626', start:152.35 },
+      { name:'軫', element:'水', elemTh:'น้ำ', color:'#2563eb', start:170.89 },
+      { name:'角', element:'木', elemTh:'ไม้', color:'#16a34a', start:188.07 },
+      { name:'亢', element:'金', elemTh:'ทอง', color:'#d97706', start:200.03 },
+      { name:'氐', element:'土', elemTh:'ดิน', color:'#b45309', start:208.93 },
+      { name:'房', element:'日', elemTh:'อาทิตย์', color:'#dc2626', start:225.21 },
+      { name:'心', element:'月', elemTh:'จันทร์', color:'#ca8a04', start:230.70 },
+      { name:'尾', element:'火', elemTh:'ไฟ', color:'#dc2626', start:236.98 },
+      { name:'箕', element:'水', elemTh:'น้ำ', color:'#2563eb', start:255.74 },
+      { name:'斗', element:'木', elemTh:'ไม้', color:'#16a34a', start:265.93 },
+      { name:'牛', element:'金', elemTh:'ทอง', color:'#d97706', start:290.60 },
+      { name:'女', element:'土', elemTh:'ดิน', color:'#b45309', start:297.84 },
+      { name:'虛', element:'日', elemTh:'อาทิตย์', color:'#dc2626', start:308.89 },
+      { name:'危', element:'月', elemTh:'จันทร์', color:'#ca8a04', start:317.70 },
+      { name:'室', element:'火', elemTh:'ไฟ', color:'#dc2626', start:333.06 },
+      { name:'壁', element:'水', elemTh:'น้ำ', color:'#2563eb', start:349.97 }
     ];
 
     const PLANETS_CONFIG = [
@@ -684,11 +692,7 @@
       { id: 'rahu', zh: '羅', symbol: '☊', nameTh: 'ราหู (Rahu - North Node)', bg: '#475569', speedDegDay: -0.052 },
       { id: 'ketu', zh: '計', symbol: '☋', nameTh: 'เกตุ (Ketu - South Node)', bg: '#64748b', speedDegDay: -0.052 },
       { id: 'yuebo', zh: '孛', symbol: '⚸', nameTh: 'บริวารยั่ว (Yuebo / Lilith)', bg: '#9333ea', speedDegDay: 0.111 },
-      { id: 'ziqi', zh: '紫', symbol: '炁', nameTh: 'ดาวม่วง (Ziqi / Purple Air)', bg: '#7e22ce', speedDegDay: 0.035 },
-
-      { id: 'uranus', zh: '天', symbol: '♅', nameTh: 'มฤตยู (Uranus)', bg: '#0284c7', speedDegDay: 0.011 },
-      { id: 'neptune', zh: '海', symbol: '♆', nameTh: 'เนปจูน (Neptune)', bg: '#0d9488', speedDegDay: 0.006 },
-      { id: 'pluto', zh: '冥', symbol: '♇', nameTh: 'พลูโต (Pluto)', bg: '#334155', speedDegDay: 0.004 }
+      { id: 'ziqi', zh: '氣', symbol: '炁', nameTh: 'จื่อชี่ (Ziqi / Purple Qi)', bg: '#7e22ce', speedDegDay: 0.035 }
     ];
 
     // 二十八宿度主速查表 (28 Mansions Governors - 7 Elements)
@@ -750,97 +754,95 @@
     //  ASTRONOMICAL CALCULATION ENGINE
     // ═══════════════════════════════════════════════════════════════
 
-    function getJulianDay(year, month, day, hour, minute) {
-      let y = year, m = month;
-      if (m <= 2) { y -= 1; m += 12; }
-      const a = Math.floor(y / 100);
-      const b = 2 - a + Math.floor(a / 4);
-      const dayFrac = day + (hour + minute / 60.0) / 24.0;
-      return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + dayFrac + b - 1524.5;
-    }
-
     function normDeg(val) {
       return ((val % 360) + 360) % 360;
     }
 
-    function calculatePlanetaryLongitudes(jdn) {
-      const d = jdn - 2451545.0; // Days from J2000.0 (2000-01-01 12:00 UTC)
-      const T = d / 36525.0;     // Julian centuries
-
-      // 1. Sun (太陽)
-      const L0 = normDeg(280.46646 + 36000.76983 * T);
-      const M_sun = normDeg(357.52911 + 35999.05029 * T) * Math.PI / 180;
-      const C_sun = (1.914602 - 0.004817 * T) * Math.sin(M_sun) + (0.019993 - 0.000101 * T) * Math.sin(2 * M_sun);
-      const sunDeg = normDeg(L0 + C_sun);
-
-      // 2. Moon (太陰)
-      const L_moon = normDeg(218.316 + 13.176396 * d);
-      const M_moon = normDeg(134.963 + 13.064993 * d) * Math.PI / 180;
-      const moonDeg = normDeg(L_moon + 6.289 * Math.sin(M_moon));
-
-      // 3. Mercury (水星)
-      const M_merc = normDeg(174.7948 + 4.09233445 * d) * Math.PI / 180;
-      const mercuryDeg = normDeg(sunDeg + 22.5 * Math.sin(M_merc));
-
-      // 4. Venus (金星)
-      const M_ven = normDeg(50.4161 + 1.60213034 * d) * Math.PI / 180;
-      const venusDeg = normDeg(sunDeg + 46.3 * Math.sin(M_ven));
-
-      // 5. Mars (熒惑/火星)
-      const L_mars = normDeg(355.433 + 0.5240330 * d);
-      const M_mars = normDeg(19.373 + 0.5240208 * d) * Math.PI / 180;
-      const marsDeg = normDeg(L_mars + 10.691 * Math.sin(M_mars));
-
-      // 6. Jupiter (歲星/木星)
-      const L_jup = normDeg(34.351 + 0.0830912 * d);
-      const M_jup = normDeg(20.020 + 0.0830853 * d) * Math.PI / 180;
-      const jupiterDeg = normDeg(L_jup + 5.555 * Math.sin(M_jup));
-
-      // 7. Saturn (填星/土星)
-      const L_sat = normDeg(50.077 + 0.0334597 * d);
-      const M_sat = normDeg(317.021 + 0.0334442 * d) * Math.PI / 180;
-      const saturnDeg = normDeg(L_sat + 6.359 * Math.sin(M_sat));
-
-      // 8. Four Extras (四餘: 羅睺, 計都, 月孛, 紫炁)
-      const rahuDeg = normDeg(125.044555 - 0.05295377 * d);
-      const ketuDeg = normDeg(rahuDeg + 180);
-      const yueboDeg = normDeg(83.353 + 0.111404 * d);
-      const ziqiDeg = normDeg(280.0 + (360.0 / (28 * 365.25)) * d);
-
-      // 9. Modern Outer Planets (三王星)
-      const uranusDeg = normDeg(314.05 + 0.01173 * d);
-      const neptuneDeg = normDeg(304.35 + 0.00598 * d);
-      const plutoDeg = normDeg(238.90 + 0.00397 * d);
-
-      return {
-        sun: sunDeg,
-        moon: moonDeg,
-        mercury: mercuryDeg,
-        venus: venusDeg,
-        mars: marsDeg,
-        jupiter: jupiterDeg,
-        saturn: saturnDeg,
-        rahu: rahuDeg,
-        ketu: ketuDeg,
-        yuebo: yueboDeg,
-        ziqi: ziqiDeg,
-        uranus: uranusDeg,
-        neptune: neptuneDeg,
-        pluto: plutoDeg
-      };
+    function createUtcDate(year, month, day, hour, minute, timezone) {
+      const utcMillis = Date.UTC(year, month - 1, day, hour, minute) - timezone * 3600000;
+      const date = new Date(utcMillis);
+      const localCheck = new Date(utcMillis + timezone * 3600000);
+      if (localCheck.getUTCFullYear() !== year || localCheck.getUTCMonth() !== month - 1 ||
+          localCheck.getUTCDate() !== day || localCheck.getUTCHours() !== hour ||
+          localCheck.getUTCMinutes() !== minute) {
+        throw new Error('วันหรือเวลาไม่ถูกต้อง กรุณาตรวจจำนวนวันของเดือนและช่วงเวลา');
+      }
+      return date;
     }
 
-    function calculateQiZhengChart(year, month, day, hour, minute, gender, system) {
-      const jdn = getJulianDay(year, month, day, hour, minute);
-      const longitudes = calculatePlanetaryLongitudes(jdn);
+    function apparentLongitude(body, date) {
+      return normDeg(Astronomy.Ecliptic(Astronomy.GeoVector(body, date, true)).elon);
+    }
+
+    function calculatePlanetaryLongitudes(date) {
+      if (!window.Astronomy) throw new Error('ไม่พบเครื่องคำนวณดาราศาสตร์ Astronomy Engine');
+      const bodies = {
+        sun: Astronomy.Body.Sun, moon: Astronomy.Body.Moon,
+        mercury: Astronomy.Body.Mercury, venus: Astronomy.Body.Venus,
+        mars: Astronomy.Body.Mars, jupiter: Astronomy.Body.Jupiter,
+        saturn: Astronomy.Body.Saturn
+      };
+      const values = {};
+      const motion = {};
+      const tomorrow = new Date(date.getTime() + 86400000);
+      Object.entries(bodies).forEach(([id, body]) => {
+        const now = apparentLongitude(body, date);
+        const next = apparentLongitude(body, tomorrow);
+        const delta = ((next - now + 540) % 360) - 180;
+        values[id] = now;
+        motion[id] = delta < -0.01 ? '逆' : Math.abs(delta) <= 0.01 ? '留' : '順';
+      });
+
+      // 四餘: mean lunar nodes plus documented traditional mean-period models
+      // for 月孛 and 紫氣. They are marked as derived rather than ephemeris bodies.
+      const jdn = date.getTime() / 86400000 + 2440587.5;
+      const d = jdn - 2451545.0;
+      values.rahu = normDeg(125.044555 - 0.0529537628 * d);
+      values.ketu = normDeg(values.rahu + 180);
+      values.yuebo = normDeg(83.3532465 + 0.11140353 * d);
+      values.ziqi = normDeg(280 + (360 / (28 * 365.2422)) * d);
+      motion.rahu = motion.ketu = '逆';
+      motion.yuebo = motion.ziqi = '推';
+      return { values, motion, jdn };
+    }
+
+    function getMansion(degree, system = 'zhengan') {
+      const deg = normDeg(degree);
+      if (system === 'equal') {
+        const index = Math.floor(normDeg(deg - 358.44) / (360 / 28));
+        return MANSIONS28_DATA[index];
+      }
+      for (let i = 0; i < MANSIONS28_DATA.length; i++) {
+        const current = MANSIONS28_DATA[i];
+        const next = MANSIONS28_DATA[(i + 1) % MANSIONS28_DATA.length];
+        const span = normDeg(next.start - current.start);
+        if (normDeg(deg - current.start) < span) return current;
+      }
+      return MANSIONS28_DATA[0];
+    }
+
+    function calculateAscendant(date, latitude, longitude) {
+      const T = ((date.getTime() / 86400000 + 2440587.5) - 2451545.0) / 36525;
+      const eps = (23.43929111 - 0.013004167 * T) * Math.PI / 180;
+      const theta = normDeg(Astronomy.SiderealTime(date) * 15 + longitude) * Math.PI / 180;
+      const phi = latitude * Math.PI / 180;
+      return normDeg(Math.atan2(-Math.cos(theta), Math.sin(theta) * Math.cos(eps) + Math.tan(phi) * Math.sin(eps)) * 180 / Math.PI);
+    }
+
+    function calculateQiZhengChart(year, month, day, hour, minute, gender, system, latitude, longitude, timezone) {
+      const utcDate = createUtcDate(year, month, day, hour, minute, timezone);
+      const astronomyResult = calculatePlanetaryLongitudes(utcDate);
+      const longitudes = astronomyResult.values;
+      const jdn = astronomyResult.jdn;
 
       // Ming Gong (Ascendant) Calculation
-      const sunZodiacIdx = ((Math.floor(longitudes.sun / 30) % 12) + 12) % 12;
-      const birthHourBranchIdx = ((Math.floor(hour / 2) % 12) + 12) % 12;
-      const mingIdx = ((14 - (sunZodiacIdx - birthHourBranchIdx)) % 12 + 12) % 12;
+      const mingDeg = calculateAscendant(utcDate, latitude, longitude);
+      const mingIdx = ((Math.floor(mingDeg / 30) % 12) + 12) % 12;
 
       // Shen Gong (Moon Palace) Calculation
       const moonZodiacIdx = ((Math.floor(longitudes.moon / 30) % 12) + 12) % 12;
+      // 身宮 is retained as the lunar palace for this implementation and is
+      // explicitly labelled as such; it must not be confused with 命度.
       const shenIdx = moonZodiacIdx;
 
       // Assign House Positions
@@ -868,17 +870,9 @@
         const zIdx = ((Math.floor(deg / 30) % 12) + 12) % 12;
         const zInfo = ZODIAC12[zIdx] || ZODIAC12[0];
 
-        let cumulativeDeg = 0;
-        let mansionName = '角';
-        let mansionElem = 'ไม้';
-        for (let m of MANSIONS28_DATA) {
-          if (deg >= cumulativeDeg && deg < cumulativeDeg + m.degSpan) {
-            mansionName = m.name;
-            mansionElem = m.elemTh;
-            break;
-          }
-          cumulativeDeg += m.degSpan;
-        }
+        const mansion = getMansion(deg, system);
+        const mansionName = mansion.name;
+        const mansionElem = mansion.elemTh;
 
         let dignity = '平';
         if (pConf.id === 'sun' && zInfo?.name === '午') dignity = '廟';
@@ -898,7 +892,8 @@
           zTh: zInfo.th,
           mansion: mansionName,
           mansionElem,
-          dignity
+          dignity: `${dignity}·${astronomyResult.motion[pConf.id] || '推'}`,
+          source: ['rahu','ketu','yuebo','ziqi'].includes(pConf.id) ? 'traditional-mean' : 'ephemeris'
         };
 
         const targetHouse = houses.find(h => h.zName === zInfo.name);
@@ -910,17 +905,8 @@
       const mingInfo = ZODIAC12[mingIdx] || ZODIAC12[0];
       const shenInfo = ZODIAC12[shenIdx] || ZODIAC12[0];
 
-      // Exact Ming Longitude & Mansion (命度與命度主)
-      const mingDeg = normDeg(longitudes.sun + (hour + minute / 60.0 - 6.0) * 15.0);
-      let cumDegM = 0;
-      let mingMansion = MANSIONS28_DATA[0];
-      for (let m of MANSIONS28_DATA) {
-        if (mingDeg >= cumDegM && mingDeg < cumDegM + m.degSpan) {
-          mingMansion = m;
-          break;
-        }
-        cumDegM += m.degSpan;
-      }
+      // Exact topocentric ascendant longitude and mansion (命度與命度主)
+      const mingMansion = getMansion(mingDeg, system);
       const mingDuLord = MANSION_RULER_MAP[mingMansion.name] || { zh: '木', nameTh: '歲星 (พฤหัส)' };
       const mingPalaceLord = PALACE_RULER_MAP[mingInfo.name] || { zh: '火', nameTh: '火星 (ดาวอังคาร)' };
 
@@ -931,7 +917,7 @@
       const shenPalaceLord = PALACE_RULER_MAP[shenInfo.name] || { zh: '水', nameTh: '水星 (ดาวพุธ)' };
 
       return {
-        year, month, day, hour, minute, gender, system,
+        year, month, day, hour, minute, gender, system, latitude, longitude, timezone, utcDate,
         jdn,
         longitudes,
         mingInfo,
@@ -1157,11 +1143,12 @@
         'Horn','Neck','Root','Room','Heart','Tail','Basket',
         'Dipper','Ox','Girl','Void','Rooftop','Encampment','Wall'
       ];
-      let currentDeg = 0;
       MANSIONS28_DATA.forEach((m, mi) => {
-        const startA = degToAngle(currentDeg + m.degSpan);
-        const endA   = degToAngle(currentDeg);
-        const midA   = degToAngle(currentDeg + m.degSpan / 2);
+        const next = MANSIONS28_DATA[(mi + 1) % MANSIONS28_DATA.length];
+        const span = normDeg(next.start - m.start);
+        const startA = degToAngle(m.start + span);
+        const endA   = degToAngle(m.start);
+        const midA   = degToAngle(m.start + span / 2);
 
         svg.appendChild(createSvgElement('path', {
           d: describeArc(CX, CY, 345, 425, startA, endA),
@@ -1170,7 +1157,7 @@
           'stroke-width': '1'
         }));
 
-        if (m.degSpan >= 5) {
+        if (span >= 5) {
           const pt  = polarToCartesian(CX, CY, 385, midA);
           const gM  = createSvgElement('g', { transform: `rotate(${radialAngle(midA)}, ${pt.x}, ${pt.y})` });
 
@@ -1197,7 +1184,6 @@
 
           svg.appendChild(gM);
         }
-        currentDeg += m.degSpan;
       });
 
       // ─── Degree tick marks and labels (องศาเข็มทิศ: เหนือ=0°, ตะวันออก=90°, ใต้=180°, ตะวันตก=270°) ───
@@ -1506,34 +1492,60 @@
       const estateHouse = chartData.houses[3] || chartData.houses[0];
 
       const reportDiv = document.getElementById('fullReportContent');
+      const genderMethod = chartData.gender === 'female'
+        ? '女命: ให้น้ำหนัก身度และ身度主ร่วมกับ命度เป็นพิเศษ'
+        : '男命: เริ่มจาก命度และ命度主 แล้วใช้身度ตรวจการแสดงผลในชีวิตจริง';
+      const formatHouseEvidence = (house) => house.planets.length
+        ? house.planets.map(p => `${p.zh} ${p.nameTh} (${p.dignity})`).join(', ')
+        : 'ไม่มีดาวสถิตตรง — ต้องตรวจ宮主、對宮และ三方ก่อนตีความ';
       reportDiv.innerHTML = `
         <h4 style="color:var(--gold-light); font-size:1.15rem; margin-bottom:10px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">1. 太極命身 · โครงสร้างชะตาหลัก (Natal Taiji & Core Lords)</h4>
-        <p>• <strong>命宮 (วังลัคนา):</strong> สถิต <strong>${chartData.mingInfo.name}宮 (${chartData.mingInfo.en} / ${chartData.mingInfo.th})</strong> | <strong>命度主 (ดาวครององศาลัคนา):</strong> <strong>${chartData.mingDuLord.nameTh}</strong> เสพฤกษ์ <strong>${chartData.mingMansion.name}宿</strong> (ธาตุ${chartData.mingMansion.elemTh})</p>
+        <p>• <strong>ข้อมูลคำนวณ:</strong> ${chartData.year}-${String(chartData.month).padStart(2,'0')}-${String(chartData.day).padStart(2,'0')} ${String(chartData.hour).padStart(2,'0')}:${String(chartData.minute).padStart(2,'0')} UTC${chartData.timezone >= 0 ? '+' : ''}${chartData.timezone}; พิกัด ${chartData.latitude.toFixed(4)}, ${chartData.longitude.toFixed(4)}</p>
+        <p style="margin-top:4px;">• <strong>ระบบ:</strong> ${chartData.system === 'zhengan' ? '鄭案古宿 (ขอบเขต宿ตามชุดอ้างอิง)' : '等分宿 (ระบบเปรียบเทียบ)'}; 七政คำนวณด้วย apparent geocentric ephemeris ส่วน四餘เป็นค่าเฉลี่ยตามแบบจำลองดั้งเดิม</p>
+        <p style="margin-top:4px;">• <strong>命宮 (วังลัคนา):</strong> สถิต <strong>${chartData.mingInfo.name}宮 (${chartData.mingInfo.en} / ${chartData.mingInfo.th})</strong> ที่ ${chartData.mingDeg.toFixed(4)}° | <strong>命度主:</strong> <strong>${chartData.mingDuLord.nameTh}</strong> เสพฤกษ์ <strong>${chartData.mingMansion.name}宿</strong> (ธาตุ${chartData.mingMansion.elemTh})</p>
         <p style="margin-top:4px;">• <strong>身宮 (วังชะตา/จันทร์):</strong> สถิต <strong>${chartData.shenInfo.name}宮 (${chartData.shenInfo.en} / ${chartData.shenInfo.th})</strong> | <strong>身度主 (ดาวครององศาชะตา):</strong> <strong>${chartData.shenDuLord.nameTh}</strong> เสพฤกษ์ <strong>${chartData.shenMansionName}宿</strong></p>
         <p style="margin-top:4px;">• <strong>宮主 (เจ้าเรือนภพ):</strong> วังลัคนาครองโดย <strong>${chartData.mingPalaceLord.nameTh}</strong> | วังชะตาครองโดย <strong>${chartData.shenPalaceLord.nameTh}</strong></p>
+        <p style="margin-top:4px;">• <strong>男女取法:</strong> ${genderMethod}</p>
         
-        <h4 style="color:var(--gold-light); font-size:1.15rem; margin-top:20px; margin-bottom:10px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">2. 盡三起手 · วิเคราะห์ 4 เสาหลักชะตาชีวิต (Jin San Core Pillars)</h4>
-        <p>• <strong>財帛宮 (วังการเงิน):</strong> สถิต <strong>${wealthHouse.zName}宮</strong> (${wealthHouse.zTh}) — ดาวสถิต: ${wealthHouse.planets.map(p => p.zh + ' ' + p.nameTh).join(', ') || 'ไม่มีดาวสถิตตรง (รับแรงส่งจากตรีโกณ)'}</p>
-        <p style="margin-top:4px;">• <strong>官祿宮 (วังการงาน/ยศศักดิ์):</strong> สถิต <strong>${careerHouse.zName}宮</strong> (${careerHouse.zTh}) — ดาวสถิต: ${careerHouse.planets.map(p => p.zh + ' ' + p.nameTh).join(', ') || 'ไร้ดาวเบียน ได้รับพลังเกื้อหนุนจากคู่สมพล'}</p>
-        <p style="margin-top:4px;">• <strong>夫妻宮 (วังคู่ครอง/หุ้นส่วน):</strong> สถิต <strong>${spouseHouse.zName}宮</strong> (${spouseHouse.zTh}) — ดาวสถิต: ${spouseHouse.planets.map(p => p.zh + ' ' + p.nameTh).join(', ') || 'สัมพันธ์ราบรื่น ไร้ดาวโทษเข้าปะทะ'}</p>
-        <p style="margin-top:4px;">• <strong>田宅宮 (วังหลักทรัพย์/ครอบครัว):</strong> สถิต <strong>${estateHouse.zName}宮</strong> (${estateHouse.zTh}) — เสริมความมั่นคงและรากฐานทรัพย์สินในระยะยาว</p>
+        <h4 style="color:var(--gold-light); font-size:1.15rem; margin-top:20px; margin-bottom:10px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">2. 宮位資料 · หลักฐานรายวัง (ยังไม่สรุป吉凶)</h4>
+        <p>• <strong>財帛宮:</strong> ${wealthHouse.zName}宮 — ${formatHouseEvidence(wealthHouse)}</p>
+        <p style="margin-top:4px;">• <strong>官祿宮:</strong> ${careerHouse.zName}宮 — ${formatHouseEvidence(careerHouse)}</p>
+        <p style="margin-top:4px;">• <strong>夫妻宮:</strong> ${spouseHouse.zName}宮 — ${formatHouseEvidence(spouseHouse)}</p>
+        <p style="margin-top:4px;">• <strong>田宅宮:</strong> ${estateHouse.zName}宮 — ${formatHouseEvidence(estateHouse)}</p>
         
-        <h4 style="color:var(--gold-light); font-size:1.15rem; margin-top:20px; margin-bottom:10px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">3. 宮度星合參 · บทวิเคราะห์ภาพรวมตามคัมภีร์กั่วเหล่าซิงจง (Guolao Xingzong Synthesis)</h4>
-        <p>เจ้าชะตามีดาวครององศาลัคนา <strong>${chartData.mingDuLord.nameTh}</strong> และดาวครองชะตา <strong>${chartData.shenDuLord.nameTh}</strong> ส่งกำลังถึงกันอย่างสมดุล บ่งบอกถึงสติปัญญาไหวพริบ ความคิดสร้างสรรค์ และความสามารถในการบริหารจัดการทรัพยากรได้อย่างชาญฉลาด</p>
+        <h4 style="color:var(--gold-light); font-size:1.15rem; margin-top:20px; margin-bottom:10px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">3. 校驗狀態 · สถานะการตรวจสอบ</h4>
+        <p>ผังนี้คำนวณตำแหน่งและจัดข้อมูลเบื้องต้นแล้ว แต่ยังไม่ออกคำตัดสิน吉凶อัตโนมัติ การวิเคราะห์เต็มต้องตรวจ盡三、三方四正、同度/穿度、五行體用喜忌 และ神煞โดยมีแหล่งอ้างอิงก่อน</p>
       `;
     }
 
     function onCalculateClick() {
-      const year = parseInt(document.getElementById('inputYear').value) || 1972;
-      const month = parseInt(document.getElementById('inputMonth').value) || 4;
-      const day = parseInt(document.getElementById('inputDay').value) || 4;
-      const hour = parseInt(document.getElementById('inputHour').value) || 2;
-      const minute = parseInt(document.getElementById('inputMinute').value) || 9;
+      const errorBox = document.getElementById('calculationError');
+      errorBox.style.display = 'none';
+      const year = Number(document.getElementById('inputYear').value);
+      const month = Number(document.getElementById('inputMonth').value);
+      const day = Number(document.getElementById('inputDay').value);
+      const hour = Number(document.getElementById('inputHour').value);
+      const minute = Number(document.getElementById('inputMinute').value);
       const gender = document.getElementById('inputGender').value;
       const system = document.getElementById('inputSystem').value;
+      const latitude = Number(document.getElementById('inputLatitude').value);
+      const longitude = Number(document.getElementById('inputLongitude').value);
+      const timezone = Number(document.getElementById('inputTimezone').value);
 
-      const chartData = calculateQiZhengChart(year, month, day, hour, minute, gender, system);
-      updateAllViews(chartData);
+      try {
+        const values = [year, month, day, hour, minute, latitude, longitude, timezone];
+        if (!values.every(Number.isFinite)) throw new Error('กรุณากรอกข้อมูลตัวเลขให้ครบทุกช่อง');
+        if (year < 1600 || year > 2400) throw new Error('รองรับปี ค.ศ. 1600–2400');
+        if (month < 1 || month > 12 || day < 1 || day > 31) throw new Error('เดือนหรือวันอยู่นอกช่วง');
+        if (hour < 0 || hour > 23 || minute < 0 || minute > 59) throw new Error('เวลาอยู่นอกช่วง 00:00–23:59');
+        if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) throw new Error('พิกัดภูมิศาสตร์อยู่นอกช่วง');
+        if (timezone < -12 || timezone > 14) throw new Error('UTC offset อยู่นอกช่วง -12 ถึง +14');
+        const chartData = calculateQiZhengChart(year, month, day, hour, minute, gender, system, latitude, longitude, timezone);
+        updateAllViews(chartData);
+      } catch (error) {
+        errorBox.textContent = `คำนวณไม่ได้: ${error.message || error}`;
+        errorBox.style.display = 'block';
+      }
     }
 
     function switchTab(tabId, el) {
