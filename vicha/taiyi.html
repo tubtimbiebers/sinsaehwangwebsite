@@ -963,13 +963,13 @@
     const TG = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
     const DZ = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
 
-    // 8 Gates order
-    const GATES8 = ['開門', '休門', '生門', '傷門', '杜門', '景門', '死門', '驚門'];
+    // 8 Gates order starting from North (Kan 坎 / 子) clockwise
+    const GATES8 = ['休門', '生門', '傷門', '杜門', '景門', '死門', '驚門', '開門'];
 
     // 16 Palaces in wheel order (North 子 clockwise)
     const PAL16 = ['子', '丑', '艮', '寅', '卯', '辰', '巽', '巳', '午', '未', '坤', '申', '酉', '戌', '乾', '亥'];
 
-    // 28 Mansions in clockwise celestial order
+    // 28 Mansions in clockwise celestial order starting from North (虛)
     const MANSIONS28 = [
       '虛', '危', '室', '壁', '奎', '婁', '胃', '昴', '畢', '觜', '參', '井',
       '鬼', '柳', '星', '張', '翼', '軫', '角', '亢', '氐', '房', '心', '尾',
@@ -1155,6 +1155,11 @@
       };
     }
 
+    function radialAngle(angle) {
+      const norm = ((angle % 360) + 360) % 360;
+      return (norm > 90 && norm < 270) ? angle + 180 : angle;
+    }
+
     function describeArc(cx, cy, r1, r2, startAngle, endAngle) {
       const p1 = polarToCartesian(cx, cy, r1, startAngle);
       const p2 = polarToCartesian(cx, cy, r1, endAngle);
@@ -1197,11 +1202,12 @@
       }));
 
       // ── 1. RING 1: 28 LUNAR MANSIONS (Outer Ring r: 360 -> 425) ──
+      // Aligned with North (子 / 虛) at bottom (180°), South (午 / 星) at top (0°)
       const degPerMansion = 360 / 28;
       for (let i = 0; i < 28; i++) {
-        const startA = i * degPerMansion;
-        const endA = (i + 1) * degPerMansion;
-        const midA = startA + degPerMansion / 2;
+        const midA = (180 + i * degPerMansion) % 360;
+        const startA = midA - degPerMansion / 2;
+        const endA = midA + degPerMansion / 2;
         const color = MANSION_COLORS_VIBRANT[i % MANSION_COLORS_VIBRANT.length];
         const mansionName = MANSIONS28[i];
         const mInfo = MANSION_INFO[mansionName] || { en: mansionName, th: mansionName };
@@ -1216,8 +1222,9 @@
 
         // Mansion Text (3 lines: Chinese, English, Thai)
         const pt = polarToCartesian(CX, CY, 392, midA);
+        const rotA = radialAngle(midA);
         const gText = createSvgElement('g', {
-          transform: `rotate(${midA}, ${pt.x}, ${pt.y})`
+          transform: `rotate(${rotA}, ${pt.x}, ${pt.y})`
         });
 
         // Chinese Name
@@ -1260,9 +1267,9 @@
       // ── 2. RING 2: 16 SPIRITS / 十六神 (r: 305 -> 360) ──
       const degPer16 = 360 / 16;
       for (let i = 0; i < 16; i++) {
-        const startA = i * degPer16;
-        const endA = (i + 1) * degPer16;
-        const midA = startA + degPer16 / 2;
+        const midA = (180 + i * degPer16) % 360;
+        const startA = midA - degPer16 / 2;
+        const endA = midA + degPer16 / 2;
         const isEven = i % 2 === 0;
         const spName = SPIRITS16[i];
         const spInfo = SPIRITS16_INFO[spName] || { en: spName, th: spName };
@@ -1276,8 +1283,9 @@
         }));
 
         const pt = polarToCartesian(CX, CY, 332.5, midA);
+        const rotA = radialAngle(midA);
         const gSp16 = createSvgElement('g', {
-          transform: `rotate(${midA}, ${pt.x}, ${pt.y})`
+          transform: `rotate(${rotA}, ${pt.x}, ${pt.y})`
         });
 
         // 16 Spirit Chinese Name
@@ -1307,9 +1315,9 @@
 
       // ── 3. RING 3: 16 PALACES + DEITIES & GENERALS (r: 175 -> 305) (Rich Dark Colors) ──
       for (let i = 0; i < 16; i++) {
-        const startA = i * degPer16;
-        const endA = (i + 1) * degPer16;
-        const midA = startA + degPer16 / 2;
+        const midA = (180 + i * degPer16) % 360;
+        const startA = midA - degPer16 / 2;
+        const endA = midA + degPer16 / 2;
         const palName = PAL16[i];
         const palColor = PAL_COLORS_RICH[palName] || '#1e293b';
         const pInfo = PAL16_INFO[palName] || { en: palName, th: palName };
@@ -1324,8 +1332,9 @@
 
         // Palace Label (23px Chinese + 12px Subtitle with High Contrast White text)
         const ptPal = polarToCartesian(CX, CY, 280, midA);
+        const rotA = radialAngle(midA);
         const gPal = createSvgElement('g', {
-          transform: `rotate(${midA}, ${ptPal.x}, ${ptPal.y})`
+          transform: `rotate(${rotA}, ${ptPal.x}, ${ptPal.y})`
         });
 
         gPal.appendChild(createSvgElement('text', {
@@ -1357,6 +1366,7 @@
           spirits.slice(0, 3).forEach((sp, sIdx) => {
             const spRadius = startRadius - (sIdx * 33);
             const spPt = polarToCartesian(CX, CY, spRadius, midA);
+            const spRotA = radialAngle(midA);
 
             // Badge pill (Width 70px, Height 32px, rounded rx: 6)
             svg.appendChild(createSvgElement('rect', {
@@ -1368,11 +1378,11 @@
               fill: sp.bg,
               stroke: '#ffffff',
               'stroke-width': '1.8',
-              transform: `rotate(${midA}, ${spPt.x}, ${spPt.y})`
+              transform: `rotate(${spRotA}, ${spPt.x}, ${spPt.y})`
             }));
 
             const gSp = createSvgElement('g', {
-              transform: `rotate(${midA}, ${spPt.x}, ${spPt.y})`
+              transform: `rotate(${spRotA}, ${spPt.x}, ${spPt.y})`
             });
 
             gSp.appendChild(createSvgElement('text', {
@@ -1406,9 +1416,9 @@
       // ── 4. RING 4: EIGHT GATES / 八門 (r: 100 -> 175) (Rich Vibrant Gates) ──
       const degPerGate = 360 / 8;
       for (let i = 0; i < 8; i++) {
-        const startA = i * degPerGate;
-        const endA = (i + 1) * degPerGate;
-        const midA = startA + degPerGate / 2;
+        const midA = (180 + i * degPerGate) % 360;
+        const startA = midA - degPerGate / 2;
+        const endA = midA + degPerGate / 2;
         const gateName = GATES8[i];
         const gateColor = GATES_COLORS_VIBRANT[gateName] || '#d97706';
         const gInfo = GATES8_INFO[gateName] || { en: gateName, th: gateName };
@@ -1421,8 +1431,9 @@
         }));
 
         const ptGate = polarToCartesian(CX, CY, 137.5, midA);
+        const rotA = radialAngle(midA);
         const gGateText = createSvgElement('g', {
-          transform: `rotate(${midA}, ${ptGate.x}, ${ptGate.y})`
+          transform: `rotate(${rotA}, ${ptGate.x}, ${ptGate.y})`
         });
 
         // Gate Chinese Name (Line 1: Font size 20px)
