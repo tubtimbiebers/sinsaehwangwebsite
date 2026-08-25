@@ -489,7 +489,44 @@
         </div>
 
         <div class="form-group-compact">
-          <label>สถานที่เกิด · Birth place</label>
+          <label>ประเทศเกิด · Country</label>
+          <select id="inputCountry" class="input-control-compact" style="width:150px;">
+            <option value="TH" selected>ไทย · Thailand</option>
+            <option value="CN">จีน · China</option>
+            <option value="HK">ฮ่องกง · Hong Kong</option>
+            <option value="TW">ไต้หวัน · Taiwan</option>
+            <option value="SG">สิงคโปร์ · Singapore</option>
+            <option value="MY">มาเลเซีย · Malaysia</option>
+            <option value="VN">เวียดนาม · Vietnam</option>
+            <option value="LA">ลาว · Laos</option>
+            <option value="KH">กัมพูชา · Cambodia</option>
+            <option value="MM">เมียนมา · Myanmar</option>
+            <option value="ID">อินโดนีเซีย · Indonesia</option>
+            <option value="PH">ฟิลิปปินส์ · Philippines</option>
+            <option value="JP">ญี่ปุ่น · Japan</option>
+            <option value="KR">เกาหลีใต้ · South Korea</option>
+            <option value="IN">อินเดีย · India</option>
+            <option value="AU">ออสเตรเลีย · Australia</option>
+            <option value="NZ">นิวซีแลนด์ · New Zealand</option>
+            <option value="GB">สหราชอาณาจักร · United Kingdom</option>
+            <option value="FR">ฝรั่งเศส · France</option>
+            <option value="DE">เยอรมนี · Germany</option>
+            <option value="IT">อิตาลี · Italy</option>
+            <option value="ES">สเปน · Spain</option>
+            <option value="CH">สวิตเซอร์แลนด์ · Switzerland</option>
+            <option value="RU">รัสเซีย · Russia</option>
+            <option value="AE">สหรัฐอาหรับเอมิเรตส์ · UAE</option>
+            <option value="US">สหรัฐอเมริกา · United States</option>
+            <option value="CA">แคนาดา · Canada</option>
+            <option value="BR">บราซิล · Brazil</option>
+            <option value="MX">เม็กซิโก · Mexico</option>
+            <option value="ZA">แอฟริกาใต้ · South Africa</option>
+            <option value="CUSTOM">กำหนดเอง · Custom</option>
+          </select>
+        </div>
+
+        <div class="form-group-compact">
+          <label>พิกัดเมืองเกิด · Coordinates</label>
           <div style="display:flex; gap:6px; flex-wrap:wrap;">
             <input type="number" id="inputLatitude" class="input-control-compact" style="width:92px;" value="13.7563"
               min="-90" max="90" step="0.0001" aria-label="Latitude" title="ละติจูด: เหนือเป็นบวก ใต้เป็นลบ">
@@ -499,9 +536,18 @@
         </div>
 
         <div class="form-group-compact">
-          <label>เขตเวลา · UTC offset</label>
-          <input type="number" id="inputTimezone" class="input-control-compact" style="width:90px;" value="7"
-            min="-12" max="14" step="0.25" aria-label="UTC offset">
+          <label>เมืองเกิด · City</label>
+          <select id="inputCity" class="input-control-compact" style="width:155px;">
+            <option value="0">กรุงเทพฯ · Bangkok</option>
+          </select>
+        </div>
+
+        <div class="form-group-compact">
+          <label>เขตเวลา · Time zone</label>
+          <select id="inputTimezoneName" class="input-control-compact" style="width:180px;">
+            <option value="Asia/Bangkok" selected>Asia/Bangkok (UTC+07:00)</option>
+          </select>
+          <input type="hidden" id="inputTimezone" value="7">
         </div>
 
         <div class="form-group-compact">
@@ -750,6 +796,96 @@
       '未': { zh: '月', nameTh: '太陰 (จันทร์)' }
     };
 
+    const COUNTRY_PRESETS = {
+      TH:{lat:13.7563,lon:100.5018,zones:['Asia/Bangkok']}, CN:{lat:39.9042,lon:116.4074,zones:['Asia/Shanghai']},
+      HK:{lat:22.3193,lon:114.1694,zones:['Asia/Hong_Kong']}, TW:{lat:25.0330,lon:121.5654,zones:['Asia/Taipei']},
+      SG:{lat:1.3521,lon:103.8198,zones:['Asia/Singapore']}, MY:{lat:3.1390,lon:101.6869,zones:['Asia/Kuala_Lumpur']},
+      VN:{lat:21.0278,lon:105.8342,zones:['Asia/Ho_Chi_Minh']}, LA:{lat:17.9757,lon:102.6331,zones:['Asia/Vientiane']},
+      KH:{lat:11.5564,lon:104.9282,zones:['Asia/Phnom_Penh']}, MM:{lat:16.8409,lon:96.1735,zones:['Asia/Yangon']},
+      ID:{lat:-6.2088,lon:106.8456,zones:['Asia/Jakarta','Asia/Makassar','Asia/Jayapura']}, PH:{lat:14.5995,lon:120.9842,zones:['Asia/Manila']},
+      JP:{lat:35.6762,lon:139.6503,zones:['Asia/Tokyo']}, KR:{lat:37.5665,lon:126.9780,zones:['Asia/Seoul']},
+      IN:{lat:28.6139,lon:77.2090,zones:['Asia/Kolkata']}, AU:{lat:-33.8688,lon:151.2093,zones:['Australia/Sydney','Australia/Melbourne','Australia/Brisbane','Australia/Adelaide','Australia/Perth']},
+      NZ:{lat:-36.8509,lon:174.7645,zones:['Pacific/Auckland']}, GB:{lat:51.5074,lon:-0.1278,zones:['Europe/London']},
+      FR:{lat:48.8566,lon:2.3522,zones:['Europe/Paris']}, DE:{lat:52.5200,lon:13.4050,zones:['Europe/Berlin']},
+      IT:{lat:41.9028,lon:12.4964,zones:['Europe/Rome']}, ES:{lat:40.4168,lon:-3.7038,zones:['Europe/Madrid','Atlantic/Canary']},
+      CH:{lat:46.9480,lon:7.4474,zones:['Europe/Zurich']}, RU:{lat:55.7558,lon:37.6173,zones:['Europe/Moscow','Asia/Yekaterinburg','Asia/Novosibirsk','Asia/Vladivostok']},
+      AE:{lat:25.2048,lon:55.2708,zones:['Asia/Dubai']}, US:{lat:40.7128,lon:-74.0060,zones:['America/New_York','America/Chicago','America/Denver','America/Los_Angeles','America/Anchorage','Pacific/Honolulu']},
+      CA:{lat:43.6532,lon:-79.3832,zones:['America/Toronto','America/Winnipeg','America/Edmonton','America/Vancouver','America/Halifax']},
+      BR:{lat:-23.5505,lon:-46.6333,zones:['America/Sao_Paulo','America/Manaus','America/Belem']}, MX:{lat:19.4326,lon:-99.1332,zones:['America/Mexico_City','America/Cancun','America/Tijuana']},
+      ZA:{lat:-26.2041,lon:28.0473,zones:['Africa/Johannesburg']}
+    };
+
+    const CITY_PRESETS = {
+      TH:[['กรุงเทพฯ · Bangkok',13.7563,100.5018,'Asia/Bangkok'],['เชียงใหม่ · Chiang Mai',18.7883,98.9853,'Asia/Bangkok'],['ภูเก็ต · Phuket',7.8804,98.3923,'Asia/Bangkok'],['ขอนแก่น · Khon Kaen',16.4322,102.8236,'Asia/Bangkok'],['หาดใหญ่ · Hat Yai',7.0084,100.4747,'Asia/Bangkok']],
+      CN:[['ปักกิ่ง · Beijing',39.9042,116.4074,'Asia/Shanghai'],['เซี่ยงไฮ้ · Shanghai',31.2304,121.4737,'Asia/Shanghai'],['กว่างโจว · Guangzhou',23.1291,113.2644,'Asia/Shanghai'],['เฉิงตู · Chengdu',30.5728,104.0668,'Asia/Shanghai']],
+      HK:[['ฮ่องกง · Hong Kong',22.3193,114.1694,'Asia/Hong_Kong']], TW:[['ไทเป · Taipei',25.0330,121.5654,'Asia/Taipei'],['เกาสง · Kaohsiung',22.6273,120.3014,'Asia/Taipei']],
+      SG:[['สิงคโปร์ · Singapore',1.3521,103.8198,'Asia/Singapore']], MY:[['กัวลาลัมเปอร์ · Kuala Lumpur',3.1390,101.6869,'Asia/Kuala_Lumpur'],['ปีนัง · Penang',5.4141,100.3288,'Asia/Kuala_Lumpur']],
+      VN:[['ฮานอย · Hanoi',21.0278,105.8342,'Asia/Ho_Chi_Minh'],['โฮจิมินห์ · Ho Chi Minh City',10.8231,106.6297,'Asia/Ho_Chi_Minh']], LA:[['เวียงจันทน์ · Vientiane',17.9757,102.6331,'Asia/Vientiane']],
+      KH:[['พนมเปญ · Phnom Penh',11.5564,104.9282,'Asia/Phnom_Penh']], MM:[['ย่างกุ้ง · Yangon',16.8409,96.1735,'Asia/Yangon'],['มัณฑะเลย์ · Mandalay',21.9588,96.0891,'Asia/Yangon']],
+      ID:[['จาการ์ตา · Jakarta',-6.2088,106.8456,'Asia/Jakarta'],['บาหลี · Bali',-8.4095,115.1889,'Asia/Makassar'],['จายาปุระ · Jayapura',-2.5916,140.6690,'Asia/Jayapura']], PH:[['มะนิลา · Manila',14.5995,120.9842,'Asia/Manila']],
+      JP:[['โตเกียว · Tokyo',35.6762,139.6503,'Asia/Tokyo'],['โอซาก้า · Osaka',34.6937,135.5023,'Asia/Tokyo']], KR:[['โซล · Seoul',37.5665,126.9780,'Asia/Seoul']],
+      IN:[['นิวเดลี · New Delhi',28.6139,77.2090,'Asia/Kolkata'],['มุมไบ · Mumbai',19.0760,72.8777,'Asia/Kolkata']], AU:[['ซิดนีย์ · Sydney',-33.8688,151.2093,'Australia/Sydney'],['เมลเบิร์น · Melbourne',-37.8136,144.9631,'Australia/Melbourne'],['บริสเบน · Brisbane',-27.4698,153.0251,'Australia/Brisbane'],['แอดิเลด · Adelaide',-34.9285,138.6007,'Australia/Adelaide'],['เพิร์ท · Perth',-31.9523,115.8613,'Australia/Perth']],
+      NZ:[['โอ๊คแลนด์ · Auckland',-36.8509,174.7645,'Pacific/Auckland']], GB:[['ลอนดอน · London',51.5074,-0.1278,'Europe/London']], FR:[['ปารีส · Paris',48.8566,2.3522,'Europe/Paris']],
+      DE:[['เบอร์ลิน · Berlin',52.5200,13.4050,'Europe/Berlin']], IT:[['โรม · Rome',41.9028,12.4964,'Europe/Rome']], ES:[['มาดริด · Madrid',40.4168,-3.7038,'Europe/Madrid'],['ลาสปัลมาส · Las Palmas',28.1235,-15.4363,'Atlantic/Canary']],
+      CH:[['ซูริก · Zurich',47.3769,8.5417,'Europe/Zurich']], RU:[['มอสโก · Moscow',55.7558,37.6173,'Europe/Moscow'],['เยคาเตรินเบิร์ก · Yekaterinburg',56.8389,60.6057,'Asia/Yekaterinburg'],['วลาดีวอสตอค · Vladivostok',43.1155,131.8855,'Asia/Vladivostok']],
+      AE:[['ดูไบ · Dubai',25.2048,55.2708,'Asia/Dubai']], US:[['นิวยอร์ก · New York',40.7128,-74.0060,'America/New_York'],['ชิคาโก · Chicago',41.8781,-87.6298,'America/Chicago'],['เดนเวอร์ · Denver',39.7392,-104.9903,'America/Denver'],['ลอสแอนเจลิส · Los Angeles',34.0522,-118.2437,'America/Los_Angeles'],['โฮโนลูลู · Honolulu',21.3099,-157.8581,'Pacific/Honolulu']],
+      CA:[['โทรอนโต · Toronto',43.6532,-79.3832,'America/Toronto'],['แวนคูเวอร์ · Vancouver',49.2827,-123.1207,'America/Vancouver'],['แฮลิแฟกซ์ · Halifax',44.6488,-63.5752,'America/Halifax']],
+      BR:[['เซาเปาลู · São Paulo',-23.5505,-46.6333,'America/Sao_Paulo'],['มาเนาส์ · Manaus',-3.1190,-60.0217,'America/Manaus']], MX:[['เม็กซิโกซิตี · Mexico City',19.4326,-99.1332,'America/Mexico_City'],['ติฮัวนา · Tijuana',32.5149,-117.0382,'America/Tijuana']],
+      ZA:[['โจฮันเนสเบิร์ก · Johannesburg',-26.2041,28.0473,'Africa/Johannesburg']]
+    };
+
+    function offsetLabel(hours) {
+      const sign = hours >= 0 ? '+' : '-';
+      const absolute = Math.abs(hours);
+      const hh = String(Math.floor(absolute)).padStart(2, '0');
+      const mm = String(Math.round((absolute % 1) * 60)).padStart(2, '0');
+      return `UTC${sign}${hh}:${mm}`;
+    }
+
+    function getTimeZoneOffsetHours(date, timeZone) {
+      const parts = new Intl.DateTimeFormat('en-CA', {
+        timeZone, year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit', hourCycle:'h23'
+      }).formatToParts(date).reduce((result, part) => (result[part.type] = part.value, result), {});
+      const representedAsUtc = Date.UTC(+parts.year, +parts.month - 1, +parts.day, +parts.hour, +parts.minute, +parts.second);
+      return (representedAsUtc - date.getTime()) / 3600000;
+    }
+
+    function updateTimeZoneOptions(countryCode, preferredZone) {
+      const select = document.getElementById('inputTimezoneName');
+      const preset = COUNTRY_PRESETS[countryCode];
+      const zones = preset?.zones || (Intl.supportedValuesOf ? Intl.supportedValuesOf('timeZone') : ['UTC']);
+      select.innerHTML = '';
+      zones.forEach(zone => {
+        const sample = new Date(Date.UTC(Number(document.getElementById('inputYear').value) || 2000, 0, 1));
+        const offset = getTimeZoneOffsetHours(sample, zone);
+        select.add(new Option(`${zone} (${offsetLabel(offset)})`, zone));
+      });
+      if (preferredZone && zones.includes(preferredZone)) select.value = preferredZone;
+    }
+
+    function applyCountryPreset(countryCode) {
+      const cities = CITY_PRESETS[countryCode];
+      const citySelect = document.getElementById('inputCity');
+      citySelect.innerHTML = '';
+      if (cities?.length) {
+        cities.forEach((city, index) => citySelect.add(new Option(city[0], String(index))));
+        citySelect.disabled = false;
+        applyCityPreset(countryCode, 0);
+      } else {
+        citySelect.add(new Option('กำหนดพิกัดเอง · Custom coordinates', 'custom'));
+        citySelect.disabled = true;
+        updateTimeZoneOptions('CUSTOM', 'UTC');
+      }
+    }
+
+    function applyCityPreset(countryCode, cityIndex) {
+      const city = CITY_PRESETS[countryCode]?.[Number(cityIndex)];
+      if (!city) return;
+      document.getElementById('inputLatitude').value = city[1];
+      document.getElementById('inputLongitude').value = city[2];
+      updateTimeZoneOptions(countryCode, city[3]);
+    }
+
     // ═══════════════════════════════════════════════════════════════
     //  ASTRONOMICAL CALCULATION ENGINE
     // ═══════════════════════════════════════════════════════════════
@@ -758,15 +894,26 @@
       return ((val % 360) + 360) % 360;
     }
 
-    function createUtcDate(year, month, day, hour, minute, timezone) {
-      const utcMillis = Date.UTC(year, month - 1, day, hour, minute) - timezone * 3600000;
+    function createUtcDate(year, month, day, hour, minute, timezone, timeZoneName) {
+      const wallMillis = Date.UTC(year, month - 1, day, hour, minute);
+      let resolvedOffset = timezone;
+      let utcMillis = wallMillis - resolvedOffset * 3600000;
+      if (timeZoneName) {
+        // Iterate because the applicable historical offset/DST depends on the
+        // resolved UTC instant itself.
+        for (let i = 0; i < 3; i++) {
+          resolvedOffset = getTimeZoneOffsetHours(new Date(utcMillis), timeZoneName);
+          utcMillis = wallMillis - resolvedOffset * 3600000;
+        }
+      }
       const date = new Date(utcMillis);
-      const localCheck = new Date(utcMillis + timezone * 3600000);
+      const localCheck = new Date(utcMillis + resolvedOffset * 3600000);
       if (localCheck.getUTCFullYear() !== year || localCheck.getUTCMonth() !== month - 1 ||
           localCheck.getUTCDate() !== day || localCheck.getUTCHours() !== hour ||
           localCheck.getUTCMinutes() !== minute) {
         throw new Error('วันหรือเวลาไม่ถูกต้อง กรุณาตรวจจำนวนวันของเดือนและช่วงเวลา');
       }
+      date.qzResolvedOffset = resolvedOffset;
       return date;
     }
 
@@ -829,8 +976,8 @@
       return normDeg(Math.atan2(-Math.cos(theta), Math.sin(theta) * Math.cos(eps) + Math.tan(phi) * Math.sin(eps)) * 180 / Math.PI);
     }
 
-    function calculateQiZhengChart(year, month, day, hour, minute, gender, system, latitude, longitude, timezone) {
-      const utcDate = createUtcDate(year, month, day, hour, minute, timezone);
+    function calculateQiZhengChart(year, month, day, hour, minute, gender, system, latitude, longitude, timezone, timeZoneName = '') {
+      const utcDate = createUtcDate(year, month, day, hour, minute, timezone, timeZoneName);
       const astronomyResult = calculatePlanetaryLongitudes(utcDate);
       const longitudes = astronomyResult.values;
       const jdn = astronomyResult.jdn;
@@ -917,7 +1064,8 @@
       const shenPalaceLord = PALACE_RULER_MAP[shenInfo.name] || { zh: '水', nameTh: '水星 (ดาวพุธ)' };
 
       return {
-        year, month, day, hour, minute, gender, system, latitude, longitude, timezone, utcDate,
+        year, month, day, hour, minute, gender, system, latitude, longitude,
+        timezone: utcDate.qzResolvedOffset, timeZoneName: timeZoneName || offsetLabel(timezone), utcDate,
         jdn,
         longitudes,
         mingInfo,
@@ -1500,7 +1648,8 @@
         : 'ไม่มีดาวสถิตตรง — ต้องตรวจ宮主、對宮และ三方ก่อนตีความ';
       reportDiv.innerHTML = `
         <h4 style="color:var(--gold-light); font-size:1.15rem; margin-bottom:10px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">1. 太極命身 · โครงสร้างชะตาหลัก (Natal Taiji & Core Lords)</h4>
-        <p>• <strong>ข้อมูลคำนวณ:</strong> ${chartData.year}-${String(chartData.month).padStart(2,'0')}-${String(chartData.day).padStart(2,'0')} ${String(chartData.hour).padStart(2,'0')}:${String(chartData.minute).padStart(2,'0')} UTC${chartData.timezone >= 0 ? '+' : ''}${chartData.timezone}; พิกัด ${chartData.latitude.toFixed(4)}, ${chartData.longitude.toFixed(4)}</p>
+        <p>• <strong>ข้อมูลคำนวณ:</strong> ${chartData.year}-${String(chartData.month).padStart(2,'0')}-${String(chartData.day).padStart(2,'0')} ${String(chartData.hour).padStart(2,'0')}:${String(chartData.minute).padStart(2,'0')}</p>
+        <p style="margin-top:4px;">• <strong>สถานที่เกิด:</strong> ${chartData.birthCity} — ${chartData.birthCountry}; ${chartData.timeZoneName} (${offsetLabel(chartData.timezone)}); พิกัด ${chartData.latitude.toFixed(4)}, ${chartData.longitude.toFixed(4)}</p>
         <p style="margin-top:4px;">• <strong>ระบบ:</strong> ${chartData.system === 'zhengan' ? '鄭案古宿 (ขอบเขต宿ตามชุดอ้างอิง)' : '等分宿 (ระบบเปรียบเทียบ)'}; 七政คำนวณด้วย apparent geocentric ephemeris ส่วน四餘เป็นค่าเฉลี่ยตามแบบจำลองดั้งเดิม</p>
         <p style="margin-top:4px;">• <strong>命宮 (วังลัคนา):</strong> สถิต <strong>${chartData.mingInfo.name}宮 (${chartData.mingInfo.en} / ${chartData.mingInfo.th})</strong> ที่ ${chartData.mingDeg.toFixed(4)}° | <strong>命度主:</strong> <strong>${chartData.mingDuLord.nameTh}</strong> เสพฤกษ์ <strong>${chartData.mingMansion.name}宿</strong> (ธาตุ${chartData.mingMansion.elemTh})</p>
         <p style="margin-top:4px;">• <strong>身宮 (วังชะตา/จันทร์):</strong> สถิต <strong>${chartData.shenInfo.name}宮 (${chartData.shenInfo.en} / ${chartData.shenInfo.th})</strong> | <strong>身度主 (ดาวครององศาชะตา):</strong> <strong>${chartData.shenDuLord.nameTh}</strong> เสพฤกษ์ <strong>${chartData.shenMansionName}宿</strong></p>
@@ -1531,6 +1680,7 @@
       const latitude = Number(document.getElementById('inputLatitude').value);
       const longitude = Number(document.getElementById('inputLongitude').value);
       const timezone = Number(document.getElementById('inputTimezone').value);
+      const timeZoneName = document.getElementById('inputTimezoneName').value;
 
       try {
         const values = [year, month, day, hour, minute, latitude, longitude, timezone];
@@ -1540,7 +1690,11 @@
         if (hour < 0 || hour > 23 || minute < 0 || minute > 59) throw new Error('เวลาอยู่นอกช่วง 00:00–23:59');
         if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) throw new Error('พิกัดภูมิศาสตร์อยู่นอกช่วง');
         if (timezone < -12 || timezone > 14) throw new Error('UTC offset อยู่นอกช่วง -12 ถึง +14');
-        const chartData = calculateQiZhengChart(year, month, day, hour, minute, gender, system, latitude, longitude, timezone);
+        const chartData = calculateQiZhengChart(year, month, day, hour, minute, gender, system, latitude, longitude, timezone, timeZoneName);
+        const countrySelect = document.getElementById('inputCountry');
+        const citySelect = document.getElementById('inputCity');
+        chartData.birthCountry = countrySelect.options[countrySelect.selectedIndex]?.text || '';
+        chartData.birthCity = citySelect.options[citySelect.selectedIndex]?.text || 'กำหนดเอง';
         updateAllViews(chartData);
       } catch (error) {
         errorBox.textContent = `คำนวณไม่ได้: ${error.message || error}`;
@@ -1557,6 +1711,9 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('inputCountry').addEventListener('change', event => applyCountryPreset(event.target.value));
+      document.getElementById('inputCity').addEventListener('change', event => applyCityPreset(document.getElementById('inputCountry').value, event.target.value));
+      applyCountryPreset(document.getElementById('inputCountry').value);
       onCalculateClick();
     });
   </script>
