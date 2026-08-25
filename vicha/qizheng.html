@@ -1127,22 +1127,23 @@
       }, '四餘'));
 
       // ─────────────────────────────────────────────────────────────
-      // PLANETARY ORBS  — de-overlap algorithm
-      // Orbs placed at r=370 then nudged outward if collision detected
+      // PLANETARY ORBS  — de-overlap with hard boundary cap
+      // Orbs start at ORBS_BASE_R; pushed outward up to MAX_R only.
+      // Beyond MAX_R → nudge angle sideways to avoid escaping the wheel.
       // ─────────────────────────────────────────────────────────────
-      const ORBS_BASE_R  = 262; // sit at edge of Ring 2 / Ring 3 boundary
+      const ORBS_BASE_R  = 220; // start inside Ring 3 (houses ring, r148→265)
+      const MAX_R        = 328; // hard cap: stays inside Ring 1 (starts at 345)
       const ORB_RADIUS   = 18;
-      const MIN_DIST     = ORB_RADIUS * 2 + 4; // minimum center-to-center gap
+      const MIN_DIST     = ORB_RADIUS * 2 + 3;
 
-      // Convert planet degree → Cartesian, then de-overlap
       const orbPositions = chartData.planetList.map(p => ({
         ...p,
-        radialR: ORBS_BASE_R,   // start radius
-        angle: p.deg            // ecliptic angle
+        radialR: ORBS_BASE_R,
+        angle: p.deg
       }));
 
-      // De-overlap: push colliding orbs to outer layers
-      const MAX_ITERATIONS = 60;
+      // Multi-pass de-overlap: radial push first, angular nudge when capped
+      const MAX_ITERATIONS = 120;
       for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
         let moved = false;
         for (let a = 0; a < orbPositions.length; a++) {
@@ -1151,17 +1152,35 @@
             const pb = polarToCartesian(CX, CY, orbPositions[b].radialR, orbPositions[b].angle);
             const dx = pa.x - pb.x;
             const dy = pa.y - pb.y;
-            const dist = Math.sqrt(dx*dx + dy*dy);
+            const dist = Math.sqrt(dx * dx + dy * dy);
             if (dist < MIN_DIST) {
-              // Push the one with the smaller radialR outward
+              const overlap = (MIN_DIST - dist) / 2 + 1;
+              // Try pushing radially outward for the lower-radius one
               const target = orbPositions[a].radialR <= orbPositions[b].radialR ? a : b;
-              orbPositions[target].radialR += (MIN_DIST - dist) / 2 + 2;
+              const other  = target === a ? b : a;
+
+              const newR = orbPositions[target].radialR + overlap;
+              if (newR <= MAX_R) {
+                // Safe to push outward
+                orbPositions[target].radialR = newR;
+              } else {
+                // Hit the cap — nudge angle of the more-inner orb sideways
+                orbPositions[target].radialR = Math.min(MAX_R, orbPositions[target].radialR);
+                const angularNudge = (overlap / orbPositions[target].radialR) * (180 / Math.PI) * 1.2;
+                // Determine direction: push away from 'other' angularly
+                const angleDiff = ((orbPositions[target].angle - orbPositions[other].angle) + 360) % 360;
+                orbPositions[target].angle += angleDiff < 180 ? angularNudge : -angularNudge;
+              }
               moved = true;
             }
           }
         }
         if (!moved) break;
       }
+
+      // Final hard-clamp: ensure no orb exceeds MAX_R (safety net)
+      orbPositions.forEach(p => { p.radialR = Math.min(p.radialR, MAX_R); });
+
 
       orbPositions.forEach(p => {
         const pt = polarToCartesian(CX, CY, p.radialR, p.angle);
