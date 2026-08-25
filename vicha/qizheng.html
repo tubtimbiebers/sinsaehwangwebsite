@@ -540,7 +540,7 @@
       <section class="view-panel active" id="view-wheel">
         <div class="wheel-card">
           <div class="wheel-svg-wrapper">
-            <svg id="qizhengWheelSvg" viewBox="0 0 900 900" width="100%" height="100%"></svg>
+            <svg id="qizhengWheelSvg" viewBox="0 0 1200 1200" width="100%" height="100%"></svg>
           </div>
         </div>
       </section>
@@ -630,37 +630,46 @@
     ];
 
     const MANSIONS28_DATA = [
-      { name: '角', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 12.0 },
-      { name: '亢', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 9.0 },
-      { name: '氐', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 15.0 },
-      { name: '房', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 5.0 },
-      { name: '心', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 5.0 },
-      { name: '尾', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 18.0 },
-      { name: '箕', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 11.0 },
-
-      { name: '斗', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 26.0 },
-      { name: '牛', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 8.0 },
-      { name: '女', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 12.0 },
-      { name: '虛', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 10.0 },
-      { name: '危', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 17.0 },
-      { name: '室', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 16.0 },
-      { name: '壁', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 9.0 },
-
+      // 戌宮 (Aries / จอ · 0°..30°)
       { name: '奎', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 16.0 },
       { name: '婁', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 12.0 },
+      // 酉宮 (Taurus / ระกา · 30°..60°)
       { name: '胃', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 14.0 },
       { name: '昴', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 11.0 },
+      // 申宮 (Gemini / วอก · 60°..90°)
       { name: '畢', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 17.0 },
       { name: '觜', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 1.0 },
       { name: '參', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 10.0 },
-
+      // 未宮 (Cancer / มะแม · 90°..120°)
       { name: '井', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 33.0 },
       { name: '鬼', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 2.5 },
+      // 午宮 (Leo / มะเมีย · 120°..150°)
       { name: '柳', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 13.5 },
       { name: '星', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 7.0 },
       { name: '張', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 18.0 },
+      // 巳宮 (Virgo / มะเส็ง · 150°..180°)
       { name: '翼', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 18.0 },
-      { name: '軫', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 17.0 }
+      { name: '軫', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 17.0 },
+      // 辰宮 (Libra / มะโรง · 180°..210°)
+      { name: '角', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 12.0 },
+      { name: '亢', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 9.0 },
+      // 卯宮 (Scorpio / เถาะ · 210°..240°)
+      { name: '氐', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 15.0 },
+      { name: '房', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 5.0 },
+      { name: '心', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 5.0 },
+      // 寅宮 (Sagittarius / ขาล · 240°..270°)
+      { name: '尾', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 18.0 },
+      { name: '箕', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 11.0 },
+      // 丑宮 (Capricorn / ฉลู · 270°..300°)
+      { name: '斗', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 26.0 },
+      { name: '牛', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 8.0 },
+      // 子宮 (Aquarius / ชวด · 300°..330°)
+      { name: '女', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 12.0 },
+      { name: '虛', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 10.0 },
+      { name: '危', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 17.0 },
+      // 亥宮 (Pisces / กุน · 330°..360°)
+      { name: '室', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 16.0 },
+      { name: '壁', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 6.0 }
     ];
 
     const PLANETS_CONFIG = [
@@ -695,38 +704,58 @@
       return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + dayFrac + b - 1524.5;
     }
 
+    function normDeg(val) {
+      return ((val % 360) + 360) % 360;
+    }
+
     function calculatePlanetaryLongitudes(jdn) {
-      const d = jdn - 2451545.0; // Days from J2000.0
+      const d = jdn - 2451545.0; // Days from J2000.0 (2000-01-01 12:00 UTC)
       const T = d / 36525.0;     // Julian centuries
 
-      // Sun Ecliptic Longitude
-      const L0 = (280.46646 + 36000.76983 * T) % 360;
-      const M_sun = (357.52911 + 35999.05029 * T) * Math.PI / 180;
+      // 1. Sun (太陽)
+      const L0 = normDeg(280.46646 + 36000.76983 * T);
+      const M_sun = normDeg(357.52911 + 35999.05029 * T) * Math.PI / 180;
       const C_sun = (1.914602 - 0.004817 * T) * Math.sin(M_sun) + (0.019993 - 0.000101 * T) * Math.sin(2 * M_sun);
-      const sunDeg = (L0 + C_sun + 360) % 360;
+      const sunDeg = normDeg(L0 + C_sun);
 
-      // Moon Ecliptic Longitude
-      const L_moon = (218.316 + 13.176396 * d) % 360;
-      const M_moon = (134.963 + 13.064993 * d) * Math.PI / 180;
-      const moonDeg = (L_moon + 6.289 * Math.sin(M_moon) + 360) % 360;
+      // 2. Moon (太陰)
+      const L_moon = normDeg(218.316 + 13.176396 * d);
+      const M_moon = normDeg(134.963 + 13.064993 * d) * Math.PI / 180;
+      const moonDeg = normDeg(L_moon + 6.289 * Math.sin(M_moon));
 
-      // Mercury, Venus, Mars, Jupiter, Saturn Keplerian approximations
-      const mercuryDeg = (sunDeg + 18 * Math.sin((d * 0.04092) % (2 * Math.PI)) + 360) % 360;
-      const venusDeg = (sunDeg + 28 * Math.sin((d * 0.01602) % (2 * Math.PI)) + 360) % 360;
-      const marsDeg = ((355.43 + 0.524033 * d) + 360) % 360;
-      const jupiterDeg = ((34.35 + 0.083091 * d) + 360) % 360;
-      const saturnDeg = ((50.08 + 0.033459 * d) + 360) % 360;
+      // 3. Mercury (水星)
+      const M_merc = normDeg(174.7948 + 4.09233445 * d) * Math.PI / 180;
+      const mercuryDeg = normDeg(sunDeg + 22.5 * Math.sin(M_merc));
 
-      // Four Extras (Rahu, Ketu, Yuebo, Ziqi)
-      const rahuDeg = ((125.044555 - 0.05295377 * d) % 360 + 360) % 360;
-      const ketuDeg = (rahuDeg + 180) % 360;
-      const yueboDeg = (moonDeg + 180 + 360) % 360;
-      const ziqiDeg = ((280.0 + 0.035 * d) % 360 + 360) % 360;
+      // 4. Venus (金星)
+      const M_ven = normDeg(50.4161 + 1.60213034 * d) * Math.PI / 180;
+      const venusDeg = normDeg(sunDeg + 46.3 * Math.sin(M_ven));
 
-      // Modern Outer Planets
-      const uranusDeg = ((314.05 + 0.01173 * d) % 360 + 360) % 360;
-      const neptuneDeg = ((304.35 + 0.00598 * d) % 360 + 360) % 360;
-      const plutoDeg = ((238.90 + 0.00397 * d) % 360 + 360) % 360;
+      // 5. Mars (熒惑/火星)
+      const L_mars = normDeg(355.433 + 0.5240330 * d);
+      const M_mars = normDeg(19.373 + 0.5240208 * d) * Math.PI / 180;
+      const marsDeg = normDeg(L_mars + 10.691 * Math.sin(M_mars));
+
+      // 6. Jupiter (歲星/木星)
+      const L_jup = normDeg(34.351 + 0.0830912 * d);
+      const M_jup = normDeg(20.020 + 0.0830853 * d) * Math.PI / 180;
+      const jupiterDeg = normDeg(L_jup + 5.555 * Math.sin(M_jup));
+
+      // 7. Saturn (填星/土星)
+      const L_sat = normDeg(50.077 + 0.0334597 * d);
+      const M_sat = normDeg(317.021 + 0.0334442 * d) * Math.PI / 180;
+      const saturnDeg = normDeg(L_sat + 6.359 * Math.sin(M_sat));
+
+      // 8. Four Extras (四餘: 羅睺, 計都, 月孛, 紫炁)
+      const rahuDeg = normDeg(125.044555 - 0.05295377 * d);
+      const ketuDeg = normDeg(rahuDeg + 180);
+      const yueboDeg = normDeg(83.353 + 0.111404 * d);
+      const ziqiDeg = normDeg(280.0 + (360.0 / (28 * 365.25)) * d);
+
+      // 9. Modern Outer Planets (三王星)
+      const uranusDeg = normDeg(314.05 + 0.01173 * d);
+      const neptuneDeg = normDeg(304.35 + 0.00598 * d);
+      const plutoDeg = normDeg(238.90 + 0.00397 * d);
 
       return {
         sun: sunDeg,
@@ -803,10 +832,12 @@
         else if (pConf.id === 'jupiter' && (zInfo?.name === '寅' || zInfo?.name === '亥')) dignity = '廟';
         else if (pConf.id === 'venus' && (zInfo?.name === '酉' || zInfo?.name === '辰')) dignity = '廟';
 
+        const degInSign = deg % 30;
         const planetObj = {
           ...pConf,
           deg,
-          degFormatted: `${Math.floor(deg)}° ${(Math.floor((deg % 1) * 60)).toString().padStart(2, '0')}'`,
+          degInSign,
+          degFormatted: `${Math.floor(degInSign)}° ${(Math.floor((degInSign % 1) * 60)).toString().padStart(2, '0')}' (${Math.floor(deg)}°)`,
           zBranch: zInfo.name,
           zEn: zInfo.en,
           zTh: zInfo.th,
@@ -836,10 +867,16 @@
     }
 
     // ═══════════════════════════════════════════════════════════════
-    //  SVG CIRCULAR WHEEL RENDERER (900x900 CANVAS)
+    //  SVG CIRCULAR WHEEL RENDERER (1200x1200 CANVAS)
     // ═══════════════════════════════════════════════════════════════
     const SVG_NS = 'http://www.w3.org/2000/svg';
-    const CX = 450, CY = 450;
+    const CX = 600, CY = 600;
+
+    // แปลงองศาดาราศาสตร์ (0°..360°) เป็นมุมบนหน้าปัดนาฬิกา (ตามเข็มนาฬิกาแบบจีน)
+    // 12 นักษัตรเรียงตามเข็มนาฬิกา: 午(บน 12:00), 未(1:00), 申(2:00), 酉(ขวา 3:00), 戌(4:00), 亥(5:00), 子(ล่าง 6:00), 丑(7:00), 寅(8:00), 卯(ซ้าย 9:00), 辰(10:00), 巳(11:00)
+    function degToAngle(deg) {
+      return ((120 - deg) % 360 + 360) % 360;
+    }
 
     function createSvgElement(tag, attrs, text) {
       const el = document.createElementNS(SVG_NS, tag);
@@ -856,12 +893,22 @@
       };
     }
 
+    // คืนค่า angle ที่ถูกต้องสำหรับ text ใน sector:
+    // sector ครึ่งล่าง (90°-270°) ต้อง +180° เพื่อไม่ให้ข้อความหัวกลับ
+    function radialAngle(midA) {
+      const n = ((midA % 360) + 360) % 360;
+      return (n > 90 && n < 270) ? midA + 180 : midA;
+    }
+
     function describeArc(cx, cy, r1, r2, startAngle, endAngle) {
-      const p1 = polarToCartesian(cx, cy, r1, startAngle);
-      const p2 = polarToCartesian(cx, cy, r1, endAngle);
-      const p3 = polarToCartesian(cx, cy, r2, endAngle);
-      const p4 = polarToCartesian(cx, cy, r2, startAngle);
-      const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+      let sa = startAngle;
+      let ea = endAngle;
+      while (ea <= sa) ea += 360;
+      const p1 = polarToCartesian(cx, cy, r1, sa);
+      const p2 = polarToCartesian(cx, cy, r1, ea);
+      const p3 = polarToCartesian(cx, cy, r2, ea);
+      const p4 = polarToCartesian(cx, cy, r2, sa);
+      const largeArcFlag = (ea - sa) <= 180 ? "0" : "1";
       return [
         "M", p1.x, p1.y,
         "A", r1, r1, 0, largeArcFlag, 1, p2.x, p2.y,
@@ -899,20 +946,140 @@
       }));
 
       // ─────────────────────────────────────────────────────────────
-      // RING 1: 28 LUNAR MANSIONS  (r 380 → 425)
-      // Thinner font, clear Chinese + English + element label
+      // OUTER RING: TRANSITING PLANETS (r 440 → 515)
+      // วงนอกสุด: แสดงดาวจรตามตำแหน่งจริงของดาว
+      // ─────────────────────────────────────────────────────────────
+      svg.appendChild(createSvgElement('circle', {
+        cx: CX, cy: CY, r: 515,
+        fill: 'none', stroke: '#e2e8f0', 'stroke-width': '1.5', 'stroke-dasharray': '4,3'
+      }));
+      svg.appendChild(createSvgElement('circle', {
+        cx: CX, cy: CY, r: 440,
+        fill: 'none', stroke: '#e2e8f0', 'stroke-width': '1'
+      }));
+
+      // วาด sector สี outer ring ตามราศี
+      for (let si = 0; si < 12; si++) {
+        const sA = degToAngle((si + 1) * 30);
+        const eA = degToAngle(si * 30);
+        svg.appendChild(createSvgElement('path', {
+          d: describeArc(CX, CY, 440, 515, sA, eA),
+          fill: si % 2 === 0 ? 'rgba(241,245,249,0.6)' : 'rgba(255,255,255,0.6)',
+          stroke: '#cbd5e1', 'stroke-width': '0.8'
+        }));
+      }
+
+      // แสดงดาวจรใน outer ring
+      const OUTER_RING_R = 477;
+      const OUTER_ORB_R  = 19;
+      const OUTER_MAX_R  = 508;
+      const OUTER_MIN_DIST = OUTER_ORB_R * 2 + 4;
+
+      const outerOrbs = chartData.planetList.map(p => ({
+        ...p,
+        radialR: OUTER_RING_R,
+        angle: degToAngle(p.deg)
+      }));
+
+      // de-overlap outer orbs
+      for (let iter = 0; iter < 80; iter++) {
+        let moved = false;
+        for (let a = 0; a < outerOrbs.length; a++) {
+          for (let b = a + 1; b < outerOrbs.length; b++) {
+            const pa = polarToCartesian(CX, CY, outerOrbs[a].radialR, outerOrbs[a].angle);
+            const pb = polarToCartesian(CX, CY, outerOrbs[b].radialR, outerOrbs[b].angle);
+            const dx = pa.x - pb.x, dy = pa.y - pb.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < OUTER_MIN_DIST) {
+              const overlap = (OUTER_MIN_DIST - dist) / 2 + 1;
+              const target = outerOrbs[a].radialR <= outerOrbs[b].radialR ? a : b;
+              const other  = target === a ? b : a;
+              const newR   = outerOrbs[target].radialR + overlap;
+              if (newR <= OUTER_MAX_R) {
+                outerOrbs[target].radialR = newR;
+              } else {
+                outerOrbs[target].radialR = OUTER_MAX_R;
+                const angularNudge = (overlap / outerOrbs[target].radialR) * (180 / Math.PI) * 1.3;
+                const angleDiff = ((outerOrbs[target].angle - outerOrbs[other].angle) + 360) % 360;
+                outerOrbs[target].angle += angleDiff < 180 ? angularNudge : -angularNudge;
+              }
+              moved = true;
+            }
+          }
+        }
+        if (!moved) break;
+      }
+
+      // วาด connector line + orb badge สำหรับดาวแต่ละดวง
+      outerOrbs.forEach(p => {
+        const ptOuter = polarToCartesian(CX, CY, p.radialR, p.angle);
+        const ptEdge  = polarToCartesian(CX, CY, 428, p.angle);
+        const gConn = createSvgElement('g', {});
+        gConn.appendChild(createSvgElement('line', {
+          x1: ptEdge.x, y1: ptEdge.y, x2: ptOuter.x, y2: ptOuter.y,
+          stroke: p.bg, 'stroke-width': '1', opacity: '0.5', 'stroke-dasharray': '3,2'
+        }));
+        svg.appendChild(gConn);
+
+        const gBadge = createSvgElement('g', { filter: 'url(#badgeShadow)' });
+        gBadge.appendChild(createSvgElement('circle', {
+          cx: ptOuter.x, cy: ptOuter.y, r: OUTER_ORB_R,
+          fill: p.bg, stroke: '#ffffff', 'stroke-width': '2.5'
+        }));
+        gBadge.appendChild(createSvgElement('text', {
+          x: ptOuter.x, y: ptOuter.y,
+          fill: '#ffffff', 'font-size': '13', 'font-weight': '400',
+          'font-family': "'Ma Shan Zheng', 'Prompt', serif",
+          'text-anchor': 'middle', 'dominant-baseline': 'central'
+        }, p.zh));
+
+        const ptLabel = polarToCartesian(CX, CY, p.radialR + OUTER_ORB_R + 13, p.angle);
+        gBadge.appendChild(createSvgElement('text', {
+          x: ptLabel.x, y: ptLabel.y,
+          fill: p.bg, 'font-size': '10', 'font-weight': '500',
+          'font-family': "'Prompt', sans-serif",
+          'text-anchor': 'middle', 'dominant-baseline': 'central'
+        }, `${Math.floor(p.deg)}°`));
+
+        svg.appendChild(gBadge);
+      });
+
+      // ─── ป้ายกำกับทิศทาง (ทิศใต้=บน 12:00, ทิศเหนือ=ล่าง 6:00, ทิศออก=ซ้าย 9:00, ทิศตก=ขวา 3:00) ───
+      const CARDINAL_R = 535;
+      const cardinals = [
+        { label: '南', sub: 'ใต้', angle: 345, color: '#dc2626' }, // ทิศใต้ (มะเมีย / 午 · บน)
+        { label: '北', sub: 'เหนือ', angle: 165, color: '#1d4ed8' }, // ทิศเหนือ (ชวด / 子 · ล่าง)
+        { label: '東', sub: 'ตออก', angle: 255, color: '#16a34a' }, // ทิศตะวันออก (เถาะ / 卯 · ซ้าย)
+        { label: '西', sub: 'ตกก', angle: 75,  color: '#d97706' }   // ทิศตะวันตก (ระกา / 酉 · ขวา)
+      ];
+      cardinals.forEach(c => {
+        const pt = polarToCartesian(CX, CY, CARDINAL_R, c.angle);
+        svg.appendChild(createSvgElement('circle', {
+          cx: pt.x, cy: pt.y, r: 20,
+          fill: '#ffffff', stroke: c.color, 'stroke-width': '2'
+        }));
+        svg.appendChild(createSvgElement('text', {
+          x: pt.x, y: pt.y - 2,
+          fill: c.color, 'font-size': '16', 'font-weight': '600',
+          'font-family': "'Ma Shan Zheng', serif",
+          'text-anchor': 'middle', 'dominant-baseline': 'central'
+        }, c.label));
+      });
+
+      // ─────────────────────────────────────────────────────────────
+      // RING 1: 28 LUNAR MANSIONS (r 345 → 425)
       // ─────────────────────────────────────────────────────────────
       const MANSION_EN = [
-        'Horn','Neck','Root','Room','Heart','Tail','Basket',
-        'Dipper','Ox','Girl','Void','Rooftop','Encampment','Wall',
         'Legs','Bond','Stomach','Pleiades','Net','Turtle','Three Stars',
-        'Well','Ghost','Willow','Star','Extended Net','Wings','Chariot'
+        'Well','Ghost','Willow','Star','Extended Net','Wings','Chariot',
+        'Horn','Neck','Root','Room','Heart','Tail','Basket',
+        'Dipper','Ox','Girl','Void','Rooftop','Encampment','Wall'
       ];
       let currentDeg = 0;
       MANSIONS28_DATA.forEach((m, mi) => {
-        const startA  = currentDeg;
-        const endA    = currentDeg + m.degSpan;
-        const midA    = startA + m.degSpan / 2;
+        const startA = degToAngle(currentDeg + m.degSpan);
+        const endA   = degToAngle(currentDeg);
+        const midA   = degToAngle(currentDeg + m.degSpan / 2);
 
         svg.appendChild(createSvgElement('path', {
           d: describeArc(CX, CY, 345, 425, startA, endA),
@@ -921,13 +1088,10 @@
           'stroke-width': '1'
         }));
 
-        // Show text when slice is wide enough
         if (m.degSpan >= 5) {
-          // Place text center-radially between 345 and 425 → midpoint 385
           const pt  = polarToCartesian(CX, CY, 385, midA);
-          const gM  = createSvgElement('g', { transform: `rotate(${midA}, ${pt.x}, ${pt.y})` });
+          const gM  = createSvgElement('g', { transform: `rotate(${radialAngle(midA)}, ${pt.x}, ${pt.y})` });
 
-          // Chinese name — larger, thinner
           gM.appendChild(createSvgElement('text', {
             x: pt.x, y: pt.y - 10,
             fill: '#ffffff',
@@ -938,7 +1102,6 @@
             'dominant-baseline': 'central'
           }, m.name));
 
-          // English name — all slices ≥5°, bigger and thinner
           const enShort = (MANSION_EN[mi] || '').split(' ')[0].substring(0, 7);
           gM.appendChild(createSvgElement('text', {
             x: pt.x, y: pt.y + 11,
@@ -955,55 +1118,65 @@
         currentDeg += m.degSpan;
       });
 
-      // Degree tick marks
-      for (let deg = 0; deg < 360; deg += 5) {
-        const pO = polarToCartesian(CX, CY, 425, deg);
-        const pI = polarToCartesian(CX, CY, deg % 30 === 0 ? 413 : 419, deg);
+      // ─── Degree tick marks and labels (องศาเข็มทิศ: เหนือ=0°, ตะวันออก=90°, ใต้=180°, ตะวันตก=270°) ───
+      for (let compassDeg = 0; compassDeg < 360; compassDeg += 5) {
+        // compassDeg: 0° อยู่ล่าง (子), 90° อยู่ซ้าย (卯), 180° อยู่บน (午), 270° อยู่ขวา (酉)
+        const tickAngle = (180 + compassDeg) % 360;
+        const pO = polarToCartesian(CX, CY, 425, tickAngle);
+        const pI = polarToCartesian(CX, CY, compassDeg % 30 === 0 ? 413 : 419, tickAngle);
         svg.appendChild(createSvgElement('line', {
           x1: pO.x, y1: pO.y, x2: pI.x, y2: pI.y,
-          stroke: '#ffffff', 'stroke-width': deg % 30 === 0 ? '2' : '0.8', opacity: '0.8'
+          stroke: '#ffffff', 'stroke-width': compassDeg % 30 === 0 ? '2' : '0.8', opacity: '0.8'
         }));
+        
+        if (compassDeg % 10 === 0) {
+          const pText = polarToCartesian(CX, CY, 432, tickAngle);
+          const gText = createSvgElement('g', { transform: `rotate(${radialAngle(tickAngle)}, ${pText.x}, ${pText.y})` });
+          gText.appendChild(createSvgElement('text', {
+            x: pText.x, y: pText.y,
+            fill: '#64748b', 'font-size': '8', 'font-weight': '500',
+            'font-family': "'Prompt', sans-serif",
+            'text-anchor': 'middle', 'dominant-baseline': 'central'
+          }, `${compassDeg}°`));
+          svg.appendChild(gText);
+        }
       }
 
       // ─────────────────────────────────────────────────────────────
-      // RING 2: 12 ZODIAC + EARTHLY BRANCHES  (r 265 → 380)
-      // Wider ring → bigger text, lighter weight, 3-line layout
+      // RING 2: 12 ZODIAC + EARTHLY BRANCHES (r 265 → 345)
       // ─────────────────────────────────────────────────────────────
-      const ZODIAC_SYMBOL = ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
-      const HOUSE_EN_SHORT = [
-        'Life','Wealth','Siblings','Property','Children','Servants',
-        'Spouse','Illness','Travel','Career','Fortune','Spirit'
-      ];
-      // Ring 2 inner radius adjusted from 265→345 to stay inside Ring 1
       for (let i = 0; i < 12; i++) {
-        const startA = i * 30;
-        const endA   = (i + 1) * 30;
-        const midA   = startA + 15;
         const zInfo  = ZODIAC12[i];
+        const startA = degToAngle((i + 1) * 30);
+        const endA   = degToAngle(i * 30);
+        const midA   = degToAngle(i * 30 + 15);
 
-        const isEven = i % 2 === 0;
+        const isMaemia = zInfo.name === '午';
+        const isChawod = zInfo.name === '子';
+        let fillColor = i % 2 === 0 ? '#ffffff' : '#f1f5f9';
+        if (isMaemia) fillColor = '#fef2f2';
+        if (isChawod) fillColor = '#eff6ff';
+
         svg.appendChild(createSvgElement('path', {
           d: describeArc(CX, CY, 265, 345, startA, endA),
-          fill: isEven ? '#ffffff' : '#f1f5f9',
+          fill: fillColor,
           stroke: '#94a3b8',
           'stroke-width': '1.2'
         }));
 
         const ptZ = polarToCartesian(CX, CY, 305, midA);
-        const gZ  = createSvgElement('g', { transform: `rotate(${midA}, ${ptZ.x}, ${ptZ.y})` });
+        const gZ  = createSvgElement('g', { transform: `rotate(${radialAngle(midA)}, ${ptZ.x}, ${ptZ.y})` });
 
-        // Large Earthly Branch glyph
         gZ.appendChild(createSvgElement('text', {
           x: ptZ.x, y: ptZ.y - 20,
-          fill: '#1e293b',
-          'font-size': '22',
-          'font-weight': '300',
+          fill: isMaemia ? '#dc2626' : (isChawod ? '#1d4ed8' : '#1e293b'),
+          'font-size': isMaemia || isChawod ? '25' : '22',
+          'font-weight': isMaemia || isChawod ? '600' : '300',
           'font-family': "'Ma Shan Zheng', serif",
           'text-anchor': 'middle',
           'dominant-baseline': 'central'
         }, zInfo.name));
 
-        // Western zodiac English
         gZ.appendChild(createSvgElement('text', {
           x: ptZ.x, y: ptZ.y + 2,
           fill: '#334155',
@@ -1014,10 +1187,9 @@
           'dominant-baseline': 'central'
         }, zInfo.en.toUpperCase()));
 
-        // Thai zodiac
         gZ.appendChild(createSvgElement('text', {
           x: ptZ.x, y: ptZ.y + 16,
-          fill: '#b45309',
+          fill: isMaemia ? '#dc2626' : (isChawod ? '#1d4ed8' : '#b45309'),
           'font-size': '10',
           'font-weight': '400',
           'font-family': "'Prompt', sans-serif",
@@ -1029,13 +1201,18 @@
       }
 
       // ─────────────────────────────────────────────────────────────
-      // RING 3: 12 HOUSES  (r 148 → 265)
-      // 3-line: Chinese / English / Thai — lighter weight
+      // RING 3: 12 HOUSES (r 148 → 265)
       // ─────────────────────────────────────────────────────────────
+      const HOUSE_EN_SHORT = [
+        'Life','Wealth','Siblings','Property','Children','Servants',
+        'Spouse','Illness','Travel','Career','Fortune','Spirit'
+      ];
       chartData.houses.forEach((h, idx) => {
-        const startA = idx * 30;
-        const endA   = (idx + 1) * 30;
-        const midA   = startA + 15;
+        const zInfo  = ZODIAC12.find(z => z.name === h.zName) || ZODIAC12[0];
+        const zIdx   = ZODIAC12.indexOf(zInfo);
+        const startA = degToAngle((zIdx + 1) * 30);
+        const endA   = degToAngle(zIdx * 30);
+        const midA   = degToAngle(zIdx * 30 + 15);
         const isMing = idx === 0;
 
         svg.appendChild(createSvgElement('path', {
@@ -1046,9 +1223,8 @@
         }));
 
         const ptH = polarToCartesian(CX, CY, 206, midA);
-        const gH  = createSvgElement('g', { transform: `rotate(${midA}, ${ptH.x}, ${ptH.y})` });
+        const gH  = createSvgElement('g', { transform: `rotate(${radialAngle(midA)}, ${ptH.x}, ${ptH.y})` });
 
-        // Chinese house name
         gH.appendChild(createSvgElement('text', {
           x: ptH.x, y: ptH.y - 22,
           fill: isMing ? '#92400e' : '#0f172a',
@@ -1059,7 +1235,6 @@
           'dominant-baseline': 'central'
         }, h.zh));
 
-        // English house name
         gH.appendChild(createSvgElement('text', {
           x: ptH.x, y: ptH.y - 2,
           fill: isMing ? '#b45309' : '#475569',
@@ -1070,7 +1245,6 @@
           'dominant-baseline': 'central'
         }, HOUSE_EN_SHORT[idx]));
 
-        // Thai house name (first word only)
         gH.appendChild(createSvgElement('text', {
           x: ptH.x, y: ptH.y + 14,
           fill: isMing ? '#92400e' : '#64748b',
@@ -1085,7 +1259,7 @@
       });
 
       // ─────────────────────────────────────────────────────────────
-      // CENTER COMPASS CORE  (r 148)
+      // CENTER COMPASS CORE (r 148)
       // ─────────────────────────────────────────────────────────────
       svg.appendChild(createSvgElement('circle', {
         cx: CX, cy: CY, r: 148,
@@ -1098,12 +1272,11 @@
         'stroke-width': '1.5', 'stroke-dasharray': '5,4'
       }));
 
-      // Compass needle (North)
+      // Compass needle (South - Top, North - Bottom)
       svg.appendChild(createSvgElement('path', {
         d: `M ${CX} ${CY-108} L ${CX+18} ${CY} L ${CX} ${CY+18} L ${CX-18} ${CY} Z`,
-        fill: '#2563eb', stroke: '#1d4ed8', 'stroke-width': '1.5'
+        fill: '#dc2626', stroke: '#b91c1c', 'stroke-width': '1.5'
       }));
-      // Compass needle (South)
       svg.appendChild(createSvgElement('path', {
         d: `M ${CX} ${CY+108} L ${CX+18} ${CY} L ${CX} ${CY-18} L ${CX-18} ${CY} Z`,
         fill: '#cbd5e1', stroke: '#94a3b8', 'stroke-width': '1.5'
@@ -1127,22 +1300,19 @@
       }, '四餘'));
 
       // ─────────────────────────────────────────────────────────────
-      // PLANETARY ORBS  — de-overlap with hard boundary cap
-      // Orbs start at ORBS_BASE_R; pushed outward up to MAX_R only.
-      // Beyond MAX_R → nudge angle sideways to avoid escaping the wheel.
+      // PLANETARY ORBS (Inner Chart)
       // ─────────────────────────────────────────────────────────────
-      const ORBS_BASE_R  = 220; // start inside Ring 3 (houses ring, r148→265)
-      const MAX_R        = 328; // hard cap: stays inside Ring 1 (starts at 345)
+      const ORBS_BASE_R  = 220;
+      const MAX_R        = 328;
       const ORB_RADIUS   = 18;
       const MIN_DIST     = ORB_RADIUS * 2 + 3;
 
       const orbPositions = chartData.planetList.map(p => ({
         ...p,
         radialR: ORBS_BASE_R,
-        angle: p.deg
+        angle: degToAngle(p.deg)
       }));
 
-      // Multi-pass de-overlap: radial push first, angular nudge when capped
       const MAX_ITERATIONS = 120;
       for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
         let moved = false;
@@ -1155,19 +1325,15 @@
             const dist = Math.sqrt(dx * dx + dy * dy);
             if (dist < MIN_DIST) {
               const overlap = (MIN_DIST - dist) / 2 + 1;
-              // Try pushing radially outward for the lower-radius one
               const target = orbPositions[a].radialR <= orbPositions[b].radialR ? a : b;
               const other  = target === a ? b : a;
 
               const newR = orbPositions[target].radialR + overlap;
               if (newR <= MAX_R) {
-                // Safe to push outward
                 orbPositions[target].radialR = newR;
               } else {
-                // Hit the cap — nudge angle of the more-inner orb sideways
                 orbPositions[target].radialR = Math.min(MAX_R, orbPositions[target].radialR);
                 const angularNudge = (overlap / orbPositions[target].radialR) * (180 / Math.PI) * 1.2;
-                // Determine direction: push away from 'other' angularly
                 const angleDiff = ((orbPositions[target].angle - orbPositions[other].angle) + 360) % 360;
                 orbPositions[target].angle += angleDiff < 180 ? angularNudge : -angularNudge;
               }
@@ -1178,22 +1344,17 @@
         if (!moved) break;
       }
 
-      // Final hard-clamp: ensure no orb exceeds MAX_R (safety net)
       orbPositions.forEach(p => { p.radialR = Math.min(p.radialR, MAX_R); });
-
 
       orbPositions.forEach(p => {
         const pt = polarToCartesian(CX, CY, p.radialR, p.angle);
-
         const gBadge = createSvgElement('g', { filter: 'url(#badgeShadow)' });
 
-        // Outer ring circle
         gBadge.appendChild(createSvgElement('circle', {
           cx: pt.x, cy: pt.y, r: ORB_RADIUS,
           fill: p.bg, stroke: '#ffffff', 'stroke-width': '2.5'
         }));
 
-        // Chinese character
         gBadge.appendChild(createSvgElement('text', {
           x: pt.x, y: pt.y,
           fill: '#ffffff',
