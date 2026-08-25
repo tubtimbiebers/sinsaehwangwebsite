@@ -1,1387 +1,1587 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>太乙神數 - Taiyi Divination System (ซินแสหวาง)</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;500;600&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  /* Bright Theme Palette (โทนสว่าง) */
-  --bg-main: #f1f5f9;        /* Light Slate 100 */
-  --bg-card: #ffffff;        /* Pure White Card */
-  --border-subtle: #cbd5e1;  /* Slate 300 Subtle Border */
-  --border-gold: #d97706;    /* Amber 600 */
-  --gold: #b45309;           /* Deep Amber Gold */
-  --gold-light: #92400e;     /* Dark Warm Amber Text */
-  --gold-grad: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  --blue-badge: #2563eb;
-  --red-badge: #dc2626;
-  --green-badge: #16a34a;
-  --yellow-badge: #ca8a04;
-  --text-main: #0f172a;      /* Deep Slate for high contrast reading */
-  --text-muted: #334155;     /* Medium Dark Slate */
-  --text-dim: #64748b;       /* Muted Slate */
-  --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>太乙神數 - Taiyi Divination System (ซินแสหวาง)</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;500;600&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&family=Prompt:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      /* Bright Theme Palette (โทนสว่าง) */
+      --bg-main: #f1f5f9;
+      /* Light Slate 100 */
+      --bg-card: #ffffff;
+      /* Pure White Card */
+      --border-subtle: #cbd5e1;
+      /* Slate 300 Subtle Border */
+      --border-gold: #d97706;
+      /* Amber 600 */
+      --gold: #b45309;
+      /* Deep Amber Gold */
+      --gold-light: #92400e;
+      /* Dark Warm Amber Text */
+      --gold-grad: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      --blue-badge: #2563eb;
+      --red-badge: #dc2626;
+      --green-badge: #16a34a;
+      --yellow-badge: #ca8a04;
+      --text-main: #0f172a;
+      /* Deep Slate for high contrast reading */
+      --text-muted: #334155;
+      /* Medium Dark Slate */
+      --text-dim: #64748b;
+      /* Muted Slate */
+      --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Prompt', 'Noto Sans Thai', sans-serif;
-  background: var(--bg-main);
-  color: var(--text-main);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-  font-weight: 400;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-main); }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+    body {
+      font-family: 'Prompt', 'Noto Sans Thai', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      font-weight: 400;
+    }
 
-/* Layout Structure */
-.app-container {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  min-height: 100vh;
-}
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
 
-/* ✦ TOP INPUT HEADER PANEL (ย้ายกรอบข้อมูลมาอยู่ส่วนบน) ✦ */
-.top-input-header {
-  background: #ffffff;
-  border-bottom: 1px solid var(--border-subtle);
-  padding: 16px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-}
+    ::-webkit-scrollbar-track {
+      background: var(--bg-main);
+    }
 
-.brand-header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #f1f5f9;
-  padding-bottom: 10px;
-}
-.brand-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Noto Serif Thai', 'Ma Shan Zheng', serif;
-  font-size: 22px;
-  font-weight: 500;
-  color: var(--gold);
-}
-.brand-title .icon-bars {
-  color: var(--gold);
-  font-size: 18px;
-}
-.brand-sub {
-  font-size: 12px;
-  color: var(--text-dim);
-  font-weight: 400;
-}
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
 
-/* Horizontal Grid for Top Inputs */
-.top-controls-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 12px;
-  align-items: end;
-}
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold);
+    }
 
-.form-group-box {
-  background: #f8fafc;
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  padding: 10px 12px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.box-label {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-  display: flex;
-  justify-content: space-between;
-}
+    /* Layout Structure */
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      min-height: 100vh;
+    }
 
-.inputs-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-}
-.inputs-row.two-col {
-  grid-template-columns: 1fr 1fr;
-}
+    /* ✦ TOP INPUT HEADER PANEL (ย้ายกรอบข้อมูลมาอยู่ส่วนบน) ✦ */
+    .top-input-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
 
-.field-col {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.field-col label {
-  font-size: 10px;
-  color: var(--text-dim);
-  text-align: center;
-  font-weight: 400;
-}
-.field-col input, .field-col select, .select-custom {
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  color: var(--text-main);
-  font-family: 'Prompt', monospace;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 6px 4px;
-  text-align: center;
-  outline: none;
-  transition: all 0.2s;
-}
-.select-custom {
-  text-align: left;
-  padding: 7px 10px;
-  font-size: 12px;
-  cursor: pointer;
-}
-.field-col input:focus, .field-col select:focus, .select-custom:focus {
-  border-color: var(--border-gold);
-  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
-}
+    .brand-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 10px;
+    }
 
-.btn-sync-time {
-  width: 100%;
-  margin-top: 6px;
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  color: var(--text-muted);
-  border-radius: 6px;
-  padding: 5px;
-  font-size: 11px;
-  font-weight: 400;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  transition: 0.2s;
-}
-.btn-sync-time:hover {
-  background: #f1f5f9;
-  color: var(--gold);
-  border-color: var(--gold);
-}
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Noto Serif Thai', 'Ma Shan Zheng', serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--gold);
+    }
 
-.gender-toggle {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-}
-.gender-btn {
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  color: var(--text-muted);
-  padding: 6px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font-weight: 400;
-}
-.gender-btn.active {
-  background: #fef3c7;
-  border-color: var(--border-gold);
-  color: var(--gold-light);
-  font-weight: 500;
-}
+    .brand-title .icon-bars {
+      color: var(--gold);
+      font-size: 18px;
+    }
 
-.btn-calculate-main {
-  background: var(--gold-grad);
-  border: none;
-  border-radius: 8px;
-  color: #ffffff;
-  font-family: 'Noto Serif Thai', serif;
-  font-size: 15px;
-  font-weight: 500;
-  padding: 12px 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
-  transition: 0.2s;
-  height: 44px;
-}
-.btn-calculate-main:hover {
-  filter: brightness(1.08);
-  transform: translateY(-1px);
-}
-.btn-calculate-main:active {
-  transform: translateY(1px);
-}
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
 
-/* Main Content Area (Bright Mode) */
-.main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: var(--bg-main);
-  overflow-y: auto;
-  padding-bottom: 50px;
-}
+    /* Horizontal Grid for Top Inputs */
+    .top-controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      align-items: end;
+    }
 
-/* Top Navigation Bar */
-.top-bar {
-  padding: 14px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--border-subtle);
-  background: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-}
+    .form-group-box {
+      background: #f8fafc;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 10px 12px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-.nav-tabs {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-.tab-btn {
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--text-muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: 0.2s;
-}
-.tab-btn:hover {
-  color: var(--gold);
-}
-.tab-btn.active {
-  color: var(--gold);
-  border-bottom-color: var(--border-gold);
-  font-weight: 500;
-}
+    .box-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
 
-.calc-badges-top {
-  display: flex;
-  gap: 10px;
-}
-.stat-pill {
-  background: #ffffff;
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  padding: 6px 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 75px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-}
-.stat-pill .label {
-  font-size: 10px;
-  color: var(--text-dim);
-  font-weight: 400;
-}
-.stat-pill .val {
-  font-size: 18px;
-  font-weight: 500;
-  font-family: 'Prompt', monospace;
-}
-.stat-pill.zhu .val { color: #1d4ed8; }
-.stat-pill.ke .val { color: #b91c1c; }
-.stat-pill.ding .val { color: #15803d; }
+    .inputs-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
 
-/* Views Wrapper */
-.views-container {
-  padding: 20px;
-  width: 100%;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    .inputs-row.two-col {
+      grid-template-columns: 1fr 1fr;
+    }
 
-.view-panel {
-  width: 100%;
-  max-width: 1400px;
-  display: none;
-}
-.view-panel.active {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: fadeIn 0.25s ease;
-}
+    .field-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    .field-col label {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-align: center;
+      font-weight: 400;
+    }
 
-/* ✦ WHEEL DISPLAY BOX (ปรับ ViewBox ป้องกันการล้นขอบ 100%) ✦ */
-.wheel-display-box {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  margin: 10px 0;
-}
+    .field-col input,
+    .field-col select,
+    .select-custom {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      color: var(--text-main);
+      font-family: 'Prompt', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 4px;
+      text-align: center;
+      outline: none;
+      transition: all 0.2s;
+    }
 
-#taiyiWheelSvg {
-  width: 100%;
-  max-width: 980px; /* Responsive fit inside containers */
-  height: auto;
-  overflow: visible;
-  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.07));
-}
+    .select-custom {
+      text-align: left;
+      padding: 7px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
 
-/* Info Summary Card */
-.summary-bar {
-  display: flex;
-  gap: 12px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 14px 24px;
-  margin-bottom: 16px;
-  width: 100%;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  box-shadow: var(--card-shadow);
-}
-.summary-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.summary-item .title {
-  font-size: 11px;
-  color: var(--text-dim);
-  font-weight: 400;
-}
-.summary-item .content {
-  font-family: 'Prompt', 'Noto Serif Thai', serif;
-  font-size: 15px;
-  color: var(--gold-light);
-  font-weight: 500;
-  margin-top: 3px;
-}
+    .field-col input:focus,
+    .field-col select:focus,
+    .select-custom:focus {
+      border-color: var(--border-gold);
+      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+    }
 
-/* Five Pillars Grid */
-.pillars-board {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-  width: 100%;
-  max-width: 980px;
-  margin-top: 16px;
-}
-.pillar-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  padding: 10px 8px;
-  text-align: center;
-  box-shadow: var(--card-shadow);
-}
-.pillar-card .p-title {
-  font-size: 11px;
-  color: var(--gold);
-  font-weight: 400;
-  margin-bottom: 4px;
-}
-.pillar-card .p-gz {
-  font-family: 'Ma Shan Zheng', serif;
-  font-size: 24px;
-  line-height: 1.2;
-}
-.p-gz .gan { color: var(--gold-light); font-weight: 500; }
-.p-gz .zhi { color: #334155; font-weight: 400; }
-.p-sub {
-  font-size: 10px;
-  color: var(--text-dim);
-  margin-top: 2px;
-  font-weight: 400;
-}
+    .btn-sync-time {
+      width: 100%;
+      margin-top: 6px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 5px;
+      font-size: 11px;
+      font-weight: 400;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: 0.2s;
+    }
 
-/* Table View in other tabs */
-.info-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 14px;
-  box-shadow: var(--card-shadow);
-}
-.info-table th {
-  background: #f8fafc;
-  color: var(--gold-light);
-  padding: 12px 16px;
-  font-size: 13px;
-  font-weight: 500;
-  text-align: left;
-  border-bottom: 2px solid var(--border-subtle);
-}
-.info-table td {
-  padding: 12px 16px;
-  font-size: 13.5px;
-  color: var(--text-main);
-  border-bottom: 1px solid #e2e8f0;
-  font-weight: 400;
-}
-.info-table tr:hover {
-  background: #f8fafc;
-}
+    .btn-sync-time:hover {
+      background: #f1f5f9;
+      color: var(--gold);
+      border-color: var(--gold);
+    }
 
-.text-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 24px;
-  width: 100%;
-  margin-top: 14px;
-  line-height: 1.8;
-  font-size: 14px;
-  box-shadow: var(--card-shadow);
-  font-weight: 400;
-}
-.text-card h3 {
-  color: var(--gold);
-  margin-bottom: 12px;
-  font-size: 17px;
-  font-weight: 500;
-}
+    .gender-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
 
-@media (max-width: 992px) {
-  .top-controls-grid { grid-template-columns: 1fr 1fr; }
-  .top-bar { flex-direction: column; gap: 12px; }
-  .pillars-board { grid-template-columns: repeat(3, 1fr); }
-}
-</style>
+    .gender-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      color: var(--text-muted);
+      padding: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-weight: 400;
+    }
+
+    .gender-btn.active {
+      background: #fef3c7;
+      border-color: var(--border-gold);
+      color: var(--gold-light);
+      font-weight: 500;
+    }
+
+    .btn-calculate-main {
+      background: var(--gold-grad);
+      border: none;
+      border-radius: 8px;
+      color: #ffffff;
+      font-family: 'Noto Serif Thai', serif;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 12px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+      transition: 0.2s;
+      height: 44px;
+    }
+
+    .btn-calculate-main:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .btn-calculate-main:active {
+      transform: translateY(1px);
+    }
+
+    /* Main Content Area (Bright Mode) */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-main);
+      overflow-y: auto;
+      padding-bottom: 50px;
+    }
+
+    /* Top Navigation Bar */
+    .top-bar {
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: var(--gold);
+    }
+
+    .tab-btn.active {
+      color: var(--gold);
+      border-bottom-color: var(--border-gold);
+      font-weight: 500;
+    }
+
+    .calc-badges-top {
+      display: flex;
+      gap: 10px;
+    }
+
+    .stat-pill {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 6px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 75px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .stat-pill .label {
+      font-size: 10px;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+
+    .stat-pill .val {
+      font-size: 18px;
+      font-weight: 500;
+      font-family: 'Prompt', monospace;
+    }
+
+    .stat-pill.zhu .val {
+      color: #1d4ed8;
+    }
+
+    .stat-pill.ke .val {
+      color: #b91c1c;
+    }
+
+    .stat-pill.ding .val {
+      color: #15803d;
+    }
+
+    /* Views Wrapper */
+    .views-container {
+      padding: 20px;
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .view-panel {
+      width: 100%;
+      max-width: 1400px;
+      display: none;
+    }
+
+    .view-panel.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ✦ WHEEL DISPLAY BOX (ปรับ ViewBox ป้องกันการล้นขอบ 100%) ✦ */
+    .wheel-display-box {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin: 10px 0;
+    }
+
+    #taiyiWheelSvg {
+      width: 100%;
+      max-width: 980px;
+      /* Responsive fit inside containers */
+      height: auto;
+      overflow: visible;
+      filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.07));
+    }
+
+    /* Info Summary Card */
+    .summary-bar {
+      display: flex;
+      gap: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px 24px;
+      margin-bottom: 16px;
+      width: 100%;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      box-shadow: var(--card-shadow);
+    }
+
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .summary-item .title {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+
+    .summary-item .content {
+      font-family: 'Prompt', 'Noto Serif Thai', serif;
+      font-size: 15px;
+      color: var(--gold-light);
+      font-weight: 500;
+      margin-top: 3px;
+    }
+
+    /* Five Pillars Grid */
+    .pillars-board {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      width: 100%;
+      max-width: 980px;
+      margin-top: 16px;
+    }
+
+    .pillar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 10px 8px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+    }
+
+    .pillar-card .p-title {
+      font-size: 11px;
+      color: var(--gold);
+      font-weight: 400;
+      margin-bottom: 4px;
+    }
+
+    .pillar-card .p-gz {
+      font-family: 'Ma Shan Zheng', serif;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .p-gz .gan {
+      color: var(--gold-light);
+      font-weight: 500;
+    }
+
+    .p-gz .zhi {
+      color: #334155;
+      font-weight: 400;
+    }
+
+    .p-sub {
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    /* Table View in other tabs */
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 14px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .info-table th {
+      background: #f8fafc;
+      color: var(--gold-light);
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      text-align: left;
+      border-bottom: 2px solid var(--border-subtle);
+    }
+
+    .info-table td {
+      padding: 12px 16px;
+      font-size: 13.5px;
+      color: var(--text-main);
+      border-bottom: 1px solid #e2e8f0;
+      font-weight: 400;
+    }
+
+    .info-table tr:hover {
+      background: #f8fafc;
+    }
+
+    .text-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+      width: 100%;
+      margin-top: 14px;
+      line-height: 1.8;
+      font-size: 14px;
+      box-shadow: var(--card-shadow);
+      font-weight: 400;
+    }
+
+    .text-card h3 {
+      color: var(--gold);
+      margin-bottom: 12px;
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    @media (max-width: 992px) {
+      .top-controls-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .top-bar {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .pillars-board {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="app-container">
-  <!-- ✦ TOP CONTROL PANEL ✦ -->
-  <header class="top-input-header">
-    <div class="brand-header-top">
-      <div class="brand-title">
-        <span class="icon-bars">☰</span> 太乙神數
-      </div>
-      <div class="brand-sub">Taiyi Divination System · ซินแสหวาง</div>
-    </div>
-
-    <div class="top-controls-grid">
-      <!-- Date Group -->
-      <div class="form-group-box">
-        <div class="box-label">
-          <span>วันที่เกิด · Date / 日期</span>
+  <div class="app-container">
+    <!-- ✦ TOP CONTROL PANEL ✦ -->
+    <header class="top-input-header">
+      <div class="brand-header-top">
+        <div class="brand-title">
+          <span class="icon-bars">☰</span> 太乙神數
         </div>
-        <div class="inputs-row">
-          <div class="field-col">
-            <label>ปี (Year)</label>
-            <input type="number" id="inp-year" value="2026" min="1800" max="2100">
-          </div>
-          <div class="field-col">
-            <label>เดือน (Month)</label>
-            <input type="number" id="inp-month" value="4" min="1" max="12">
-          </div>
-          <div class="field-col">
-            <label>วัน (Day)</label>
-            <input type="number" id="inp-day" value="9" min="1" max="31">
-          </div>
-        </div>
+        <div class="brand-sub">Taiyi Divination System · ซินแสหวาง</div>
       </div>
 
-      <!-- Time Group -->
-      <div class="form-group-box">
-        <div class="box-label">
-          <span>เวลาเกิด · Time / 時間</span>
-        </div>
-        <div class="inputs-row two-col">
-          <div class="field-col">
-            <label>ชม. (Hour)</label>
-            <input type="number" id="inp-hour" value="12" min="0" max="23">
+      <div class="top-controls-grid">
+        <!-- Date Group -->
+        <div class="form-group-box">
+          <div class="box-label">
+            <span>วันที่เกิด · Date / 日期</span>
           </div>
-          <div class="field-col">
-            <label>นาที (Min)</label>
-            <input type="number" id="inp-min" value="59" min="0" max="59">
+          <div class="inputs-row">
+            <div class="field-col">
+              <label>ปี (Year)</label>
+              <input type="number" id="inp-year" value="2026" min="1800" max="2100">
+            </div>
+            <div class="field-col">
+              <label>เดือน (Month)</label>
+              <input type="number" id="inp-month" value="4" min="1" max="12">
+            </div>
+            <div class="field-col">
+              <label>วัน (Day)</label>
+              <input type="number" id="inp-day" value="9" min="1" max="31">
+            </div>
           </div>
         </div>
-        <button type="button" class="btn-sync-time" id="btnSyncNow">
-          <span>↻</span> ใช้เวลาปัจจุบัน (Now)
+
+        <!-- Time Group -->
+        <div class="form-group-box">
+          <div class="box-label">
+            <span>เวลาเกิด · Time / 時間</span>
+          </div>
+          <div class="inputs-row two-col">
+            <div class="field-col">
+              <label>ชม. (Hour)</label>
+              <input type="number" id="inp-hour" value="12" min="0" max="23">
+            </div>
+            <div class="field-col">
+              <label>นาที (Min)</label>
+              <input type="number" id="inp-min" value="59" min="0" max="59">
+            </div>
+          </div>
+          <button type="button" class="btn-sync-time" id="btnSyncNow">
+            <span>↻</span> ใช้เวลาปัจจุบัน (Now)
+          </button>
+        </div>
+
+        <!-- Gender Group -->
+        <div class="form-group-box">
+          <div class="box-label">
+            <span>เพศ · Sex / 性別</span>
+          </div>
+          <div class="gender-toggle">
+            <button type="button" class="gender-btn active" data-gender="ชาย">♂ ชาย (Male · 男)</button>
+            <button type="button" class="gender-btn" data-gender="หญิง">♀ หญิง (Female · 女)</button>
+          </div>
+        </div>
+
+        <!-- Calculation Mode -->
+        <div class="form-group-box">
+          <div class="box-label">
+            <span>คำนวณ · Mode / 計法模式</span>
+          </div>
+          <select id="sel-mode" class="select-custom">
+            <option value="0">年計 · Yearly (คำนวณปี)</option>
+            <option value="1">月計 · Monthly (คำนวณเดือน)</option>
+            <option value="2">日計 · Daily (คำนวณวัน)</option>
+            <option value="3" selected>時計 · Hourly (คำนวณยาม/ชั่วโมง)</option>
+            <option value="4">分計 · Minutely (คำนวณนาที)</option>
+            <option value="5">命法 · Life Destiny (ดวงชะตา)</option>
+          </select>
+        </div>
+
+        <!-- Method -->
+        <div class="form-group-box">
+          <div class="box-label">
+            <span>สูตร · Method / 古法公式</span>
+          </div>
+          <select id="sel-method" class="select-custom">
+            <option value="0" selected>太乙統宗 · Tongzong (สายหลัก)</option>
+            <option value="1">太乙金鏡 · Jinjing (กระจกทอง)</option>
+            <option value="2">太乙淘金歌 · Taojin Ge (คัมภีร์เซียน)</option>
+            <option value="3">太乙局 · Taiyiju (ผังมาตรฐาน)</option>
+          </select>
+        </div>
+
+        <!-- Calculate Button -->
+        <button type="button" class="btn-calculate-main" id="btnCalculate">
+          <span>☰</span> คำนวณผังดวง · Calculate
         </button>
       </div>
+    </header>
 
-      <!-- Gender Group -->
-      <div class="form-group-box">
-        <div class="box-label">
-          <span>เพศ · Sex / 性別</span>
+    <!-- ✦ MAIN CONTENT AREA ✦ -->
+    <main class="main-content">
+      <!-- Top Navigation & Stats Bar -->
+      <div class="top-bar">
+        <div class="nav-tabs">
+          <button type="button" class="tab-btn active" data-view="wheel">☯ ผังวงกลม (Wheel)</button>
+          <button type="button" class="tab-btn" data-view="matrix">🀄 ตารางวัง (Palaces)</button>
+          <button type="button" class="tab-btn" data-view="spirits">⭐ เทพไท่ยี่ (Deities)</button>
+          <button type="button" class="tab-btn" data-view="strategy">⚔ ยุทธศาสตร์ (Strategy)</button>
+          <button type="button" class="tab-btn" data-view="mansions">✦ 28 ดาวนักษัตร (28 Mansions)</button>
+          <button type="button" class="tab-btn" data-view="gates">🚪 8 ประตู (8 Gates)</button>
+          <button type="button" class="tab-btn" data-view="full">📋 รายงานเต็ม (Full Report)</button>
+          <button type="button" class="tab-btn" data-view="ai">🤖 AI ทำนาย (AI Analysis)</button>
         </div>
-        <div class="gender-toggle">
-          <button type="button" class="gender-btn active" data-gender="ชาย">♂ ชาย (Male · 男)</button>
-          <button type="button" class="gender-btn" data-gender="หญิง">♀ หญิง (Female · 女)</button>
+
+        <div class="calc-badges-top">
+          <div class="stat-pill zhu">
+            <span class="label">主算 (Host)</span>
+            <span class="val" id="topZhu">7</span>
+          </div>
+          <div class="stat-pill ke">
+            <span class="label">客算 (Guest)</span>
+            <span class="val" id="topKe">32</span>
+          </div>
+          <div class="stat-pill ding">
+            <span class="label">定算 (Fixed)</span>
+            <span class="val" id="topDing">14</span>
+          </div>
         </div>
       </div>
 
-      <!-- Calculation Mode -->
-      <div class="form-group-box">
-        <div class="box-label">
-          <span>คำนวณ · Mode / 計法模式</span>
-        </div>
-        <select id="sel-mode" class="select-custom">
-          <option value="0">年計 · Yearly (คำนวณปี)</option>
-          <option value="1">月計 · Monthly (คำนวณเดือน)</option>
-          <option value="2">日計 · Daily (คำนวณวัน)</option>
-          <option value="3" selected>時計 · Hourly (คำนวณยาม/ชั่วโมง)</option>
-          <option value="4">分計 · Minutely (คำนวณนาที)</option>
-          <option value="5">命法 · Life Destiny (ดวงชะตา)</option>
-        </select>
+      <!-- Views Container -->
+      <div class="views-container">
+        <!-- ✦ 1. CIRCULAR WHEEL VIEW ✦ -->
+        <section class="view-panel active" id="view-wheel">
+          <div class="summary-bar">
+            <div class="summary-item">
+              <span class="title">局式 · Board Format</span>
+              <span class="content" id="sumJu">陰遁 局 34</span>
+            </div>
+            <div class="summary-item">
+              <span class="title">太乙值宮 · Taiyi Palace</span>
+              <span class="content" id="sumTaiyi">坤二宮 (SW / ตะวันตกเฉียงใต้)</span>
+            </div>
+            <div class="summary-item">
+              <span class="title">文昌值宮 · Wenchang Palace</span>
+              <span class="content" id="sumWenchang">申宮</span>
+            </div>
+            <div class="summary-item">
+              <span class="title">始擊值宮 · Shiji Palace</span>
+              <span class="content" id="sumShiji">乾宮</span>
+            </div>
+            <div class="summary-item">
+              <span class="title">勝負預測 · Outcome</span>
+              <span class="content" id="sumWinner" style="color: #15803d;">客勝 (ฝ่ายรุกได้เปรียบ)</span>
+            </div>
+          </div>
+
+          <div class="wheel-display-box">
+            <svg id="taiyiWheelSvg" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+
+          <!-- Five Pillars -->
+          <div class="pillars-board" id="pillarsBoard"></div>
+        </section>
+
+        <!-- ✦ 2. MATRIX GRID VIEW ✦ -->
+        <section class="view-panel" id="view-matrix">
+          <div class="text-card">
+            <h3>九宮盤局分佈 (Nine Palaces Matrix Distribution)</h3>
+            <table class="info-table">
+              <thead>
+                <tr>
+                  <th>วัง (Palace)</th>
+                  <th>8 ประตู (Eight Gates)</th>
+                  <th>เทพที่สถิต (Deities / Spirits)</th>
+                  <th>ตำแหน่งแม่ทัพ (Generals & Advisors)</th>
+                  <th>28 ดาวนักษัตร (28 Mansions)</th>
+                </tr>
+              </thead>
+              <tbody id="matrixTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ✦ 3. DEITIES VIEW ✦ -->
+        <section class="view-panel" id="view-spirits">
+          <div class="text-card">
+            <h3>太乙諸神落宮 (Taiyi Deities & Spirits Analysis)</h3>
+            <table class="info-table">
+              <thead>
+                <tr>
+                  <th>ชื่อเทพ (Deity Name)</th>
+                  <th>วังที่สถิต (Palace)</th>
+                  <th>ทิศทาง (Direction)</th>
+                  <th>ธาตุ (Element)</th>
+                  <th>ความหมายและการทำนาย (Thai & English Meaning)</th>
+                </tr>
+              </thead>
+              <tbody id="spiritsTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ✦ 4. STRATEGY / BATTLE VIEW ✦ -->
+        <section class="view-panel" id="view-strategy">
+          <div class="text-card">
+            <h3>太乙兵法與主客勝負判斷 (Taiyi Battle Strategy & Host vs Guest Analysis)</h3>
+            <div id="strategyContent"></div>
+          </div>
+        </section>
+
+        <!-- ✦ 5. 28 MANSIONS VIEW ✦ -->
+        <section class="view-panel" id="view-mansions">
+          <div class="text-card">
+            <h3>二十八星宿值事 (28 Lunar Mansions Analysis)</h3>
+            <table class="info-table">
+              <thead>
+                <tr>
+                  <th>ดาวนักษัตร (Mansion)</th>
+                  <th>ทิศจตุรเทพ (Quadrant)</th>
+                  <th>ธาตุ (Element)</th>
+                  <th>มงคล/อัปมงคล (Fortune)</th>
+                  <th>คำทำนาย (Interpretation)</th>
+                </tr>
+              </thead>
+              <tbody id="mansionsTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ✦ 6. EIGHT GATES VIEW ✦ -->
+        <section class="view-panel" id="view-gates">
+          <div class="text-card">
+            <h3>八門值事分佈 (Eight Gates Detailed Analysis)</h3>
+            <table class="info-table">
+              <thead>
+                <tr>
+                  <th>ประตู (Gate Name)</th>
+                  <th>วังที่สถิต (Palace)</th>
+                  <th>ธาตุ (Element)</th>
+                  <th>คุณลักษณะ (Feature)</th>
+                  <th>ข้อแนะนำการใช้งาน (Action Guide)</th>
+                </tr>
+              </thead>
+              <tbody id="gatesTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ✦ 7. FULL REPORT VIEW ✦ -->
+        <section class="view-panel" id="view-full">
+          <div class="text-card">
+            <h3>太乙神數完整排盤報告 (Full Taiyi Divination Report)</h3>
+            <div id="fullReportContent"></div>
+          </div>
+        </section>
+
+        <!-- ✦ 8. AI ANALYSIS VIEW ✦ -->
+        <section class="view-panel" id="view-ai">
+          <div class="text-card">
+            <h3>🤖 AI 智能解讀 (AI Board Interpretation)</h3>
+            <div id="aiAnalysisContent"></div>
+          </div>
+        </section>
       </div>
+    </main>
+  </div>
 
-      <!-- Method -->
-      <div class="form-group-box">
-        <div class="box-label">
-          <span>สูตร · Method / 古法公式</span>
-        </div>
-        <select id="sel-method" class="select-custom">
-          <option value="0" selected>太乙統宗 · Tongzong (สายหลัก)</option>
-          <option value="1">太乙金鏡 · Jinjing (กระจกทอง)</option>
-          <option value="2">太乙淘金歌 · Taojin Ge (คัมภีร์เซียน)</option>
-          <option value="3">太乙局 · Taiyiju (ผังมาตรฐาน)</option>
-        </select>
-      </div>
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    //  TAIYI DICTIONARIES & TRANSLATION DATA (THAI & ENGLISH)
+    // ═══════════════════════════════════════════════════════════════
+    const PAL16_INFO = {
+      '子': { en: 'Zi (N)', th: 'ชื้อ (เหนือ)' },
+      '丑': { en: 'Chou (NE1)', th: 'ฉิ่ว (ตอ./เหนือ 1)' },
+      '艮': { en: 'Gen (NE2)', th: 'กึ่น (ตอ./เหนือ 2)' },
+      '寅': { en: 'Yin (NE3)', th: 'อิ๋น (ตอ./เหนือ 3)' },
+      '卯': { en: 'Mao (E)', th: 'เบ้า (ตะวันออก)' },
+      '辰': { en: 'Chen (SE1)', th: 'เฉิน (ตอ./ใต้ 1)' },
+      '巽': { en: 'Xun (SE2)', th: 'ซุ่น (ตอ./ใต้ 2)' },
+      '巳': { en: 'Si (SE3)', th: 'ซี่ (ตอ./ใต้ 3)' },
+      '午': { en: 'Wu (S)', th: 'โง่ว (ใต้)' },
+      '未': { en: 'Wei (SW1)', th: 'บี่ (ตตก./ใต้ 1)' },
+      '坤': { en: 'Kun (SW2)', th: 'คุ่น (ตตก./ใต้ 2)' },
+      '申': { en: 'Shen (SW3)', th: 'เซิน (ตตก./ใต้ 3)' },
+      '酉': { en: 'You (W)', th: 'อิ้ว (ตะวันตก)' },
+      '戌': { en: 'Xu (NW1)', th: 'ซื่อ (ตตก./เหนือ 1)' },
+      '乾': { en: 'Qian (NW2)', th: 'เคี้ยง (ตตก./เหนือ 2)' },
+      '亥': { en: 'Hai (NW3)', th: 'ไห่ (ตตก./เหนือ 3)' }
+    };
 
-      <!-- Calculate Button -->
-      <button type="button" class="btn-calculate-main" id="btnCalculate">
-        <span>☰</span> คำนวณผังดวง · Calculate
-      </button>
-    </div>
-  </header>
+    const GATES8_INFO = {
+      '開門': { en: 'Open Gate', th: 'ประตูเปิด (มงคล)' },
+      '休門': { en: 'Rest Gate', th: 'ประตูพัก (สงบ)' },
+      '生門': { en: 'Life Gate', th: 'ประตูเกิด (โชคลาภ)' },
+      '傷門': { en: 'Harm Gate', th: 'ประตูเจ็บ (แข่งขัน)' },
+      '杜門': { en: 'Block Gate', th: 'ประตูอุด (วางแผน)' },
+      '景門': { en: 'Scenery Gate', th: 'ประตูวิว (ชื่อเสียง)' },
+      '死門': { en: 'Death Gate', th: 'ประตูตาย (ละทิ้ง)' },
+      '驚門': { en: 'Fear Gate', th: 'ประตูกลัว (ตกใจ)' }
+    };
 
-  <!-- ✦ MAIN CONTENT AREA ✦ -->
-  <main class="main-content">
-    <!-- Top Navigation & Stats Bar -->
-    <div class="top-bar">
-      <div class="nav-tabs">
-        <button type="button" class="tab-btn active" data-view="wheel">☯ ผังวงกลม (Wheel)</button>
-        <button type="button" class="tab-btn" data-view="matrix">🀄 ตารางวัง (Palaces)</button>
-        <button type="button" class="tab-btn" data-view="spirits">⭐ เทพไท่ยี่ (Deities)</button>
-        <button type="button" class="tab-btn" data-view="strategy">⚔ ยุทธศาสตร์ (Strategy)</button>
-        <button type="button" class="tab-btn" data-view="mansions">✦ 28 ดาวนักษัตร (28 Mansions)</button>
-        <button type="button" class="tab-btn" data-view="gates">🚪 8 ประตู (8 Gates)</button>
-        <button type="button" class="tab-btn" data-view="full">📋 รายงานเต็ม (Full Report)</button>
-        <button type="button" class="tab-btn" data-view="ai">🤖 AI ทำนาย (AI Analysis)</button>
-      </div>
+    const SPIRIT_TRANSLATIONS = {
+      '太乙': { en: 'Taiyi (Emperor Star)', th: 'ไท่ยี่ (ดาวจักรพรรดิ์)' },
+      '文昌': { en: 'Wenchang (Wisdom Star)', th: 'เอ๋นชาง (ดาวปัญญา)' },
+      '始擊': { en: 'Shiji (Vanguard Officer)', th: 'ฉื่อจี (แม่ทัพหน้า)' },
+      '主將': { en: 'Host General', th: 'จู่เจียง (แม่ทัพเจ้าบ้าน)' },
+      '客將': { en: 'Guest General', th: 'เค่อเจียง (แม่ทัพผู้มาเยือน)' },
+      '主參': { en: 'Host Advisor', th: 'จู่ซาน (กุนซือเจ้าบ้าน)' },
+      '客參': { en: 'Guest Advisor', th: 'เค่อซาน (กุนซือผู้มาเยือน)' },
+      '天乙': { en: 'Tianyi (Heaven Helper)', th: 'เทียนอี้ (เทพสวรรค์)' },
+      '地乙': { en: 'Diyi (Earth Protector)', th: 'ตี้อี้ (เทพพสุธา)' },
+      '四神': { en: 'Four Gods', th: 'ซื่อเสิน (จตุรเทพ)' },
+      '直符': { en: 'Zhifu (Law Enforcer)', th: 'จื๋อฟู่ (ผู้คุมกฎ)' },
+      '計神': { en: 'Jishen (Planner)', th: 'จี้เสิน (เทพวางแผน)' },
+      '合神': { en: 'Heshen (Harmony)', th: 'เหอเสิน (เทพผสาน)' },
+      '定計': { en: 'Dingji (Decider)', th: 'ติ้งจี้ (เทพชี้ขาด)' }
+    };
 
-      <div class="calc-badges-top">
-        <div class="stat-pill zhu">
-          <span class="label">主算 (Host)</span>
-          <span class="val" id="topZhu">7</span>
-        </div>
-        <div class="stat-pill ke">
-          <span class="label">客算 (Guest)</span>
-          <span class="val" id="topKe">32</span>
-        </div>
-        <div class="stat-pill ding">
-          <span class="label">定算 (Fixed)</span>
-          <span class="val" id="topDing">14</span>
-        </div>
-      </div>
-    </div>
+    const SPIRITS16_INFO = {
+      '地主': { en: 'Dizhu', th: 'ตี้จู่' },
+      '陽德': { en: 'Yangde', th: 'หยางเต๋อ' },
+      '和德': { en: 'Hede', th: 'เหอเต๋อ' },
+      '呂申': { en: 'Lvshen', th: 'ลื่อเซิน' },
+      '高叢': { en: 'Gaocong', th: 'เกาฉง' },
+      '太陽': { en: 'Taiyang', th: 'ไท่หยาง' },
+      '大炅': { en: 'Dajiong', th: 'ต้าจ่ง' },
+      '大神': { en: 'Dashen', th: 'ต้าเสิน' },
+      '大威': { en: 'Dawei', th: 'ต้าเวย' },
+      '天道': { en: 'Tiandao', th: 'เทียนเต้า' },
+      '大武': { en: 'Dawu', th: 'ต้าวู' },
+      '武德': { en: 'Wude', th: 'วูเต๋อ' },
+      '太簇': { en: 'Taicu', th: 'ไท่ชู่' },
+      '陰主': { en: 'Yinzhu', th: 'อินจู่' },
+      '陰德': { en: 'Yinde', th: 'อินเต๋อ' },
+      '大義': { en: 'Dayi', th: 'ต้าอี้' }
+    };
 
-    <!-- Views Container -->
-    <div class="views-container">
-      <!-- ✦ 1. CIRCULAR WHEEL VIEW ✦ -->
-      <section class="view-panel active" id="view-wheel">
-        <div class="summary-bar">
-          <div class="summary-item">
-            <span class="title">局式 · Board Format</span>
-            <span class="content" id="sumJu">陰遁 局 34</span>
-          </div>
-          <div class="summary-item">
-            <span class="title">太乙值宮 · Taiyi Palace</span>
-            <span class="content" id="sumTaiyi">坤二宮 (SW / ตะวันตกเฉียงใต้)</span>
-          </div>
-          <div class="summary-item">
-            <span class="title">文昌值宮 · Wenchang Palace</span>
-            <span class="content" id="sumWenchang">申宮</span>
-          </div>
-          <div class="summary-item">
-            <span class="title">始擊值宮 · Shiji Palace</span>
-            <span class="content" id="sumShiji">乾宮</span>
-          </div>
-          <div class="summary-item">
-            <span class="title">勝負預測 · Outcome</span>
-            <span class="content" id="sumWinner" style="color: #15803d;">客勝 (ฝ่ายรุกได้เปรียบ)</span>
-          </div>
-        </div>
+    // 28 Mansions English / Thai
+    const MANSION_INFO = {
+      '虛': { en: 'Xu (Emptiness)', th: 'ซวี (ดาวสลัว)' },
+      '危': { en: 'Wei (Rooftop)', th: 'เวย (ดาวอันตราย)' },
+      '室': { en: 'Shi (Encampment)', th: 'ซื่อ (ดาวห้อง)' },
+      '壁': { en: 'Bi (Wall)', th: 'ปี้ (ดาวกำแพง)' },
+      '奎': { en: 'Kui (Legs)', th: 'เคว่ย (ดาวตะกร้า)' },
+      '婁': { en: 'Lou (Bond)', th: 'โหลว (ดาวบ่วง)' },
+      '胃': { en: 'Wei (Stomach)', th: 'เวย (ดาวกระเพาะ)' },
+      '昴': { en: 'Mao (Hairy Head)', th: 'เหมา (ดาวลูกไก่)' },
+      '畢': { en: 'Bi (Net)', th: 'ปี้ (ดาวแห)' },
+      '觜': { en: 'Zui (Turtle Beak)', th: 'จุ่ย (ดาวจะงอย)' },
+      '參': { en: 'Shen (Three Stars)', th: 'เซิน (ดาวพราน)' },
+      '井': { en: 'Jing (Well)', th: 'จิ่ง (ดาวบ่อน้ำ)' },
+      '鬼': { en: 'Gui (Ghost)', th: 'กุ่ย (ดาวผี)' },
+      '柳': { en: 'Liu (Willow)', th: 'หลิว (ดาวหลิว)' },
+      '星': { en: 'Xing (Star)', th: 'ซิง (ดาวหัวใจ)' },
+      '張': { en: 'Zhang (Extended Net)', th: 'จาง (ดาวคันศร)' },
+      '翼': { en: 'Yi (Wings)', th: 'อี้ (ดาวปีก)' },
+      '軫': { en: 'Zhen (Chariot)', th: 'เจิ่น (ดาวรถ)' },
+      '角': { en: 'Jiao (Horn)', th: 'เจี่ยว (ดาวเขาสัตว์)' },
+      '亢': { en: 'Kang (Neck)', th: 'ค่าง (ดาวลำคอ)' },
+      '氐': { en: 'Di (Root)', th: 'ตี้ (ดาวฐาน)' },
+      '房': { en: 'Fang (Room)', th: 'ฟัง (ดาวบ้าน)' },
+      '心': { en: 'Xin (Heart)', th: 'ซิน (ดาวหัวใจมังกร)' },
+      '尾': { en: 'Wei (Tail)', th: 'เวย (ดาวหางมังกร)' },
+      '箕': { en: 'Ji (Winnowing Basket)', th: 'จี้ (ดาวกระชอน)' },
+      '斗': { en: 'Dou (Dipper)', th: 'เต้า (ดาวกระบวย)' },
+      '牛': { en: 'Niu (Ox)', th: 'หนิว (ดาววัว)' },
+      '女': { en: 'Nü (Girl)', th: 'หนวี่ (ดาวหญิงสาว)' }
+    };
 
-        <div class="wheel-display-box">
-          <svg id="taiyiWheelSvg" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg"></svg>
-        </div>
+    // ═══════════════════════════════════════════════════════════════
+    //  TAIYI CALCULATION ENGINE
+    // ═══════════════════════════════════════════════════════════════
+    const TG = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+    const DZ = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
 
-        <!-- Five Pillars -->
-        <div class="pillars-board" id="pillarsBoard"></div>
-      </section>
+    // 8 Gates order
+    const GATES8 = ['開門', '休門', '生門', '傷門', '杜門', '景門', '死門', '驚門'];
 
-      <!-- ✦ 2. MATRIX GRID VIEW ✦ -->
-      <section class="view-panel" id="view-matrix">
-        <div class="text-card">
-          <h3>九宮盤局分佈 (Nine Palaces Matrix Distribution)</h3>
-          <table class="info-table">
-            <thead>
-              <tr>
-                <th>วัง (Palace)</th>
-                <th>8 ประตู (Eight Gates)</th>
-                <th>เทพที่สถิต (Deities / Spirits)</th>
-                <th>ตำแหน่งแม่ทัพ (Generals & Advisors)</th>
-                <th>28 ดาวนักษัตร (28 Mansions)</th>
-              </tr>
-            </thead>
-            <tbody id="matrixTableBody"></tbody>
-          </table>
-        </div>
-      </section>
+    // 16 Palaces in wheel order (North 子 clockwise)
+    const PAL16 = ['子', '丑', '艮', '寅', '卯', '辰', '巽', '巳', '午', '未', '坤', '申', '酉', '戌', '乾', '亥'];
 
-      <!-- ✦ 3. DEITIES VIEW ✦ -->
-      <section class="view-panel" id="view-spirits">
-        <div class="text-card">
-          <h3>太乙諸神落宮 (Taiyi Deities & Spirits Analysis)</h3>
-          <table class="info-table">
-            <thead>
-              <tr>
-                <th>ชื่อเทพ (Deity Name)</th>
-                <th>วังที่สถิต (Palace)</th>
-                <th>ทิศทาง (Direction)</th>
-                <th>ธาตุ (Element)</th>
-                <th>ความหมายและการทำนาย (Thai & English Meaning)</th>
-              </tr>
-            </thead>
-            <tbody id="spiritsTableBody"></tbody>
-          </table>
-        </div>
-      </section>
+    // 28 Mansions in clockwise celestial order
+    const MANSIONS28 = [
+      '虛', '危', '室', '壁', '奎', '婁', '胃', '昴', '畢', '觜', '參', '井',
+      '鬼', '柳', '星', '張', '翼', '軫', '角', '亢', '氐', '房', '心', '尾',
+      '箕', '斗', '牛', '女'
+    ];
 
-      <!-- ✦ 4. STRATEGY / BATTLE VIEW ✦ -->
-      <section class="view-panel" id="view-strategy">
-        <div class="text-card">
-          <h3>太乙兵法與主客勝負判斷 (Taiyi Battle Strategy & Host vs Guest Analysis)</h3>
-          <div id="strategyContent"></div>
-        </div>
-      </section>
+    // 28 Mansions Vibrant Quadrant Colors (สีเข้มเด่นชัด)
+    const MANSION_COLORS_VIBRANT = [
+      '#1d4ed8', '#059669', '#d97706', '#dc2626', '#1d4ed8', '#475569', '#059669', '#d97706',
+      '#dc2626', '#1d4ed8', '#059669', '#d97706', '#dc2626', '#1d4ed8', '#475569', '#059669',
+      '#d97706', '#dc2626', '#1d4ed8', '#059669', '#d97706', '#dc2626', '#1d4ed8', '#475569',
+      '#059669', '#d97706', '#dc2626', '#1d4ed8'
+    ];
 
-      <!-- ✦ 5. 28 MANSIONS VIEW ✦ -->
-      <section class="view-panel" id="view-mansions">
-        <div class="text-card">
-          <h3>二十八星宿值事 (28 Lunar Mansions Analysis)</h3>
-          <table class="info-table">
-            <thead>
-              <tr>
-                <th>ดาวนักษัตร (Mansion)</th>
-                <th>ทิศจตุรเทพ (Quadrant)</th>
-                <th>ธาตุ (Element)</th>
-                <th>มงคล/อัปมงคล (Fortune)</th>
-                <th>คำทำนาย (Interpretation)</th>
-              </tr>
-            </thead>
-            <tbody id="mansionsTableBody"></tbody>
-          </table>
-        </div>
-      </section>
+    // 16 Palaces Rich Dark Vibrant Colors (สีในวงวัง 16 ทิศ ขอสีเข้มๆ คมชัด)
+    const PAL_COLORS_RICH = {
+      '子': '#1d4ed8', // Deep Blue
+      '丑': '#b45309', // Deep Amber
+      '艮': '#c2410c', // Deep Orange
+      '寅': '#15803d', // Deep Green
+      '卯': '#16a34a', // Emerald Green
+      '辰': '#0f766e', // Deep Teal
+      '巽': '#0d9488', // Ocean Teal
+      '巳': '#b91c1c', // Crimson Red
+      '午': '#dc2626', // Bright Red
+      '未': '#c2410c', // Burnt Orange
+      '坤': '#ca8a04', // Golden Yellow
+      '申': '#475569', // Slate Gray
+      '酉': '#334155', // Dark Slate
+      '戌': '#1e293b', // Deep Navy Slate
+      '乾': '#4338ca', // Deep Indigo
+      '亥': '#1e40af'  // Rich Royal Blue
+    };
 
-      <!-- ✦ 6. EIGHT GATES VIEW ✦ -->
-      <section class="view-panel" id="view-gates">
-        <div class="text-card">
-          <h3>八門值事分佈 (Eight Gates Detailed Analysis)</h3>
-          <table class="info-table">
-            <thead>
-              <tr>
-                <th>ประตู (Gate Name)</th>
-                <th>วังที่สถิต (Palace)</th>
-                <th>ธาตุ (Element)</th>
-                <th>คุณลักษณะ (Feature)</th>
-                <th>ข้อแนะนำการใช้งาน (Action Guide)</th>
-              </tr>
-            </thead>
-            <tbody id="gatesTableBody"></tbody>
-          </table>
-        </div>
-      </section>
+    // 8 Gates Vibrant Rich Colors (8 ประตูสีเข้มสดใส)
+    const GATES_COLORS_VIBRANT = {
+      '開門': '#d97706', '休門': '#2563eb', '生門': '#059669', '傷門': '#16a34a',
+      '杜門': '#475569', '景門': '#dc2626', '死門': '#1e293b', '驚門': '#ea580c'
+    };
 
-      <!-- ✦ 7. FULL REPORT VIEW ✦ -->
-      <section class="view-panel" id="view-full">
-        <div class="text-card">
-          <h3>太乙神數完整排盤報告 (Full Taiyi Divination Report)</h3>
-          <div id="fullReportContent"></div>
-        </div>
-      </section>
+    // 16 Spirits (十六神)
+    const SPIRITS16 = ['地主', '陽德', '和德', '呂申', '高叢', '太陽', '大炅', '大神', '大威', '天道', '大武', '武德', '太簇', '陰主', '陰德', '大義'];
 
-      <!-- ✦ 8. AI ANALYSIS VIEW ✦ -->
-      <section class="view-panel" id="view-ai">
-        <div class="text-card">
-          <h3>🤖 AI 智能解讀 (AI Board Interpretation)</h3>
-          <div id="aiAnalysisContent"></div>
-        </div>
-      </section>
-    </div>
-  </main>
-</div>
+    // kintaiyi tables
+    const TAIYI_PAI = '乾乾乾午午午艮艮艮卯卯卯酉酉酉坤坤坤子子子巽巽巽乾乾乾午午午艮艮艮卯卯卯酉酉酉坤坤坤子子子巽巽巽乾乾乾午午午艮艮艮卯卯卯酉酉酉坤坤坤子子子巽巽巽';
+    const SF_LIST = '坤戌亥丑寅辰巳坤酉乾丑寅辰午坤酉亥子艮辰巳未申戌亥艮卯巽未申酉子艮卯巳午坤戌亥丑寅辰巳坤酉乾丑寅辰午坤酉亥子艮辰巳未申戌亥艮卯巽未申乾子艮卯巳午';
+    const FOUR_GOD = '乾乾乾午午午艮艮艮卯卯卯中中中酉酉酉坤坤坤子子子巽巽巽巳巳巳申申申寅寅寅';
+    const SKY_YI = '酉酉酉坤坤坤子子子巽巽巽巳巳巳申申申寅寅寅乾乾乾午午午艮艮艮卯卯卯中中中';
+    const EARTH_YI = '巽巽巽巳巳巳申申申寅寅寅乾乾乾午午午艮艮艮卯卯卯中中中酉酉酉坤坤坤子子子';
+    const ZHI_FU = '中中中酉酉酉坤坤坤子子子巽巽巽巳巳巳申申申寅寅寅乾乾乾午午午艮艮艮卯卯卯';
+    const WC_YANG = '申酉戌乾乾亥子丑艮寅卯辰巽巳午未坤坤申酉戌乾乾亥子丑艮寅卯辰巽巳午未坤坤申酉戌乾乾亥子丑艮寅卯辰巽巳午未坤坤申酉戌乾乾亥子丑艮寅卯辰巽巳午未坤坤';
+    const WC_YIN = '寅卯辰巽巽巳午未坤申酉戌乾亥子丑艮艮寅卯辰巽巽巳午未坤申酉戌乾亥子丑艮艮寅卯辰巽巽巳午未坤申酉戌乾亥子丑艮艮寅卯辰巽巽巳午未坤申酉戌乾亥子丑艮艮';
 
-<script>
-// ═══════════════════════════════════════════════════════════════
-//  TAIYI DICTIONARIES & TRANSLATION DATA (THAI & ENGLISH)
-// ═══════════════════════════════════════════════════════════════
-const PAL16_INFO = {
-  '子': { en: 'Zi (N)', th: 'ชื้อ (เหนือ)' },
-  '丑': { en: 'Chou (NE1)', th: 'ฉิ่ว (ตอ./เหนือ 1)' },
-  '艮': { en: 'Gen (NE2)', th: 'กึ่น (ตอ./เหนือ 2)' },
-  '寅': { en: 'Yin (NE3)', th: 'อิ๋น (ตอ./เหนือ 3)' },
-  '卯': { en: 'Mao (E)', th: 'เบ้า (ตะวันออก)' },
-  '辰': { en: 'Chen (SE1)', th: 'เฉิน (ตอ./ใต้ 1)' },
-  '巽': { en: 'Xun (SE2)', th: 'ซุ่น (ตอ./ใต้ 2)' },
-  '巳': { en: 'Si (SE3)', th: 'ซี่ (ตอ./ใต้ 3)' },
-  '午': { en: 'Wu (S)', th: 'โง่ว (ใต้)' },
-  '未': { en: 'Wei (SW1)', th: 'บี่ (ตตก./ใต้ 1)' },
-  '坤': { en: 'Kun (SW2)', th: 'คุ่น (ตตก./ใต้ 2)' },
-  '申': { en: 'Shen (SW3)', th: 'เซิน (ตตก./ใต้ 3)' },
-  '酉': { en: 'You (W)', th: 'อิ้ว (ตะวันตก)' },
-  '戌': { en: 'Xu (NW1)', th: 'ซื่อ (ตตก./เหนือ 1)' },
-  '乾': { en: 'Qian (NW2)', th: 'เคี้ยง (ตตก./เหนือ 2)' },
-  '亥': { en: 'Hai (NW3)', th: 'ไห่ (ตตก./เหนือ 3)' }
-};
+    const YANG_CAL = [[7, 13, 13], [6, 1, 1], [1, 40, 32], [25, 17, 10], [25, 14, 1], [25, 10, 12], [8, 25, 9], [1, 22, 3], [3, 15, 33], [1, 12, 25], [4, 4, 13], [37, 1, 4], [18, 19, 19], [10, 9, 9], [9, 7, 6], [1, 33, 26], [7, 27, 16], [7, 26, 11], [8, 32, 14], [7, 26, 2], [2, 17, 33], [16, 30, 1], [16, 23, 32], [16, 17, 23], [39, 40, 40], [32, 31, 31], [31, 28, 31], [14, 9, 38], [13, 39, 26], [10, 32, 17], [33, 10, 34], [25, 8, 24], [24, 3, 15], [26, 4, 11], [25, 28, 1], [25, 27, 36], [1, 7, 7], [6, 35, 35], [35, 34, 26], [27, 19, 12], [27, 16, 3], [27, 12, 34], [8, 17, 1], [23, 14, 32], [32, 7, 25], [5, 16, 29], [4, 8, 17], [1, 5, 8], [24, 25, 25], [16, 15, 15], [15, 13, 6], [39, 31, 24], [38, 25, 14], [38, 24, 9], [16, 3, 22], [15, 34, 10], [10, 25, 10], [12, 26, 27], [12, 19, 28], [12, 13, 19], [33, 34, 34], [26, 25, 25], [25, 22, 18], [16, 11, 7], [15, 1, 28], [12, 34, 19], [25, 2, 26], [17, 8, 16], [16, 32, 7], [30, 4, 15], [29, 32, 5], [29, 31, 9]];
+    const YIN_CAL = [[5, 29, 7], [4, 17, 1], [1, 16, 30], [25, 33, 2], [25, 30, 1], [17, 26, 10], [2, 3, 3], [1, 7, 7], [7, 33, 27], [1, 24, 25], [6, 26, 19], [35, 23, 8], [12, 37, 12], [12, 27, 11], [11, 25, 4], [1, 15, 24], [3, 9, 16], [3, 8, 9], [14, 16, 16], [13, 10, 10], [10, 1, 39], [24, 14, 1], [24, 7, 40], [16, 1, 29], [31, 16, 32], [30, 7, 29], [29, 4, 26], [8, 25, 32], [7, 15, 26], [2, 8, 15], [27, 28, 28], [27, 26, 26], [26, 18, 15], [26, 22, 9], [25, 10, 1], [25, 9, 34], [1, 25, 3], [4, 13, 37], [27, 12, 26], [33, 1, 10], [33, 38, 9], [25, 34, 38], [2, 1, 1], [39, 38, 38], [38, 31, 25], [7, 1, 31], [6, 32, 25], [1, 29, 14], [16, 1, 17], [16, 31, 15], [15, 29, 4], [33, 7, 16], [32, 1, 8], [32, 8, 1], [16, 18, 18], [15, 12, 12], [12, 3, 1], [18, 8, 35], [18, 1, 34], [10, 35, 25], [27, 22, 28], [26, 3, 25], [25, 4, 12], [16, 33, 3], [15, 23, 34], [10, 16, 23], [25, 26, 26], [25, 24, 24], [24, 16, 13], [32, 28, 15], [31, 16, 7], [31, 15, 1]];
 
-const GATES8_INFO = {
-  '開門': { en: 'Open Gate', th: 'ประตูเปิด (มงคล)' },
-  '休門': { en: 'Rest Gate', th: 'ประตูพัก (สงบ)' },
-  '生門': { en: 'Life Gate', th: 'ประตูเกิด (โชคลาภ)' },
-  '傷門': { en: 'Harm Gate', th: 'ประตูเจ็บ (แข่งขัน)' },
-  '杜門': { en: 'Block Gate', th: 'ประตูอุด (วางแผน)' },
-  '景門': { en: 'Scenery Gate', th: 'ประตูวิว (ชื่อเสียง)' },
-  '死門': { en: 'Death Gate', th: 'ประตูตาย (ละทิ้ง)' },
-  '驚門': { en: 'Fear Gate', th: 'ประตูกลัว (ตกใจ)' }
-};
+    function jdn(y, m, d) {
+      const a = Math.floor((14 - m) / 12), yr = y + 4800 - a, mn = m + 12 * a - 3;
+      return d + Math.floor((153 * mn + 2) / 5) + 365 * yr + Math.floor(yr / 4) - Math.floor(yr / 100) + Math.floor(yr / 400) - 32045;
+    }
 
-const SPIRIT_TRANSLATIONS = {
-  '太乙': { en: 'Taiyi (Emperor Star)', th: 'ไท่ยี่ (ดาวจักรพรรดิ์)' },
-  '文昌': { en: 'Wenchang (Wisdom Star)', th: 'เอ๋นชาง (ดาวปัญญา)' },
-  '始擊': { en: 'Shiji (Vanguard Officer)', th: 'ฉื่อจี (แม่ทัพหน้า)' },
-  '主將': { en: 'Host General', th: 'จู่เจียง (แม่ทัพเจ้าบ้าน)' },
-  '客將': { en: 'Guest General', th: 'เค่อเจียง (แม่ทัพผู้มาเยือน)' },
-  '主參': { en: 'Host Advisor', th: 'จู่ซาน (กุนซือเจ้าบ้าน)' },
-  '客參': { en: 'Guest Advisor', th: 'เค่อซาน (กุนซือผู้มาเยือน)' },
-  '天乙': { en: 'Tianyi (Heaven Helper)', th: 'เทียนอี้ (เทพสวรรค์)' },
-  '地乙': { en: 'Diyi (Earth Protector)', th: 'ตี้อี้ (เทพพสุธา)' },
-  '四神': { en: 'Four Gods', th: 'ซื่อเสิน (จตุรเทพ)' },
-  '直符': { en: 'Zhifu (Law Enforcer)', th: 'จื๋อฟู่ (ผู้คุมกฎ)' },
-  '計神': { en: 'Jishen (Planner)', th: 'จี้เสิน (เทพวางแผน)' },
-  '合神': { en: 'Heshen (Harmony)', th: 'เหอเสิน (เทพผสาน)' },
-  '定計': { en: 'Dingji (Decider)', th: 'ติ้งจี้ (เทพชี้ขาด)' }
-};
+    function calculateTaiyiBoard(year, month, day, hour, minute, mode, method) {
+      const J = jdn(year, month, day);
 
-// 28 Mansions English / Thai
-const MANSION_INFO = {
-  '虛': { en: 'Xu (Emptiness)', th: 'ซวี (ดาวสลัว)' },
-  '危': { en: 'Wei (Rooftop)', th: 'เวย (ดาวอันตราย)' },
-  '室': { en: 'Shi (Encampment)', th: 'ซื่อ (ดาวห้อง)' },
-  '壁': { en: 'Bi (Wall)', th: 'ปี้ (ดาวกำแพง)' },
-  '奎': { en: 'Kui (Legs)', th: 'เคว่ย (ดาวตะกร้า)' },
-  '婁': { en: 'Lou (Bond)', th: 'โหลว (ดาวบ่วง)' },
-  '胃': { en: 'Wei (Stomach)', th: 'เวย (ดาวกระเพาะ)' },
-  '昴': { en: 'Mao (Hairy Head)', th: 'เหมา (ดาวลูกไก่)' },
-  '畢': { en: 'Bi (Net)', th: 'ปี้ (ดาวแห)' },
-  '觜': { en: 'Zui (Turtle Beak)', th: 'จุ่ย (ดาวจะงอย)' },
-  '參': { en: 'Shen (Three Stars)', th: 'เซิน (ดาวพราน)' },
-  '井': { en: 'Jing (Well)', th: 'จิ่ง (ดาวบ่อน้ำ)' },
-  '鬼': { en: 'Gui (Ghost)', th: 'กุ่ย (ดาวผี)' },
-  '柳': { en: 'Liu (Willow)', th: 'หลิว (ดาวหลิว)' },
-  '星': { en: 'Xing (Star)', th: 'ซิง (ดาวหัวใจ)' },
-  '張': { en: 'Zhang (Extended Net)', th: 'จาง (ดาวคันศร)' },
-  '翼': { en: 'Yi (Wings)', th: 'อี้ (ดาวปีก)' },
-  '軫': { en: 'Zhen (Chariot)', th: 'เจิ่น (ดาวรถ)' },
-  '角': { en: 'Jiao (Horn)', th: 'เจี่ยว (ดาวเขาสัตว์)' },
-  '亢': { en: 'Kang (Neck)', th: 'ค่าง (ดาวลำคอ)' },
-  '氐': { en: 'Di (Root)', th: 'ตี้ (ดาวฐาน)' },
-  '房': { en: 'Fang (Room)', th: 'ฟัง (ดาวบ้าน)' },
-  '心': { en: 'Xin (Heart)', th: 'ซิน (ดาวหัวใจมังกร)' },
-  '尾': { en: 'Wei (Tail)', th: 'เวย (ดาวหางมังกร)' },
-  '箕': { en: 'Ji (Winnowing Basket)', th: 'จี้ (ดาวกระชอน)' },
-  '斗': { en: 'Dou (Dipper)', th: 'เต้า (ดาวกระบวย)' },
-  '牛': { en: 'Niu (Ox)', th: 'หนิว (ดาววัว)' },
-  '女': { en: 'Nü (Girl)', th: 'หนวี่ (ดาวหญิงสาว)' }
-};
+      // Year GanZhi
+      const yIdx = ((year - 4) % 60 + 60) % 60;
+      const yg = { s: TG[yIdx % 10], b: DZ[yIdx % 12], si: yIdx % 10, bi: yIdx % 12 };
 
-// ═══════════════════════════════════════════════════════════════
-//  TAIYI CALCULATION ENGINE
-// ═══════════════════════════════════════════════════════════════
-const TG = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
-const DZ = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+      // Day GanZhi
+      const dIdx = ((J + 33) % 60 + 60) % 60;
+      const dg = { s: TG[dIdx % 10], b: DZ[dIdx % 12], si: dIdx % 10, bi: dIdx % 12 };
 
-// 8 Gates order
-const GATES8 = ['開門','休門','生門','傷門','杜門','景門','死門','驚門'];
+      // Month GanZhi (Five Tigers)
+      const mBase = [2, 4, 6, 8, 0, 2, 4, 6, 8, 0][yg.si];
+      const cM = month === 1 ? 12 : month - 1;
+      const mg = { s: TG[(mBase + cM - 1) % 10], b: DZ[(cM + 1) % 12] };
 
-// 16 Palaces in wheel order (North 子 clockwise)
-const PAL16 = ['子','丑','艮','寅','卯','辰','巽','巳','午','未','坤','申','酉','戌','乾','亥'];
+      // Hour GanZhi (Five Rats)
+      const hBase = [0, 2, 4, 6, 8, 0, 2, 4, 6, 8][dg.si];
+      const hBranch = Math.floor(hour / 2) % 12;
+      const hg = { s: TG[(hBase + hBranch) % 10], b: DZ[hBranch] };
 
-// 28 Mansions in clockwise celestial order
-const MANSIONS28 = [
-  '虛','危','室','壁','奎','婁','胃','昴','畢','觜','參','井',
-  '鬼','柳','星','張','翼','軫','角','亢','氐','房','心','尾',
-  '箕','斗','牛','女'
-];
+      // Minute GanZhi
+      const minBranch = Math.floor(minute / 5) % 12;
+      const minStem = (hBase + minBranch) % 10;
+      const minGz = { s: TG[minStem], b: DZ[(10 + minBranch) % 12] };
 
-// 28 Mansions Vibrant Quadrant Colors (สีเข้มเด่นชัด)
-const MANSION_COLORS_VIBRANT = [
-  '#1d4ed8','#059669','#d97706','#dc2626','#1d4ed8','#475569','#059669','#d97706',
-  '#dc2626','#1d4ed8','#059669','#d97706','#dc2626','#1d4ed8','#475569','#059669',
-  '#d97706','#dc2626','#1d4ed8','#059669','#d97706','#dc2626','#1d4ed8','#475569',
-  '#059669','#d97706','#dc2626','#1d4ed8'
-];
+      // Yin / Yang Dun
+      let yy = '陽';
+      if (month >= 7 && month <= 11) yy = '陰';
+      else if (month === 6 && day >= 22) yy = '陰';
+      else if (month === 12 && day < 22) yy = '陰';
 
-// 16 Palaces Rich Dark Vibrant Colors (สีในวงวัง 16 ทิศ ขอสีเข้มๆ คมชัด)
-const PAL_COLORS_RICH = {
-  '子': '#1d4ed8', // Deep Blue
-  '丑': '#b45309', // Deep Amber
-  '艮': '#c2410c', // Deep Orange
-  '寅': '#15803d', // Deep Green
-  '卯': '#16a34a', // Emerald Green
-  '辰': '#0f766e', // Deep Teal
-  '巽': '#0d9488', // Ocean Teal
-  '巳': '#b91c1c', // Crimson Red
-  '午': '#dc2626', // Bright Red
-  '未': '#c2410c', // Burnt Orange
-  '坤': '#ca8a04', // Golden Yellow
-  '申': '#475569', // Slate Gray
-  '酉': '#334155', // Dark Slate
-  '戌': '#1e293b', // Deep Navy Slate
-  '乾': '#4338ca', // Deep Indigo
-  '亥': '#1e40af'  // Rich Royal Blue
-};
+      // Accumulated years / periods calculation based on mode
+      const chYear = year + 2697;
+      let acum = chYear;
+      if (mode === 1) acum = chYear * 12 + month;
+      else if (mode === 2) acum = J;
+      else if (mode === 3) acum = J * 12 + hBranch;
+      else if (mode === 4) acum = J * 12 * 60 + hour * 60 + minute;
 
-// 8 Gates Vibrant Rich Colors (8 ประตูสีเข้มสดใส)
-const GATES_COLORS_VIBRANT = {
-  '開門': '#d97706', '休門': '#2563eb', '生門': '#059669', '傷門': '#16a34a',
-  '杜門': '#475569', '景門': '#dc2626', '死門': '#1e293b', '驚門': '#ea580c'
-};
+      const i72 = ((acum % 72) + 72) % 72;
+      const i36 = ((acum % 36) + 36) % 36;
+      const juNum = i72 + 1;
 
-// 16 Spirits (十六神)
-const SPIRITS16 = ['地主','陽德','和德','呂申','高叢','太陽','大炅','大神','大威','天道','大武','武德','太簇','陰主','陰德','大義'];
+      // Deity positions
+      const posTaiyi = TAIYI_PAI[i72];
+      const posShiji = SF_LIST[i72];
+      const posWenchang = (yy === '陽' ? WC_YANG : WC_YIN)[i72];
+      const posTianyi = SKY_YI[i36];
+      const posDiyi = EARTH_YI[i36];
+      const posFourGod = FOUR_GOD[i36];
+      const posZhifu = ZHI_FU[i36];
 
-// kintaiyi tables
-const TAIYI_PAI = '乾乾乾午午午艮艮艮卯卯卯酉酉酉坤坤坤子子子巽巽巽乾乾乾午午午艮艮艮卯卯卯酉酉酉坤坤坤子子子巽巽巽乾乾乾午午午艮艮艮卯卯卯酉酉酉坤坤坤子子子巽巽巽';
-const SF_LIST   = '坤戌亥丑寅辰巳坤酉乾丑寅辰午坤酉亥子艮辰巳未申戌亥艮卯巽未申酉子艮卯巳午坤戌亥丑寅辰巳坤酉乾丑寅辰午坤酉亥子艮辰巳未申戌亥艮卯巽未申乾子艮卯巳午';
-const FOUR_GOD  = '乾乾乾午午午艮艮艮卯卯卯中中中酉酉酉坤坤坤子子子巽巽巽巳巳巳申申申寅寅寅';
-const SKY_YI    = '酉酉酉坤坤坤子子子巽巽巽巳巳巳申申申寅寅寅乾乾乾午午午艮艮艮卯卯卯中中中';
-const EARTH_YI  = '巽巽巽巳巳巳申申申寅寅寅乾乾乾午午午艮艮艮卯卯卯中中中酉酉酉坤坤坤子子子';
-const ZHI_FU    = '中中中酉酉酉坤坤坤子子子巽巽巽巳巳巳申申申寅寅寅乾乾乾午午午艮艮艮卯卯卯';
-const WC_YANG   = '申酉戌乾乾亥子丑艮寅卯辰巽巳午未坤坤申酉戌乾乾亥子丑艮寅卯辰巽巳午未坤坤申酉戌乾乾亥子丑艮寅卯辰巽巳午未坤坤申酉戌乾乾亥子丑艮寅卯辰巽巳午未坤坤';
-const WC_YIN    = '寅卯辰巽巽巳午未坤申酉戌乾亥子丑艮艮寅卯辰巽巽巳午未坤申酉戌乾亥子丑艮艮寅卯辰巽巽巳午未坤申酉戌乾亥子丑艮艮寅卯辰巽巽巳午未坤申酉戌乾亥子丑艮艮';
+      // Host / Guest numbers
+      const cal = (yy === '陽' ? YANG_CAL : YIN_CAL)[i72] || [7, 32, 14];
+      const [zhu, ke, ding] = cal;
 
-const YANG_CAL = [[7,13,13],[6,1,1],[1,40,32],[25,17,10],[25,14,1],[25,10,12],[8,25,9],[1,22,3],[3,15,33],[1,12,25],[4,4,13],[37,1,4],[18,19,19],[10,9,9],[9,7,6],[1,33,26],[7,27,16],[7,26,11],[8,32,14],[7,26,2],[2,17,33],[16,30,1],[16,23,32],[16,17,23],[39,40,40],[32,31,31],[31,28,31],[14,9,38],[13,39,26],[10,32,17],[33,10,34],[25,8,24],[24,3,15],[26,4,11],[25,28,1],[25,27,36],[1,7,7],[6,35,35],[35,34,26],[27,19,12],[27,16,3],[27,12,34],[8,17,1],[23,14,32],[32,7,25],[5,16,29],[4,8,17],[1,5,8],[24,25,25],[16,15,15],[15,13,6],[39,31,24],[38,25,14],[38,24,9],[16,3,22],[15,34,10],[10,25,10],[12,26,27],[12,19,28],[12,13,19],[33,34,34],[26,25,25],[25,22,18],[16,11,7],[15,1,28],[12,34,19],[25,2,26],[17,8,16],[16,32,7],[30,4,15],[29,32,5],[29,31,9]];
-const YIN_CAL  = [[5,29,7],[4,17,1],[1,16,30],[25,33,2],[25,30,1],[17,26,10],[2,3,3],[1,7,7],[7,33,27],[1,24,25],[6,26,19],[35,23,8],[12,37,12],[12,27,11],[11,25,4],[1,15,24],[3,9,16],[3,8,9],[14,16,16],[13,10,10],[10,1,39],[24,14,1],[24,7,40],[16,1,29],[31,16,32],[30,7,29],[29,4,26],[8,25,32],[7,15,26],[2,8,15],[27,28,28],[27,26,26],[26,18,15],[26,22,9],[25,10,1],[25,9,34],[1,25,3],[4,13,37],[27,12,26],[33,1,10],[33,38,9],[25,34,38],[2,1,1],[39,38,38],[38,31,25],[7,1,31],[6,32,25],[1,29,14],[16,1,17],[16,31,15],[15,29,4],[33,7,16],[32,1,8],[32,8,1],[16,18,18],[15,12,12],[12,3,1],[18,8,35],[18,1,34],[10,35,25],[27,22,28],[26,3,25],[25,4,12],[16,33,3],[15,23,34],[10,16,23],[25,26,26],[25,24,24],[24,16,13],[32,28,15],[31,16,7],[31,15,1]];
+      let winner = '和局', winDesc = 'ทั้งสองฝ่ายทัดเทียมกัน (Balanced)';
+      if (zhu > ke) { winner = '主勝', winDesc = 'ฝ่ายตั้งรับ / เจ้าบ้านได้เปรียบ (Host Advantage)' }
+      else if (zhu < ke) { winner = '客勝', winDesc = 'ฝ่ายรุก / ผู้มาเยือนได้เปรียบ (Guest Advantage)' }
 
-function jdn(y,m,d){
-  const a=Math.floor((14-m)/12),yr=y+4800-a,mn=m+12*a-3;
-  return d+Math.floor((153*mn+2)/5)+365*yr+Math.floor(yr/4)-Math.floor(yr/100)+Math.floor(yr/400)-32045;
-}
+      // Assign spirits to 16 palaces for visualization
+      const palaceSpirits = {};
+      PAL16.forEach(p => palaceSpirits[p] = []);
 
-function calculateTaiyiBoard(year, month, day, hour, minute, mode, method) {
-  const J = jdn(year, month, day);
-  
-  // Year GanZhi
-  const yIdx = ((year - 4) % 60 + 60) % 60;
-  const yg = { s: TG[yIdx % 10], b: DZ[yIdx % 12], si: yIdx % 10, bi: yIdx % 12 };
-  
-  // Day GanZhi
-  const dIdx = ((J + 33) % 60 + 60) % 60;
-  const dg = { s: TG[dIdx % 10], b: DZ[dIdx % 12], si: dIdx % 10, bi: dIdx % 12 };
-  
-  // Month GanZhi (Five Tigers)
-  const mBase = [2,4,6,8,0,2,4,6,8,0][yg.si];
-  const cM = month === 1 ? 12 : month - 1;
-  const mg = { s: TG[(mBase + cM - 1) % 10], b: DZ[(cM + 1) % 12] };
-  
-  // Hour GanZhi (Five Rats)
-  const hBase = [0,2,4,6,8,0,2,4,6,8][dg.si];
-  const hBranch = Math.floor(hour / 2) % 12;
-  const hg = { s: TG[(hBase + hBranch) % 10], b: DZ[hBranch] };
-  
-  // Minute GanZhi
-  const minBranch = Math.floor(minute / 5) % 12;
-  const minStem = (hBase + minBranch) % 10;
-  const minGz = { s: TG[minStem], b: DZ[(10 + minBranch) % 12] };
+      if (posTaiyi) palaceSpirits[posTaiyi]?.push({ name: '太乙', type: 'main', bg: '#dc2626', en: 'Taiyi', th: 'ไท่ยี่' });
+      if (posWenchang) palaceSpirits[posWenchang]?.push({ name: '文昌', type: 'gen', bg: '#d97706', en: 'Wenchang', th: 'เอ๋นชาง' });
+      if (posShiji) palaceSpirits[posShiji]?.push({ name: '始擊', type: 'gen', bg: '#16a34a', en: 'Shiji', th: 'ฉื่อจี' });
+      if (posTianyi) palaceSpirits[posTianyi]?.push({ name: '天乙', type: 'sub', bg: '#2563eb', en: 'Tianyi', th: 'เทียนอี้' });
+      if (posDiyi) palaceSpirits[posDiyi]?.push({ name: '地乙', type: 'sub', bg: '#059669', en: 'Diyi', th: 'ตี้อี้' });
+      if (posFourGod) palaceSpirits[posFourGod]?.push({ name: '四神', type: 'sub', bg: '#0284c7', en: '4Gods', th: 'จตุรเทพ' });
+      if (posZhifu) palaceSpirits[posZhifu]?.push({ name: '直符', type: 'sub', bg: '#9333ea', en: 'Zhifu', th: 'ผู้คุมกฎ' });
 
-  // Yin / Yang Dun
-  let yy = '陽';
-  if (month >= 7 && month <= 11) yy = '陰';
-  else if (month === 6 && day >= 22) yy = '陰';
-  else if (month === 12 && day < 22) yy = '陰';
+      // Additional Officers
+      const jishen = PAL16[(i72 + 3) % 16];
+      const heshen = PAL16[(i72 + 9) % 16];
+      const dingji = PAL16[(i72 + 6) % 16];
+      if (jishen) palaceSpirits[jishen]?.push({ name: '計神', type: 'officer', bg: '#475569', en: 'Jishen', th: 'เทพคำนวณ' });
+      if (heshen) palaceSpirits[heshen]?.push({ name: '合神', type: 'officer', bg: '#64748b', en: 'Heshen', th: 'เทพผสาน' });
+      if (dingji) palaceSpirits[dingji]?.push({ name: '定計', type: 'officer', bg: '#334155', en: 'Dingji', th: 'เทพชี้ขาด' });
 
-  // Accumulated years / periods calculation based on mode
-  const chYear = year + 2697;
-  let acum = chYear;
-  if (mode === 1) acum = chYear * 12 + month;
-  else if (mode === 2) acum = J;
-  else if (mode === 3) acum = J * 12 + hBranch;
-  else if (mode === 4) acum = J * 12 * 60 + hour * 60 + minute;
+      // Generals & Advisors (主將/客將/主參/客參)
+      const zhuJiang = PAL16[(zhu % 16)];
+      const keJiang = PAL16[(ke % 16)];
+      const zhuCan = PAL16[((zhu * 3) % 16)];
+      const keCan = PAL16[((ke * 3) % 16)];
 
-  const i72 = ((acum % 72) + 72) % 72;
-  const i36 = ((acum % 36) + 36) % 36;
-  const juNum = i72 + 1;
+      if (zhuJiang) palaceSpirits[zhuJiang]?.push({ name: '主將', type: 'general', bg: '#1d4ed8', en: 'HostGen', th: 'แม่ทัพตั้งรับ' });
+      if (keJiang) palaceSpirits[keJiang]?.push({ name: '客將', type: 'general', bg: '#b91c1c', en: 'GuestGen', th: 'แม่ทัพฝ่ายรุก' });
+      if (zhuCan) palaceSpirits[zhuCan]?.push({ name: '主參', type: 'advisor', bg: '#2563eb', en: 'HostAdv', th: 'กุนซือตั้งรับ' });
+      if (keCan) palaceSpirits[keCan]?.push({ name: '客參', type: 'advisor', bg: '#dc2626', en: 'GuestAdv', th: 'กุนซือฝ่ายรุก' });
 
-  // Deity positions
-  const posTaiyi = TAIYI_PAI[i72];
-  const posShiji = SF_LIST[i72];
-  const posWenchang = (yy === '陽' ? WC_YANG : WC_YIN)[i72];
-  const posTianyi = SKY_YI[i36];
-  const posDiyi = EARTH_YI[i36];
-  const posFourGod = FOUR_GOD[i36];
-  const posZhifu = ZHI_FU[i36];
+      return {
+        year, month, day, hour, minute, mode, method,
+        yg, mg, dg, hg, minGz,
+        yy, chYear, juNum, i72,
+        posTaiyi, posShiji, posWenchang, posTianyi, posDiyi, posFourGod, posZhifu,
+        zhu, ke, ding, winner, winDesc,
+        palaceSpirits,
+        zhuJiang, keJiang, zhuCan, keCan
+      };
+    }
 
-  // Host / Guest numbers
-  const cal = (yy === '陽' ? YANG_CAL : YIN_CAL)[i72] || [7, 32, 14];
-  const [zhu, ke, ding] = cal;
+    // ═══════════════════════════════════════════════════════════════
+    //  SVG WHEEL RENDERER (EXACT VIEWBOX & NON-OVERFLOWING CENTER)
+    // ═══════════════════════════════════════════════════════════════
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+    const CX = 450, CY = 450; // Center at (450, 450) with ViewBox 0 0 900 900
 
-  let winner = '和局', winDesc = 'ทั้งสองฝ่ายทัดเทียมกัน (Balanced)';
-  if (zhu > ke) { winner = '主勝', winDesc = 'ฝ่ายตั้งรับ / เจ้าบ้านได้เปรียบ (Host Advantage)' }
-  else if (zhu < ke) { winner = '客勝', winDesc = 'ฝ่ายรุก / ผู้มาเยือนได้เปรียบ (Guest Advantage)' }
+    function createSvgElement(tag, attrs, text) {
+      const el = document.createElementNS(SVG_NS, tag);
+      for (let k in attrs) el.setAttribute(k, attrs[k]);
+      if (text !== undefined) el.textContent = text;
+      return el;
+    }
 
-  // Assign spirits to 16 palaces for visualization
-  const palaceSpirits = {};
-  PAL16.forEach(p => palaceSpirits[p] = []);
+    function polarToCartesian(cx, cy, r, angleInDegrees) {
+      const rad = (angleInDegrees - 90) * Math.PI / 180.0;
+      return {
+        x: cx + (r * Math.cos(rad)),
+        y: cy + (r * Math.sin(rad))
+      };
+    }
 
-  if (posTaiyi) palaceSpirits[posTaiyi]?.push({ name: '太乙', type: 'main', bg: '#dc2626', en: 'Taiyi', th: 'ไท่ยี่' });
-  if (posWenchang) palaceSpirits[posWenchang]?.push({ name: '文昌', type: 'gen', bg: '#d97706', en: 'Wenchang', th: 'เอ๋นชาง' });
-  if (posShiji) palaceSpirits[posShiji]?.push({ name: '始擊', type: 'gen', bg: '#16a34a', en: 'Shiji', th: 'ฉื่อจี' });
-  if (posTianyi) palaceSpirits[posTianyi]?.push({ name: '天乙', type: 'sub', bg: '#2563eb', en: 'Tianyi', th: 'เทียนอี้' });
-  if (posDiyi) palaceSpirits[posDiyi]?.push({ name: '地乙', type: 'sub', bg: '#059669', en: 'Diyi', th: 'ตี้อี้' });
-  if (posFourGod) palaceSpirits[posFourGod]?.push({ name: '四神', type: 'sub', bg: '#0284c7', en: '4Gods', th: 'จตุรเทพ' });
-  if (posZhifu) palaceSpirits[posZhifu]?.push({ name: '直符', type: 'sub', bg: '#9333ea', en: 'Zhifu', th: 'ผู้คุมกฎ' });
+    function describeArc(cx, cy, r1, r2, startAngle, endAngle) {
+      const p1 = polarToCartesian(cx, cy, r1, startAngle);
+      const p2 = polarToCartesian(cx, cy, r1, endAngle);
+      const p3 = polarToCartesian(cx, cy, r2, endAngle);
+      const p4 = polarToCartesian(cx, cy, r2, startAngle);
+      const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+      return [
+        "M", p1.x, p1.y,
+        "A", r1, r1, 0, largeArcFlag, 1, p2.x, p2.y,
+        "L", p3.x, p3.y,
+        "A", r2, r2, 0, largeArcFlag, 0, p4.x, p4.y,
+        "Z"
+      ].join(" ");
+    }
 
-  // Additional Officers
-  const jishen = PAL16[(i72 + 3) % 16];
-  const heshen = PAL16[(i72 + 9) % 16];
-  const dingji = PAL16[(i72 + 6) % 16];
-  if (jishen) palaceSpirits[jishen]?.push({ name: '計神', type: 'officer', bg: '#475569', en: 'Jishen', th: 'เทพคำนวณ' });
-  if (heshen) palaceSpirits[heshen]?.push({ name: '合神', type: 'officer', bg: '#64748b', en: 'Heshen', th: 'เทพผสาน' });
-  if (dingji) palaceSpirits[dingji]?.push({ name: '定計', type: 'officer', bg: '#334155', en: 'Dingji', th: 'เทพชี้ขาด' });
+    function renderTaiyiWheel(data) {
+      const svg = document.getElementById('taiyiWheelSvg');
+      svg.innerHTML = '';
 
-  // Generals & Advisors (主將/客將/主參/客參)
-  const zhuJiang = PAL16[(zhu % 16)];
-  const keJiang = PAL16[(ke % 16)];
-  const zhuCan = PAL16[((zhu * 3) % 16)];
-  const keCan = PAL16[((ke * 3) % 16)];
-
-  if (zhuJiang) palaceSpirits[zhuJiang]?.push({ name: '主將', type: 'general', bg: '#1d4ed8', en: 'HostGen', th: 'แม่ทัพตั้งรับ' });
-  if (keJiang) palaceSpirits[keJiang]?.push({ name: '客將', type: 'general', bg: '#b91c1c', en: 'GuestGen', th: 'แม่ทัพฝ่ายรุก' });
-  if (zhuCan) palaceSpirits[zhuCan]?.push({ name: '主參', type: 'advisor', bg: '#2563eb', en: 'HostAdv', th: 'กุนซือตั้งรับ' });
-  if (keCan) palaceSpirits[keCan]?.push({ name: '客參', type: 'advisor', bg: '#dc2626', en: 'GuestAdv', th: 'กุนซือฝ่ายรุก' });
-
-  return {
-    year, month, day, hour, minute, mode, method,
-    yg, mg, dg, hg, minGz,
-    yy, chYear, juNum, i72,
-    posTaiyi, posShiji, posWenchang, posTianyi, posDiyi, posFourGod, posZhifu,
-    zhu, ke, ding, winner, winDesc,
-    palaceSpirits,
-    zhuJiang, keJiang, zhuCan, keCan
-  };
-}
-
-// ═══════════════════════════════════════════════════════════════
-//  SVG WHEEL RENDERER (EXACT VIEWBOX & NON-OVERFLOWING CENTER)
-// ═══════════════════════════════════════════════════════════════
-const SVG_NS = 'http://www.w3.org/2000/svg';
-const CX = 450, CY = 450; // Center at (450, 450) with ViewBox 0 0 900 900
-
-function createSvgElement(tag, attrs, text) {
-  const el = document.createElementNS(SVG_NS, tag);
-  for (let k in attrs) el.setAttribute(k, attrs[k]);
-  if (text !== undefined) el.textContent = text;
-  return el;
-}
-
-function polarToCartesian(cx, cy, r, angleInDegrees) {
-  const rad = (angleInDegrees - 90) * Math.PI / 180.0;
-  return {
-    x: cx + (r * Math.cos(rad)),
-    y: cy + (r * Math.sin(rad))
-  };
-}
-
-function describeArc(cx, cy, r1, r2, startAngle, endAngle) {
-  const p1 = polarToCartesian(cx, cy, r1, startAngle);
-  const p2 = polarToCartesian(cx, cy, r1, endAngle);
-  const p3 = polarToCartesian(cx, cy, r2, endAngle);
-  const p4 = polarToCartesian(cx, cy, r2, startAngle);
-  const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-  return [
-    "M", p1.x, p1.y,
-    "A", r1, r1, 0, largeArcFlag, 1, p2.x, p2.y,
-    "L", p3.x, p3.y,
-    "A", r2, r2, 0, largeArcFlag, 0, p4.x, p4.y,
-    "Z"
-  ].join(" ");
-}
-
-function renderTaiyiWheel(data) {
-  const svg = document.getElementById('taiyiWheelSvg');
-  svg.innerHTML = '';
-
-  // Defs & Gradients
-  const defs = createSvgElement('defs', {});
-  defs.innerHTML = `
+      // Defs & Gradients
+      const defs = createSvgElement('defs', {});
+      defs.innerHTML = `
     <radialGradient id="centerGlowLight" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#ffffff" />
       <stop offset="70%" stop-color="#fef3c7" />
       <stop offset="100%" stop-color="#fde68a" />
     </radialGradient>
+    <clipPath id="centerClip">
+      <circle cx="${CX}" cy="${CY}" r="90" />
+    </clipPath>
   `;
-  svg.appendChild(defs);
+      svg.appendChild(defs);
 
-  // Background Outer Circle (r = 425 fits inside 900x900 canvas with 25px border space)
-  svg.appendChild(createSvgElement('circle', {
-    cx: CX, cy: CY, r: 425,
-    fill: '#ffffff',
-    stroke: '#cbd5e1',
-    'stroke-width': '2'
-  }));
+      // Background Outer Circle (r = 425 fits inside 900x900 canvas with 25px border space)
+      svg.appendChild(createSvgElement('circle', {
+        cx: CX, cy: CY, r: 425,
+        fill: '#ffffff',
+        stroke: '#cbd5e1',
+        'stroke-width': '2'
+      }));
 
-  // ── 1. RING 1: 28 LUNAR MANSIONS (Outer Ring r: 360 -> 425) ──
-  const degPerMansion = 360 / 28;
-  for (let i = 0; i < 28; i++) {
-    const startA = i * degPerMansion;
-    const endA = (i + 1) * degPerMansion;
-    const midA = startA + degPerMansion / 2;
-    const color = MANSION_COLORS_VIBRANT[i % MANSION_COLORS_VIBRANT.length];
-    const mansionName = MANSIONS28[i];
-    const mInfo = MANSION_INFO[mansionName] || { en: mansionName, th: mansionName };
-    
-    // Sector Arc
-    svg.appendChild(createSvgElement('path', {
-      d: describeArc(CX, CY, 360, 425, startA, endA),
-      fill: color,
-      stroke: '#ffffff',
-      'stroke-width': '1.5'
-    }));
+      // ── 1. RING 1: 28 LUNAR MANSIONS (Outer Ring r: 360 -> 425) ──
+      const degPerMansion = 360 / 28;
+      for (let i = 0; i < 28; i++) {
+        const startA = i * degPerMansion;
+        const endA = (i + 1) * degPerMansion;
+        const midA = startA + degPerMansion / 2;
+        const color = MANSION_COLORS_VIBRANT[i % MANSION_COLORS_VIBRANT.length];
+        const mansionName = MANSIONS28[i];
+        const mInfo = MANSION_INFO[mansionName] || { en: mansionName, th: mansionName };
 
-    // Mansion Text (Large font size 20px Chinese, 11px English)
-    const pt = polarToCartesian(CX, CY, 394, midA);
-    const gText = createSvgElement('g', {
-      transform: `rotate(${midA}, ${pt.x}, ${pt.y})`
-    });
-
-    gText.appendChild(createSvgElement('text', {
-      x: pt.x, y: pt.y - 5,
-      fill: '#ffffff',
-      'font-size': '20',
-      'font-weight': '500',
-      'font-family': "'Ma Shan Zheng', serif",
-      'text-anchor': 'middle',
-      'dominant-baseline': 'central'
-    }, mansionName));
-
-    gText.appendChild(createSvgElement('text', {
-      x: pt.x, y: pt.y + 12,
-      fill: '#fef3c7',
-      'font-size': '11',
-      'font-weight': '400',
-      'font-family': "'Prompt', sans-serif",
-      'text-anchor': 'middle',
-      'dominant-baseline': 'central'
-    }, mInfo.en.split(' ')[0]));
-
-    svg.appendChild(gText);
-  }
-
-  // ── 2. RING 2: 16 SPIRITS / 十六神 (r: 305 -> 360) ──
-  const degPer16 = 360 / 16;
-  for (let i = 0; i < 16; i++) {
-    const startA = i * degPer16;
-    const endA = (i + 1) * degPer16;
-    const midA = startA + degPer16 / 2;
-    const isEven = i % 2 === 0;
-
-    // Dark Silver / Slate alternating ring background
-    svg.appendChild(createSvgElement('path', {
-      d: describeArc(CX, CY, 305, 360, startA, endA),
-      fill: isEven ? '#334155' : '#475569',
-      stroke: '#cbd5e1',
-      'stroke-width': '1.2'
-    }));
-
-    const pt = polarToCartesian(CX, CY, 332.5, midA);
-    svg.appendChild(createSvgElement('text', {
-      x: pt.x, y: pt.y,
-      fill: '#ffffff',
-      'font-size': '18',
-      'font-weight': '500',
-      'font-family': "'Ma Shan Zheng', 'Prompt', serif",
-      'text-anchor': 'middle',
-      'dominant-baseline': 'central',
-      transform: `rotate(${midA}, ${pt.x}, ${pt.y})`
-    }, SPIRITS16[i]));
-  }
-
-  // ── 3. RING 3: 16 PALACES + DEITIES & GENERALS (r: 175 -> 305) (Rich Dark Colors) ──
-  for (let i = 0; i < 16; i++) {
-    const startA = i * degPer16;
-    const endA = (i + 1) * degPer16;
-    const midA = startA + degPer16 / 2;
-    const palName = PAL16[i];
-    const palColor = PAL_COLORS_RICH[palName] || '#1e293b';
-    const pInfo = PAL16_INFO[palName] || { en: palName, th: palName };
-
-    // Palace Slice Background (Rich Dark Vibrant Color)
-    svg.appendChild(createSvgElement('path', {
-      d: describeArc(CX, CY, 175, 305, startA, endA),
-      fill: palColor,
-      stroke: '#ffffff',
-      'stroke-width': '1.5'
-    }));
-
-    // Palace Label (23px Chinese + 12px Subtitle with High Contrast White text)
-    const ptPal = polarToCartesian(CX, CY, 280, midA);
-    const gPal = createSvgElement('g', {
-      transform: `rotate(${midA}, ${ptPal.x}, ${ptPal.y})`
-    });
-
-    gPal.appendChild(createSvgElement('text', {
-      x: ptPal.x, y: ptPal.y - 5,
-      fill: '#ffffff',
-      'font-size': '23',
-      'font-weight': '500',
-      'font-family': "'Ma Shan Zheng', serif",
-      'text-anchor': 'middle',
-      'dominant-baseline': 'central'
-    }, palName));
-
-    gPal.appendChild(createSvgElement('text', {
-      x: ptPal.x, y: ptPal.y + 12,
-      fill: '#fef3c7',
-      'font-size': '12',
-      'font-weight': '400',
-      'font-family': "'Prompt', sans-serif",
-      'text-anchor': 'middle',
-      'dominant-baseline': 'central'
-    }, pInfo.en));
-
-    svg.appendChild(gPal);
-
-    // Spirits inside this palace slice (Badges width: 70, height: 32, font-size: 14.5px/10px)
-    const spirits = data.palaceSpirits[palName] || [];
-    if (spirits.length > 0) {
-      const startRadius = 246;
-      spirits.slice(0, 3).forEach((sp, sIdx) => {
-        const spRadius = startRadius - (sIdx * 33);
-        const spPt = polarToCartesian(CX, CY, spRadius, midA);
-
-        // Badge pill (Width 70px, Height 32px, rounded rx: 6)
-        svg.appendChild(createSvgElement('rect', {
-          x: spPt.x - 35,
-          y: spPt.y - 16,
-          width: 70,
-          height: 32,
-          rx: 6,
-          fill: sp.bg,
+        // Sector Arc
+        svg.appendChild(createSvgElement('path', {
+          d: describeArc(CX, CY, 360, 425, startA, endA),
+          fill: color,
           stroke: '#ffffff',
-          'stroke-width': '1.8',
-          transform: `rotate(${midA}, ${spPt.x}, ${spPt.y})`
+          'stroke-width': '1.5'
         }));
 
-        const gSp = createSvgElement('g', {
-          transform: `rotate(${midA}, ${spPt.x}, ${spPt.y})`
+        // Mansion Text (3 lines: Chinese, English, Thai)
+        const pt = polarToCartesian(CX, CY, 392, midA);
+        const gText = createSvgElement('g', {
+          transform: `rotate(${midA}, ${pt.x}, ${pt.y})`
         });
 
-        gSp.appendChild(createSvgElement('text', {
-          x: spPt.x,
-          y: spPt.y - 4,
+        // Chinese Name
+        gText.appendChild(createSvgElement('text', {
+          x: pt.x, y: pt.y - 13,
           fill: '#ffffff',
-          'font-size': '14.5',
+          'font-size': '17',
           'font-weight': '500',
           'font-family': "'Ma Shan Zheng', serif",
           'text-anchor': 'middle',
           'dominant-baseline': 'central'
-        }, sp.name));
+        }, mansionName));
 
-        gSp.appendChild(createSvgElement('text', {
-          x: spPt.x,
-          y: spPt.y + 9,
+        // English Pinyin
+        gText.appendChild(createSvgElement('text', {
+          x: pt.x, y: pt.y + 1,
           fill: '#ffffff',
-          'font-size': '10',
+          'font-size': '9.5',
+          'font-weight': '400',
+          'font-family': "'Prompt', sans-serif",
+          'text-anchor': 'middle',
+          'opacity': '0.9',
+          'dominant-baseline': 'central'
+        }, mInfo.en.split(' ')[0]));
+
+        // Thai Name
+        gText.appendChild(createSvgElement('text', {
+          x: pt.x, y: pt.y + 14,
+          fill: '#fef3c7',
+          'font-size': '10.5',
+          'font-weight': '500',
+          'font-family': "'Prompt', sans-serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, mInfo.th.split(' ')[0]));
+
+        svg.appendChild(gText);
+      }
+
+      // ── 2. RING 2: 16 SPIRITS / 十六神 (r: 305 -> 360) ──
+      const degPer16 = 360 / 16;
+      for (let i = 0; i < 16; i++) {
+        const startA = i * degPer16;
+        const endA = (i + 1) * degPer16;
+        const midA = startA + degPer16 / 2;
+        const isEven = i % 2 === 0;
+        const spName = SPIRITS16[i];
+        const spInfo = SPIRITS16_INFO[spName] || { en: spName, th: spName };
+
+        // Dark Silver / Slate alternating ring background
+        svg.appendChild(createSvgElement('path', {
+          d: describeArc(CX, CY, 305, 360, startA, endA),
+          fill: isEven ? '#334155' : '#475569',
+          stroke: '#cbd5e1',
+          'stroke-width': '1.2'
+        }));
+
+        const pt = polarToCartesian(CX, CY, 332.5, midA);
+        const gSp16 = createSvgElement('g', {
+          transform: `rotate(${midA}, ${pt.x}, ${pt.y})`
+        });
+
+        // 16 Spirit Chinese Name
+        gSp16.appendChild(createSvgElement('text', {
+          x: pt.x, y: pt.y - 8,
+          fill: '#ffffff',
+          'font-size': '16',
+          'font-weight': '500',
+          'font-family': "'Ma Shan Zheng', serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, spName));
+
+        // 16 Spirit Thai Name
+        gSp16.appendChild(createSvgElement('text', {
+          x: pt.x, y: pt.y + 10,
+          fill: '#fef3c7',
+          'font-size': '11',
+          'font-weight': '400',
+          'font-family': "'Prompt', sans-serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, spInfo.th));
+
+        svg.appendChild(gSp16);
+      }
+
+      // ── 3. RING 3: 16 PALACES + DEITIES & GENERALS (r: 175 -> 305) (Rich Dark Colors) ──
+      for (let i = 0; i < 16; i++) {
+        const startA = i * degPer16;
+        const endA = (i + 1) * degPer16;
+        const midA = startA + degPer16 / 2;
+        const palName = PAL16[i];
+        const palColor = PAL_COLORS_RICH[palName] || '#1e293b';
+        const pInfo = PAL16_INFO[palName] || { en: palName, th: palName };
+
+        // Palace Slice Background (Rich Dark Vibrant Color)
+        svg.appendChild(createSvgElement('path', {
+          d: describeArc(CX, CY, 175, 305, startA, endA),
+          fill: palColor,
+          stroke: '#ffffff',
+          'stroke-width': '1.5'
+        }));
+
+        // Palace Label (23px Chinese + 12px Subtitle with High Contrast White text)
+        const ptPal = polarToCartesian(CX, CY, 280, midA);
+        const gPal = createSvgElement('g', {
+          transform: `rotate(${midA}, ${ptPal.x}, ${ptPal.y})`
+        });
+
+        gPal.appendChild(createSvgElement('text', {
+          x: ptPal.x, y: ptPal.y - 5,
+          fill: '#ffffff',
+          'font-size': '23',
+          'font-weight': '500',
+          'font-family': "'Ma Shan Zheng', serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, palName));
+
+        gPal.appendChild(createSvgElement('text', {
+          x: ptPal.x, y: ptPal.y + 12,
+          fill: '#fef3c7',
+          'font-size': '11.5',
+          'font-weight': '400',
+          'font-family': "'Prompt', sans-serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, `${pInfo.en.split(' ')[0]} (${pInfo.th})`));
+
+        svg.appendChild(gPal);
+
+        // Spirits inside this palace slice (Badges width: 70, height: 32, font-size: 14.5px/10px)
+        const spirits = data.palaceSpirits[palName] || [];
+        if (spirits.length > 0) {
+          const startRadius = 246;
+          spirits.slice(0, 3).forEach((sp, sIdx) => {
+            const spRadius = startRadius - (sIdx * 33);
+            const spPt = polarToCartesian(CX, CY, spRadius, midA);
+
+            // Badge pill (Width 70px, Height 32px, rounded rx: 6)
+            svg.appendChild(createSvgElement('rect', {
+              x: spPt.x - 35,
+              y: spPt.y - 16,
+              width: 70,
+              height: 32,
+              rx: 6,
+              fill: sp.bg,
+              stroke: '#ffffff',
+              'stroke-width': '1.8',
+              transform: `rotate(${midA}, ${spPt.x}, ${spPt.y})`
+            }));
+
+            const gSp = createSvgElement('g', {
+              transform: `rotate(${midA}, ${spPt.x}, ${spPt.y})`
+            });
+
+            gSp.appendChild(createSvgElement('text', {
+              x: spPt.x,
+              y: spPt.y - 4,
+              fill: '#ffffff',
+              'font-size': '14.5',
+              'font-weight': '500',
+              'font-family': "'Ma Shan Zheng', serif",
+              'text-anchor': 'middle',
+              'dominant-baseline': 'central'
+            }, sp.name));
+
+            gSp.appendChild(createSvgElement('text', {
+              x: spPt.x,
+              y: spPt.y + 9,
+              fill: '#ffffff',
+              'font-size': '10',
+              'font-weight': '400',
+              'font-family': "'Prompt', sans-serif",
+              'text-anchor': 'middle',
+              'opacity': '0.95',
+              'dominant-baseline': 'central'
+            }, sp.th || sp.en || sp.name));
+
+            svg.appendChild(gSp);
+          });
+        }
+      }
+
+      // ── 4. RING 4: EIGHT GATES / 八門 (r: 100 -> 175) (Rich Vibrant Gates) ──
+      const degPerGate = 360 / 8;
+      for (let i = 0; i < 8; i++) {
+        const startA = i * degPerGate;
+        const endA = (i + 1) * degPerGate;
+        const midA = startA + degPerGate / 2;
+        const gateName = GATES8[i];
+        const gateColor = GATES_COLORS_VIBRANT[gateName] || '#d97706';
+        const gInfo = GATES8_INFO[gateName] || { en: gateName, th: gateName };
+
+        svg.appendChild(createSvgElement('path', {
+          d: describeArc(CX, CY, 100, 175, startA, endA),
+          fill: gateColor,
+          stroke: '#ffffff',
+          'stroke-width': '2'
+        }));
+
+        const ptGate = polarToCartesian(CX, CY, 137.5, midA);
+        const gGateText = createSvgElement('g', {
+          transform: `rotate(${midA}, ${ptGate.x}, ${ptGate.y})`
+        });
+
+        // Gate Chinese Name (Line 1: Font size 20px)
+        gGateText.appendChild(createSvgElement('text', {
+          x: ptGate.x, y: ptGate.y - 18,
+          fill: '#ffffff',
+          'font-size': '20',
+          'font-weight': '500',
+          'font-family': "'Ma Shan Zheng', serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, gateName));
+
+        // Gate English Name (Line 2: Font size 10.5px)
+        gGateText.appendChild(createSvgElement('text', {
+          x: ptGate.x, y: ptGate.y,
+          fill: '#ffffff',
+          'font-size': '10.5',
           'font-weight': '400',
           'font-family': "'Prompt', sans-serif",
           'text-anchor': 'middle',
           'opacity': '0.95',
           'dominant-baseline': 'central'
-        }, sp.en || sp.name));
+        }, gInfo.en));
 
-        svg.appendChild(gSp);
-      });
+        // Gate Thai Name (Line 3: Font size 11px)
+        gGateText.appendChild(createSvgElement('text', {
+          x: ptGate.x, y: ptGate.y + 16,
+          fill: '#fef3c7',
+          'font-size': '11',
+          'font-weight': '500',
+          'font-family': "'Prompt', sans-serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, gInfo.th.split(' ')[0]));
+
+        svg.appendChild(gGateText);
+      }
+
+      // ── 5. CENTER CORE CIRCLE (r: 100) ──
+      svg.appendChild(createSvgElement('circle', {
+        cx: CX, cy: CY, r: 100,
+        fill: 'url(#centerGlowLight)',
+        stroke: '#d97706',
+        'stroke-width': '3'
+      }));
+
+      // Inner decorative dashed ring
+      svg.appendChild(createSvgElement('circle', {
+        cx: CX, cy: CY, r: 88,
+        fill: 'none',
+        stroke: '#b45309',
+        'stroke-width': '1.5',
+        'stroke-dasharray': '5,4'
+      }));
+
+      // Center text group with clipPath to prevent overflow
+      const dunThai = data.yy === '陽' ? 'หยางตุน' : 'หยินตุน';
+      const dunLabel = `${dunThai} · รอบที่ ${data.juNum}`;
+      const yearLabel = `ปีสะสม ${data.chYear}`;
+
+      const centerGroup = createSvgElement('g', { 'clip-path': 'url(#centerClip)' });
+
+      // 五福 (ห้าพร / ห้ามงคล)
+      centerGroup.appendChild(createSvgElement('text', {
+        x: CX, y: CY - 38,
+        fill: '#78350f',
+        'font-size': '26',
+        'font-weight': '500',
+        'font-family': "'Ma Shan Zheng', serif",
+        'text-anchor': 'middle',
+        'dominant-baseline': 'central'
+      }, '五福'));
+
+      // Thai translation of 五福
+      centerGroup.appendChild(createSvgElement('text', {
+        x: CX, y: CY - 18,
+        fill: '#78350f',
+        'font-size': '10',
+        'font-weight': '500',
+        'font-family': "'Prompt', sans-serif",
+        'text-anchor': 'middle',
+        'dominant-baseline': 'central'
+      }, 'ห้ามงคล (Five Blessings)'));
+
+      // Separator line
+      centerGroup.appendChild(createSvgElement('line', {
+        x1: CX - 55, y1: CY - 5, x2: CX + 55, y2: CY - 5,
+        stroke: '#d97706', 'stroke-width': '1', opacity: '0.5'
+      }));
+
+      // หยางตุน / หยินตุน · รอบที่ N
+      centerGroup.appendChild(createSvgElement('text', {
+        x: CX, y: CY + 12,
+        fill: '#b45309',
+        'font-size': '11',
+        'font-weight': '600',
+        'font-family': "'Prompt', sans-serif",
+        'text-anchor': 'middle',
+        'dominant-baseline': 'central'
+      }, dunLabel));
+
+      // ปีสะสม XXXX
+      centerGroup.appendChild(createSvgElement('text', {
+        x: CX, y: CY + 30,
+        fill: '#64748b',
+        'font-size': '9.5',
+        'font-weight': '400',
+        'font-family': "'Prompt', sans-serif",
+        'text-anchor': 'middle',
+        'dominant-baseline': 'central'
+      }, yearLabel));
+
+      // Year in Chinese calendar label
+      centerGroup.appendChild(createSvgElement('text', {
+        x: CX, y: CY + 47,
+        fill: '#94a3b8',
+        'font-size': '9',
+        'font-weight': '400',
+        'font-family': "'Prompt', sans-serif",
+        'text-anchor': 'middle',
+        'dominant-baseline': 'central'
+      }, `(Year ${data.chYear})`));
+
+      svg.appendChild(centerGroup);
     }
-  }
 
-  // ── 4. RING 4: EIGHT GATES / 八門 (r: 100 -> 175) (Rich Vibrant Gates) ──
-  const degPerGate = 360 / 8;
-  for (let i = 0; i < 8; i++) {
-    const startA = i * degPerGate;
-    const endA = (i + 1) * degPerGate;
-    const midA = startA + degPerGate / 2;
-    const gateName = GATES8[i];
-    const gateColor = GATES_COLORS_VIBRANT[gateName] || '#d97706';
-    const gInfo = GATES8_INFO[gateName] || { en: gateName, th: gateName };
+    // ═══════════════════════════════════════════════════════════════
+    //  UI DATA BINDING & VIEW SWITCHING
+    // ═══════════════════════════════════════════════════════════════
+    let currentData = null;
 
-    svg.appendChild(createSvgElement('path', {
-      d: describeArc(CX, CY, 100, 175, startA, endA),
-      fill: gateColor,
-      stroke: '#ffffff',
-      'stroke-width': '2'
-    }));
+    function updateAllViews(data) {
+      currentData = data;
 
-    const ptGate = polarToCartesian(CX, CY, 137.5, midA);
-    const gGateText = createSvgElement('g', {
-      transform: `rotate(${midA}, ${ptGate.x}, ${ptGate.y})`
-    });
+      // 1. Top Badges
+      document.getElementById('topZhu').textContent = data.zhu;
+      document.getElementById('topKe').textContent = data.ke;
+      document.getElementById('topDing').textContent = data.ding;
 
-    // Gate Chinese Name (Font size 22px)
-    gGateText.appendChild(createSvgElement('text', {
-      x: ptGate.x, y: ptGate.y - 7,
-      fill: '#ffffff',
-      'font-size': '22',
-      'font-weight': '500',
-      'font-family': "'Ma Shan Zheng', serif",
-      'text-anchor': 'middle',
-      'dominant-baseline': 'central'
-    }, gateName));
+      // 2. Summary Card
+      document.getElementById('sumJu').textContent = `${data.yy}遁 局 ${data.juNum} (${data.yy === '陽' ? 'Yang Dun' : 'Yin Dun'} Ju ${data.juNum})`;
+      document.getElementById('sumTaiyi').textContent = `${data.posTaiyi} 宮 (${PAL16_INFO[data.posTaiyi]?.th || data.posTaiyi})`;
+      document.getElementById('sumWenchang').textContent = `${data.posWenchang} 宮 (${PAL16_INFO[data.posWenchang]?.th || data.posWenchang})`;
+      document.getElementById('sumShiji').textContent = `${data.posShiji} 宮 (${PAL16_INFO[data.posShiji]?.th || data.posShiji})`;
+      document.getElementById('sumWinner').textContent = `${data.winner} (${data.winDesc})`;
 
-    // Gate English + Thai (Font size 11.5px)
-    gGateText.appendChild(createSvgElement('text', {
-      x: ptGate.x, y: ptGate.y + 11,
-      fill: '#ffffff',
-      'font-size': '11.5',
-      'font-weight': '400',
-      'font-family': "'Prompt', sans-serif",
-      'text-anchor': 'middle',
-      'opacity': '0.95',
-      'dominant-baseline': 'central'
-    }, `${gInfo.en} · ${gInfo.th.split(' ')[0]}`));
+      // 3. Render Circular Wheel
+      renderTaiyiWheel(data);
 
-    svg.appendChild(gGateText);
-  }
-
-  // ── 5. CENTER CORE CIRCLE (r: 100) (Fully rendered, no clipping) ──
-  svg.appendChild(createSvgElement('circle', {
-    cx: CX, cy: CY, r: 100,
-    fill: 'url(#centerGlowLight)',
-    stroke: '#d97706',
-    'stroke-width': '3'
-  }));
-
-  // Inner decorative dashed ring
-  svg.appendChild(createSvgElement('circle', {
-    cx: CX, cy: CY, r: 88,
-    fill: 'none',
-    stroke: '#b45309',
-    'stroke-width': '1.5',
-    'stroke-dasharray': '5,4'
-  }));
-
-  // Center Labels (Large & Clear)
-  svg.appendChild(createSvgElement('text', {
-    x: CX, y: CY - 24,
-    fill: '#78350f',
-    'font-size': '32',
-    'font-weight': '500',
-    'font-family': "'Ma Shan Zheng', serif",
-    'text-anchor': 'middle'
-  }, '五福'));
-
-  svg.appendChild(createSvgElement('text', {
-    x: CX, y: CY - 2,
-    fill: '#92400e',
-    'font-size': '13',
-    'font-weight': '400',
-    'font-family': "'Prompt', sans-serif",
-    'text-anchor': 'middle'
-  }, 'Five Blessings · เบญจพร'));
-
-  svg.appendChild(createSvgElement('text', {
-    x: CX, y: CY + 20,
-    fill: '#b45309',
-    'font-size': '17',
-    'font-weight': '500',
-    'font-family': "'Prompt', sans-serif",
-    'text-anchor': 'middle'
-  }, `${data.yy}遁 · 局 ${data.juNum}`));
-
-  svg.appendChild(createSvgElement('text', {
-    x: CX, y: CY + 38,
-    fill: '#64748b',
-    'font-size': '12',
-    'font-weight': '400',
-    'font-family': "'Prompt', sans-serif",
-    'text-anchor': 'middle'
-  }, `積年 ${data.chYear} (Year ${data.chYear})`));
-}
-
-// ═══════════════════════════════════════════════════════════════
-//  UI DATA BINDING & VIEW SWITCHING
-// ═══════════════════════════════════════════════════════════════
-let currentData = null;
-
-function updateAllViews(data) {
-  currentData = data;
-
-  // 1. Top Badges
-  document.getElementById('topZhu').textContent = data.zhu;
-  document.getElementById('topKe').textContent = data.ke;
-  document.getElementById('topDing').textContent = data.ding;
-
-  // 2. Summary Card
-  document.getElementById('sumJu').textContent = `${data.yy}遁 局 ${data.juNum} (${data.yy === '陽' ? 'Yang Dun' : 'Yin Dun'} Ju ${data.juNum})`;
-  document.getElementById('sumTaiyi').textContent = `${data.posTaiyi} 宮 (${PAL16_INFO[data.posTaiyi]?.th || data.posTaiyi})`;
-  document.getElementById('sumWenchang').textContent = `${data.posWenchang} 宮 (${PAL16_INFO[data.posWenchang]?.th || data.posWenchang})`;
-  document.getElementById('sumShiji').textContent = `${data.posShiji} 宮 (${PAL16_INFO[data.posShiji]?.th || data.posShiji})`;
-  document.getElementById('sumWinner').textContent = `${data.winner} (${data.winDesc})`;
-
-  // 3. Render Circular Wheel
-  renderTaiyiWheel(data);
-
-  // 4. Five Pillars
-  const pillars = [
-    { label: '年柱 (Year)', stem: data.yg.s, branch: data.yg.b, sub: `${data.yg.s}${data.yg.b}` },
-    { label: '月柱 (Month)', stem: data.mg.s, branch: data.mg.b, sub: `${data.mg.s}${data.mg.b}` },
-    { label: '日柱 (Day)', stem: data.dg.s, branch: data.dg.b, sub: `${data.dg.s}${data.dg.b}` },
-    { label: '時柱 (Hour)', stem: data.hg.s, branch: data.hg.b, sub: `${data.hg.s}${data.hg.b}` },
-    { label: '分柱 (Min)', stem: data.minGz.s, branch: data.minGz.b, sub: `${data.minGz.s}${data.minGz.b}` },
-  ];
-  document.getElementById('pillarsBoard').innerHTML = pillars.map(p => `
+      // 4. Five Pillars
+      const pillars = [
+        { label: '年柱 (Year)', stem: data.yg.s, branch: data.yg.b, sub: `${data.yg.s}${data.yg.b}` },
+        { label: '月柱 (Month)', stem: data.mg.s, branch: data.mg.b, sub: `${data.mg.s}${data.mg.b}` },
+        { label: '日柱 (Day)', stem: data.dg.s, branch: data.dg.b, sub: `${data.dg.s}${data.dg.b}` },
+        { label: '時柱 (Hour)', stem: data.hg.s, branch: data.hg.b, sub: `${data.hg.s}${data.hg.b}` },
+        { label: '分柱 (Min)', stem: data.minGz.s, branch: data.minGz.b, sub: `${data.minGz.s}${data.minGz.b}` },
+      ];
+      document.getElementById('pillarsBoard').innerHTML = pillars.map(p => `
     <div class="pillar-card">
       <div class="p-title">${p.label}</div>
       <div class="p-gz">
@@ -1392,17 +1592,17 @@ function updateAllViews(data) {
     </div>
   `).join('');
 
-  // 5. Matrix Table
-  const mBody = document.getElementById('matrixTableBody');
-  mBody.innerHTML = PAL16.map(p => {
-    const sps = (data.palaceSpirits[p] || []).map(s => `${s.name} (${s.th})`).join(', ') || '-';
-    const pInfo = PAL16_INFO[p] || { en: p, th: p };
-    const gate = GATES8[PAL16.indexOf(p) % 8];
-    const gateInfo = GATES8_INFO[gate] || { en: gate, th: gate };
-    const mansion = MANSIONS28[PAL16.indexOf(p) % 28];
-    const mansionInfo = MANSION_INFO[mansion] || { en: mansion, th: mansion };
+      // 5. Matrix Table
+      const mBody = document.getElementById('matrixTableBody');
+      mBody.innerHTML = PAL16.map(p => {
+        const sps = (data.palaceSpirits[p] || []).map(s => `${s.name} (${s.th})`).join(', ') || '-';
+        const pInfo = PAL16_INFO[p] || { en: p, th: p };
+        const gate = GATES8[PAL16.indexOf(p) % 8];
+        const gateInfo = GATES8_INFO[gate] || { en: gate, th: gate };
+        const mansion = MANSIONS28[PAL16.indexOf(p) % 28];
+        const mansionInfo = MANSION_INFO[mansion] || { en: mansion, th: mansion };
 
-    return `
+        return `
       <tr>
         <td style="color:var(--gold-light);">
           <span style="font-family:'Ma Shan Zheng', serif; font-size:18px;">${p}宮</span>
@@ -1414,22 +1614,22 @@ function updateAllViews(data) {
         <td><span>${mansion}宿</span> <br><small style="color:var(--text-dim);">${mansionInfo.en} · ${mansionInfo.th}</small></td>
       </tr>
     `;
-  }).join('');
+      }).join('');
 
-  // 6. Spirits Table
-  const sBody = document.getElementById('spiritsTableBody');
-  const spiritList = [
-    { name: '太乙 (Taiyi)', pos: data.posTaiyi, gua: '木 (Wood)', elem: '木', mean: 'ดาวจักรพรรดิสูงสุด ทรงพลัง บันดาลโชคลาภ ยศถาบรรดาศักดิ์ (Emperor Star · Supreme Power & Fortune)' },
-    { name: '文昌 (Wenchang)', pos: data.posWenchang, gua: '土 (Earth)', elem: '土', mean: 'ดาวสติปัญญา บารมี การศึกษา และชื่อเสียงความสำเร็จ (Wisdom & Intellect Star)' },
-    { name: '始擊 (Shiji)', pos: data.posShiji, gua: '火 (Fire)', elem: '火', mean: 'ดาวแม่ทัพหน้า การโจมตี การรุกราน รวดเร็วรุนแรง (Vanguard Officer · Attack & Action)' },
-    { name: '主將 (Host General)', pos: data.zhuJiang, gua: '金 (Metal)', elem: '金', mean: 'แม่ทัพใหญ่ฝ่ายตั้งรับ เจ้าบ้าน ผู้อยู่อาศัย (Host Commander · Defense)' },
-    { name: '客將 (Guest General)', pos: data.keJiang, gua: '水 (Water)', elem: '水', mean: 'แม่ทัพใหญ่ฝ่ายรุกราน ผู้มาเยือน ผู้ลงทุน (Guest Commander · Attack & Expansion)' },
-    { name: '天乙 (Tianyi)', pos: data.posTianyi, gua: '火 (Fire)', elem: '火', mean: 'เทพสวรรค์อุปถัมภ์ ป้องกันภัยพิบัติ คุ้มครองความปลอดภัย (Heavenly Benefactor)' },
-    { name: '地乙 (Diyi)', pos: data.posDiyi, gua: '土 (Earth)', elem: '土', mean: 'เทพพสุธา ความอุดมสมบูรณ์ มั่นคง ปลอดภัย (Earthly Protector)' },
-    { name: '四神 (Four Gods)', pos: data.posFourGod, gua: '水 (Water)', elem: '水', mean: 'จตุรเทพคุ้มครองสี่ทิศ เสริมสิริมงคล (Four Guardian Deities)' },
-    { name: '直符 (Zhifu)', pos: data.posZhifu, gua: '金 (Metal)', elem: '金', mean: 'ผู้คุมกฎแห่งสวรรค์ ชี้ขาดความยุติธรรมและกฎหมาย (Law Enforcer & Justice)' },
-  ];
-  sBody.innerHTML = spiritList.map(s => `
+      // 6. Spirits Table
+      const sBody = document.getElementById('spiritsTableBody');
+      const spiritList = [
+        { name: '太乙 (Taiyi)', pos: data.posTaiyi, gua: '木 (Wood)', elem: '木', mean: 'ดาวจักรพรรดิสูงสุด ทรงพลัง บันดาลโชคลาภ ยศถาบรรดาศักดิ์ (Emperor Star · Supreme Power & Fortune)' },
+        { name: '文昌 (Wenchang)', pos: data.posWenchang, gua: '土 (Earth)', elem: '土', mean: 'ดาวสติปัญญา บารมี การศึกษา และชื่อเสียงความสำเร็จ (Wisdom & Intellect Star)' },
+        { name: '始擊 (Shiji)', pos: data.posShiji, gua: '火 (Fire)', elem: '火', mean: 'ดาวแม่ทัพหน้า การโจมตี การรุกราน รวดเร็วรุนแรง (Vanguard Officer · Attack & Action)' },
+        { name: '主將 (Host General)', pos: data.zhuJiang, gua: '金 (Metal)', elem: '金', mean: 'แม่ทัพใหญ่ฝ่ายตั้งรับ เจ้าบ้าน ผู้อยู่อาศัย (Host Commander · Defense)' },
+        { name: '客將 (Guest General)', pos: data.keJiang, gua: '水 (Water)', elem: '水', mean: 'แม่ทัพใหญ่ฝ่ายรุกราน ผู้มาเยือน ผู้ลงทุน (Guest Commander · Attack & Expansion)' },
+        { name: '天乙 (Tianyi)', pos: data.posTianyi, gua: '火 (Fire)', elem: '火', mean: 'เทพสวรรค์อุปถัมภ์ ป้องกันภัยพิบัติ คุ้มครองความปลอดภัย (Heavenly Benefactor)' },
+        { name: '地乙 (Diyi)', pos: data.posDiyi, gua: '土 (Earth)', elem: '土', mean: 'เทพพสุธา ความอุดมสมบูรณ์ มั่นคง ปลอดภัย (Earthly Protector)' },
+        { name: '四神 (Four Gods)', pos: data.posFourGod, gua: '水 (Water)', elem: '水', mean: 'จตุรเทพคุ้มครองสี่ทิศ เสริมสิริมงคล (Four Guardian Deities)' },
+        { name: '直符 (Zhifu)', pos: data.posZhifu, gua: '金 (Metal)', elem: '金', mean: 'ผู้คุมกฎแห่งสวรรค์ ชี้ขาดความยุติธรรมและกฎหมาย (Law Enforcer & Justice)' },
+      ];
+      sBody.innerHTML = spiritList.map(s => `
     <tr>
       <td style="color:var(--gold-light);">${s.name}</td>
       <td style="font-family:'Ma Shan Zheng', serif; font-size:18px;">${s.pos}宮 (${PAL16_INFO[s.pos]?.th || s.pos})</td>
@@ -1439,42 +1639,42 @@ function updateAllViews(data) {
     </tr>
   `).join('');
 
-  // 7. Strategy Content
-  document.getElementById('strategyContent').innerHTML = `
+      // 7. Strategy Content
+      document.getElementById('strategyContent').innerHTML = `
     <p><span>主算 (Host Count):</span> ${data.zhu} | <span>客算 (Guest Count):</span> ${data.ke} | <span>定算 (Fixed Count):</span> ${data.ding}</p>
     <p style="margin-top:12px; font-size:16px; color:${data.zhu > data.ke ? '#1d4ed8' : data.zhu < data.ke ? '#b91c1c' : '#b45309'};">
       <span>ผลพยากรณ์ยุทธศาสตร์ (Battle Prediction): ${data.winner} (${data.winDesc})</span>
     </p>
     <p style="margin-top:10px; line-height:1.8;">
       ${data.zhu > data.ke
-        ? '<span>คำแนะนำบทสรุป (Host Advantage):</span> ฝ่ายตั้งรับหรือเจ้าบ้านมีกำลังเหนือกว่า เหมาะแก่การตั้งมั่น รักษาสถานะ ป้องกันฐานที่มั่นอย่างรัดกุม ไม่ควรเคลื่อนไหวบุ่มบ่าม (Focus on defense, stability, and holding current positions).'
-        : data.zhu < data.ke
-        ? '<span>คำแนะนำบทสรุป (Guest Advantage):</span> ฝ่ายรุกหรือผู้มาเยือนได้เปรียบอย่างยิ่ง เหมาะแก่การรุกคืบ ขยายกิจการ เจรจาต่อรอง และริเริ่มสิ่งใหม่ (Favorable for expansion, negotiation, launching new endeavors, and proactive action).'
-        : '<span>คำแนะนำบทสรุป (Balanced State):</span> กำลังทั้งสองฝ่ายทัดเทียมกัน ควรอดทน รอคอยโอกาสและจังหวะที่เหมาะสม ไม่ควรรีบตัดสินใจ (Both sides are balanced; wait for optimal timing).'}
+          ? '<span>คำแนะนำบทสรุป (Host Advantage):</span> ฝ่ายตั้งรับหรือเจ้าบ้านมีกำลังเหนือกว่า เหมาะแก่การตั้งมั่น รักษาสถานะ ป้องกันฐานที่มั่นอย่างรัดกุม ไม่ควรเคลื่อนไหวบุ่มบ่าม (Focus on defense, stability, and holding current positions).'
+          : data.zhu < data.ke
+            ? '<span>คำแนะนำบทสรุป (Guest Advantage):</span> ฝ่ายรุกหรือผู้มาเยือนได้เปรียบอย่างยิ่ง เหมาะแก่การรุกคืบ ขยายกิจการ เจรจาต่อรอง และริเริ่มสิ่งใหม่ (Favorable for expansion, negotiation, launching new endeavors, and proactive action).'
+            : '<span>คำแนะนำบทสรุป (Balanced State):</span> กำลังทั้งสองฝ่ายทัดเทียมกัน ควรอดทน รอคอยโอกาสและจังหวะที่เหมาะสม ไม่ควรรีบตัดสินใจ (Both sides are balanced; wait for optimal timing).'}
     </p>
   `;
 
-  // 8. 28 Mansions Table
-  document.getElementById('mansionsTableBody').innerHTML = MANSIONS28.map((m, idx) => {
-    const mInfo = MANSION_INFO[m] || { en: m, th: m };
-    return `
+      // 8. 28 Mansions Table
+      document.getElementById('mansionsTableBody').innerHTML = MANSIONS28.map((m, idx) => {
+        const mInfo = MANSION_INFO[m] || { en: m, th: m };
+        return `
       <tr>
         <td style="color:var(--gold-light);">
           <span style="font-family:'Ma Shan Zheng', serif; font-size:18px;">${m}宿</span>
           <br><small style="color:var(--text-dim);">${mInfo.en} · ${mInfo.th}</small>
         </td>
         <td>${idx < 7 ? '北方玄武 (Black Tortoise · North)' : idx < 14 ? '西方白虎 (White Tiger · West)' : idx < 21 ? '南方朱雀 (Vermilion Bird · South)' : '東方青龍 (Azure Dragon · East)'}</td>
-        <td>${['水 (Water)','火 (Fire)','木 (Wood)','金 (Metal)','土 (Earth)'][idx % 5]}</td>
+        <td>${['水 (Water)', '火 (Fire)', '木 (Wood)', '金 (Metal)', '土 (Earth)'][idx % 5]}</td>
         <td><span style="color:${idx % 3 === 0 ? '#15803d' : idx % 3 === 1 ? '#2563eb' : '#b45309'};">${idx % 3 === 0 ? '大吉 (Great Auspicious)' : idx % 3 === 1 ? '吉 (Auspicious)' : '平 (Neutral)'}</span></td>
         <td>${m}宿值日: 宜立業、動土、嫁娶、出行。 (เหมาะแก่การสร้างธุรกิจ ทำบุญ มงคลสมรส เดินทาง)</td>
       </tr>
     `;
-  }).join('');
+      }).join('');
 
-  // 9. Eight Gates Table
-  document.getElementById('gatesTableBody').innerHTML = GATES8.map(g => {
-    const gInfo = GATES8_INFO[g] || { en: g, th: g };
-    return `
+      // 9. Eight Gates Table
+      document.getElementById('gatesTableBody').innerHTML = GATES8.map(g => {
+        const gInfo = GATES8_INFO[g] || { en: g, th: g };
+        return `
       <tr>
         <td style="color:var(--gold-light);">
           <span style="font-family:'Ma Shan Zheng', serif; font-size:18px;">${g}</span>
@@ -1486,81 +1686,82 @@ function updateAllViews(data) {
         <td>${g === '開門' ? 'เปิดกิจการ เริ่มต้นงานใหม่ สมัครงาน เข้าพบผู้ใหญ่ (Open business, new initiatives)' : g === '生門' ? 'ค้าขาย การเงิน ลงทุน หาลาภผล (Commerce, investment, fortune)' : 'ศึกษาค้นคว้า วางแผน พักผ่อน (Research, planning, rest)'}</td>
       </tr>
     `;
-  }).join('');
+      }).join('');
 
-  // 10. Full & AI Analysis Content
-  document.getElementById('fullReportContent').innerHTML = `
+      // 10. Full & AI Analysis Content
+      document.getElementById('fullReportContent').innerHTML = `
     <p><span>วันเวลาคำนวณ (Calculation Date & Time):</span> ${data.year}年 ${data.month}月 ${data.day}日 ${data.hour}:${data.minute}</p>
     <p><span>กานจือห้าเสา (Five Pillars GanZhi):</span> ${data.yg.s}${data.yg.b}年 · ${data.mg.s}${data.mg.b}月 · ${data.dg.s}${data.dg.b}日 · ${data.hg.s}${data.hg.b}時 · ${data.minGz.s}${data.minGz.b}分</p>
     <p><span>ระบบไท่ยี่ (Taiyi System):</span> ${data.yy}遁 · 局 ${data.juNum} · 積年 ${data.chYear} (${data.yy === '陽' ? 'Yang Dun' : 'Yin Dun'} Ju ${data.juNum})</p>
     <p><span>ตำแหน่งเทพสำคัญ (Key Deities Palaces):</span> 太乙居${data.posTaiyi}宮, 文昌居${data.posWenchang}宮, 始擊居${data.posShiji}宮</p>
   `;
 
-  document.getElementById('aiAnalysisContent').innerHTML = `
+      document.getElementById('aiAnalysisContent').innerHTML = `
     <p><span>🌟 บทวิเคราะห์สังเคราะห์จาก AI (AI Board Analysis):</span></p>
     <p style="margin-top:8px;">ผังดวงไท่ยี่นี้อยู่ในช่วง <b>${data.yy}遁 局ที่ ${data.juNum}</b> พลังงานแห่งไท่ยี่สถิต ณ <b>${data.posTaiyi}宮 (${PAL16_INFO[data.posTaiyi]?.th || data.posTaiyi})</b> ซึ่งส่งผลให้ทิศทางพลังงานมงคลหลักหมุนเวียนอย่างทรงพลังในทิศทางดังกล่าว</p>
     <p style="margin-top:6px;">ในด้านยุทธศาสตร์และธุรกิจ <b>主算 (${data.zhu}) ปะทะ 客算 (${data.ke})</b> สรุปผลเป็น <b>${data.winner}</b> (${data.winDesc}) แนะนำให้ดำเนินกลยุทธ์ตามแนวทางที่เหมาะสมเพื่อดึงดูดพลังงานมงคลสูงสุด</p>
   `;
-}
+    }
 
-// ═══════════════════════════════════════════════════════════════
-//  EVENT LISTENERS & STARTUP
-// ═══════════════════════════════════════════════════════════════
-function runCalculation() {
-  const y = parseInt(document.getElementById('inp-year').value) || 2026;
-  const m = parseInt(document.getElementById('inp-month').value) || 4;
-  const d = parseInt(document.getElementById('inp-day').value) || 9;
-  const h = parseInt(document.getElementById('inp-hour').value) || 12;
-  const min = parseInt(document.getElementById('inp-min').value) || 59;
-  const mode = parseInt(document.getElementById('sel-mode').value) || 3;
-  const method = parseInt(document.getElementById('sel-method').value) || 0;
+    // ═══════════════════════════════════════════════════════════════
+    //  EVENT LISTENERS & STARTUP
+    // ═══════════════════════════════════════════════════════════════
+    function runCalculation() {
+      const y = parseInt(document.getElementById('inp-year').value) || 2026;
+      const m = parseInt(document.getElementById('inp-month').value) || 4;
+      const d = parseInt(document.getElementById('inp-day').value) || 9;
+      const h = parseInt(document.getElementById('inp-hour').value) || 12;
+      const min = parseInt(document.getElementById('inp-min').value) || 59;
+      const mode = parseInt(document.getElementById('sel-mode').value) || 3;
+      const method = parseInt(document.getElementById('sel-method').value) || 0;
 
-  const res = calculateTaiyiBoard(y, m, d, h, min, mode, method);
-  updateAllViews(res);
-}
+      const res = calculateTaiyiBoard(y, m, d, h, min, mode, method);
+      updateAllViews(res);
+    }
 
-// Button Click
-document.getElementById('btnCalculate').addEventListener('click', runCalculation);
+    // Button Click
+    document.getElementById('btnCalculate').addEventListener('click', runCalculation);
 
-// Tab Switching
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
-    
-    this.classList.add('active');
-    const viewId = 'view-' + this.dataset.view;
-    const targetPanel = document.getElementById(viewId);
-    if (targetPanel) targetPanel.classList.add('active');
-  });
-});
+    // Tab Switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
 
-// Sync Now Button
-document.getElementById('btnSyncNow').addEventListener('click', () => {
-  const now = new Date();
-  document.getElementById('inp-year').value = now.getFullYear();
-  document.getElementById('inp-month').value = now.getMonth() + 1;
-  document.getElementById('inp-day').value = now.getDate();
-  document.getElementById('inp-hour').value = now.getHours();
-  document.getElementById('inp-min').value = now.getMinutes();
-  runCalculation();
-});
+        this.classList.add('active');
+        const viewId = 'view-' + this.dataset.view;
+        const targetPanel = document.getElementById(viewId);
+        if (targetPanel) targetPanel.classList.add('active');
+      });
+    });
 
-// Gender Buttons
-document.querySelectorAll('.gender-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-  });
-});
+    // Sync Now Button
+    document.getElementById('btnSyncNow').addEventListener('click', () => {
+      const now = new Date();
+      document.getElementById('inp-year').value = now.getFullYear();
+      document.getElementById('inp-month').value = now.getMonth() + 1;
+      document.getElementById('inp-day').value = now.getDate();
+      document.getElementById('inp-hour').value = now.getHours();
+      document.getElementById('inp-min').value = now.getMinutes();
+      runCalculation();
+    });
 
-// Global Trigger for parent iframe
-window.doCalc = runCalculation;
+    // Gender Buttons
+    document.querySelectorAll('.gender-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
 
-// Initial Calculation on Load
-window.addEventListener('load', () => {
-  runCalculation();
-});
-</script>
+    // Global Trigger for parent iframe
+    window.doCalc = runCalculation;
+
+    // Initial Calculation on Load
+    window.addEventListener('load', () => {
+      runCalculation();
+    });
+  </script>
 </body>
+
 </html>

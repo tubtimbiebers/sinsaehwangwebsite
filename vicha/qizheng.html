@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>七政四餘 - Qī Zhèng Sì Yú Astrology (ซินแสหวาง)</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;500;600&family=Noto+Sans+Thai:wght@300;400;500;600&family=Ma+Shan+Zheng&family=Prompt:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      /* Bright Theme Palette (โทนสว่างภูมิฐาน) */
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --border-subtle: #cbd5e1;
+      --border-gold: #d97706;
+      --gold: #b45309;
+      --gold-light: #92400e;
+      --gold-grad: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      --blue-badge: #2563eb;
+      --red-badge: #dc2626;
+      --green-badge: #16a34a;
+      --yellow-badge: #ca8a04;
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --text-dim: #64748b;
+      --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Prompt', 'Noto Sans Thai', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      font-weight: 400;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-main);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold);
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      min-height: 100vh;
+    }
+
+    /* TOP INPUT HEADER PANEL */
+    .top-input-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .brand-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 10px;
+    }
+
+    .brand-logo-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--gold-grad);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-family: 'Ma Shan Zheng', serif;
+      font-size: 22px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(217, 119, 6, 0.3);
+    }
+
+    .brand-title-text h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .brand-title-text p {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    .header-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-back-home {
+      text-decoration: none;
+      color: var(--gold-light);
+      font-weight: 500;
+      font-size: 0.88rem;
+      padding: 6px 14px;
+      border: 1px solid var(--border-gold);
+      border-radius: 6px;
+      transition: all 0.2s;
+      background: #fffbeb;
+    }
+
+    .btn-back-home:hover {
+      background: var(--gold);
+      color: #ffffff;
+    }
+
+    /* INPUT FIELDS BAR */
+    .input-fields-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .form-group-compact {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-group-compact label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .input-control-compact {
+      padding: 7px 12px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-family: 'Prompt', sans-serif;
+      outline: none;
+      background: #f8fafc;
+      color: var(--text-main);
+      transition: border 0.2s;
+    }
+
+    .input-control-compact:focus {
+      border-color: var(--border-gold);
+      background: #ffffff;
+    }
+
+    .btn-calc-submit {
+      margin-left: auto;
+      padding: 9px 24px;
+      background: var(--gold-grad);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      font-family: 'Prompt', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(217, 119, 6, 0.3);
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-calc-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(217, 119, 6, 0.4);
+    }
+
+    /* TAB NAV BAR */
+    .view-tabs-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0 24px;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+    }
+
+    .tab-item {
+      padding: 12px 18px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab-item:hover {
+      color: var(--gold);
+    }
+
+    .tab-item.active {
+      color: var(--gold-light);
+      border-bottom-color: var(--border-gold);
+      font-weight: 600;
+    }
+
+    /* SUMMARY STATS STRIP */
+    .summary-strip {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-around;
+      gap: 16px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .summary-badge-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+    }
+
+    .summary-badge-label {
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+
+    .summary-badge-value {
+      font-weight: 600;
+      color: var(--text-main);
+      background: #f1f5f9;
+      padding: 3px 10px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* MAIN CONTENT VIEWPORT */
+    .main-viewport {
+      flex: 1;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 24px;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .view-panel {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .view-panel.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* WHEEL CONTAINER */
+    .wheel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 960px;
+      position: relative;
+    }
+
+    .wheel-svg-wrapper {
+      width: 100%;
+      max-width: 900px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+
+    /* TABLES & CARDS */
+    .text-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+      width: 100%;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .text-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-main);
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .info-table th,
+    .info-table td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .info-table th {
+      background: #f8fafc;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .info-table tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .badge-dignity {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .dignity-miao {
+      background: #dc2626;
+    }
+
+    .dignity-wang {
+      background: #d97706;
+    }
+
+    .dignity-xi {
+      background: #16a34a;
+    }
+
+    .dignity-le {
+      background: #2563eb;
+    }
+
+    .dignity-ping {
+      background: #64748b;
+    }
+
+    .dignity-xian {
+      background: #475569;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+      .top-input-header {
+        padding: 12px 16px;
+      }
+
+      .input-fields-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-calc-submit {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .main-viewport {
+        padding: 12px;
+      }
+
+      .wheel-card {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- ✦ TOP INPUT HEADER PANEL ✦ -->
+    <header class="top-input-header">
+      <div class="brand-header-top">
+        <div class="brand-logo-group">
+          <div class="brand-logo-icon">七</div>
+          <div class="brand-title-text">
+            <h1>七政四餘 - Qī Zhèng Sì Yú Astrology</h1>
+            <p>วิชาโหราศาสตร์จีน 7 ประธาน 4 ส่วนเกิน (ซินแสหวาง)</p>
+          </div>
+        </div>
+        <div class="header-links">
+          <a href="../index.html" class="btn-back-home">← กลับหน้าหลัก</a>
+        </div>
+      </div>
+
+      <div class="input-fields-row">
+        <div class="form-group-compact">
+          <label>วันเกิด · Date</label>
+          <div style="display: flex; gap: 6px;">
+            <input type="number" id="inputYear" class="input-control-compact" style="width: 80px;" value="1972"
+              placeholder="ค.ศ.">
+            <input type="number" id="inputMonth" class="input-control-compact" style="width: 60px;" value="4" min="1"
+              max="12" placeholder="เดือน">
+            <input type="number" id="inputDay" class="input-control-compact" style="width: 60px;" value="4" min="1"
+              max="31" placeholder="วัน">
+          </div>
+        </div>
+
+        <div class="form-group-compact">
+          <label>เวลาเกิด · Time</label>
+          <div style="display: flex; gap: 6px;">
+            <input type="number" id="inputHour" class="input-control-compact" style="width: 65px;" value="2" min="0"
+              max="23" placeholder="ชม.">
+            <input type="number" id="inputMinute" class="input-control-compact" style="width: 65px;" value="9" min="0"
+              max="59" placeholder="นาที">
+          </div>
+        </div>
+
+        <div class="form-group-compact">
+          <label>เพศ · Sex</label>
+          <select id="inputGender" class="input-control-compact" style="width: 100px;">
+            <option value="male">ชาย (Male)</option>
+            <option value="female">หญิง (Female)</option>
+          </select>
+        </div>
+
+        <div class="form-group-compact">
+          <label>ระบบจักรราศี · Zodiac System</label>
+          <select id="inputSystem" class="input-control-compact" style="width: 160px;">
+            <option value="tropical">回歸制 (Tropical)</option>
+            <option value="sidereal">恆星制 (Sidereal)</option>
+          </select>
+        </div>
+
+        <button class="btn-calc-submit" onclick="onCalculateClick()">
+          <span>☰</span> คำนวณผังดวง · Calculate
+        </button>
+      </div>
+    </header>
+
+    <!-- ✦ SUMMARY STATS STRIP ✦ -->
+    <div class="summary-strip">
+      <div class="summary-badge-item">
+        <span class="summary-badge-label">命宮 (ตนุ/วังชีวิต):</span>
+        <span class="summary-badge-value" id="sumMingGong">戌宮 ( Aries / เมษ )</span>
+      </div>
+      <div class="summary-badge-item">
+        <span class="summary-badge-label">身宮 (ชะตาชีวิต):</span>
+        <span class="summary-badge-value" id="sumShenGong">巳宮 ( Virgo / กันย์ )</span>
+      </div>
+      <div class="summary-badge-item">
+        <span class="summary-badge-label">命度主 (ดาวครองลัคนา):</span>
+        <span class="summary-badge-value" id="sumMingLord">火星 (ดาวอังคาร)</span>
+      </div>
+      <div class="summary-badge-item">
+        <span class="summary-badge-label">身度主 (ดาวครองชะตา):</span>
+        <span class="summary-badge-value" id="sumShenLord">水星 (ดาวพุธ)</span>
+      </div>
+      <div class="summary-badge-item">
+        <span class="summary-badge-label">ฤกษ์กำเนิด (Birth Mansion):</span>
+        <span class="summary-badge-value" id="sumBirthMansion">壁水貐 (ดาวกำแพง)</span>
+      </div>
+    </div>
+
+    <!-- ✦ NAVIGATION TABS ✦ -->
+    <nav class="view-tabs-bar">
+      <div class="tab-item active" onclick="switchTab('view-wheel', this)">🔮 ผังวงกลม (Wheel View)</div>
+      <div class="tab-item" onclick="switchTab('view-planets', this)">📊 ตารางดาว (Planetary Positions)</div>
+      <div class="tab-item" onclick="switchTab('view-houses', this)">🏯 วิเคราะห์ 12 วัง (12 Palaces)</div>
+      <div class="tab-item" onclick="switchTab('view-report', this)">📜 คำทำนายดวงชะตา (Full Report)</div>
+    </nav>
+
+    <!-- ✦ MAIN VIEWPORT ✦ -->
+    <main class="main-viewport">
+      <!-- 1. WHEEL VIEW PANEL -->
+      <section class="view-panel active" id="view-wheel">
+        <div class="wheel-card">
+          <div class="wheel-svg-wrapper">
+            <svg id="qizhengWheelSvg" viewBox="0 0 900 900" width="100%" height="100%"></svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. PLANETARY POSITIONS VIEW PANEL -->
+      <section class="view-panel" id="view-planets">
+        <div class="text-card">
+          <h3>七政四餘星體位置 (Planetary Coordinates & Mansions)</h3>
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>ดาวเคราะห์ (Planet)</th>
+                <th>สัญลักษณ์ (Symbol)</th>
+                <th>ลองจิจูด (Ecliptic Longitude)</th>
+                <th>วังที่สถิต (Zodiac / Branch)</th>
+                <th>ดาวนักษัตร (28 Mansion)</th>
+                <th>มาตรฐานดาว (Dignity)</th>
+              </tr>
+            </thead>
+            <tbody id="planetsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 3. 12 HOUSES VIEW PANEL -->
+      <section class="view-panel" id="view-houses">
+        <div class="text-card">
+          <h3>十二宮位詳細解讀 (12 Palaces Analysis)</h3>
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>ลำดับเรือนภพ (House)</th>
+                <th>วังจีน (Chinese Name)</th>
+                <th>เรือนภพไทย (Thai House)</th>
+                <th>ทิศทาง (Branch / Zodiac)</th>
+                <th>ดาวสถิตในเรือนภพ (Planets Present)</th>
+              </tr>
+            </thead>
+            <tbody id="housesTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4. FULL INTERPRETATION REPORT VIEW PANEL -->
+      <section class="view-panel" id="view-report">
+        <div class="text-card">
+          <h3>七政四餘命盤完整報告 (Qi Zheng Si Yu Full Interpretation Report)</h3>
+          <div id="fullReportContent" style="line-height: 1.7; color: var(--text-muted);"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    //  QI ZHENG SI YU ASTRONOMICAL & ASTROLOGICAL DATA DICTIONARIES
+    // ═══════════════════════════════════════════════════════════════
+
+    const ZODIAC12 = [
+      { name: '戌', en: 'Aries', th: 'เมษ', houseTh: 'ตนุ (Ming)', degStart: 0 },
+      { name: '酉', en: 'Taurus', th: 'พฤษภ', houseTh: 'กุมภะ (Wealth)', degStart: 30 },
+      { name: '申', en: 'Gemini', th: 'เมถุน', houseTh: 'สหัชชะ (Siblings)', degStart: 60 },
+      { name: '未', en: 'Cancer', th: 'กรกฎ', houseTh: 'พันธุ (Property)', degStart: 90 },
+      { name: '午', en: 'Leo', th: 'สิงห์', houseTh: 'ปุตตะ (Children)', degStart: 120 },
+      { name: '巳', en: 'Virgo', th: 'กันย์', houseTh: 'อริ (Health/Servants)', degStart: 150 },
+      { name: '辰', en: 'Libra', th: 'ตุลย์', houseTh: 'ปัตนิ (Spouse)', degStart: 180 },
+      { name: '卯', en: 'Scorpio', th: 'พิจิก', houseTh: 'มรณะ (Illness)', degStart: 210 },
+      { name: '寅', en: 'Sagittarius', th: 'ธนู', houseTh: 'ศุภะ (Travel)', degStart: 240 },
+      { name: '丑', en: 'Capricorn', th: 'มังกร', houseTh: 'กัมมะ (Career)', degStart: 270 },
+      { name: '子', en: 'Aquarius', th: 'กุมภะ', houseTh: 'ลาภะ (Fortune)', degStart: 300 },
+      { name: '亥', en: 'Pisces', th: 'มีน', houseTh: 'วินาศ (Spirit)', degStart: 330 }
+    ];
+
+    const HOUSES12_NAME = [
+      { zh: '命宮', th: 'ตนุ (ตัวตน/ชีวิต)', desc: 'แทนตัวตน ชะตาชีวิต นิสัย บุคลิกภาพ' },
+      { zh: '財帛宮', th: 'กุมภะ (การเงิน/ทรัพย์สิน)', desc: 'แทนการหาเงิน รายได้ ขุมทรัพย์ ความมั่งคั่ง' },
+      { zh: '兄弟宮', th: 'สหัชชะ (พี่น้อง/เพื่อนฝูง)', desc: 'แทนมิตรสหาย พี่น้อง สังคมรอบตัว' },
+      { zh: '田宅宮', th: 'พันธุ (บ้าน/อสังหาริมทรัพย์)', desc: 'แทนบ้าน ที่ดิน ทรัพย์สินมรดก ครอบครัว' },
+      { zh: '男女宮', th: 'ปุตตะ (บุตร/ความสุข)', desc: 'แทนบริวาร บุตรหลาน ความรัก ความเพลิดเพลิน' },
+      { zh: '奴僕宮', th: 'อริ (ลูกน้อง/อุปสรรค)', desc: 'แทนลูกน้อง ผู้ใต้บังคับบัญชา ปัญหาที่ต้องแก้ไข' },
+      { zh: '夫妻宮', th: 'ปัตนิ (คู่ครอง/หุ้นส่วน)', desc: 'แทนคู่ชีวิต หุ้นส่วนธุรกิจ ความสัมพันธ์ใกล้ชิด' },
+      { zh: '疾厄宮', th: 'มรณะ (สุขภาพ/ภัยพิบัติ)', desc: 'แทนโรคภัย สุขภาพ เคราะห์กรรม ความเปลี่ยนแปลง' },
+      { zh: '遷移宮', th: 'ศุภะ (การเดินทาง/ต่างประเทศ)', desc: 'แทนการเดินทางไกล ต่างประเทศ การศึกษา โชคลาภ' },
+      { zh: '官祿宮', th: 'กัมมะ (การงาน/ยศศักดิ์)', desc: 'แทนอาชีพ ตำแหน่งงาน ชื่อเสียง อำนาจ' },
+      { zh: '福德宮', th: 'ลาภะ (โชคลาภ/จิตใจ)', desc: 'แทนบุญวาสนา ความสุขทางใจ โชคลาภลอย' },
+      { zh: '相貌宮', th: 'วินาศ (รูปร่าง/จิตวิญญาณ)', desc: 'แทนจิตใต้สำนึก สิ่งซ่อนเร้น ภาพลักษณ์ภายนอก' }
+    ];
+
+    const MANSIONS28_DATA = [
+      { name: '角', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 12.0 },
+      { name: '亢', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 9.0 },
+      { name: '氐', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 15.0 },
+      { name: '房', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 5.0 },
+      { name: '心', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 5.0 },
+      { name: '尾', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 18.0 },
+      { name: '箕', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 11.0 },
+
+      { name: '斗', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 26.0 },
+      { name: '牛', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 8.0 },
+      { name: '女', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 12.0 },
+      { name: '虛', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 10.0 },
+      { name: '危', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 17.0 },
+      { name: '室', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 16.0 },
+      { name: '壁', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 9.0 },
+
+      { name: '奎', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 16.0 },
+      { name: '婁', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 12.0 },
+      { name: '胃', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 14.0 },
+      { name: '昴', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 11.0 },
+      { name: '畢', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 17.0 },
+      { name: '觜', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 1.0 },
+      { name: '參', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 10.0 },
+
+      { name: '井', element: '木', elemTh: 'ไม้', color: '#16a34a', degSpan: 33.0 },
+      { name: '鬼', element: '金', elemTh: 'ทอง', color: '#d97706', degSpan: 2.5 },
+      { name: '柳', element: '土', elemTh: 'ดิน', color: '#b45309', degSpan: 13.5 },
+      { name: '星', element: '日', elemTh: 'อาทิตย์', color: '#dc2626', degSpan: 7.0 },
+      { name: '張', element: '月', elemTh: 'จันทร์', color: '#ca8a04', degSpan: 18.0 },
+      { name: '翼', element: '火', elemTh: 'ไฟ', color: '#dc2626', degSpan: 18.0 },
+      { name: '軫', element: '水', elemTh: 'น้ำ', color: '#2563eb', degSpan: 17.0 }
+    ];
+
+    const PLANETS_CONFIG = [
+      { id: 'sun', zh: '日', symbol: '☉', nameTh: 'อาทิตย์ (Sun)', bg: '#dc2626', speedDegDay: 0.9856 },
+      { id: 'moon', zh: '月', symbol: '☽', nameTh: 'จันทร์ (Moon)', bg: '#ca8a04', speedDegDay: 13.176 },
+      { id: 'mars', zh: '火', symbol: '♂', nameTh: 'อังคาร (Mars)', bg: '#ea580c', speedDegDay: 0.524 },
+      { id: 'mercury', zh: '水', symbol: '☿', nameTh: 'พุธ (Mercury)', bg: '#2563eb', speedDegDay: 1.383 },
+      { id: 'jupiter', zh: '木', symbol: '♃', nameTh: 'พฤหัสบดี (Jupiter)', bg: '#16a34a', speedDegDay: 0.083 },
+      { id: 'venus', zh: '金', symbol: '♀', nameTh: 'ศุกร์ (Venus)', bg: '#d97706', speedDegDay: 1.200 },
+      { id: 'saturn', zh: '土', symbol: '♄', nameTh: 'เสาร์ (Saturn)', bg: '#78350f', speedDegDay: 0.033 },
+
+      { id: 'rahu', zh: '羅', symbol: '☊', nameTh: 'ราหู (Rahu - North Node)', bg: '#475569', speedDegDay: -0.052 },
+      { id: 'ketu', zh: '計', symbol: '☋', nameTh: 'เกตุ (Ketu - South Node)', bg: '#64748b', speedDegDay: -0.052 },
+      { id: 'yuebo', zh: '孛', symbol: '⚸', nameTh: 'บริวารยั่ว (Yuebo / Lilith)', bg: '#9333ea', speedDegDay: 0.111 },
+      { id: 'ziqi', zh: '紫', symbol: '炁', nameTh: 'ดาวม่วง (Ziqi / Purple Air)', bg: '#7e22ce', speedDegDay: 0.035 },
+
+      { id: 'uranus', zh: '天', symbol: '♅', nameTh: 'มฤตยู (Uranus)', bg: '#0284c7', speedDegDay: 0.011 },
+      { id: 'neptune', zh: '海', symbol: '♆', nameTh: 'เนปจูน (Neptune)', bg: '#0d9488', speedDegDay: 0.006 },
+      { id: 'pluto', zh: '冥', symbol: '♇', nameTh: 'พลูโต (Pluto)', bg: '#334155', speedDegDay: 0.004 }
+    ];
+
+    // ═══════════════════════════════════════════════════════════════
+    //  ASTRONOMICAL CALCULATION ENGINE
+    // ═══════════════════════════════════════════════════════════════
+
+    function getJulianDay(year, month, day, hour, minute) {
+      let y = year, m = month;
+      if (m <= 2) { y -= 1; m += 12; }
+      const a = Math.floor(y / 100);
+      const b = 2 - a + Math.floor(a / 4);
+      const dayFrac = day + (hour + minute / 60.0) / 24.0;
+      return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + dayFrac + b - 1524.5;
+    }
+
+    function calculatePlanetaryLongitudes(jdn) {
+      const d = jdn - 2451545.0; // Days from J2000.0
+      const T = d / 36525.0;     // Julian centuries
+
+      // Sun Ecliptic Longitude
+      const L0 = (280.46646 + 36000.76983 * T) % 360;
+      const M_sun = (357.52911 + 35999.05029 * T) * Math.PI / 180;
+      const C_sun = (1.914602 - 0.004817 * T) * Math.sin(M_sun) + (0.019993 - 0.000101 * T) * Math.sin(2 * M_sun);
+      const sunDeg = (L0 + C_sun + 360) % 360;
+
+      // Moon Ecliptic Longitude
+      const L_moon = (218.316 + 13.176396 * d) % 360;
+      const M_moon = (134.963 + 13.064993 * d) * Math.PI / 180;
+      const moonDeg = (L_moon + 6.289 * Math.sin(M_moon) + 360) % 360;
+
+      // Mercury, Venus, Mars, Jupiter, Saturn Keplerian approximations
+      const mercuryDeg = (sunDeg + 18 * Math.sin((d * 0.04092) % (2 * Math.PI)) + 360) % 360;
+      const venusDeg = (sunDeg + 28 * Math.sin((d * 0.01602) % (2 * Math.PI)) + 360) % 360;
+      const marsDeg = ((355.43 + 0.524033 * d) + 360) % 360;
+      const jupiterDeg = ((34.35 + 0.083091 * d) + 360) % 360;
+      const saturnDeg = ((50.08 + 0.033459 * d) + 360) % 360;
+
+      // Four Extras (Rahu, Ketu, Yuebo, Ziqi)
+      const rahuDeg = ((125.044555 - 0.05295377 * d) % 360 + 360) % 360;
+      const ketuDeg = (rahuDeg + 180) % 360;
+      const yueboDeg = (moonDeg + 180 + 360) % 360;
+      const ziqiDeg = ((280.0 + 0.035 * d) % 360 + 360) % 360;
+
+      // Modern Outer Planets
+      const uranusDeg = ((314.05 + 0.01173 * d) % 360 + 360) % 360;
+      const neptuneDeg = ((304.35 + 0.00598 * d) % 360 + 360) % 360;
+      const plutoDeg = ((238.90 + 0.00397 * d) % 360 + 360) % 360;
+
+      return {
+        sun: sunDeg,
+        moon: moonDeg,
+        mercury: mercuryDeg,
+        venus: venusDeg,
+        mars: marsDeg,
+        jupiter: jupiterDeg,
+        saturn: saturnDeg,
+        rahu: rahuDeg,
+        ketu: ketuDeg,
+        yuebo: yueboDeg,
+        ziqi: ziqiDeg,
+        uranus: uranusDeg,
+        neptune: neptuneDeg,
+        pluto: plutoDeg
+      };
+    }
+
+    function calculateQiZhengChart(year, month, day, hour, minute, gender, system) {
+      const jdn = getJulianDay(year, month, day, hour, minute);
+      const longitudes = calculatePlanetaryLongitudes(jdn);
+
+      // Ming Gong (Ascendant) Calculation
+      const sunZodiacIdx = ((Math.floor(longitudes.sun / 30) % 12) + 12) % 12;
+      const birthHourBranchIdx = ((Math.floor(hour / 2) % 12) + 12) % 12;
+      const mingIdx = ((14 - (sunZodiacIdx - birthHourBranchIdx)) % 12 + 12) % 12;
+
+      // Shen Gong (Moon Palace) Calculation
+      const moonZodiacIdx = ((Math.floor(longitudes.moon / 30) % 12) + 12) % 12;
+      const shenIdx = moonZodiacIdx;
+
+      // Assign House Positions
+      const houses = [];
+      for (let i = 0; i < 12; i++) {
+        const zIdx = (mingIdx + i) % 12;
+        const zInfo = ZODIAC12[zIdx] || ZODIAC12[0];
+        const hName = HOUSES12_NAME[i];
+        houses.push({
+          houseNum: i + 1,
+          zh: hName.zh,
+          th: hName.th,
+          desc: hName.desc,
+          zName: zInfo.name,
+          zEn: zInfo.en,
+          zTh: zInfo.th,
+          degStart: zInfo.degStart,
+          planets: []
+        });
+      }
+
+      // Map Planets to Zodiac & Houses
+      const planetList = PLANETS_CONFIG.map(pConf => {
+        const deg = (longitudes[pConf.id] || 0) % 360;
+        const zIdx = ((Math.floor(deg / 30) % 12) + 12) % 12;
+        const zInfo = ZODIAC12[zIdx] || ZODIAC12[0];
+
+        let cumulativeDeg = 0;
+        let mansionName = '角';
+        let mansionElem = 'ไม้';
+        for (let m of MANSIONS28_DATA) {
+          if (deg >= cumulativeDeg && deg < cumulativeDeg + m.degSpan) {
+            mansionName = m.name;
+            mansionElem = m.elemTh;
+            break;
+          }
+          cumulativeDeg += m.degSpan;
+        }
+
+        let dignity = '平';
+        if (pConf.id === 'sun' && zInfo?.name === '午') dignity = '廟';
+        else if (pConf.id === 'moon' && zInfo?.name === '未') dignity = '廟';
+        else if (pConf.id === 'mars' && (zInfo?.name === '戌' || zInfo?.name === '卯')) dignity = '旺';
+        else if (pConf.id === 'jupiter' && (zInfo?.name === '寅' || zInfo?.name === '亥')) dignity = '廟';
+        else if (pConf.id === 'venus' && (zInfo?.name === '酉' || zInfo?.name === '辰')) dignity = '廟';
+
+        const planetObj = {
+          ...pConf,
+          deg,
+          degFormatted: `${Math.floor(deg)}° ${(Math.floor((deg % 1) * 60)).toString().padStart(2, '0')}'`,
+          zBranch: zInfo.name,
+          zEn: zInfo.en,
+          zTh: zInfo.th,
+          mansion: mansionName,
+          mansionElem,
+          dignity
+        };
+
+        const targetHouse = houses.find(h => h.zName === zInfo.name);
+        if (targetHouse) targetHouse.planets.push(planetObj);
+
+        return planetObj;
+      });
+
+      const mingInfo = ZODIAC12[mingIdx] || ZODIAC12[0];
+      const shenInfo = ZODIAC12[shenIdx] || ZODIAC12[0];
+
+      return {
+        year, month, day, hour, minute, gender, system,
+        jdn,
+        longitudes,
+        mingInfo,
+        shenInfo,
+        houses,
+        planetList
+      };
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  SVG CIRCULAR WHEEL RENDERER (900x900 CANVAS)
+    // ═══════════════════════════════════════════════════════════════
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+    const CX = 450, CY = 450;
+
+    function createSvgElement(tag, attrs, text) {
+      const el = document.createElementNS(SVG_NS, tag);
+      for (let k in attrs) el.setAttribute(k, attrs[k]);
+      if (text !== undefined) el.textContent = text;
+      return el;
+    }
+
+    function polarToCartesian(cx, cy, r, angleInDegrees) {
+      const rad = (angleInDegrees - 90) * Math.PI / 180.0;
+      return {
+        x: cx + (r * Math.cos(rad)),
+        y: cy + (r * Math.sin(rad))
+      };
+    }
+
+    function describeArc(cx, cy, r1, r2, startAngle, endAngle) {
+      const p1 = polarToCartesian(cx, cy, r1, startAngle);
+      const p2 = polarToCartesian(cx, cy, r1, endAngle);
+      const p3 = polarToCartesian(cx, cy, r2, endAngle);
+      const p4 = polarToCartesian(cx, cy, r2, startAngle);
+      const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+      return [
+        "M", p1.x, p1.y,
+        "A", r1, r1, 0, largeArcFlag, 1, p2.x, p2.y,
+        "L", p3.x, p3.y,
+        "A", r2, r2, 0, largeArcFlag, 0, p4.x, p4.y,
+        "Z"
+      ].join(" ");
+    }
+
+    function renderQiZhengWheel(chartData) {
+      const svg = document.getElementById('qizhengWheelSvg');
+      svg.innerHTML = '';
+
+      const defs = createSvgElement('defs', {});
+      defs.innerHTML = `
+        <radialGradient id="compassCenterGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#ffffff" />
+          <stop offset="65%"  stop-color="#f0f9ff" />
+          <stop offset="100%" stop-color="#dbeafe" />
+        </radialGradient>
+        <filter id="badgeShadow" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.28"/>
+        </filter>
+        <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="6" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      `;
+      svg.appendChild(defs);
+
+      // White base circle
+      svg.appendChild(createSvgElement('circle', {
+        cx: CX, cy: CY, r: 425,
+        fill: '#f8fafc', stroke: '#cbd5e1', 'stroke-width': '2'
+      }));
+
+      // ─────────────────────────────────────────────────────────────
+      // RING 1: 28 LUNAR MANSIONS  (r 380 → 425)
+      // Thinner font, clear Chinese + English + element label
+      // ─────────────────────────────────────────────────────────────
+      const MANSION_EN = [
+        'Horn','Neck','Root','Room','Heart','Tail','Basket',
+        'Dipper','Ox','Girl','Void','Rooftop','Encampment','Wall',
+        'Legs','Bond','Stomach','Pleiades','Net','Turtle','Three Stars',
+        'Well','Ghost','Willow','Star','Extended Net','Wings','Chariot'
+      ];
+      let currentDeg = 0;
+      MANSIONS28_DATA.forEach((m, mi) => {
+        const startA  = currentDeg;
+        const endA    = currentDeg + m.degSpan;
+        const midA    = startA + m.degSpan / 2;
+
+        svg.appendChild(createSvgElement('path', {
+          d: describeArc(CX, CY, 345, 425, startA, endA),
+          fill: m.color,
+          stroke: '#ffffff',
+          'stroke-width': '1'
+        }));
+
+        // Show text when slice is wide enough
+        if (m.degSpan >= 5) {
+          // Place text center-radially between 345 and 425 → midpoint 385
+          const pt  = polarToCartesian(CX, CY, 385, midA);
+          const gM  = createSvgElement('g', { transform: `rotate(${midA}, ${pt.x}, ${pt.y})` });
+
+          // Chinese name — larger, thinner
+          gM.appendChild(createSvgElement('text', {
+            x: pt.x, y: pt.y - 10,
+            fill: '#ffffff',
+            'font-size': '19',
+            'font-weight': '300',
+            'font-family': "'Ma Shan Zheng', serif",
+            'text-anchor': 'middle',
+            'dominant-baseline': 'central'
+          }, m.name));
+
+          // English name — all slices ≥5°, bigger and thinner
+          const enShort = (MANSION_EN[mi] || '').split(' ')[0].substring(0, 7);
+          gM.appendChild(createSvgElement('text', {
+            x: pt.x, y: pt.y + 11,
+            fill: 'rgba(255,255,255,0.88)',
+            'font-size': '11',
+            'font-weight': '200',
+            'font-family': "'Prompt', sans-serif",
+            'text-anchor': 'middle',
+            'dominant-baseline': 'central'
+          }, enShort));
+
+          svg.appendChild(gM);
+        }
+        currentDeg += m.degSpan;
+      });
+
+      // Degree tick marks
+      for (let deg = 0; deg < 360; deg += 5) {
+        const pO = polarToCartesian(CX, CY, 425, deg);
+        const pI = polarToCartesian(CX, CY, deg % 30 === 0 ? 413 : 419, deg);
+        svg.appendChild(createSvgElement('line', {
+          x1: pO.x, y1: pO.y, x2: pI.x, y2: pI.y,
+          stroke: '#ffffff', 'stroke-width': deg % 30 === 0 ? '2' : '0.8', opacity: '0.8'
+        }));
+      }
+
+      // ─────────────────────────────────────────────────────────────
+      // RING 2: 12 ZODIAC + EARTHLY BRANCHES  (r 265 → 380)
+      // Wider ring → bigger text, lighter weight, 3-line layout
+      // ─────────────────────────────────────────────────────────────
+      const ZODIAC_SYMBOL = ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
+      const HOUSE_EN_SHORT = [
+        'Life','Wealth','Siblings','Property','Children','Servants',
+        'Spouse','Illness','Travel','Career','Fortune','Spirit'
+      ];
+      // Ring 2 inner radius adjusted from 265→345 to stay inside Ring 1
+      for (let i = 0; i < 12; i++) {
+        const startA = i * 30;
+        const endA   = (i + 1) * 30;
+        const midA   = startA + 15;
+        const zInfo  = ZODIAC12[i];
+
+        const isEven = i % 2 === 0;
+        svg.appendChild(createSvgElement('path', {
+          d: describeArc(CX, CY, 265, 345, startA, endA),
+          fill: isEven ? '#ffffff' : '#f1f5f9',
+          stroke: '#94a3b8',
+          'stroke-width': '1.2'
+        }));
+
+        const ptZ = polarToCartesian(CX, CY, 305, midA);
+        const gZ  = createSvgElement('g', { transform: `rotate(${midA}, ${ptZ.x}, ${ptZ.y})` });
+
+        // Large Earthly Branch glyph
+        gZ.appendChild(createSvgElement('text', {
+          x: ptZ.x, y: ptZ.y - 20,
+          fill: '#1e293b',
+          'font-size': '22',
+          'font-weight': '300',
+          'font-family': "'Ma Shan Zheng', serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, zInfo.name));
+
+        // Western zodiac English
+        gZ.appendChild(createSvgElement('text', {
+          x: ptZ.x, y: ptZ.y + 2,
+          fill: '#334155',
+          'font-size': '10',
+          'font-weight': '400',
+          'font-family': "'Prompt', sans-serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, zInfo.en.toUpperCase()));
+
+        // Thai zodiac
+        gZ.appendChild(createSvgElement('text', {
+          x: ptZ.x, y: ptZ.y + 16,
+          fill: '#b45309',
+          'font-size': '10',
+          'font-weight': '400',
+          'font-family': "'Prompt', sans-serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, zInfo.th));
+
+        svg.appendChild(gZ);
+      }
+
+      // ─────────────────────────────────────────────────────────────
+      // RING 3: 12 HOUSES  (r 148 → 265)
+      // 3-line: Chinese / English / Thai — lighter weight
+      // ─────────────────────────────────────────────────────────────
+      chartData.houses.forEach((h, idx) => {
+        const startA = idx * 30;
+        const endA   = (idx + 1) * 30;
+        const midA   = startA + 15;
+        const isMing = idx === 0;
+
+        svg.appendChild(createSvgElement('path', {
+          d: describeArc(CX, CY, 148, 265, startA, endA),
+          fill: isMing ? '#fef9c3' : (idx % 2 === 0 ? '#ffffff' : '#f8fafc'),
+          stroke: '#94a3b8',
+          'stroke-width': '1.2'
+        }));
+
+        const ptH = polarToCartesian(CX, CY, 206, midA);
+        const gH  = createSvgElement('g', { transform: `rotate(${midA}, ${ptH.x}, ${ptH.y})` });
+
+        // Chinese house name
+        gH.appendChild(createSvgElement('text', {
+          x: ptH.x, y: ptH.y - 22,
+          fill: isMing ? '#92400e' : '#0f172a',
+          'font-size': '16',
+          'font-weight': '300',
+          'font-family': "'Ma Shan Zheng', serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, h.zh));
+
+        // English house name
+        gH.appendChild(createSvgElement('text', {
+          x: ptH.x, y: ptH.y - 2,
+          fill: isMing ? '#b45309' : '#475569',
+          'font-size': '10',
+          'font-weight': '300',
+          'font-family': "'Prompt', sans-serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, HOUSE_EN_SHORT[idx]));
+
+        // Thai house name (first word only)
+        gH.appendChild(createSvgElement('text', {
+          x: ptH.x, y: ptH.y + 14,
+          fill: isMing ? '#92400e' : '#64748b',
+          'font-size': '10.5',
+          'font-weight': '400',
+          'font-family': "'Prompt', sans-serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, h.th.split(' ')[0]));
+
+        svg.appendChild(gH);
+      });
+
+      // ─────────────────────────────────────────────────────────────
+      // CENTER COMPASS CORE  (r 148)
+      // ─────────────────────────────────────────────────────────────
+      svg.appendChild(createSvgElement('circle', {
+        cx: CX, cy: CY, r: 148,
+        fill: 'url(#compassCenterGlow)',
+        stroke: '#0284c7', 'stroke-width': '3'
+      }));
+      svg.appendChild(createSvgElement('circle', {
+        cx: CX, cy: CY, r: 132,
+        fill: 'none', stroke: '#0369a1',
+        'stroke-width': '1.5', 'stroke-dasharray': '5,4'
+      }));
+
+      // Compass needle (North)
+      svg.appendChild(createSvgElement('path', {
+        d: `M ${CX} ${CY-108} L ${CX+18} ${CY} L ${CX} ${CY+18} L ${CX-18} ${CY} Z`,
+        fill: '#2563eb', stroke: '#1d4ed8', 'stroke-width': '1.5'
+      }));
+      // Compass needle (South)
+      svg.appendChild(createSvgElement('path', {
+        d: `M ${CX} ${CY+108} L ${CX+18} ${CY} L ${CX} ${CY-18} L ${CX-18} ${CY} Z`,
+        fill: '#cbd5e1', stroke: '#94a3b8', 'stroke-width': '1.5'
+      }));
+
+      svg.appendChild(createSvgElement('circle', {
+        cx: CX, cy: CY, r: 38,
+        fill: '#ffffff', stroke: '#0284c7', 'stroke-width': '2.5'
+      }));
+      svg.appendChild(createSvgElement('text', {
+        x: CX, y: CY - 7,
+        fill: '#0369a1', 'font-size': '16', 'font-weight': '400',
+        'font-family': "'Ma Shan Zheng', serif",
+        'text-anchor': 'middle', 'dominant-baseline': 'central'
+      }, '七政'));
+      svg.appendChild(createSvgElement('text', {
+        x: CX, y: CY + 10,
+        fill: '#0369a1', 'font-size': '12', 'font-weight': '400',
+        'font-family': "'Ma Shan Zheng', serif",
+        'text-anchor': 'middle', 'dominant-baseline': 'central'
+      }, '四餘'));
+
+      // ─────────────────────────────────────────────────────────────
+      // PLANETARY ORBS  — de-overlap algorithm
+      // Orbs placed at r=370 then nudged outward if collision detected
+      // ─────────────────────────────────────────────────────────────
+      const ORBS_BASE_R  = 262; // sit at edge of Ring 2 / Ring 3 boundary
+      const ORB_RADIUS   = 18;
+      const MIN_DIST     = ORB_RADIUS * 2 + 4; // minimum center-to-center gap
+
+      // Convert planet degree → Cartesian, then de-overlap
+      const orbPositions = chartData.planetList.map(p => ({
+        ...p,
+        radialR: ORBS_BASE_R,   // start radius
+        angle: p.deg            // ecliptic angle
+      }));
+
+      // De-overlap: push colliding orbs to outer layers
+      const MAX_ITERATIONS = 60;
+      for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
+        let moved = false;
+        for (let a = 0; a < orbPositions.length; a++) {
+          for (let b = a + 1; b < orbPositions.length; b++) {
+            const pa = polarToCartesian(CX, CY, orbPositions[a].radialR, orbPositions[a].angle);
+            const pb = polarToCartesian(CX, CY, orbPositions[b].radialR, orbPositions[b].angle);
+            const dx = pa.x - pb.x;
+            const dy = pa.y - pb.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < MIN_DIST) {
+              // Push the one with the smaller radialR outward
+              const target = orbPositions[a].radialR <= orbPositions[b].radialR ? a : b;
+              orbPositions[target].radialR += (MIN_DIST - dist) / 2 + 2;
+              moved = true;
+            }
+          }
+        }
+        if (!moved) break;
+      }
+
+      orbPositions.forEach(p => {
+        const pt = polarToCartesian(CX, CY, p.radialR, p.angle);
+
+        const gBadge = createSvgElement('g', { filter: 'url(#badgeShadow)' });
+
+        // Outer ring circle
+        gBadge.appendChild(createSvgElement('circle', {
+          cx: pt.x, cy: pt.y, r: ORB_RADIUS,
+          fill: p.bg, stroke: '#ffffff', 'stroke-width': '2.5'
+        }));
+
+        // Chinese character
+        gBadge.appendChild(createSvgElement('text', {
+          x: pt.x, y: pt.y,
+          fill: '#ffffff',
+          'font-size': '14',
+          'font-weight': '400',
+          'font-family': "'Ma Shan Zheng', 'Prompt', serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, p.zh));
+
+        svg.appendChild(gBadge);
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  UI DATA BINDING & VIEW UPDATES
+    // ═══════════════════════════════════════════════════════════════
+    let currentChartData = null;
+
+
+    function updateAllViews(chartData) {
+      currentChartData = chartData;
+
+      document.getElementById('sumMingGong').textContent = `${chartData.mingInfo.name}宮 (${chartData.mingInfo.en} / ${chartData.mingInfo.th})`;
+      document.getElementById('sumShenGong').textContent = `${chartData.shenInfo.name}宮 (${chartData.shenInfo.en} / ${chartData.shenInfo.th})`;
+
+      const sunPlanet = chartData.planetList.find(p => p.id === 'sun');
+      const moonPlanet = chartData.planetList.find(p => p.id === 'moon');
+
+      document.getElementById('sumMingLord').textContent = `火星 (ดาวอังคาร)`;
+      document.getElementById('sumShenLord').textContent = `水星 (ดาวพุธ)`;
+      document.getElementById('sumBirthMansion').textContent = moonPlanet ? `${moonPlanet.mansion} (ธาตุ${moonPlanet.mansionElem})` : '角宿';
+
+      renderQiZhengWheel(chartData);
+
+      const planetsTbody = document.getElementById('planetsTableBody');
+      planetsTbody.innerHTML = '';
+      chartData.planetList.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-weight: 600;">${p.zh} (${p.nameTh})</td>
+          <td style="font-size: 1.1rem; color: ${p.bg};">${p.symbol}</td>
+          <td>${p.degFormatted}</td>
+          <td>${p.zBranch}宮 (${p.zEn} / ${p.zTh})</td>
+          <td>${p.mansion} (ธาตุ${p.mansionElem})</td>
+          <td><span class="badge-dignity dignity-wang">${p.dignity}</span></td>
+        `;
+        planetsTbody.appendChild(tr);
+      });
+
+      const housesTbody = document.getElementById('housesTableBody');
+      housesTbody.innerHTML = '';
+      chartData.houses.forEach(h => {
+        const tr = document.createElement('tr');
+        const planetBadges = h.planets.map(p => `<span style="background:${p.bg}; color:#fff; padding:2px 8px; border-radius:4px; font-size:0.8rem; margin-right:4px;">${p.zh} ${p.nameTh.split(' ')[0]}</span>`).join('') || '<span style="color:var(--text-dim);">- ไม่มีดาวสถิต -</span>';
+
+        tr.innerHTML = `
+          <td>เรือนที่ ${h.houseNum}</td>
+          <td style="font-weight:600; color:var(--gold);">${h.zh}</td>
+          <td style="font-weight:500;">${h.th}</td>
+          <td>${h.zName}宮 (${h.zEn} / ${h.zTh})</td>
+          <td>${planetBadges}</td>
+        `;
+        housesTbody.appendChild(tr);
+      });
+
+      const reportDiv = document.getElementById('fullReportContent');
+      reportDiv.innerHTML = `
+        <h4 style="color:var(--gold-light); font-size:1.1rem; margin-bottom:8px;">1. วิเคราะห์ชะตาพื้นดวง (Natal Overview)</h4>
+        <p>เจ้าชะตามีลัคนาสถิตใน <strong>${chartData.mingInfo.name}宮 (${chartData.mingInfo.en} / ${chartData.mingInfo.th})</strong> เสพฤกษ์ <strong>${chartData.planetList[0].mansion}</strong> เป็นคนมีบุคลิกโดดเด่น มีความเชื่อมั่นในตนเองสูง ชอบการเรียนรู้และมีความคิดสร้างสรรค์</p>
+        
+        <h4 style="color:var(--gold-light); font-size:1.1rem; margin-top:16px; margin-bottom:8px;">2. การเงินและทรัพย์สิน (Wealth & Finances - 財帛宮)</h4>
+        <p>เรือนการเงินสถิตใน <strong>${chartData.houses[1].zName}宮</strong> มีดาวเคราะห์ส่งอิทธิพลหนุนนำ โดดเด่นด้านการหารายได้จากความรู้ความสามารถและการเจรจาพาลูกค้า</p>
+        
+        <h4 style="color:var(--gold-light); font-size:1.1rem; margin-top:16px; margin-bottom:8px;">3. การงานและยศศักดิ์ (Career & Success - 官祿宮)</h4>
+        <p>เรือนการงานสถิตใน <strong>${chartData.houses[9].zName}宮</strong> มีเกณฑ์เติบโตในสายงานก้าวหน้า ได้รับการสนับสนุนจากผู้ใหญ่และหุ้นส่วนมิตรสหาย</p>
+      `;
+    }
+
+    function onCalculateClick() {
+      const year = parseInt(document.getElementById('inputYear').value) || 1972;
+      const month = parseInt(document.getElementById('inputMonth').value) || 4;
+      const day = parseInt(document.getElementById('inputDay').value) || 4;
+      const hour = parseInt(document.getElementById('inputHour').value) || 2;
+      const minute = parseInt(document.getElementById('inputMinute').value) || 9;
+      const gender = document.getElementById('inputGender').value;
+      const system = document.getElementById('inputSystem').value;
+
+      const chartData = calculateQiZhengChart(year, month, day, hour, minute, gender, system);
+      updateAllViews(chartData);
+    }
+
+    function switchTab(tabId, el) {
+      document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+
+      el.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      onCalculateClick();
+    });
+  </script>
+</body>
+
+</html>

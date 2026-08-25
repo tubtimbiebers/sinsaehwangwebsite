@@ -759,6 +759,11 @@
         <span class="title">ไท่ยี่</span>
         <span class="desc">太乙神數 พยากรณ์ดวงชาติ</span>
       </button>
+      <button type="button" class="selector-btn" data-tab="qizheng">
+        <span class="zh-icon">政</span>
+        <span class="title">เซ็กเจ่งสี่อื้อ</span>
+        <span class="desc">七政四餘 โหราศาสตร์จีนคลาสสิก</span>
+      </button>
     </div>
     
     <!-- ✦ TOOL IFRAME (SEAMLESSLY STYLED) ✦ -->
@@ -1220,7 +1225,41 @@ function syncAndCalculate() {
   const doc = getIframeDoc();
   if (!doc) return;
 
-  if (activeProgram === 'taiyi') {
+  if (activeProgram === 'qizheng') {
+    // Qi Zheng Si Yu — sync birth date/time then trigger calculation
+    let yearBE = parseInt(document.getElementById('p-year').value) || 2568;
+    let yearCE = yearBE > 2400 ? yearBE - 543 : yearBE;
+    const monthNames = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+    let monthVal = monthNames.indexOf(document.getElementById('p-month').value) + 1;
+    if (monthVal <= 0) monthVal = 4;
+
+    const setChildVal = (id, val) => {
+      const el = doc.getElementById(id);
+      if (el) el.value = val;
+    };
+    // qizheng.html field IDs: inputYear, inputMonth, inputDay, inputHour, inputMinute, inputGender
+    setChildVal('inputYear', yearCE);
+    setChildVal('inputMonth', monthVal);
+    setChildVal('inputDay', document.getElementById('p-day').value || 1);
+    setChildVal('inputHour', document.getElementById('p-hour').value || 12);
+    setChildVal('inputMinute', document.getElementById('p-minute').value || 0);
+
+    // Sync gender (qizheng uses 'male'/'female')
+    const genderEl = doc.getElementById('inputGender');
+    if (genderEl) genderEl.value = document.getElementById('p-gender').value === 'หญิง' ? 'female' : 'male';
+
+    // Trigger calculation via onCalculateClick()
+    if (doc.defaultView && typeof doc.defaultView.onCalculateClick === 'function') {
+      doc.defaultView.onCalculateClick();
+    } else {
+      const btn = doc.querySelector('button[onclick*="Calculate"], button[onclick*="onCalc"]');
+      if (btn) btn.click();
+    }
+    injectStyles();
+    document.getElementById('resultSection').classList.remove('hidden');
+    return;
+
+  } else if (activeProgram === 'taiyi') {
     // Taiyi uses date/time from parent or current date
     let yearBE = parseInt(document.getElementById('p-year').value) || 2568;
     let yearCE = yearBE > 2400 ? yearBE - 543 : yearBE;
@@ -1402,6 +1441,13 @@ function switchTab(tabId) {
     } else {
       injectStyles();
     }
+  } else if (tabId === 'qizheng') {
+    if (activeProgram !== 'qizheng') {
+      activeProgram = 'qizheng';
+      iframe.src = 'vicha/qizheng.html';
+    } else {
+      injectStyles();
+    }
   } else {
     if (activeProgram !== 'main') {
       activeProgram = 'main';
@@ -1448,7 +1494,7 @@ document.querySelectorAll('.selector-btn').forEach(btn => {
 
 iframe.addEventListener('load', function() {
   injectStyles();
-  if (activeProgram === 'main' || activeProgram === 'liuren' || activeProgram === 'ziwei' || activeProgram === 'taiyi') {
+  if (activeProgram === 'main' || activeProgram === 'liuren' || activeProgram === 'ziwei' || activeProgram === 'taiyi' || activeProgram === 'qizheng') {
     setTimeout(syncAndCalculate, 100);
   } else {
     setTimeout(resizeFrame, 150);
@@ -1461,7 +1507,7 @@ setInterval(resizeFrame, 1000);
 // ── Hash switching logic for header links ──
 function checkHashAndSwitch() {
   const hash = window.location.hash.substring(1);
-  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen', 'liuren', 'ziwei', 'taiyi'];
+  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen', 'liuren', 'ziwei', 'taiyi', 'qizheng'];
   if (hash && validTabs.includes(hash)) {
     document.getElementById('resultSection').classList.remove('hidden');
     switchTab(hash);
