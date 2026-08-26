@@ -48,7 +48,7 @@ function getDefaults() {
     email: 'sinsaehwang@yahoo.com',
     lineId: 'sawang',
     lineUrl: '',
-    mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.864387817757!2d100.52848971534934!3d13.726613990363695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e298d254b1f48f%3A0xe5a3c9be0768798e!2z4LiW4LiZ4LiZ4Liq4Li14Lil4Lih!5e0!3m2!1sth!2sth!4v1624021234567!5m2!1sth!2sth',
+    mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3549.4918174932354!2d100.4283684!3d13.616287100000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2bd4a3ac461cd%3A0xd7b08e55de71b749!2z4Lin4Li04Lir4Liy4Lij4Lif4LmJ4Liy4Lie4Li44LiX4LiY4Lih4Liy4Lij4LiU4LiyICjguJXguYnguLIg4LmA4LiX4Li14Lii4LiZIOC5gOC4i-C4teC4ouC4mSk!5e1!3m2!1sth!2sth!4v1787711356850!5m2!1sth!2sth',
     openHours: 'จันทร์ – เสาร์ 09:00 – 18:00 น.',
     heroTitle: 'ติดต่อเรา',
     heroSubtitle: 'สอบถามการนัดหมายและที่ตั้งสำนักงาน',

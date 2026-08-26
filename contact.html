@@ -231,12 +231,13 @@
         <div class="map-box">
           <iframe 
             id="mapFrame"
-            src=""
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3549.4918174932354!2d100.4283684!3d13.616287100000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2bd4a3ac461cd%3A0xd7b08e55de71b749!2z4Lin4Li04Lir4Liy4Lij4Lif4LmJ4Liy4Lie4Li44LiX4LiY4Lih4Liy4Lij4LiU4LiyICjguJXguYnguLIg4LmA4LiX4Li14Lii4LiZIOC5gOC4i-C4teC4ouC4mSk!5e1!3m2!1sth!2sth!4v1787711356850!5m2!1sth!2sth"
             width="100%" 
             height="100%" 
             style="border:0;" 
             allowfullscreen="" 
-            loading="lazy">
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin">
           </iframe>
         </div>
       </div>
@@ -312,11 +313,12 @@
 
 <script src="js/main.js"></script>
 <script>
-// โหลดข้อมูลหน้าติดต่อจาก API
+const DEFAULT_MAP = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3549.4918174932354!2d100.4283684!3d13.616287100000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2bd4a3ac461cd%3A0xd7b08e55de71b749!2z4Lin4Li04Lir4Liy4Lij4Lif4LmJ4Liy4Lie4Li44LiX4LiY4Lih4Liy4Lij4LiU4LiyICjguJXguYnguLIg4LmA4LiX4Li14Lii4LiZIOC5gOC4i-C4teC4ouC4mSk!5e1!3m2!1sth!2sth!4v1787711356850!5m2!1sth!2sth';
+
 async function loadContactPage() {
   try {
     const res = await fetch('/api/contact-page');
-    if (!res.ok) return;
+    if (!res.ok) throw new Error('api-unavailable');
     const d = await res.json();
 
     // Hero
@@ -344,10 +346,13 @@ async function loadContactPage() {
       emailEl.href = 'mailto:' + d.email;
     }
     if (d.openHours) document.getElementById('infoHours').textContent = d.openHours;
-    if (d.mapEmbed)  document.getElementById('mapFrame').src = d.mapEmbed;
+    // ใช้ Map URL จาก API ถ้ามี มิฉะนั้นใช้ default
+    document.getElementById('mapFrame').src = d.mapEmbed || DEFAULT_MAP;
 
   } catch(e) {
-    console.warn('ไม่สามารถโหลดข้อมูลหน้าติดต่อ:', e);
+    // API ยังไม่พร้อม — ใช้ค่า default แทน
+    document.getElementById('mapFrame').src = DEFAULT_MAP;
+    console.warn('ใช้ข้อมูล default (ไม่สามารถเชื่อมต่อ API):', e);
   }
 }
 
