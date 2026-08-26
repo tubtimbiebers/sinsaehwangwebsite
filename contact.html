@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
@@ -135,10 +135,10 @@
     <div class="section-tag" style="background:var(--cream); color:var(--charcoal); border-color:var(--gold-light);">ติดต่อสอบถาม</div>
     <h1 class="hero-title" style="margin-bottom:1rem;">
       <span class="title-zh" style="font-size:clamp(3rem,8vw,5rem);color:var(--gold-bright);">問</span>
-      <span class="title-th" style="font-size:clamp(1.8rem,4vw,2.8rem);">ติดต่อเรา</span>
-      <span class="title-sub" style="color:var(--text-secondary);">สอบถามการนัดหมายและที่ตั้งสำนักงาน</span>
+      <span class="title-th" style="font-size:clamp(1.8rem,4vw,2.8rem);" id="heroTitleEl">ติดต่อเรา</span>
+      <span class="title-sub" style="color:var(--text-secondary);" id="heroSubtitleEl">สอบถามการนัดหมายและที่ตั้งสำนักงาน</span>
     </h1>
-    <p style="color:var(--text-secondary);max-width:600px;margin:0 auto;">สำนักงานซินแสหวาง ยินดีต้อนรับทุกท่านด้วยคำแนะนำและทางออกชีวิต</p>
+    <p style="color:var(--text-secondary);max-width:600px;margin:0 auto;" id="heroDescEl">สำนักงานซินแสหวาง ยินดีต้อนรับทุกท่านด้วยคำแนะนำและทางออกชีวิต</p>
   </div>
 </div>
 
@@ -191,7 +191,7 @@
           <div class="method-icon">📍</div>
           <div class="method-details">
             <h4>ที่ตั้งสำนักงาน</h4>
-            <p>168/9 ถนนสีลม แขวงสุริยวงศ์ เขตบางรัก กรุงเทพมหานคร 10500</p>
+            <p id="infoAddressTh">กำลังโหลด...</p>
           </div>
         </div>
         
@@ -199,15 +199,15 @@
           <div class="method-icon">📞</div>
           <div class="method-details">
             <h4>เบอร์โทรศัพท์</h4>
-            <p><a href="tel:+660620000000">062-xxx-xxxx</a> (ฝ่ายนัดหมายและบริการลูกค้า)</p>
+            <p><a id="infoPhone" href="#">-</a></p>
           </div>
         </div>
         
         <div class="contact-method">
           <div class="method-icon">💬</div>
           <div class="method-details">
-            <h4>LINE Official</h4>
-            <p><a href="#">@sinsaehwang</a> (สอบถามข้อมูลผ่านไลน์ 24 ชม.)</p>
+            <h4>LINE</h4>
+            <p><a id="infoLine" href="#">-</a></p>
           </div>
         </div>
         
@@ -215,14 +215,23 @@
           <div class="method-icon">📧</div>
           <div class="method-details">
             <h4>อีเมล</h4>
-            <p><a href="mailto:info@sinsaehwang.com">info@sinsaehwang.com</a></p>
+            <p><a id="infoEmail" href="#">-</a></p>
+          </div>
+        </div>
+
+        <div class="contact-method">
+          <div class="method-icon">⏰</div>
+          <div class="method-details">
+            <h4>เวลาทำการ</h4>
+            <p id="infoHours">-</p>
           </div>
         </div>
         
-        <!-- Decorative map representation -->
+        <!-- แผนที่ -->
         <div class="map-box">
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.864387817757!2d100.52848971534934!3d13.726613990363695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e298d254b1f48f%3A0xe5a3c9be0768798e!2z4LiW4LiZ4LiZ4Liq4Li14Lil4Lih!5e0!3m2!1sth!2sth!4v1624021234567!5m2!1sth!2sth" 
+            id="mapFrame"
+            src=""
             width="100%" 
             height="100%" 
             style="border:0;" 
@@ -303,11 +312,50 @@
 
 <script src="js/main.js"></script>
 <script>
+// โหลดข้อมูลหน้าติดต่อจาก API
+async function loadContactPage() {
+  try {
+    const res = await fetch('/api/contact-page');
+    if (!res.ok) return;
+    const d = await res.json();
+
+    // Hero
+    if (d.heroTitle)    document.getElementById('heroTitleEl').textContent    = d.heroTitle;
+    if (d.heroSubtitle) document.getElementById('heroSubtitleEl').textContent = d.heroSubtitle;
+    if (d.heroDesc)     document.getElementById('heroDescEl').textContent     = d.heroDesc;
+
+    // Info card
+    if (d.addressTh || d.address) {
+      document.getElementById('infoAddressTh').textContent = d.addressTh || d.address;
+    }
+    if (d.phone) {
+      const phoneEl = document.getElementById('infoPhone');
+      phoneEl.textContent = d.phone;
+      phoneEl.href = 'tel:+66' + d.phone.replace(/^0/, '').replace(/-/g, '');
+    }
+    if (d.lineId || d.lineUrl) {
+      const lineEl = document.getElementById('infoLine');
+      lineEl.textContent = d.lineId || d.lineUrl;
+      lineEl.href = d.lineUrl || '#';
+    }
+    if (d.email) {
+      const emailEl = document.getElementById('infoEmail');
+      emailEl.textContent = d.email;
+      emailEl.href = 'mailto:' + d.email;
+    }
+    if (d.openHours) document.getElementById('infoHours').textContent = d.openHours;
+    if (d.mapEmbed)  document.getElementById('mapFrame').src = d.mapEmbed;
+
+  } catch(e) {
+    console.warn('ไม่สามารถโหลดข้อมูลหน้าติดต่อ:', e);
+  }
+}
+
 function submitForm(e) {
   e.preventDefault();
-  const name = document.getElementById('contactName').value;
-  const phone = document.getElementById('contactPhone').value;
-  const email = document.getElementById('contactEmail').value;
+  const name    = document.getElementById('contactName').value;
+  const phone   = document.getElementById('contactPhone').value;
+  const email   = document.getElementById('contactEmail').value;
   const message = document.getElementById('contactMessage').value;
   
   if (name && phone && email && message) {
@@ -317,6 +365,8 @@ function submitForm(e) {
     alert('กรุณากรอกข้อมูลให้ครบถ้วน');
   }
 }
+
+document.addEventListener('DOMContentLoaded', loadContactPage);
 </script>
 
 </body>

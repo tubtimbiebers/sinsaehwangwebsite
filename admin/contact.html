@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>จัดการหน้าติดต่อ – ซินแสหวาง Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Noto+Sans+Thai:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css?v=12" />
+  <style>
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      color: var(--gold-deep); text-transform: uppercase;
+      margin-bottom: var(--sp-md);
+    }
+    .section-divider {
+      border: none; border-top: 2px solid var(--crimson);
+      margin: var(--sp-xl) 0; opacity: 0.15;
+    }
+    .save-indicator {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.8rem; color: #4caf50; opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .save-indicator.show { opacity: 1; }
+    .preview-card {
+      background: var(--cream); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: var(--sp-lg);
+      font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .preview-card .row { display: flex; gap: 0.6rem; align-items: flex-start; }
+    .preview-card .icon { font-size: 1.1rem; flex-shrink: 0; }
+    .embed-preview { width: 100%; height: 200px; border-radius: var(--r-md); border: 1px solid var(--border); margin-top: 8px; }
+  </style>
+</head>
+<body class="admin-body">
+<script>if(!sessionStorage.getItem('admin_auth')) window.location.href='/admin';</script>
+
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-logo">
+      <span class="logo-zh" style="font-family:'Ma Shan Zheng',cursive;">王</span>
+      <div class="logo-text"><span class="logo-main">ซินแสหวาง</span><span class="logo-sub">Admin Panel</span></div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">
+        <a href="/admin/dashboard.html" class="admin-nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">เนื้อหา</div>
+        <a href="/admin/homepage.html" class="admin-nav-item"><span class="nav-icon">🏠</span> แก้ไขหน้าแรก</a>
+        <a href="/admin/contact.html" class="admin-nav-item active"><span class="nav-icon">📞</span> หน้าติดต่อ</a>
+        <a href="/admin/posts.html" class="admin-nav-item"><span class="nav-icon">📝</span> บทความ</a>
+        <a href="/admin/categories.html" class="admin-nav-item"><span class="nav-icon">🏷️</span> หมวดหมู่</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">ลูกค้า</div>
+        <a href="/admin/consultations.html" class="admin-nav-item"><span class="nav-icon">🔮</span> คำปรึกษา</a>
+        <a href="/admin/customers.html" class="admin-nav-item"><span class="nav-icon">👥</span> ลูกค้า</a>
+        <a href="/admin/appointments.html" class="admin-nav-item"><span class="nav-icon">📅</span> นัดหมาย</a>
+      </div>
+      <div class="admin-nav-section">
+        <a href="/admin/settings.html" class="admin-nav-item"><span class="nav-icon">⚙️</span> ตั้งค่า</a>
+        <a href="#" class="admin-nav-item" onclick="sessionStorage.removeItem('admin_auth');window.location.href='/admin'"><span class="nav-icon">🚪</span> ออก</a>
+      </div>
+    </nav>
+    <div style="padding:var(--sp-lg);border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="font-size:0.7rem;color:var(--gray-600);text-align:center;">
+        <a href="/contact.html" target="_blank" style="color:var(--gold-bright);">ดูหน้าติดต่อ ↗</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div style="display:flex;align-items:center;gap:var(--sp-md);">
+        <button onclick="document.getElementById('adminSidebar').classList.toggle('open')"
+          style="display:none;padding:6px;border:1px solid var(--border);border-radius:var(--r-md);cursor:pointer;background:var(--white);" id="menuToggle">☰</button>
+        <span class="admin-topbar-title">📞 จัดการหน้าติดต่อ</span>
+      </div>
+      <div class="admin-topbar-actions">
+        <span class="save-indicator" id="saveIndicator">✓ บันทึกแล้ว</span>
+        <div class="admin-user"><div class="admin-avatar">ซ</div><span>ซินแสหวาง</span></div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- ── ข้อมูล Hero ── -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <span class="admin-card-title">🌟 ส่วนหัวหน้าติดต่อ (Hero)</span>
+        </div>
+        <div class="admin-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>หัวข้อหลัก</label>
+              <input type="text" class="form-control" id="heroTitle" placeholder="ติดต่อเรา" />
+            </div>
+            <div class="form-group">
+              <label>Subtitle (ใต้หัวข้อ)</label>
+              <input type="text" class="form-control" id="heroSubtitle" placeholder="สอบถามการนัดหมายและที่ตั้งสำนักงาน" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="grid-column:1/-1">
+              <label>คำอธิบายด้านล่าง Hero</label>
+              <textarea class="form-control" id="heroDesc" rows="2" placeholder="สำนักงานซินแสหวาง ยินดีต้อนรับทุกท่านด้วยคำแนะนำและทางออกชีวิต"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ข้อมูลติดต่อ ── -->
+      <div class="admin-card" style="margin-top:var(--sp-xl);">
+        <div class="admin-card-header">
+          <span class="admin-card-title">📋 ข้อมูลติดต่อ</span>
+        </div>
+        <div class="admin-form">
+          <div class="section-label">ช่องทางติดต่อ</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>📞 เบอร์โทรศัพท์</label>
+              <input type="text" class="form-control" id="phone" placeholder="085-514-5459" />
+            </div>
+            <div class="form-group">
+              <label>⏰ เวลาทำการ</label>
+              <input type="text" class="form-control" id="openHours" placeholder="จันทร์ – เสาร์ 09:00 – 18:00 น." />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>📧 อีเมล</label>
+              <input type="email" class="form-control" id="email" placeholder="sinsaehwang@yahoo.com" />
+            </div>
+            <div class="form-group">
+              <label>💬 LINE ID</label>
+              <input type="text" class="form-control" id="lineId" placeholder="sawang" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="grid-column:1/-1">
+              <label>🔗 LINE URL (ลิงก์เพิ่มเพื่อน — ถ้ามี)</label>
+              <input type="text" class="form-control" id="lineUrl" placeholder="https://line.me/ti/p/~sawang หรือ https://lin.ee/xxxxxxx" />
+            </div>
+          </div>
+
+          <hr class="section-divider" />
+          <div class="section-label">ที่อยู่สำนักงาน</div>
+          <div class="form-row">
+            <div class="form-group" style="grid-column:1/-1">
+              <label>📍 ที่อยู่ภาษาไทย</label>
+              <textarea class="form-control" id="addressTh" rows="2" placeholder="4 เทียนทะเล 22 แยก 16 แขวงท่าข้าม เขตบางขุนเทียน กรุงเทพมหานคร 10150"></textarea>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="grid-column:1/-1">
+              <label>📍 ที่อยู่ภาษาอังกฤษ</label>
+              <textarea class="form-control" id="address" rows="2" placeholder="4 Thian Talay 22 Yaek 16, Tha Kham, Bang Khun Thian, Bangkok 10150"></textarea>
+            </div>
+          </div>
+
+          <hr class="section-divider" />
+          <div class="section-label">Google Maps Embed URL</div>
+          <div class="form-row">
+            <div class="form-group" style="grid-column:1/-1">
+              <label>
+                🗺️ Embed URL จาก Google Maps
+                <small style="font-weight:400;color:var(--gray-500);">
+                  — เปิด Google Maps → กด Share → Embed a map → คัดลอก URL ใน src="..."
+                </small>
+              </label>
+              <textarea class="form-control" id="mapEmbed" rows="3"
+                placeholder="https://www.google.com/maps/embed?pb=..."
+                oninput="updateMapPreview()"></textarea>
+            </div>
+          </div>
+          <!-- Preview แผนที่ -->
+          <div id="mapPreviewWrapper" style="display:none;">
+            <div class="section-label" style="margin-top:0;">ตัวอย่างแผนที่</div>
+            <iframe id="mapPreviewFrame" class="embed-preview" frameborder="0" allowfullscreen loading="lazy"></iframe>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-primary" onclick="saveAll()">💾 บันทึกทั้งหมด</button>
+            <a href="/contact.html" target="_blank" class="btn-outline" style="text-decoration:none;">👁️ ดูหน้าติดต่อ</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Preview ── -->
+      <div class="admin-card" style="margin-top:var(--sp-xl);">
+        <div class="admin-card-header">
+          <span class="admin-card-title">👁️ ตัวอย่างข้อมูลที่แสดงในหน้าเว็บ</span>
+        </div>
+        <div style="padding:var(--sp-xl);">
+          <div class="preview-card" id="previewCard">
+            <div class="row"><span class="icon">📞</span><span id="prev-phone">-</span></div>
+            <div class="row"><span class="icon">📧</span><span id="prev-email">-</span></div>
+            <div class="row"><span class="icon">💬</span><span id="prev-line">-</span></div>
+            <div class="row"><span class="icon">📍</span><span id="prev-address">-</span></div>
+            <div class="row"><span class="icon">⏰</span><span id="prev-hours">-</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </main>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+const API_KEY = sessionStorage.getItem('admin_key') || '';
+
+async function loadData() {
+  try {
+    const res = await fetch('/api/contact-page');
+    if (!res.ok) throw new Error('load failed');
+    const d = await res.json();
+    fillForm(d);
+  } catch(e) {
+    console.warn('Cannot load contact page data:', e);
+  }
+}
+
+function fillForm(d) {
+  setVal('heroTitle',   d.heroTitle   || '');
+  setVal('heroSubtitle',d.heroSubtitle|| '');
+  setVal('heroDesc',    d.heroDesc    || '');
+  setVal('phone',       d.phone       || '');
+  setVal('email',       d.email       || '');
+  setVal('lineId',      d.lineId      || '');
+  setVal('lineUrl',     d.lineUrl     || '');
+  setVal('addressTh',   d.addressTh   || '');
+  setVal('address',     d.address     || '');
+  setVal('mapEmbed',    d.mapEmbed    || '');
+  setVal('openHours',   d.openHours   || '');
+  updatePreview();
+  updateMapPreview();
+}
+
+function gatherData() {
+  return {
+    heroTitle:    document.getElementById('heroTitle').value,
+    heroSubtitle: document.getElementById('heroSubtitle').value,
+    heroDesc:     document.getElementById('heroDesc').value,
+    phone:        document.getElementById('phone').value,
+    email:        document.getElementById('email').value,
+    lineId:       document.getElementById('lineId').value,
+    lineUrl:      document.getElementById('lineUrl').value,
+    addressTh:    document.getElementById('addressTh').value,
+    address:      document.getElementById('address').value,
+    mapEmbed:     document.getElementById('mapEmbed').value,
+    openHours:    document.getElementById('openHours').value
+  };
+}
+
+async function saveAll() {
+  const data = gatherData();
+  try {
+    const res = await fetch('/api/contact-page', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': API_KEY },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('Save failed');
+    showSaved();
+    updatePreview();
+  } catch(e) {
+    alert('เกิดข้อผิดพลาด: ' + e.message);
+  }
+}
+
+function showSaved() {
+  const el = document.getElementById('saveIndicator');
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+function setVal(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val;
+}
+
+function updatePreview() {
+  setText('prev-phone',   document.getElementById('phone').value     || '-');
+  setText('prev-email',   document.getElementById('email').value     || '-');
+  const lineId  = document.getElementById('lineId').value;
+  const lineUrl = document.getElementById('lineUrl').value;
+  setText('prev-line',    lineId ? (lineUrl ? lineId + ' (' + lineUrl + ')' : lineId) : '-');
+  setText('prev-address', document.getElementById('addressTh').value || document.getElementById('address').value || '-');
+  setText('prev-hours',   document.getElementById('openHours').value || '-');
+}
+
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+
+function updateMapPreview() {
+  const url = document.getElementById('mapEmbed').value.trim();
+  const wrapper = document.getElementById('mapPreviewWrapper');
+  const frame   = document.getElementById('mapPreviewFrame');
+  if (url && url.startsWith('https://www.google.com/maps/embed')) {
+    frame.src = url;
+    wrapper.style.display = 'block';
+  } else {
+    wrapper.style.display = 'none';
+  }
+}
+
+// Live preview on input
+['phone','email','lineId','lineUrl','addressTh','address','openHours'].forEach(id => {
+  document.getElementById(id)?.addEventListener('input', updatePreview);
+});
+
+// Responsive sidebar toggle
+const mq = window.matchMedia('(max-width: 900px)');
+document.getElementById('menuToggle').style.display = mq.matches ? 'block' : 'none';
+mq.addEventListener('change', e => {
+  document.getElementById('menuToggle').style.display = e.matches ? 'block' : 'none';
+});
+
+document.addEventListener('DOMContentLoaded', loadData);
+</script>
+</body>
+</html>
