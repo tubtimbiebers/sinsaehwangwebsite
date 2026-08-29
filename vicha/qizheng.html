@@ -1063,6 +1063,16 @@
       const shenDuLord = MANSION_RULER_MAP[shenMansionName] || { zh: '水', nameTh: '辰星 (พุธ)' };
       const shenPalaceLord = PALACE_RULER_MAP[shenInfo.name] || { zh: '水', nameTh: '水星 (ดาวพุธ)' };
 
+      // Calculate transiting planets for current real time
+      const currentAstronomyResult = calculatePlanetaryLongitudes(new Date());
+      const transitPlanetList = PLANETS_CONFIG.map(pConf => {
+        const deg = (currentAstronomyResult.values[pConf.id] || 0) % 360;
+        return {
+          ...pConf,
+          deg
+        };
+      });
+
       return {
         year, month, day, hour, minute, gender, system, latitude, longitude,
         timezone: utcDate.qzResolvedOffset, timeZoneName: timeZoneName || offsetLabel(timezone), utcDate,
@@ -1078,7 +1088,8 @@
         shenDuLord,
         shenPalaceLord,
         houses,
-        planetList
+        planetList,
+        transitPlanetList
       };
     }
 
@@ -1191,7 +1202,7 @@
       const OUTER_MAX_R  = 508;
       const OUTER_MIN_DIST = OUTER_ORB_R * 2 + 4;
 
-      const outerOrbs = chartData.planetList.map(p => ({
+      const outerOrbs = chartData.transitPlanetList.map(p => ({
         ...p,
         radialR: OUTER_RING_R,
         angle: degToAngle(p.deg)
