@@ -917,6 +917,81 @@
       return date;
     }
 
+    function getYearStemBranch(year, month, day) {
+      // Simple approximation: Li Chun is around Feb 4.
+      // If before Feb 4, it belongs to the previous Chinese year.
+      let solarYear = year;
+      if (month === 1 || (month === 2 && day < 4)) {
+        solarYear -= 1;
+      }
+      const stems = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
+      const branches = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+      const stemIdx = (solarYear - 4 + 10000) % 10;
+      const branchIdx = (solarYear - 4 + 10000) % 12;
+      return {
+        stem: stems[stemIdx],
+        branch: branches[branchIdx],
+        baziYear: stems[stemIdx] + branches[branchIdx]
+      };
+    }
+
+    const SHENSHA_RULES = {
+      tianyi: {
+        "甲": ["丑", "未"], "戊": ["丑", "未"], "庚": ["丑", "未"],
+        "乙": ["子", "申"], "己": ["子", "申"],
+        "丙": ["亥", "酉"], "丁": ["亥", "酉"],
+        "壬": ["卯", "巳"], "癸": ["卯", "巳"],
+        "辛": ["午", "寅"]
+      },
+      taohua: {
+        "申": "酉", "子": "酉", "辰": "酉",
+        "寅": "卯", "午": "卯", "戌": "卯",
+        "亥": "子", "卯": "子", "未": "子",
+        "巳": "午", "酉": "午", "丑": "午"
+      },
+      yima: {
+        "申": "寅", "子": "寅", "辰": "寅",
+        "寅": "申", "午": "申", "戌": "申",
+        "亥": "巳", "卯": "巳", "未": "巳",
+        "巳": "亥", "酉": "亥", "丑": "亥"
+      },
+      lushen: {
+        "甲": "寅", "乙": "卯", "丙": "巳", "丁": "午", "戊": "巳",
+        "己": "午", "庚": "申", "辛": "酉", "壬": "亥", "癸": "子"
+      },
+      yangren: {
+        "甲": "卯", "乙": "辰", "丙": "午", "丁": "未", "戊": "午",
+        "己": "未", "庚": "酉", "辛": "戌", "壬": "子", "癸": "丑"
+      }
+    };
+
+    function calculateShensha(stem, branch) {
+      const BRANCHES = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+      const shenshaMap = {};
+      BRANCHES.forEach(b => shenshaMap[b] = []);
+
+      const tianyi = SHENSHA_RULES.tianyi[stem];
+      if (tianyi) tianyi.forEach(b => shenshaMap[b].push("天乙贵人"));
+
+      const taohua = SHENSHA_RULES.taohua[branch];
+      if (taohua) shenshaMap[taohua].push("桃花");
+
+      const yima = SHENSHA_RULES.yima[branch];
+      if (yima) shenshaMap[yima].push("驿马");
+
+      const lushen = SHENSHA_RULES.lushen[stem];
+      if (lushen) shenshaMap[lushen].push("禄神");
+
+      const yangren = SHENSHA_RULES.yangren[stem];
+      if (yangren) shenshaMap[yangren].push("羊刃");
+
+      shenshaMap[branch].push("太岁");
+      const oppIdx = (BRANCHES.indexOf(branch) + 6) % 12;
+      shenshaMap[BRANCHES[oppIdx]].push("岁破");
+
+      return shenshaMap;
+    }
+
     function apparentLongitude(body, date) {
       return normDeg(Astronomy.Ecliptic(Astronomy.GeoVector(body, date, true)).elon);
     }
@@ -994,12 +1069,32 @@
 
       // Assign House Positions
       const houses = [];
+      const houseDaXianYears = {
+        1: 15, 2: 15, 3: 11, 4: 15, 5: 11, 6: 8,
+        7: 11, 8: 7, 9: 8, 10: 15, 11: 11, 12: 10
+      };
+      
+      let currentDaXianStart = 1;
+      // Da Xian progresses backwards: 1 -> 12 -> 11 -> 10...
+      const daXianOrder = [1, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
+      const daXianRanges = {};
+      
+      for (const houseNum of daXianOrder) {
+        const years = houseDaXianYears[houseNum];
+        daXianRanges[houseNum] = {
+          start: currentDaXianStart,
+          end: currentDaXianStart + years - 1
+        };
+        currentDaXianStart += years;
+      }
+
       for (let i = 0; i < 12; i++) {
         const zIdx = (mingIdx + i) % 12;
         const zInfo = ZODIAC12[zIdx] || ZODIAC12[0];
         const hName = HOUSES12_NAME[i];
+        const hNum = i + 1;
         houses.push({
-          houseNum: i + 1,
+          houseNum: hNum,
           zh: hName.zh,
           th: hName.th,
           desc: hName.desc,
@@ -1007,7 +1102,10 @@
           zEn: zInfo.en,
           zTh: zInfo.th,
           degStart: zInfo.degStart,
-          planets: []
+          daXianStart: daXianRanges[hNum].start,
+          daXianEnd: daXianRanges[hNum].end,
+          planets: [],
+          shensha: []
         });
       }
 
@@ -1073,6 +1171,33 @@
         };
       });
 
+      // Calculate Shensha & Bazi Year
+      const baziInfo = getYearStemBranch(year, month, day);
+      const shenshaMap = calculateShensha(baziInfo.stem, baziInfo.branch);
+      
+      // Inject Shensha into houses
+      houses.forEach(h => {
+        h.shensha = shenshaMap[h.zName] || [];
+      });
+
+      // Calculate Xiao Xian (Current Year Minor Limit)
+      const currentYear = new Date().getFullYear();
+      const chineseAge = currentYear - baziInfo.baziYear ? (currentYear - year + 1) : 1; // Approx
+      const steps = (chineseAge - 1) % 12;
+      // Gender rule: Male clockwise, Female counter-clockwise from Ming Gong
+      let xiaoXianHouseNum;
+      if (gender === 'male') {
+        xiaoXianHouseNum = (1 + steps);
+        if (xiaoXianHouseNum > 12) xiaoXianHouseNum -= 12;
+      } else {
+        xiaoXianHouseNum = (1 - steps);
+        if (xiaoXianHouseNum < 1) xiaoXianHouseNum += 12;
+      }
+      const xiaoXianHouse = houses.find(h => h.houseNum === xiaoXianHouseNum);
+
+      // Current Da Xian House
+      const currentDaXianHouse = houses.find(h => chineseAge >= h.daXianStart && chineseAge <= h.daXianEnd) || houses[0];
+
       return {
         year, month, day, hour, minute, gender, system, latitude, longitude,
         timezone: utcDate.qzResolvedOffset, timeZoneName: timeZoneName || offsetLabel(timezone), utcDate,
@@ -1089,7 +1214,12 @@
         shenPalaceLord,
         houses,
         planetList,
-        transitPlanetList
+        transitPlanetList,
+        baziInfo,
+        chineseAge,
+        currentYear,
+        xiaoXianHouse,
+        currentDaXianHouse
       };
     }
 
@@ -1473,14 +1603,53 @@
         }, HOUSE_EN_SHORT[idx]));
 
         gH.appendChild(createSvgElement('text', {
-          x: ptH.x, y: ptH.y + 14,
+          x: ptH.x, y: ptH.y + 10,
           fill: isMing ? '#92400e' : '#64748b',
-          'font-size': '10.5',
+          'font-size': '10',
           'font-weight': '400',
           'font-family': "'Prompt', sans-serif",
           'text-anchor': 'middle',
           'dominant-baseline': 'central'
         }, h.th.split(' ')[0]));
+
+        // Add Shensha
+        if (h.shensha && h.shensha.length > 0) {
+          gH.appendChild(createSvgElement('text', {
+            x: ptH.x, y: ptH.y + 22,
+            fill: '#dc2626',
+            'font-size': '9',
+            'font-weight': '600',
+            'font-family': "'Prompt', sans-serif",
+            'text-anchor': 'middle',
+            'dominant-baseline': 'central'
+          }, h.shensha.slice(0, 2).join(', '))); // Show max 2 to prevent overlap
+        }
+
+        // Add Da Xian / Xiao Xian
+        const isCurrentXiaoXian = chartData.xiaoXianHouse && chartData.xiaoXianHouse.houseNum === h.houseNum;
+        const isCurrentDaXian = chartData.currentDaXianHouse && chartData.currentDaXianHouse.houseNum === h.houseNum;
+        
+        gH.appendChild(createSvgElement('text', {
+          x: ptH.x, y: ptH.y + 34,
+          fill: isCurrentDaXian ? '#1d4ed8' : '#94a3b8',
+          'font-size': '9',
+          'font-weight': isCurrentDaXian ? '600' : '400',
+          'font-family': "'Prompt', sans-serif",
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central'
+        }, `อายุ ${h.daXianStart}-${h.daXianEnd}`));
+
+        if (isCurrentXiaoXian) {
+          gH.appendChild(createSvgElement('text', {
+            x: ptH.x, y: ptH.y + 44,
+            fill: '#ea580c',
+            'font-size': '9',
+            'font-weight': '600',
+            'font-family': "'Prompt', sans-serif",
+            'text-anchor': 'middle',
+            'dominant-baseline': 'central'
+          }, '⭐ ปีนี้'));
+        }
 
         svg.appendChild(gH);
       });
@@ -1633,14 +1802,18 @@
       housesTbody.innerHTML = '';
       chartData.houses.forEach(h => {
         const tr = document.createElement('tr');
-        const planetBadges = h.planets.map(p => `<span style="background:${p.bg}; color:#fff; padding:2px 8px; border-radius:4px; font-size:0.8rem; margin-right:4px;">${p.zh} ${p.nameTh.split(' ')[0]}</span>`).join('') || '<span style="color:var(--text-dim);">- ไม่มีดาวสถิต -</span>';
+        const planetBadges = h.planets.map(p => `<span style="background:${p.bg}; color:#fff; padding:2px 8px; border-radius:4px; font-size:0.8rem; margin-right:4px; display:inline-block; margin-bottom:2px;">${p.zh} ${p.nameTh.split(' ')[0]}</span>`).join('') || '<span style="color:var(--text-dim);">- ไม่มีดาวสถิต -</span>';
+        
+        const shenshaBadges = h.shensha.length ? h.shensha.map(s => `<span style="background:#ef4444; color:#fff; padding:2px 6px; border-radius:4px; font-size:0.75rem; margin-right:4px; display:inline-block; margin-bottom:2px;">${s}</span>`).join('') : '';
+        const xianText = `<div style="font-size:0.85rem; color:#64748b; margin-top:4px;">วัยจร: ${h.daXianStart}-${h.daXianEnd} ปี</div>`;
+        const currentXiaoXianBadge = chartData.xiaoXianHouse && chartData.xiaoXianHouse.houseNum === h.houseNum ? `<div style="font-size:0.85rem; color:#ea580c; font-weight:bold; margin-top:2px;">⭐ ปีจรปัจจุบัน</div>` : '';
 
         tr.innerHTML = `
           <td>เรือนที่ ${h.houseNum}</td>
           <td style="font-weight:600; color:var(--gold);">${h.zh}</td>
           <td style="font-weight:500;">${h.th}</td>
-          <td>${h.zName}宮 (${h.zEn} / ${h.zTh})</td>
-          <td>${planetBadges}</td>
+          <td>${h.zName}宮 (${h.zEn} / ${h.zTh})<br>${xianText}${currentXiaoXianBadge}</td>
+          <td>${planetBadges}<br>${shenshaBadges}</td>
         `;
         housesTbody.appendChild(tr);
       });
@@ -1666,8 +1839,14 @@
         <p style="margin-top:4px;">• <strong>身宮 (วังชะตา/จันทร์):</strong> สถิต <strong>${chartData.shenInfo.name}宮 (${chartData.shenInfo.en} / ${chartData.shenInfo.th})</strong> | <strong>身度主 (ดาวครององศาชะตา):</strong> <strong>${chartData.shenDuLord.nameTh}</strong> เสพฤกษ์ <strong>${chartData.shenMansionName}宿</strong></p>
         <p style="margin-top:4px;">• <strong>宮主 (เจ้าเรือนภพ):</strong> วังลัคนาครองโดย <strong>${chartData.mingPalaceLord.nameTh}</strong> | วังชะตาครองโดย <strong>${chartData.shenPalaceLord.nameTh}</strong></p>
         <p style="margin-top:4px;">• <strong>男女取法:</strong> ${genderMethod}</p>
+
+        <h4 style="color:var(--gold-light); font-size:1.15rem; margin-top:20px; margin-bottom:10px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">2. วัยจรและดาวพิเศษ (Time Cycles & Shensha)</h4>
+        <p>• <strong>ปีนักษัตรเกิด:</strong> ปี ${chartData.baziInfo.baziYear} (ดิถี ${chartData.baziInfo.stem} / ราศีล่าง ${chartData.baziInfo.branch})</p>
+        <p style="margin-top:4px;">• <strong>อายุปัจจุบัน:</strong> ${chartData.chineseAge} ปี (ตามระบบจีน นับเริ่ม 1 ขวบ)</p>
+        <p style="margin-top:4px;">• <strong>วัยจรใหญ่ (大限):</strong> อยู่ในวัง <strong>${chartData.currentDaXianHouse.zh} (${chartData.currentDaXianHouse.th})</strong> อายุ ${chartData.currentDaXianHouse.daXianStart}-${chartData.currentDaXianHouse.daXianEnd} ปี</p>
+        <p style="margin-top:4px;">• <strong>วัยจรย่อย (小限):</strong> ปีจร ${chartData.currentYear} ตกอยู่ในวัง <strong>${chartData.xiaoXianHouse ? chartData.xiaoXianHouse.zh : ''} (${chartData.xiaoXianHouse ? chartData.xiaoXianHouse.th : ''})</strong></p>
         
-        <h4 style="color:var(--gold-light); font-size:1.15rem; margin-top:20px; margin-bottom:10px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">2. 宮位資料 · หลักฐานรายวัง (ยังไม่สรุป吉凶)</h4>
+        <h4 style="color:var(--gold-light); font-size:1.15rem; margin-top:20px; margin-bottom:10px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">3. 宮位資料 · หลักฐานรายวัง (ยังไม่สรุป吉凶)</h4>
         <p>• <strong>財帛宮:</strong> ${wealthHouse.zName}宮 — ${formatHouseEvidence(wealthHouse)}</p>
         <p style="margin-top:4px;">• <strong>官祿宮:</strong> ${careerHouse.zName}宮 — ${formatHouseEvidence(careerHouse)}</p>
         <p style="margin-top:4px;">• <strong>夫妻宮:</strong> ${spouseHouse.zName}宮 — ${formatHouseEvidence(spouseHouse)}</p>
