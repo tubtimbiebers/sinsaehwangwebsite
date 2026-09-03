@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>อี้จิงลิ่วเหยา (易經六爻) - ซินแสหวาง</title>
+  <meta name="description" content="พยากรณ์อี้จิงลิ่วเหยา (易經六爻) ระบบกว้าหกเส้น พร้อมหกญาติ หกเทพ โดยซินแสหวาง">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Serif+Thai:wght@400;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Sinsae Hwang Brand Palette - White & Gold Theme */
+      --bg-page: transparent;
+      --bg-card: #ffffff;
+      --bg-panel: #faf6ee;
+      --bg-highlight: #fff9e6;
+      --border-gold: rgba(184, 134, 11, 0.22);
+      --border-gold-b: rgba(184, 134, 11, 0.55);
+      --gold-dark: #8a6a1a;
+      --gold: #b8860b;
+      --gold-light: #d4af37;
+      --crimson: #c0392b;
+      --crimson-light: #fdf2f2;
+      --text-main: #2c1810;
+      --text-dim: #6c5346;
+      --text-muted: #9e8675;
+      
+      --yang: #d97706;        /* Golden Amber */
+      --yin: #2563eb;         /* Royal Cobalt Blue */
+      --shi: #c2410c;         /* Brick Orange */
+      --ying: #15803d;        /* Jade Green */
+      --shadow: 0 4px 20px rgba(184, 134, 11, 0.08), 0 1px 3px rgba(0, 0, 0, 0.03);
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Prompt', 'Noto Serif Thai', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #faf6ee; }
+    ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 3px; }
+
+    .vicha-header {
+      text-align: center;
+      padding: 16px 20px 20px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .vicha-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 140px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+    }
+    .hdr-sym {
+      font-size: 2.2rem;
+      line-height: 1.1;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(184, 134, 11, 0.2);
+    }
+    .hdr-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 4px 0 2px;
+      font-family: 'Noto Serif Thai', serif;
+    }
+    .hdr-sub {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 4px 14px 40px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.2s;
+    }
+    .card:hover {
+      box-shadow: 0 6px 24px rgba(184, 134, 11, 0.12);
+    }
+
+    .card-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border-gold-b), transparent);
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 540px) {
+      .input-grid { grid-template-columns: 1fr; }
+      .card { padding: 16px; }
+    }
+
+    .fl { display: flex; flex-direction: column; gap: 6px; }
+    .lbl {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+    .inp, .sel {
+      background: #fffdf9;
+      border: 1px solid #dcc8a0;
+      border-radius: 8px;
+      color: var(--text-main);
+      font-family: 'Prompt', sans-serif;
+      font-size: 0.92rem;
+      padding: 10px 14px;
+      outline: none;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .inp:focus, .sel:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18);
+      background: #ffffff;
+    }
+    .sel option { background: #ffffff; color: var(--text-main); }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-gold);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 18px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 9px 8px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-dim);
+      font-family: 'Prompt', sans-serif;
+      font-size: 0.84rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      color: var(--gold-dark);
+    }
+    .tab-btn.active {
+      background: #ffffff;
+      color: var(--gold-dark);
+      font-weight: 600;
+      border: 1px solid var(--border-gold);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Coin toss section */
+    .coin-instr {
+      font-size: 0.84rem;
+      color: var(--text-dim);
+      margin-bottom: 18px;
+      line-height: 1.7;
+      text-align: center;
+      background: var(--bg-panel);
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px dashed var(--border-gold);
+    }
+    .line-ctr {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      border: 1px solid #cbd5e1;
+      transition: all 0.25s;
+    }
+    .dot.done {
+      background: var(--gold);
+      border-color: var(--gold-dark);
+      box-shadow: 0 0 8px rgba(184, 134, 11, 0.4);
+    }
+
+    .coins-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .cw { display: flex; flex-direction: column; align-items: center; }
+    .coin {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e1;
+      background: #f8fafc;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+      box-shadow: var(--shadow-sm);
+    }
+    .coin:hover {
+      transform: scale(1.08) translateY(-2px);
+      border-color: var(--gold);
+    }
+    .coin.heads {
+      background: radial-gradient(circle, #fff9e6 15%, #fde047 65%, #ca8a04 100%);
+      border-color: #b45309;
+      color: #78350f;
+      box-shadow: 0 4px 16px rgba(202, 138, 4, 0.35);
+    }
+    .coin.tails {
+      background: radial-gradient(circle, #f8fafc 20%, #cbd5e1 70%, #94a3b8 100%);
+      border-color: #475569;
+      color: #1e293b;
+      box-shadow: 0 4px 16px rgba(100, 116, 139, 0.25);
+    }
+    .coin.spin { animation: cspin 0.4s ease-in-out; }
+    @keyframes cspin {
+      0% { transform: rotateY(0) scale(1); }
+      50% { transform: rotateY(90deg) scale(0.85); }
+      100% { transform: rotateY(0) scale(1); }
+    }
+    .cl { font-size: 0.72rem; color: var(--text-dim); margin-top: 6px; font-weight: 500; }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .btn {
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-family: 'Prompt', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-p {
+      background: linear-gradient(135deg, #d4af37 0%, #b8860b 50%, #996515 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(184, 134, 11, 0.28);
+    }
+    .btn-p:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(184, 134, 11, 0.35);
+    }
+    .btn-s {
+      background: #ffffff;
+      border: 1px solid var(--border-gold-b);
+      color: var(--gold-dark);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-s:hover {
+      background: var(--bg-highlight);
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+    .btn-d {
+      background: #fff5f5;
+      border: 1px solid rgba(220, 38, 38, 0.25);
+      color: #dc2626;
+    }
+    .btn-d:hover {
+      background: #fee2e2;
+    }
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .lv-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .lvb {
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      color: var(--text-dim);
+    }
+    .lvb.yang { border-color: #d97706; color: #b45309; background: #fef3c7; }
+    .lvb.yin  { border-color: #2563eb; color: #1d4ed8; background: #dbeafe; }
+    .lvb.cy   { border-color: #dc2626; color: #b91c1c; background: #fee2e2; }
+    .lvb.cn   { border-color: #0284c7; color: #0369a1; background: #e0f2fe; }
+
+    /* Hexagram display area */
+    .gda {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+      align-items: start;
+      background: #faf6ee;
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      padding: 20px 16px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 620px) {
+      .gda { grid-template-columns: 1fr; }
+      .garr { display: none; }
+    }
+    .gp {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+    }
+    .gnr { text-align: center; margin-bottom: 12px; }
+    .gnum { font-size: 0.76rem; color: var(--gold-dark); font-weight: 600; }
+    .gcn {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 2px 0;
+    }
+    .gth {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+    .garr {
+      font-size: 1.8rem;
+      color: var(--gold);
+      align-self: center;
+      opacity: 0.7;
+    }
+
+    .lr {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 320px;
+      gap: 8px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+    .lr:hover { background: rgba(184, 134, 11, 0.05); }
+    .lnum {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+      font-weight: 600;
+    }
+    .lgfx {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 16px;
+    }
+    .yb {
+      height: 10px;
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+      border-radius: 4px;
+      flex: 1;
+      box-shadow: 0 1px 4px rgba(217, 119, 6, 0.3);
+    }
+    .nb {
+      height: 10px;
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+      border-radius: 4px;
+      flex: 1;
+      box-shadow: 0 1px 4px rgba(37, 99, 235, 0.25);
+    }
+    .ng { width: 12px; flex-shrink: 0; }
+    .lbr {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      width: 24px;
+      text-align: center;
+      color: var(--text-main);
+      flex-shrink: 0;
+    }
+    .lqin {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      width: 60px;
+      text-align: left;
+      flex-shrink: 0;
+    }
+    .ldty {
+      font-size: 0.68rem;
+      font-weight: 600;
+      width: 72px;
+      text-align: left;
+      flex-shrink: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .lr.shi { background: rgba(194, 65, 12, 0.08); }
+    .lr.ying { background: rgba(21, 128, 61, 0.08); }
+    .lr.chg .yb {
+      background: linear-gradient(90deg, #ef4444, #dc2626);
+      box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
+    }
+    .lr.chg .nb {
+      background: linear-gradient(90deg, #0284c7, #0369a1);
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.35);
+    }
+
+    .sbg, .abg, .hbg, .cbg {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .sbg { background: #ffedd5; color: var(--shi); border: 1px solid #fdba74; }
+    .abg { background: #dcfce7; color: var(--ying); border: 1px solid #86efac; }
+    .hbg { background: #f3e8ff; color: #7e22ce; border: 1px solid #d8b4fe; }
+    .cbg { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+
+    .tsep {
+      width: 100%;
+      max-width: 320px;
+      border: none;
+      border-top: 1px dashed var(--border-gold-b);
+      margin: 6px 0;
+      opacity: 0.7;
+    }
+
+    .result-sec { display: none; }
+    .result-sec.vis { display: block; }
+
+    /* Badges & Pills */
+    .elm-b {
+      padding: 5px 16px;
+      border-radius: 99px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: 1px solid;
+    }
+    .elm-b.ดิน { color: #b45309; border-color: #fcd34d; background: #fffbeb; }
+    .elm-b.ไม้ { color: #15803d; border-color: #86efac; background: #f0fdf4; }
+    .elm-b.ไฟ { color: #c2410c; border-color: #fdba74; background: #fff7ed; }
+    .elm-b.ทอง { color: #854d0e; border-color: #e2e8f0; background: #f8fafc; }
+    .elm-b.น้ำ { color: #0369a1; border-color: #7dd3fc; background: #f0f9ff; }
+
+    .pred-box {
+      background: #ffffff;
+      border: 1px solid var(--border-gold);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+    .pred-lbl {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--gold-dark);
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .pred-txt {
+      font-size: 0.94rem;
+      line-height: 1.8;
+      color: var(--text-main);
+    }
+
+    .sp-notes {
+      background: #fff5f5;
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 14px;
+    }
+    .sp-lbl {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #b91c1c;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .sp-txt {
+      font-size: 0.86rem;
+      color: #991b1b;
+      line-height: 1.7;
+    }
+
+    .pal-info {
+      display: flex;
+      gap: 14px;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      flex-wrap: wrap;
+    }
+    .pal-info span {
+      color: var(--gold-dark);
+      font-weight: 600;
+    }
+
+    .ch-header {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 320px;
+      gap: 8px;
+      margin-bottom: 6px;
+      padding: 0 6px;
+    }
+    .ch-header div {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+    .ch-cn { width: 18px; flex-shrink: 0; text-align: center; }
+    .ch-cg { flex: 1; text-align: center; }
+    .ch-cb { width: 24px; flex-shrink: 0; text-align: center; }
+    .ch-cq { width: 60px; flex-shrink: 0; }
+    .ch-cd { width: 72px; flex-shrink: 0; }
+
+    /* Deity Colors (Light theme) */
+    .dgr { color: #15803d; }  /* มังกรเขียว */
+    .drp { color: #b91c1c; }  /* หงษ์แดง */
+    .dgk { color: #b45309; }  /* กิเลน */
+    .dfs { color: #7e22ce; }  /* งูเหิน */
+    .dwt { color: #475569; }  /* เสือขาว */
+    .ddt { color: #0369a1; }  /* เต่าดำ */
+
+    /* Manual grid */
+    .ml-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 480px) {
+      .ml-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .mlb {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 6px;
+      background: #fffdf9;
+      border: 1px solid #dcc8a0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Prompt', sans-serif;
+    }
+    .mlb:hover {
+      border-color: var(--gold);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    .mlb .mn { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); }
+    .mlb .mt { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; }
+    .mlb.ys { border-color: #d97706; background: #fffbeb; }
+    .mlb.ns { border-color: #2563eb; background: #eff6ff; }
+
+    /* Reference grid */
+    .ref-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    @media (max-width: 540px) {
+      .ref-grid { grid-template-columns: 1fr; }
+    }
+    .ri {
+      background: #faf6ee;
+      border: 1px solid var(--border-gold);
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 0.8rem;
+    }
+    .ri-t {
+      color: var(--gold-dark);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .ri-r {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-dim);
+      padding: 3px 0;
+      border-bottom: 1px dashed rgba(184, 134, 11, 0.12);
+    }
+    .ri-r:last-child { border-bottom: none; }
+    .ri-r span { color: var(--text-main); font-weight: 500; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .ani { animation: fadeInUp 0.35s ease-out; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="vicha-header">
+    <div class="hdr-sym">易經六爻</div>
+    <div class="hdr-title">อี้จิงลิ่วเหยา (Liuyao Divination)</div>
+    <div class="hdr-sub">ระบบพยากรณ์กว้าหกเส้น · นาจี๋ · หกญาติ · หกเทพ โดย ซินแสหวาง</div>
+  </header>
+
+  <!-- Input Form Card -->
+  <div class="card">
+    <div class="card-title">⚙ ข้อมูลการพยากรณ์</div>
+    <div class="input-grid">
+      <div class="fl">
+        <label class="lbl">เรื่องที่ถาม (ย่งเสิน)</label>
+        <input id="qi" class="inp" type="text" placeholder="ระบุเรื่องที่ต้องการถาม เช่น การงาน, การเงิน, ความรัก...">
+      </div>
+      <div class="fl">
+        <label class="lbl">เพศผู้ถาม</label>
+        <select id="gi" class="sel">
+          <option value="ชาย">ชาย (男)</option>
+          <option value="หญิง">หญิง (女)</option>
+        </select>
+      </div>
+      <div class="fl">
+        <label class="lbl">วันที่ถาม</label>
+        <input id="di" class="inp" type="date">
+      </div>
+      <div class="fl">
+        <label class="lbl">คงบ๊วง - นักษัตรวันจร</label>
+        <select id="db" class="sel">
+          <option value="">-- เลือกนักษัตรวัน --</option>
+          <option value="子">子 ชวด</option>
+          <option value="丑">丑 ฉลู</option>
+          <option value="寅">寅 ขาล</option>
+          <option value="卯">卯 เถาะ</option>
+          <option value="辰">辰 มะโรง</option>
+          <option value="巳">巳 มะเส็ง</option>
+          <option value="午">午 มะเมีย</option>
+          <option value="未">未 มะแม</option>
+          <option value="申">申 วอก</option>
+          <option value="酉">酉 ระกา</option>
+          <option value="戌">戌 จอ</option>
+          <option value="亥">亥 กุน</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cast Method Card -->
+  <div class="card">
+    <div class="tabs">
+      <button class="tab-btn active" id="tb-coin" onclick="switchTab('coin')">🪙 โยนเหรียญ</button>
+      <button class="tab-btn" id="tb-manual" onclick="switchTab('manual')">✍ ใส่ด้วยมือ</button>
+      <button class="tab-btn" id="tb-random" onclick="switchTab('random')">🎲 สุ่มกว้า</button>
+    </div>
+
+    <!-- Coin Tab -->
+    <div id="tab-coin">
+      <div class="coin-instr">
+        โยนเหรียญ 3 เหรียญ 6 ครั้ง จากเส้นที่ 1 (ล่างสุด) ขึ้นไปเส้นที่ 6 (บนสุด)<br>
+        <strong style="color:var(--yang)">หัว (☀) = หยาง (แต้ม 3)</strong>&nbsp;&nbsp;|&nbsp;&nbsp;<strong style="color:var(--yin)">ก้อย (☽) = หยิน (แต้ม 2)</strong>
+      </div>
+      <div class="line-ctr">
+        <span style="margin-right:4px; font-weight:600;">เส้นที่กำลังโยน:</span>
+        <div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div>
+        <div class="dot" id="d4"></div><div class="dot" id="d5"></div><div class="dot" id="d6"></div>
+        <span id="cll" style="margin-left:8px; color:var(--gold-dark); font-weight:700;">1 / 6</span>
+      </div>
+      <div class="coins-row">
+        <div class="cw"><div class="coin" id="c0" onclick="toggleCoin(0)"><span id="cf0">?</span></div><div class="cl">เหรียญ 1</div></div>
+        <div class="cw"><div class="coin" id="c1" onclick="toggleCoin(1)"><span id="cf1">?</span></div><div class="cl">เหรียญ 2</div></div>
+        <div class="cw"><div class="coin" id="c2" onclick="toggleCoin(2)"><span id="cf2">?</span></div><div class="cl">เหรียญ 3</div></div>
+      </div>
+      <div id="csd" style="text-align:center;font-size:0.9rem;font-weight:600;color:var(--gold-dark);margin-bottom:14px;min-height:22px"></div>
+      <div class="btn-row">
+        <button class="btn btn-s" onclick="randomToss()">🎲 สุ่มโยนเหรียญรอบนี้</button>
+        <button class="btn btn-p" id="ccb" onclick="confirmCoinLine()" disabled>✓ บันทึกเส้นนี้</button>
+      </div>
+      <div class="lv-row" id="rl"></div>
+    </div>
+
+    <!-- Manual Tab -->
+    <div id="tab-manual" style="display:none">
+      <div style="font-size:0.84rem;color:var(--text-dim);margin-bottom:14px;text-align:center;">คลิกแต่ละเส้นเพื่อวนเลือกประเภทเส้น (เส้น 1 ล่างสุด → เส้น 6 บนสุด)</div>
+      <div class="ml-grid" id="mg"></div>
+      <div style="text-align:center;margin-top:14px;"><button class="btn btn-p" onclick="confirmManual()">✓ คำนวณผลกว้า</button></div>
+    </div>
+
+    <!-- Random Tab -->
+    <div id="tab-random" style="display:none;text-align:center;padding:10px 0;">
+      <div style="font-size:0.92rem;color:var(--text-dim);margin-bottom:18px;line-height:1.8">
+        ตั้งจิตอธิษฐานถามคำถามในใจ จากนั้นกดปุ่มสุ่มเพื่อรับกว้าพยากรณ์
+      </div>
+      <button class="btn btn-p" style="font-size:1rem;padding:12px 36px" onclick="doRandom()">🎴 สุ่มกว้าพยากรณ์ทันที</button>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;border-top:1px dashed var(--border-gold);padding-top:14px;">
+      <button class="btn btn-d" onclick="resetAll()">↺ ล้างข้อมูล / เริ่มใหม่</button>
+    </div>
+  </div>
+
+  <!-- Result Section -->
+  <div class="result-sec card ani" id="rs">
+    <div class="card-title">☯ ผลการพยากรณ์อี้จิงลิ่วเหยา</div>
+    
+    <div id="qdp" style="font-size:0.9rem;background:var(--bg-panel);border:1px solid var(--border-gold);padding:10px 16px;border-radius:8px;margin-bottom:16px;display:none">
+      <span style="color:var(--gold-dark);font-weight:700;">เรื่องที่ถาม:</span> <span id="qt" style="font-weight:600;"></span>
+    </div>
+
+    <div class="gda" id="gda">
+      <!-- Main Hexagram -->
+      <div class="gp" id="mgp">
+        <div class="gnr">
+          <div class="gnum" id="mhn"></div>
+          <div class="gcn" id="mcn"></div>
+          <div class="gth" id="mth"></div>
+        </div>
+        <div class="ch-header">
+          <div class="ch-cn">#</div>
+          <div class="ch-cg">เส้นกว้า</div>
+          <div class="ch-cb">納甲</div>
+          <div class="ch-cq">หกญาติ</div>
+          <div class="ch-cd">หกเทพ</div>
+        </div>
+        <div id="mld" style="width:100%;max-width:320px;"></div>
+      </div>
+
+      <div class="garr">→</div>
+
+      <!-- Changed Hexagram -->
+      <div class="gp" id="cgp" style="display:none">
+        <div class="gnr">
+          <div class="gnum" id="chn"></div>
+          <div class="gcn" id="ccn"></div>
+          <div class="gth" id="cth"></div>
+        </div>
+        <div class="ch-header">
+          <div class="ch-cn">#</div>
+          <div class="ch-cg">เส้นกว้า</div>
+          <div class="ch-cb">納甲</div>
+          <div class="ch-cq">หกญาติ</div>
+          <div class="ch-cd">หกเทพ</div>
+        </div>
+        <div id="cld" style="width:100%;max-width:320px;"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:16px 0 14px;background:#ffffff;padding:10px 14px;border-radius:8px;border:1px solid var(--border-gold)">
+      <div class="elm-b" id="eb"></div>
+      <div class="pal-info" id="pi"></div>
+    </div>
+
+    <div id="pa"></div>
+    <div id="na"></div>
+
+    <div style="margin-top:18px;text-align:center;">
+      <button class="btn btn-s" onclick="resetAll()">↺ ถามคำถามใหม่</button>
+    </div>
+  </div>
+
+  <!-- Reference Tables -->
+  <div class="card">
+    <div class="card-title">📖 ข้อมูลอ้างอิงและคู่มือลิ่วเหยา</div>
+    <div class="ref-grid">
+      <div class="ri">
+        <div class="ri-t">หกญาติ (六親 - หกความสัมพันธ์)</div>
+        <div class="ri-r">พ่อแม่ (父母) <span>เอกสาร การศึกษา ผู้ใหญ่</span></div>
+        <div class="ri-r">พี่น้อง (兄弟) <span>คนรอบข้าง มิตรสหาย แข่งขัน</span></div>
+        <div class="ri-r">ลูกหลาน (子孫) <span>บริวาร ลูกน้อง ความสุข โชคลาภ</span></div>
+        <div class="ri-r">ทรัพย์สิน (妻財) <span>การเงิน ภรรยา ผลตอบแทน</span></div>
+        <div class="ri-r">ยศศักดิ์ (官鬼) <span>หน้าที่การงาน อำนาจ สามี อุปสรรค</span></div>
+      </div>
+      <div class="ri">
+        <div class="ri-t">หกเทพ (六神 - สัญลักษณ์ประจำวัน)</div>
+        <div class="ri-r">มังกรเขียว (青龍) <span class="dgr">โชคลาภ ดีงาม มงคล</span></div>
+        <div class="ri-r">หงษ์แดง (朱雀) <span class="drp">ข่าวสาร วาจา ปากเสียง</span></div>
+        <div class="ri-r">กิเลน (勾陳) <span class="dgk">มงคล ที่ดิน หน่วงเหนี่ยว</span></div>
+        <div class="ri-r">งูเหิน (螣蛇) <span class="dfs">กังวล ลังเล ฝันร้าย</span></div>
+        <div class="ri-r">เสือขาว (白虎) <span class="dwt">อุบัติเหตุ เจ็บป่วย รุนแรง</span></div>
+        <div class="ri-r">เต่าดำ (玄武) <span class="ddt">ซ่อนเร้น มืด ลับ ลวง</span></div>
+      </div>
+      <div class="ri">
+        <div class="ri-t">ประเภทเส้น (爻)</div>
+        <div class="ri-r">———— <span style="color:var(--yang);font-weight:700;">หยาง 陽 (7)</span></div>
+        <div class="ri-r">—— —— <span style="color:var(--yin);font-weight:700;">หยิน 陰 (8)</span></div>
+        <div class="ri-r" style="color:var(--crimson);">———— ○ <span style="font-weight:700;">หยางเปลี่ยน (9)</span></div>
+        <div class="ri-r" style="color:#0284c7;">—— —— × <span style="font-weight:700;">หยินเปลี่ยน (6)</span></div>
+      </div>
+      <div class="ri">
+        <div class="ri-t">ตำแหน่งสัญลักษณ์สำคัญ</div>
+        <div class="ri-r"><span style="color:var(--shi);font-weight:700;">世 (ซื่อ)</span>&nbsp;ตัวผู้ถาม (ตัวเอง)</div>
+        <div class="ri-r"><span style="color:var(--ying);font-weight:700;">應 (อิ้ง)</span>&nbsp;คู่ / เป้าหมาย / ฝ่ายตรงข้าม</div>
+        <div class="ri-r"><span style="color:#7e22ce;font-weight:700;">伏 (ฟู่)</span>&nbsp;เทพซ่อน (伏神)</div>
+        <div class="ri-r"><span style="color:#b91c1c;font-weight:700;">○ / ×</span>&nbsp;เส้นเปลี่ยน (動爻)</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// DATA & CONSTANTS
+// ══════════════════════════════════════════════════════════
+const INLINE_HDB = [{"id":0,"upper_gua":"☷","lower_gua":"☷","stems":["辛","癸","己","乙","丁","己"],"branches":["酉","亥","丑","卯","巳","未"],"so_markers":["s","","","o","","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["ลูกหลาน","ทรัพย์สิน","พี่น้อง","ยศศักดิ์","พ่อแม่","พี่น้อง"],"element":"ดิน","hex_num":2,"name_en":"Receptive","name_th":"วิหารคุง","name_cn":"คุนเว่ยตี้","shi_stem":"甲","shi_branch":"子","palace":1,"palace_pos":1,"pred_1":"คุณสามารถเอาชนะศัตรูและคู่แข่งที่กำลังคุกคามได้","pred_2":"ควรมีความอ่อนโยนและดูแลเอาใจใส่ผู้อื่น สิ่งนี้จะสร้างรากฐานแห่งโชคลาภในที่สุด","notes":["","","","หกเหลี่ยม: คนหาย=มีโอกาสพบ, ความรัก/แต่งงาน=ไม่เหมาะสม","","","",""],"gender":"ชาย"},{"id":1,"upper_gua":"☷","lower_gua":"☳","stems":["辛","癸","己","戊","甲","壬"],"branches":["酉","亥","丑","辰","寅","子"],"so_markers":["","","o","","","s","","","","","","巳",""],"hidden":["","","","","พ่อแม่",""],"liu_qin":["ลูกหลาน","ทรัพย์สิน","พี่น้อง","พี่น้อง","ยศศักดิ์","ทรัพย์สิน"],"element":"ดิน","hex_num":24,"name_en":"Return","name_th":"วิหารคุง","name_cn":"ตี้เหลยฟู่","shi_stem":"甲","shi_branch":"子","palace":1,"palace_pos":8,"pred_1":"สิ่งที่สูญเสียไปจะกลับคืนมา โอกาสใหม่กำลังเปิดออก จงเริ่มต้นใหม่ด้วยความมั่นใจ","pred_2":"เหมือนฤดูใบไม้ผลิที่กลับมาหลังหน้าหนาว ฟ้าสว่างได้ทีก็กลับฟื้นขึ้น","notes":["","","","","","","",""],"gender":"หญิง"},{"id":10,"upper_gua":"☷","lower_gua":"☵","stems":["辛","癸","己","丙","戊","甲"],"branches":["酉","亥","丑","午","辰","寅"],"so_markers":["o","","","s","","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["พ่อแม่","พี่น้อง","ยศศักดิ์","ทรัพย์สิน","ยศศักดิ์","ลูกหลาน"],"element":"น้ำ","hex_num":7,"name_en":"Army","name_th":"วิหารข่ำ","name_cn":"ตี้สุ่ยซือ","shi_stem":"壬","shi_branch":"申","palace":1,"palace_pos":7,"pred_1":"ต้องมีความสามัคคีในครอบครัวและองค์กร มิฉะนั้นสิ่งดีจะไม่เกิดขึ้น ต้องอดทนและรักษาความสงบ","pred_2":"โชคดีในการค้าขาย แต่ระวังผู้ที่ไม่จริงใจในการเจรจาต่อรอง","notes":["","วิญญาณกลับ: ของหาย/คนป่วย=มีโอกาสพบ/หาย","","","","","",""],"gender":""},{"id":11,"upper_gua":"☷","lower_gua":"☱","stems":["辛","癸","己","己","乙","丁"],"branches":["酉","亥","丑","丑","卯","巳"],"so_markers":["","o","","","s","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["ลูกหลาน","ทรัพย์สิน","พี่น้อง","พี่น้อง","ยศศักดิ์","พ่อแม่"],"element":"ดิน","hex_num":19,"name_en":"Approach","name_th":"วิหารคุง","name_cn":"ตี้เจ๋อหลิน","shi_stem":"乙","shi_branch":"卯","palace":1,"palace_pos":4,"pred_1":"โอกาสทองกำลังมาถึง จงคว้าไว้อย่าปล่อยให้หลุดมือ สิ่งที่ทำในช่วงนี้จะให้ผลดีในอนาคต","pred_2":"ฤดูกาลแห่งโชคดีกำลังเริ่มต้น ใช้เวลานี้ให้เป็นประโยชน์ก่อนที่โอกาสจะผ่านไป","notes":["","","","","","","",""],"gender":""},{"id":100,"upper_gua":"☷","lower_gua":"☶","stems":["辛","癸","己","庚","丙","戊"],"branches":["酉","亥","丑","申","午","辰"],"so_markers":["","s","","","o","","","","","","","卯",""],"hidden":["","","","","ทรัพย์สิน",""],"liu_qin":["พี่น้อง","ลูกหลาน","พ่อแม่","พี่น้อง","ยศศักดิ์","พ่อแม่"],"element":"ทอง","hex_num":15,"name_en":"Modesty","name_th":"วิหารต๋วย","name_cn":"ตี้ซานเซียน","shi_stem":"戊","shi_branch":"戌","palace":1,"palace_pos":6,"pred_1":"ความถ่อมตนและเจียมตัวนำมาซึ่งโชคลาภ ผู้ที่อ่อนน้อมมักได้รับการยกย่องจากคนรอบข้าง","pred_2":"ดวงดาวเรียงตัวในแนวดี สิ่งใดที่เริ่มต้นด้วยความสุจริตจะประสบความสำเร็จ","notes":["","","","","","","",""],"gender":""},{"id":101,"upper_gua":"☷","lower_gua":"☲","stems":["辛","癸","己","癸","己","乙"],"branches":["酉","亥","丑","亥","丑","卯"],"so_markers":["","","s","","","o","","","","","午","",""],"hidden":["","","","ทรัพย์สิน","",""],"liu_qin":["พ่อแม่","พี่น้อง","ยศศักดิ์","พี่น้อง","ยศศักดิ์","ลูกหลาน"],"element":"น้ำ","hex_num":36,"name_en":"Darkening","name_th":"วิหารข่ำ","name_cn":"ตี้หั่วหมิงอี๋","shi_stem":"辛","shi_branch":"丑","palace":1,"palace_pos":3,"pred_1":"แสงสว่างถูกบดบัง อยู่ในช่วงที่ถูกกดขี่ ควรซ่อนความสามารถและรักษาตัวให้รอด อย่าเปิดเผยตัวเองมากนัก","pred_2":"เหมือนดวงอาทิตย์ที่ถูกบดบัง แสงสว่างยังคงอยู่ภายใน รอเวลาฟ้าเปิดแล้วออกมาอีกครั้ง","notes":["","","วิญญาณพเนจร: ของหาย/คนป่วย=ยากจะพบ/หาย","","","","",""],"gender":""},{"id":110,"upper_gua":"☷","lower_gua":"☴","stems":["辛","癸","己","辛","癸","己"],"branches":["酉","亥","丑","酉","亥","丑"],"so_markers":["","","s","","","o","","","","午","","寅",""],"hidden":["","","ลูกหลาน","","พี่น้อง",""],"liu_qin":["ยศศักดิ์","พ่อแม่","ทรัพย์สิน","ยศศักดิ์","พ่อแม่","ทรัพย์สิน"],"element":"ไม้","hex_num":46,"name_en":"Pushing up","name_th":"วิหารจิ้ง","name_cn":"ตี้เฟิงเซิง","shi_stem":"己","shi_branch":"未","palace":1,"palace_pos":2,"pred_1":"ความก้าวหน้ากำลังเกิดขึ้นอย่างต่อเนื่อง เหมือนต้นไม้งอกขึ้นจากดิน จงขยันขันแข็งและไม่หยุดนิ่ง","pred_2":"โชคลาภจะเพิ่มพูนหากคุณยึดมั่นในความพยายาม ความสำเร็จไม่ไกลเกินเอื้อม","notes":["","","","","","","",""],"gender":""},{"id":111,"upper_gua":"☷","lower_gua":"☰","stems":["辛","癸","己","戊","甲","壬"],"branches":["酉","亥","丑","辰","寅","子"],"so_markers":["o","","","s","","","","","","","","巳",""],"hidden":["","","","","พ่อแม่",""],"liu_qin":["ลูกหลาน","ทรัพย์สิน","พี่น้อง","พี่น้อง","ยศศักดิ์","ทรัพย์สิน"],"element":"ดิน","hex_num":11,"name_en":"Peace","name_th":"วิหารคุง","name_cn":"ตี้เทียนไท่","shi_stem":"庚","shi_branch":"辰","palace":1,"palace_pos":9,"pred_1":"ฟ้าดินสมดุล ทุกอย่างเป็นใจ โชคลาภในทุกด้าน ทั้งการงาน การเงิน และความรัก","pred_2":"ช่วงเวลาแห่งสันติและความเจริญ ใช้โอกาสนี้วางแผนระยะยาวเพื่ออนาคตที่มั่นคง","notes":["","","","","","","",""],"gender":""},{"id":1000,"upper_gua":"☳","lower_gua":"☷","stems":["戊","庚","丙","乙","丁","己"],"branches":["戌","申","午","卯","巳","未"],"so_markers":["","","o","","","s","","","","","","子",""],"hidden":["","","","","พ่อแม่",""],"liu_qin":["ทรัพย์สิน","ยศศักดิ์","ลูกหลาน","พี่น้อง","ลูกหลาน","ทรัพย์สิน"],"element":"ไม้","hex_num":16,"name_en":"Enthusiasm","name_th":"วิหารจิ้ง","name_cn":"เหลยตี้ยู่","shi_stem":"丁","shi_branch":"亥","palace":8,"palace_pos":8,"pred_1":"กระตือรือร้นและมีพลังงานสูง เป็นเวลาดีสำหรับการเริ่มต้นโครงการใหม่และสร้างความสัมพันธ์","pred_2":"ดนตรีและศิลปะนำความสุขมาให้ ความสนุกสนานช่วยคลายความเครียดและเปิดโอกาสใหม่","notes":["","","","","","","",""],"gender":""},{"id":1001,"upper_gua":"☳","lower_gua":"☳","stems":["戊","庚","丙","戊","甲","壬"],"branches":["戌","申","午","辰","寅","子"],"so_markers":["s","","","o","","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["ทรัพย์สิน","ยศศักดิ์","ลูกหลาน","ทรัพย์สิน","พี่น้อง","พ่อแม่"],"element":"ไม้","hex_num":51,"name_en":"Arousing","name_th":"วิหารจิ้ง","name_cn":"เจิ้นเหวยเหลย","shi_stem":"壬","shi_branch":"子","palace":8,"palace_pos":1,"pred_1":"ฟ้าผ่า ช็อค และความตกใจ แต่ผู้มีสติจะผ่านพ้นได้ ความกลัวในตอนแรกจะกลายเป็นพลัง","pred_2":"หลังความตื่นตระหนกจะมีความสงบ จงรักษาใจให้นิ่งท่ามกลางพายุ","notes":["","","","หกเหลี่ยม: คนหาย=มีโอกาสพบ, ความรัก/แต่งงาน=ไม่เหมาะสม","","","",""],"gender":""},{"id":1010,"upper_gua":"☳","lower_gua":"☵","stems":["戊","庚","丙","丙","戊","甲"],"branches":["戌","申","午","午","辰","寅"],"so_markers":["","o","","","s","","","","","","","","子"],"hidden":["","","","","","พ่อแม่"],"liu_qin":["ทรัพย์สิน","ยศศักดิ์","ลูกหลาน","ลูกหลาน","ทรัพย์สิน","พี่น้อง"],"element":"ไม้","hex_num":40,"name_en":"Deliverance","name_th":"วิหารจิ้ง","name_cn":"เหลยสุยเจี่ย","shi_stem":"丙","shi_branch":"申","palace":8,"palace_pos":4,"pred_1":"อุปสรรคและปัญหาต่างๆ กำลังคลี่คลาย หลังพายุมีแสงแดด โชคดีกำลังมาแทนที่ความทุกข์","pred_2":"ออกสู่โลกภายนอกได้แล้ว ถอนตัวจากความขัดแย้งและมุ่งหน้าสู่เป้าหมายใหม่","notes":["","","","","","","",""],"gender":""},{"id":1011,"upper_gua":"☳","lower_gua":"☱","stems":["戊","庚","丙","己","乙","丁"],"branches":["戌","申","午","丑","卯","巳"],"so_markers":["o","","","s","","","","","","亥","","",""],"hidden":["","","ลูกหลาน","","",""],"liu_qin":["พ่อแม่","พี่น้อง","ยศศักดิ์","พ่อแม่","ทรัพย์สิน","ยศศักดิ์"],"element":"ทอง","hex_num":54,"name_en":"Marrying","name_th":"วิหารต๋วย","name_cn":"เหลยเจ๋อเม่ย","shi_stem":"癸","shi_branch":"卯","palace":8,"palace_pos":7,"pred_1":"ความสัมพันธ์ที่เริ่มต้นในสถานการณ์ที่ไม่เหมาะสม ควรระวังการตัดสินใจในเรื่องความรักและการแต่งงาน","pred_2":"บางสิ่งที่ดูดีในตอนแรกอาจซ่อนปัญหาไว้ ตรวจสอบให้ถี่ถ้วนก่อนมุ่งมั่น","notes":["","วิญญาณกลับ: ของหาย/คนป่วย=มีโอกาสพบ/หาย","","","","","",""],"gender":""},{"id":1100,"upper_gua":"☳","lower_gua":"☶","stems":["戊","庚","丙","庚","丙","戊"],"branches":["戌","申","午","申","午","辰"],"so_markers":["","","s","","","o","","","","亥","","卯",""],"hidden":["","","ลูกหลาน","","ทรัพย์สิน",""],"liu_qin":["พ่อแม่","พี่น้อง","ยศศักดิ์","พี่น้อง","ยศศักดิ์","พ่อแม่"],"element":"ทอง","hex_num":62,"name_en":"Small Excess","name_th":"วิหารต๋วย","name_cn":"เหลยซานเสี่ยวกั้ว","shi_stem":"辛","shi_branch":"酉","palace":8,"palace_pos":3,"pred_1":"อย่าทำเกินขอบเขต ความพอดีคือคำตอบ เล็กน้อยดีกว่าใหญ่โตเกินไปในช่วงนี้","pred_2":"ทำเรื่องเล็กน้อยให้ดี อย่าวิ่งหาสิ่งยิ่งใหญ่ ความสำเร็จอยู่ในความพอดี","notes":["","","วิญญาณพเนจร: ของหาย/คนป่วย=ยากจะพบ/หาย","","","","",""],"gender":""},{"id":1101,"upper_gua":"☳","lower_gua":"☲","stems":["戊","庚","丙","癸","己","乙"],"branches":["戌","申","午","亥","丑","卯"],"so_markers":["","s","","","o","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["ยศศักดิ์","พ่อแม่","ทรัพย์สิน","พี่น้อง","ยศศักดิ์","ลูกหลาน"],"element":"น้ำ","hex_num":55,"name_en":"Abundance","name_th":"วิหารข่ำ","name_cn":"เหลยหั่วเฟิง","shi_stem":"戊","shi_branch":"寅","palace":8,"palace_pos":6,"pred_1":"ช่วงเวลาสูงสุดแห่งโชคดีและความอุดมสมบูรณ์ รีบใช้โอกาสนี้ให้เต็มที่ เพราะสิ่งดีจะไม่อยู่ตลอดไป","pred_2":"ดวงอาทิตย์อยู่สูงสุด ความรุ่งเรืองถึงขีดสุด แต่จงรู้จักประหยัดและเตรียมพร้อมสำหรับช่วงขาลง","notes":["","","","","","","",""],"gender":""},{"id":1110,"upper_gua":"☳","lower_gua":"☴","stems":["戊","庚","丙","辛","癸","己"],"branches":["戌","申","午","酉","亥","丑"],"so_markers":["o","","","s","","","","","","","","寅",""],"hidden":["","","","","พี่น้อง",""],"liu_qin":["ทรัพย์สิน","ยศศักดิ์","ลูกหลาน","ยศศักดิ์","พ่อแม่","ทรัพย์สิน"],"element":"ไม้","hex_num":32,"name_en":"Du子ion","name_th":"วิหารจิ้ง","name_cn":"เหลยเฟิงเหิง","shi_stem":"庚","shi_branch":"午","palace":8,"palace_pos":9,"pred_1":"ความสม่ำเสมอและความอดทนนำไปสู่ความสำเร็จ อย่าเปลี่ยนแปลงแผนกะทันหัน จงมั่นคงในทิศทาง","pred_2":"ความสัมพันธ์ที่ยั่งยืนสร้างจากความสม่ำเสมอและความไว้วางใจซึ่งกันและกัน","notes":["","","","","","","",""],"gender":""},{"id":1111,"upper_gua":"☳","lower_gua":"☰","stems":["戊","庚","丙","戊","甲","壬"],"branches":["戌","申","午","辰","寅","子"],"so_markers":["","","s","","","o","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["พี่น้อง","ลูกหลาน","พ่อแม่","พี่น้อง","ยศศักดิ์","ทรัพย์สิน"],"element":"ดิน","hex_num":34,"name_en":"Great","name_th":"วิหารคุง","name_cn":"เหลยเทียนต้าจ้วง","shi_stem":"己","shi_branch":"巳","palace":8,"palace_pos":2,"pred_1":"พลังอันยิ่งใหญ่อยู่ในมือคุณ แต่ต้องใช้อย่างมีสติ พลังที่ไม่มีทิศทางจะกลายเป็นโทษ","pred_2":"ความแข็งแกร่งอยู่ที่การรู้จักควบคุมตัวเอง ผู้ที่แข็งแกร่งที่แท้จริงไม่จำเป็นต้องแสดงให้เห็น","notes":["","","","หกเหลี่ยม: คนหาย=มีโอกาสพบ, ความรัก/แต่งงาน=ไม่เหมาะสม","","","",""],"gender":""},{"id":10000,"upper_gua":"☵","lower_gua":"☷","stems":["壬","戊","庚","乙","丁","己"],"branches":["子","戌","申","卯","巳","未"],"so_markers":["o","","","s","","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["ลูกหลาน","ทรัพย์สิน","พี่น้อง","ยศศักดิ์","พ่อแม่","พี่น้อง"],"element":"ดิน","hex_num":8,"name_en":"Hold together","name_th":"วิหารคุง","name_cn":"สุ่ยตี้ปี่","shi_stem":"辛","shi_branch":"亥","palace":7,"palace_pos":7,"pred_1":"ความสามัคคีและความร่วมมือนำมาซึ่งชัยชนะ รวบรวมพวกพ้องและสร้างพันธมิตรในตอนนี้","pred_2":"ผู้นำที่แท้จริงรวมคนอื่นมาด้วยกัน ไม่ใช่ทำสิ่งต่างๆ คนเดียว โชคดีสำหรับการทำงานเป็นทีม","notes":["","วิญญาณกลับ: ของหาย/คนป่วย=มีโอกาสพบ/หาย","","","","","",""],"gender":""},{"id":10001,"upper_gua":"☵","lower_gua":"☳","stems":["壬","戊","庚","戊","甲","壬"],"branches":["子","戌","申","辰","寅","子"],"so_markers":["","o","","","s","","","","","","午","",""],"hidden":["","","","ทรัพย์สิน","",""],"liu_qin":["พี่น้อง","ยศศักดิ์","พ่อแม่","ยศศักดิ์","ลูกหลาน","พี่น้อง"],"element":"น้ำ","hex_num":3,"name_en":"Resolving Chaos","name_th":"วิหารข่ำ","name_cn":"สุ่ยเหลยถุน","shi_stem":"戊","shi_branch":"子","palace":7,"palace_pos":4,"pred_1":"ช่วงเริ่มต้นมีความยากลำบาก เหมือนต้นไม้ที่กำลังแทงขึ้นจากดินแข็ง ต้องอดทนและพยายามต่อไป","pred_2":"ความโกลาหลในตอนต้นจะค่อยๆ คลี่คลาย จงหาผู้ช่วยที่ไว้ใจได้มาร่วมฝ่าฟันด้วยกัน","notes":["Great 4 Ominous:3-29-39-47","","","","","","",""],"gender":""},{"id":10010,"upper_gua":"☵","lower_gua":"☵","stems":["壬","戊","庚","丙","戊","甲"],"branches":["子","戌","申","午","辰","寅"],"so_markers":["s","","","o","","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["พี่น้อง","ยศศักดิ์","พ่อแม่","ทรัพย์สิน","ยศศักดิ์","ลูกหลาน"],"element":"น้ำ","hex_num":29,"name_en":"Pitfall","name_th":"วิหารข่ำ","name_cn":"ขั่นเหวยสุย","shi_stem":"庚","shi_branch":"申","palace":7,"palace_pos":1,"pred_1":"อยู่ในสถานการณ์อันตรายและยากลำบาก เหมือนตกลงไปในน้ำลึก ต้องใจเย็นและหาทางออกอย่างมีสติ","pred_2":"น้ำไหลผ่านอุปสรรคได้เสมอ จงยืดหยุ่นและหาช่องทางที่เป็นไปได้แทนการฝืน","notes":["Great 4 Ominous:3-29-39-47","","","หกเหลี่ยม: คนหาย=มีโอกาสพบ, ความรัก/แต่งงาน=ไม่เหมาะสม","","","",""],"gender":"ชาย"},{"id":10011,"upper_gua":"☵","lower_gua":"☱","stems":["壬","戊","庚","己","乙","丁"],"branches":["子","戌","申","未","卯","巳"],"so_markers":["","","o","","","s","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["พี่น้อง","ยศศักดิ์","พ่อแม่","ยศศักดิ์","ลูกหลาน","ทรัพย์สิน"],"element":"น้ำ","hex_num":60,"name_en":"Limitation","name_th":"วิหารข่ำ","name_cn":"สุ่ยเจ๋อเจี๋ย","shi_stem":"己","shi_branch":"卯","palace":7,"palace_pos":8,"pred_1":"ต้องมีขอบเขตและกฎเกณฑ์ในชีวิต การจำกัดบางอย่างนำมาซึ่งอิสรภาพที่แท้จริง","pred_2":"ทรัพยากรมีจำกัด จงใช้อย่างรอบคอบและวางแผนล่วงหน้า ความอดออมเป็นสิ่งสำคัญในช่วงนี้","notes":["","","","","","","",""],"gender":""},{"id":10100,"upper_gua":"☵","lower_gua":"☶","stems":["壬","戊","庚","庚","丙","戊"],"branches":["子","戌","申","申","午","辰"],"so_markers":["","","s","","","o","","","","","","卯",""],"hidden":["","","","","ทรัพย์สิน",""],"liu_qin":["ลูกหลาน","พ่อแม่","พี่น้อง","พี่น้อง","ยศศักดิ์","พ่อแม่"],"element":"ทอง","hex_num":39,"name_en":"Obstruction","name_th":"วิหารต๋วย","name_cn":"สุ่ยซานเจี่ยน","shi_stem":"甲","shi_branch":"戌","palace":7,"palace_pos":2,"pred_1":"สิ่งกีดขวางมากมายขวางหน้า ไม่ใช่เวลาที่จะบุกหน้า ถอยหลังหนึ่งก้าวเพื่อก้าวหน้าสองก้าว","pred_2":"ขอความช่วยเหลือจากผู้มีประสบการณ์ อย่าฝืนโชคชะตา รอเวลาที่เหมาะสมจะดีกว่า","notes":["Great 4 Ominous:3-29-39-47","","","","","","",""],"gender":""},{"id":10101,"upper_gua":"☵","lower_gua":"☲","stems":["壬","戊","庚","癸","己","乙"],"branches":["子","戌","申","亥","丑","卯"],"so_markers":["o","","","s","","","","","","","午","",""],"hidden":["","","","ทรัพย์สิน","",""],"liu_qin":["พี่น้อง","ยศศักดิ์","พ่อแม่","พี่น้อง","ยศศักดิ์","ลูกหลาน"],"element":"น้ำ","hex_num":63,"name_en":"Order","name_th":"วิหารข่ำ","name_cn":"สุยหั่วจี้จี้","shi_stem":"甲","shi_branch":"寅","palace":7,"palace_pos":9,"pred_1":"ทุกอย่างอยู่ในระเบียบเรียบร้อย สำเร็จแล้วในตอนนี้ แต่ต้องระวังความละเลยหลังจากสำเร็จ","pred_2":"หลังข้ามแม่น้ำแล้วอย่าปล่อยตัว ความสำเร็จในวันนี้ต้องการการดูแลรักษาต่อไป","notes":["","","","","","","",""],"gender":""},{"id":10110,"upper_gua":"☵","lower_gua":"☴","stems":["壬","戊","庚","辛","癸","己"],"branches":["子","戌","申","酉","亥","丑"],"so_markers":["","s","","","o","","","","","午","","寅",""],"hidden":["","","ลูกหลาน","","พี่น้อง",""],"liu_qin":["พ่อแม่","ทรัพย์สิน","ยศศักดิ์","ยศศักดิ์","พ่อแม่","ทรัพย์สิน"],"element":"ไม้","hex_num":48,"name_en":"The Well","name_th":"วิหารจิ้ง","name_cn":"สุ่ยเฟิงจิ่ง","shi_stem":"乙","shi_branch":"未","palace":7,"palace_pos":6,"pred_1":"ความรู้และทรัพยากรมีอยู่ แต่ต้องรู้จักตักออกมาใช้ บ่อน้ำที่ดีต้องได้รับการดูแลรักษา","pred_2":"ผู้คนรอบข้างต้องการความช่วยเหลือ การให้และการรับจะทำให้ทุกคนเจริญรุ่งเรืองร่วมกัน","notes":["","","","","","","",""],"gender":""},{"id":10111,"upper_gua":"☵","lower_gua":"☰","stems":["壬","戊","庚","戊","甲","壬"],"branches":["子","戌","申","辰","寅","子"],"so_markers":["","","s","","","o","","","","","","巳",""],"hidden":["","","","","พ่อแม่",""],"liu_qin":["ทรัพย์สิน","พี่น้อง","ลูกหลาน","พี่น้อง","ยศศักดิ์","ทรัพย์สิน"],"element":"ดิน","hex_num":5,"name_en":"Waiting","name_th":"วิหารคุง","name_cn":"สุ่ยเทียนซู","shi_stem":"乙","shi_branch":"巳","palace":7,"palace_pos":3,"pred_1":"บ่งชี้ถึงช่วงพักผ่อนและเตรียมตัว สิ่งดีกำลังจะมาแต่มาทีละน้อย มีความยากลำบากพอสมควรอยู่บ้าง","pred_2":"แต่โชคลาภมีการปรับปรุงอย่างต่อเนื่องและมั่นคง","notes":["","","วิญญาณพเนจร: ของหาย/คนป่วย=ยากจะพบ/หาย","","","","",""],"gender":""},{"id":11000,"upper_gua":"☱","lower_gua":"☷","stems":["己","辛","癸","乙","丁","己"],"branches":["未","酉","亥","卯","巳","未"],"so_markers":["","o","","","s","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["พ่อแม่","พี่น้อง","ลูกหลาน","ทรัพย์สิน","ยศศักดิ์","พ่อแม่"],"element":"ทอง","hex_num":45,"name_en":"Gathering","name_th":"วิหารต๋วย","name_cn":"เจ๋อตี้ซุ่ย","shi_stem":"壬","shi_branch":"戌","palace":4,"palace_pos":4,"pred_1":"การรวมตัวและการสะสม เป็นเวลาดีสำหรับการจัดงานและรวมผู้คน ทรัพย์สินจะงอกเงย","pred_2":"จัดระเบียบสิ่งที่มีอยู่ก่อนแสวงหาสิ่งใหม่ การรวมพลังคือกุญแจสู่ความสำเร็จ","notes":["","","","","","","",""],"gender":""},{"id":11001,"upper_gua":"☱","lower_gua":"☳","stems":["己","辛","癸","戊","甲","壬"],"branches":["未","酉","亥","辰","寅","子"],"so_markers":["o","","","s","","","","","","午","","",""],"hidden":["","","ลูกหลาน","","",""],"liu_qin":["ทรัพย์สิน","ยศศักดิ์","พ่อแม่","ทรัพย์สิน","พี่น้อง","พ่อแม่"],"element":"ไม้","hex_num":17,"name_en":"Following","name_th":"วิหารจิ้ง","name_cn":"เจ๋อเหลยสุย","shi_stem":"丁","shi_branch":"丑","palace":4,"palace_pos":7,"pred_1":"ติดตามผู้นำที่ดีและปรับตัวตามสถานการณ์ ความยืดหยุ่นและการรู้จักตามนำไปสู่ความสำเร็จ","pred_2":"เวลาแห่งการตามหลังผู้อื่น อย่าดึงดันทำในแบบของตัวเอง การยอมรับจะเปิดประตูโอกาส","notes":["","วิญญาณกลับ: ของหาย/คนป่วย=มีโอกาสพบ/หาย","","","","","",""],"gender":""},{"id":11010,"upper_gua":"☱","lower_gua":"☵","stems":["己","辛","癸","丙","戊","甲"],"branches":["未","酉","亥","午","辰","寅"],"so_markers":["","","o","","","s","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["พ่อแม่","พี่น้อง","ลูกหลาน","ยศศักดิ์","พ่อแม่","ทรัพย์สิน"],"element":"ทอง","hex_num":47,"name_en":"Oppression","name_th":"วิหารต๋วย","name_cn":"เจ๋อสุ่ยคุ่น","shi_stem":"癸","shi_branch":"未","palace":4,"palace_pos":8,"pred_1":"อยู่ในสภาวะกดดันและขัดสน ทรัพย์สินและพลังกำลังหมดลง ถึงเวลาทบทวนตัวเองอย่างจริงจัง","pred_2":"แม้ในยามยากก็ยังมีทางออก จงอดทนและมองหาแนวทางใหม่ สถานการณ์จะเปลี่ยนแปลงได้","notes":["Great 4 Ominous:3-29-39-47","","","","","","",""],"gender":""},{"id":11011,"upper_gua":"☱","lower_gua":"☱","stems":["己","辛","癸","己","乙","丁"],"branches":["未","酉","亥","丑","卯","巳"],"so_markers":["s","","","o","","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["พ่อแม่","พี่น้อง","ลูกหลาน","พ่อแม่","ทรัพย์สิน","ยศศักดิ์"],"element":"ทอง","hex_num":58,"name_en":"Joyous","name_th":"วิหารต๋วย","name_cn":"ตุ้ยเหว่ยเจ๋อ","shi_stem":"丙","shi_branch":"辰","palace":4,"palace_pos":1,"pred_1":"ความสุขและความร่าเริงแผ่กระจาย สังคมสัมพันธ์ดีเยี่ยม การสื่อสารและการเจรจาราบรื่น","pred_2":"รอยยิ้มและคำพูดดีๆ เปิดประตูทุกบาน เป็นเวลาดีสำหรับการเจรจาและสร้างมิตรภาพ","notes":["","","","หกเหลี่ยม: คนหาย=มีโอกาสพบ, ความรัก/แต่งงาน=ไม่เหมาะสม","","","",""],"gender":""},{"id":11100,"upper_gua":"☱","lower_gua":"☶","stems":["己","辛","癸","庚","丙","戊"],"branches":["未","酉","亥","申","午","辰"],"so_markers":["o","","","s","","","","","","","","卯",""],"hidden":["","","","","ทรัพย์สิน",""],"liu_qin":["พ่อแม่","พี่น้อง","ลูกหลาน","พี่น้อง","ยศศักดิ์","พ่อแม่"],"element":"ทอง","hex_num":31,"name_en":"Influence","name_th":"วิหารต๋วย","name_cn":"เจ๋อซานเสียน","shi_stem":"丁","shi_branch":"酉","palace":4,"palace_pos":9,"pred_1":"ความดึงดูดและอิทธิพลส่วนตัวแข็งแกร่ง ความสัมพันธ์ใหม่กำลังก่อตัว โดยเฉพาะในเรื่องความรัก","pred_2":"เปิดใจรับสิ่งใหม่ๆ การตอบสนองต่อกันและกันสร้างความผูกพันที่ลึกซึ้ง","notes":["","","","","","","",""],"gender":""},{"id":11101,"upper_gua":"☱","lower_gua":"☲","stems":["己","辛","癸","癸","己","乙"],"branches":["未","酉","亥","亥","丑","卯"],"so_markers":["","","s","","","o","","","","","午","",""],"hidden":["","","","ทรัพย์สิน","",""],"liu_qin":["ยศศักดิ์","พ่อแม่","พี่น้อง","พี่น้อง","ยศศักดิ์","ลูกหลาน"],"element":"น้ำ","hex_num":49,"name_en":"Revolution","name_th":"วิหารข่ำ","name_cn":"เจ๋อหั่วเก๋อ","shi_stem":"庚","shi_branch":"寅","palace":4,"palace_pos":2,"pred_1":"ถึงเวลาเปลี่ยนแปลงขนานใหญ่ ระเบียบเก่าถึงจุดสิ้นสุด สิ่งใหม่กำลังจะเกิดขึ้น","pred_2":"การปฏิวัติต้องมีเหตุผลที่ดีและเวลาที่เหมาะสม การเปลี่ยนแปลงที่แท้จริงต้องมาจากข้างใน","notes":["","","","","","","",""],"gender":"หญิง"},{"id":11110,"upper_gua":"☱","lower_gua":"☴","stems":["己","辛","癸","辛","癸","己"],"branches":["未","酉","亥","酉","亥","丑"],"so_markers":["","","s","","","o","","","","午","","寅",""],"hidden":["","","ลูกหลาน","","พี่น้อง",""],"liu_qin":["ทรัพย์สิน","ยศศักดิ์","พ่อแม่","ยศศักดิ์","พ่อแม่","ทรัพย์สิน"],"element":"ไม้","hex_num":28,"name_en":"Great Excess","name_th":"วิหารจิ้ง","name_cn":"เจ๋อเฟิงต้ากั้ว","shi_stem":"丙","shi_branch":"午","palace":4,"palace_pos":3,"pred_1":"ภาระหนักเกินกำลัง สถานการณ์กำลังวิกฤต ต้องแก้ปัญหาด่วนก่อนที่ทุกอย่างจะพังทลาย","pred_2":"คานรับน้ำหนักเกินพิกัด จำเป็นต้องตัดสินใจอย่างเด็ดขาดและกล้าหาญ","notes":["","","วิญญาณพเนจร: ของหาย/คนป่วย=ยากจะพบ/หาย","","","","",""],"gender":""},{"id":11111,"upper_gua":"☱","lower_gua":"☰","stems":["己","辛","癸","戊","甲","壬"],"branches":["未","酉","亥","辰","寅","子"],"so_markers":["","s","","","o","","","","","","","巳",""],"hidden":["","","","","พ่อแม่",""],"liu_qin":["พี่น้อง","ลูกหลาน","ทรัพย์สิน","พี่น้อง","ยศศักดิ์","ทรัพย์สิน"],"element":"ดิน","hex_num":43,"name_en":"Breakthrough","name_th":"วิหารคุง","name_cn":"เจ๋อเทียนไกว้","shi_stem":"癸","shi_branch":"巳","palace":4,"palace_pos":6,"pred_1":"ถึงเวลาตัดสินใจอย่างเด็ดขาด ขจัดสิ่งไม่ดีและคนไม่ดีออกจากชีวิต ความกล้าหาญจะชนะ","pred_2":"จงประกาศความตั้งใจของคุณอย่างชัดเจน การเปิดเผยความจริงจะนำมาซึ่งชัยชนะ","notes":["","","","","","","",""],"gender":""},{"id":100000,"upper_gua":"☶","lower_gua":"☷","stems":["甲","壬","戊","乙","丁","己"],"branches":["寅","子","戌","卯","巳","未"],"so_markers":["","s","","","o","","","","申","","","",""],"hidden":["","พี่น้อง","","","",""],"liu_qin":["ทรัพย์สิน","ลูกหลาน","พ่อแม่","ทรัพย์สิน","ยศศักดิ์","พ่อแม่"],"element":"ทอง","hex_num":23,"name_en":"Splitting Apart","name_th":"วิหารเคี้ยง","name_cn":"ซานตี้โป","shi_stem":"癸","shi_branch":"亥","palace":6,"palace_pos":6,"pred_1":"สิ่งต่างๆ กำลังสึกกร่อนและพังทลาย ถึงเวลาถอยหลังและรักษาตัว อย่าฝืนกระแส","pred_2":"เหมือนผลไม้สุกงอมที่ตกจากต้น จงปล่อยสิ่งที่ต้องปล่อยและรอฤดูกาลถัดไป","notes":["","","","","","","",""],"gender":""},{"id":100001,"upper_gua":"☶","lower_gua":"☳","stems":["甲","壬","戊","戊","甲","壬"],"branches":["寅","子","戌","辰","寅","子"],"so_markers":["","","s","","","o","","","巳","","酉","",""],"hidden":["","ลูกหลาน","","ยศศักดิ์","",""],"liu_qin":["พี่น้อง","พ่อแม่","ทรัพย์สิน","ทรัพย์สิน","พี่น้อง","พ่อแม่"],"element":"ไม้","hex_num":27,"name_en":"Nourishment","name_th":"วิหารสุ่ง","name_cn":"ซานเหลยอี๋","shi_stem":"丙","shi_branch":"子","palace":6,"palace_pos":3,"pred_1":"ใส่ใจในสิ่งที่บำรุงร่างกายและจิตใจ ทั้งอาหาร คำพูด และความคิด มีผลต่อสุขภาพและชะตา","pred_2":"ดูแลตัวเองและผู้ที่อยู่ในความดูแล สิ่งที่คุณเลี้ยงดูจะเติบโตและกลับคืนมาให้คุณ","notes":["","","วิญญาณพเนจร: ของหาย/คนป่วย=ยากจะพบ/หาย","","","","",""],"gender":""},{"id":100010,"upper_gua":"☶","lower_gua":"☵","stems":["甲","壬","戊","丙","戊","甲"],"branches":["寅","子","戌","午","辰","寅"],"so_markers":["","","s","","","o","","","","酉","","",""],"hidden":["","","ทรัพย์สิน","","",""],"liu_qin":["พ่อแม่","ยศศักดิ์","ลูกหลาน","พี่น้อง","ลูกหลาน","พ่อแม่"],"element":"ไฟ","hex_num":4,"name_en":"Immaturity","name_th":"วิหารลี้","name_cn":"ซานสุ่ยเหมิง","shi_stem":"庚","shi_branch":"申","palace":6,"palace_pos":2,"pred_1":"ยังอยู่ในช่วงเรียนรู้และไม่มีประสบการณ์เพียงพอ ต้องการผู้แนะนำที่ดี จงถ่อมตนและรับคำแนะนำ","pred_2":"ความอยากรู้อยากเห็นคือจุดเริ่มต้นของปัญญา จงเรียนรู้จากผู้มีประสบการณ์อย่างอ่อนน้อม","notes":["","","","","","","",""],"gender":"หญิง"},{"id":100011,"upper_gua":"☶","lower_gua":"☱","stems":["甲","壬","戊","己","乙","丁"],"branches":["寅","子","戌","丑","卯","巳"],"so_markers":["o","","","s","","","","","","","申","",""],"hidden":["","","","ลูกหลาน","",""],"liu_qin":["ยศศักดิ์","ทรัพย์สิน","พี่น้อง","พี่น้อง","ยศศักดิ์","พ่อแม่"],"element":"ดิน","hex_num":41,"name_en":"Decrease","name_th":"วิหารกึ่ง","name_cn":"ซานเจ๋อสุ่น","shi_stem":"丁","shi_branch":"卯","palace":6,"palace_pos":9,"pred_1":"ต้องสูญเสียบางอย่างเพื่อได้บางอย่างที่ดีกว่า การให้ออกไปด้วยใจบริสุทธิ์จะได้รับกลับคืนมา","pred_2":"ลดสิ่งที่มากเกินไปและเพิ่มในสิ่งที่ขาด ความสมดุลคือหัวใจของกว้านี้","notes":["","","","","","","",""],"gender":""},{"id":100100,"upper_gua":"☶","lower_gua":"☶","stems":["甲","壬","戊","庚","丙","戊"],"branches":["寅","子","戌","申","午","辰"],"so_markers":["s","","","o","","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["ยศศักดิ์","ทรัพย์สิน","พี่น้อง","ลูกหลาน","พ่อแม่","พี่น้อง"],"element":"ดิน","hex_num":52,"name_en":"Keep Still","name_th":"วิหารกึ่ง","name_cn":"เกิ้นเว่ยซาน","shi_stem":"丙","shi_branch":"戌","palace":6,"palace_pos":1,"pred_1":"แผนธุรกิจยังไม่พร้อม ควรถอยหลังและทบทวนใหม่ ความรอบคอบและการรอเวลาเป็นสิ่งสำคัญ","pred_2":"อย่าสนใจคำนินทาไร้สาระ มีความเห็นเป็นของตัวเอง ไม่ใช่เวลาที่ดีสำหรับการเดินทาง","notes":["","","","หกเหลี่ยม: คนหาย=มีโอกาสพบ, ความรัก/แต่งงาน=ไม่เหมาะสม","","","",""],"gender":""},{"id":100101,"upper_gua":"☶","lower_gua":"☲","stems":["甲","壬","戊","癸","己","乙"],"branches":["寅","子","戌","亥","丑","卯"],"so_markers":["","","o","","","s","","","","","申","午",""],"hidden":["","","","ลูกหลาน","พ่อแม่",""],"liu_qin":["ยศศักดิ์","ทรัพย์สิน","พี่น้อง","ทรัพย์สิน","พี่น้อง","ยศศักดิ์"],"element":"ดิน","hex_num":22,"name_en":"Grace","name_th":"วิหารกึ่ง","name_cn":"ซานหั่วปี้","shi_stem":"癸","shi_branch":"丑","palace":6,"palace_pos":8,"pred_1":"โอกาสแต่งงานนำมาซึ่งคู่ที่เหมาะสมที่สุด ความสุขจะมาหลังจากช่วงเวลาแห่งความเข้าใจผิด","pred_2":"ชีวิตก้าวหน้าไปบนเส้นทางแห่งความเจริญอย่างราบรื่น","notes":["","","","","","","",""],"gender":""},{"id":100110,"upper_gua":"☶","lower_gua":"☴","stems":["甲","壬","戊","辛","癸","己"],"branches":["寅","子","戌","酉","亥","丑"],"so_markers":["o","","","s","","","","","巳","","","",""],"hidden":["","ลูกหลาน","","","",""],"liu_qin":["พี่น้อง","พ่อแม่","ทรัพย์สิน","ยศศักดิ์","พ่อแม่","ทรัพย์สิน"],"element":"ไม้","hex_num":18,"name_en":"Decay","name_th":"วิหารสุ่ง","name_cn":"ซานเฟิงกู่","shi_stem":"丁","shi_branch":"未","palace":6,"palace_pos":7,"pred_1":"ประสบความโชคร้ายเมื่อกระทำสิ่งไม่สุจริต สิ่งที่สูญเสียไปไม่สามารถเรียกคืนได้","pred_2":"เพื่อปรับปรุงสถานการณ์ต้องพิจารณาอย่างรอบคอบและแก้ไขปัญหาจากต้นเหตุ","notes":["","วิญญาณกลับ: ของหาย/คนป่วย=มีโอกาสพบ/หาย","","","","","",""],"gender":""},{"id":100111,"upper_gua":"☶","lower_gua":"☰","stems":["甲","壬","戊","戊","甲","壬"],"branches":["寅","子","戌","辰","寅","子"],"so_markers":["","o","","","s","","","","","","巳","午",""],"hidden":["","","","ลูกหลาน","พ่อแม่",""],"liu_qin":["ยศศักดิ์","ทรัพย์สิน","พี่น้อง","พี่น้อง","ยศศักดิ์","ทรัพย์สิน"],"element":"ดิน","hex_num":26,"name_en":"Taming Great","name_th":"วิหารกึ่ง","name_cn":"ซานเทียนต้าซู่","shi_stem":"壬","shi_branch":"辰","palace":6,"palace_pos":4,"pred_1":"อนาคตสดใสและเต็มไปด้วยความสำเร็จ ยิ่งกว่าที่จินตนาการไว้เสียอีก จงเตรียมพร้อมรับสิ่งยิ่งใหญ่","pred_2":"ในด้านธุรกิจและความสัมพันธ์ จงก้าวหน้าโดยไม่ลังเล โชคอยู่ข้างคุณและสวรรค์คอยหนุนหลัง","notes":["","","","","","","",""],"gender":""},{"id":101000,"upper_gua":"☲","lower_gua":"☷","stems":["丁","己","辛","乙","丁","己"],"branches":["巳","未","酉","卯","巳","未"],"so_markers":["","","s","","","o","","","","","","","子"],"hidden":["","","","","","ลูกหลาน"],"liu_qin":["ยศศักดิ์","พ่อแม่","พี่น้อง","ทรัพย์สิน","ยศศักดิ์","พ่อแม่"],"element":"ทอง","hex_num":35,"name_en":"Progress","name_th":"วิหารเคี้ยง","name_cn":"หั่วตี้จิ้น","shi_stem":"乙","shi_branch":"亥","palace":3,"palace_pos":3,"pred_1":"คุณไม่ได้คาดหวัง แต่ความมั่งคั่งจะมาหาคุณอย่างฉับพลัน รอสัญญาณบวกก่อนลงมือ มันจะปรากฏเร็วๆ นี้","pred_2":"มีทองอยู่ในสวนของคุณหากรู้จักมองหา สมบัติที่ซ่อนอยู่จะพบได้เมื่อทำความสะอาดบ้าน","notes":["","","วิญญาณพเนจร: ของหาย/คนป่วย=ยากจะพบ/หาย","","","","",""],"gender":""},{"id":101001,"upper_gua":"☲","lower_gua":"☳","stems":["丁","己","辛","戊","甲","壬"],"branches":["巳","未","酉","辰","寅","子"],"so_markers":["","s","","","o","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["ลูกหลาน","ทรัพย์สิน","ยศศักดิ์","ทรัพย์สิน","พี่น้อง","พ่อแม่"],"element":"ไม้","hex_num":21,"name_en":"Biting Through","name_th":"วิหารสุ่ง","name_cn":"หั่วเหลยซื่อเคอ","shi_stem":"乙","shi_branch":"丑","palace":3,"palace_pos":6,"pred_1":"ช่วงเวลายากลำบากดูเหมือนจะสิ้นสุดลงแล้ว ในการต่อสู้ทางกฎหมายคุณจะชนะ","pred_2":"ความเจ็บปวดจากความโดดเดี่ยวได้รับการบรรเทา ทุกอย่างเอื้ออำนวยต่อคุณ สามารถเดินหน้าต่อไปได้","notes":["","","","","","","",""],"gender":""},{"id":101010,"upper_gua":"☲","lower_gua":"☵","stems":["丁","己","辛","丙","戊","甲"],"branches":["巳","未","酉","午","辰","寅"],"so_markers":["o","","","s","","","","","","","亥","",""],"hidden":["","","","ยศศักดิ์","",""],"liu_qin":["พี่น้อง","ลูกหลาน","ทรัพย์สิน","พี่น้อง","ลูกหลาน","พ่อแม่"],"element":"ไฟ","hex_num":64,"name_en":"Transition","name_th":"วิหารลี้","name_cn":"หัวสุ่ยเว่ยจี้","shi_stem":"甲","shi_branch":"申","palace":3,"palace_pos":9,"pred_1":"ความโชคร้ายนำมาซึ่งความเสียใจและความเศร้า ควรเลื่อนการเดินทางธุรกิจออกไปก่อน แผนการแต่งงานอาจล้มเหลว","pred_2":"ช่วงเวลาไม่ดีนี้จะยาวนานประมาณ 28 วัน หลีกเลี่ยงข้อขัดแย้งซึ่งจะนำมาซึ่งปัญหาเพิ่มเติม","notes":["","","","","","","",""],"gender":""},{"id":101011,"upper_gua":"☲","lower_gua":"☱","stems":["丁","己","辛","己","乙","丁"],"branches":["巳","未","酉","丑","卯","巳"],"so_markers":["","","s","","","o","","","子","","","",""],"hidden":["","ทรัพย์สิน","","","",""],"liu_qin":["พ่อแม่","พี่น้อง","ลูกหลาน","พี่น้อง","ยศศักดิ์","พ่อแม่"],"element":"ดิน","hex_num":38,"name_en":"Opposition","name_th":"วิหารกึ่ง","name_cn":"หั่วเจ๋อขุย","shi_stem":"甲","shi_branch":"辰","palace":3,"palace_pos":2,"pred_1":"เป็นช่วงที่คุณกำลังเดินบนน้ำแข็งบาง หลีกเลี่ยงภัยพิบัติได้ก็ต่อเมื่อระมัดระวังในทุกการกระทำ","pred_2":"หากอยู่ในโรงเรียนหรือมหาวิทยาลัยอาจพบความผิดหวัง อย่าเร่งรีบ ค่อยทำทีละก้าว","notes":["","","","","","","",""],"gender":""},{"id":101100,"upper_gua":"☲","lower_gua":"☶","stems":["丁","己","辛","庚","丙","戊"],"branches":["巳","未","酉","申","午","辰"],"so_markers":["","","o","","","s","","","","","亥","","卯"],"hidden":["","","","ยศศักดิ์","","พ่อแม่"],"liu_qin":["พี่น้อง","ลูกหลาน","ทรัพย์สิน","ทรัพย์สิน","พี่น้อง","ลูกหลาน"],"element":"ไฟ","hex_num":56,"name_en":"Wanderer","name_th":"วิหารลี้","name_cn":"หั่วซานหลู่ว์","shi_stem":"己","shi_branch":"酉","palace":3,"palace_pos":8,"pred_1":"ภาพต้นไม้ล้มและป่าไหม้ ไม่มีสิ่งใดเป็นประโยชน์ต่อคุณ เป็นเวลาดีที่ต้องถอยหลังและทำสมาธิ","pred_2":"ยอมรับความพ่ายแพ้อย่างมีเกียรติ เป็นช่วงเวลาที่ดีสำหรับการพักผ่อนจากงาน","notes":["","","","","","","",""],"gender":""},{"id":101101,"upper_gua":"☲","lower_gua":"☲","stems":["丁","己","辛","癸","己","乙"],"branches":["巳","未","酉","亥","丑","卯"],"so_markers":["s","","","o","","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["พี่น้อง","ลูกหลาน","ทรัพย์สิน","ยศศักดิ์","ลูกหลาน","พ่อแม่"],"element":"ไฟ","hex_num":30,"name_en":"Clinging","name_th":"วิหารลี้","name_cn":"หลีเหว่ยหั่ว","shi_stem":"庚","shi_branch":"寅","palace":3,"palace_pos":1,"pred_1":"มีโชคลาภอย่างต่อเนื่องจากสวรรค์ มีทุกเหตุผลที่จะมั่นใจในตัวเอง","pred_2":"ความเศร้า ปัญหา และความเจ็บป่วยทั้งหลายจะระเหยหายไปอย่างรวดเร็ว","notes":["","","","หกเหลี่ยม: คนหาย=มีโอกาสพบ, ความรัก/แต่งงาน=ไม่เหมาะสม","","","",""],"gender":"ชาย"},{"id":101110,"upper_gua":"☲","lower_gua":"☴","stems":["丁","己","辛","辛","癸","己"],"branches":["巳","未","酉","酉","亥","丑"],"so_markers":["","o","","","s","","","","","","","","卯"],"hidden":["","","","","","พ่อแม่"],"liu_qin":["พี่น้อง","ลูกหลาน","ทรัพย์สิน","ทรัพย์สิน","ยศศักดิ์","ลูกหลาน"],"element":"ไฟ","hex_num":50,"name_en":"Great Bowl","name_th":"วิหารลี้","name_cn":"หั่วเฟิงติ่ง","shi_stem":"戊","shi_branch":"午","palace":3,"palace_pos":4,"pred_1":"หม้อต้ม ไฟอยู่บน ไม้อยู่ล่าง ความสำเร็จต้องปรากฏแน่นอนในสถานการณ์อันเป็นมงคลเช่นนี้","pred_2":"ผู้ชาญฉลาดสร้างชะตากรรมของตนเอง ผสมผสานความสังเกตกับความดีงามภายในเพื่อประโยชน์ของทุกคน","notes":["","","","","","","",""],"gender":""},{"id":101111,"upper_gua":"☲","lower_gua":"☰","stems":["丁","己","辛","戊","甲","壬"],"branches":["巳","未","酉","辰","寅","子"],"so_markers":["o","","","s","","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["ยศศักดิ์","พ่อแม่","พี่น้อง","พ่อแม่","ทรัพย์สิน","ลูกหลาน"],"element":"ทอง","hex_num":14,"name_en":"Possession","name_th":"วิหารเคี้ยง","name_cn":"หั่วเทียนต้าโหย่ว","shi_stem":"辛","shi_branch":"巳","palace":3,"palace_pos":7,"pred_1":"ยศศักดิ์และอำนาจปรากฏในรูปแบบที่ควบคุมได้ นำมาซึ่งความสำเร็จสูงสุดและความมั่งคั่งอย่างยิ่งใหญ่","pred_2":"สิ่งที่บรรลุได้นั้นจะอยู่ในระดับที่ยิ่งใหญ่มาก","notes":["","วิญญาณกลับ: ของหาย/คนป่วย=มีโอกาสพบ/หาย","","","","","",""],"gender":""},{"id":110000,"upper_gua":"☴","lower_gua":"☷","stems":["乙","丁","己","乙","丁","己"],"branches":["卯","巳","未","卯","巳","未"],"so_markers":["","","s","","","o","","","申","","","","子"],"hidden":["","พี่น้อง","","","","ลูกหลาน"],"liu_qin":["ทรัพย์สิน","ยศศักดิ์","พ่อแม่","ทรัพย์สิน","ยศศักดิ์","พ่อแม่"],"element":"ทอง","hex_num":20,"name_en":"Contemplation","name_th":"วิหารเคี้ยง","name_cn":"เฟิงตี้กวน","shi_stem":"己","shi_branch":"亥","palace":2,"palace_pos":2,"pred_1":"ภายในบ้านไม่มีความสามัคคี ที่ทำงานขาดการสื่อสาร แขกและจดหมายที่คาดหวังไม่ปรากฏ","pred_2":"ควรสังเกตการณ์โดยไม่ตัดสิน แผนสำหรับธุรกิจใหม่ไม่ได้รับการตอบรับ","notes":["","","","","","","",""],"gender":""},{"id":110001,"upper_gua":"☴","lower_gua":"☳","stems":["乙","丁","己","戊","甲","壬"],"branches":["卯","巳","未","辰","寅","子"],"so_markers":["o","","","s","","","","","","","酉","",""],"hidden":["","","","ยศศักดิ์","",""],"liu_qin":["พี่น้อง","ลูกหลาน","ทรัพย์สิน","ทรัพย์สิน","พี่น้อง","พ่อแม่"],"element":"ไม้","hex_num":42,"name_en":"Increase","name_th":"วิหารสุ่ง","name_cn":"เฟิงเหลยอี้","shi_stem":"庚","shi_branch":"子","palace":2,"palace_pos":9,"pred_1":"ช่วงชีวิตที่แอคทีฟและยุ่งวุ่น โชคอยู่ข้างคุณ มีทุกเหตุผลที่จะมั่นใจ","pred_2":"โชคนี้จะดีขึ้นหากความสำเร็จของคุณจุดประกายความใจกว้างต่อผู้อื่น","notes":["","","","","","","",""],"gender":""},{"id":110010,"upper_gua":"☴","lower_gua":"☵","stems":["乙","丁","己","丙","戊","甲"],"branches":["卯","巳","未","午","辰","寅"],"so_markers":["","s","","","o","","","","酉","","亥","",""],"hidden":["","ทรัพย์สิน","","ยศศักดิ์","",""],"liu_qin":["พ่อแม่","พี่น้อง","ลูกหลาน","พี่น้อง","ลูกหลาน","พ่อแม่"],"element":"ไฟ","hex_num":59,"name_en":"Dispersion","name_th":"วิหารลี้","name_cn":"เฟิงสุ่ยฮ้วน","shi_stem":"戊","shi_branch":"申","palace":2,"palace_pos":6,"pred_1":"ภาพแห่งการพลัดพราก นำมาซึ่งความหงุดหงิดใจ ไม่มีข้อเสนอแต่งงาน กิจการร่วมค้าไม่ประสบความสำเร็จ","pred_2":"อุปสรรคมากมายเผชิญหน้า แผนการแต่งงานล้มเหลว ควรทบทวนและหาทางออกใหม่","notes":["","","","","","","",""],"gender":""},{"id":110011,"upper_gua":"☴","lower_gua":"☱","stems":["乙","丁","己","己","乙","丁"],"branches":["卯","巳","未","丑","卯","巳"],"so_markers":["","","s","","","o","","","子","","申","",""],"hidden":["","ทรัพย์สิน","","ลูกหลาน","",""],"liu_qin":["ยศศักดิ์","พ่อแม่","พี่น้อง","พี่น้อง","ยศศักดิ์","พ่อแม่"],"element":"ดิน","hex_num":61,"name_en":"Inner Truth","name_th":"วิหารกึ่ง","name_cn":"เฟิงเจ๋อจงฝู","shi_stem":"辛","shi_branch":"卯","palace":2,"palace_pos":3,"pred_1":"ทรัพย์สินยังเข้าถึงยาก รอดีกว่า ความเจ็บป่วยรักษาหายได้แต่ใช้เวลานาน สถานการณ์การงานตึงเครียด จงใจเย็น","pred_2":"ที่บ้านความตึงเครียดภายในทำให้รู้สึกไม่มั่นคง","notes":["","","วิญญาณพเนจร: ของหาย/คนป่วย=ยากจะพบ/หาย","","","","",""],"gender":""},{"id":110100,"upper_gua":"☴","lower_gua":"☶","stems":["乙","丁","己","庚","丙","戊"],"branches":["卯","巳","未","申","午","辰"],"so_markers":["o","","","s","","","","","子","","","",""],"hidden":["","ทรัพย์สิน","","","",""],"liu_qin":["ยศศักดิ์","พ่อแม่","พี่น้อง","ลูกหลาน","พ่อแม่","พี่น้อง"],"element":"ดิน","hex_num":53,"name_en":"Development","name_th":"วิหารกึ่ง","name_cn":"เฟิงซานเจี้ยน","shi_stem":"癸","shi_branch":"酉","palace":2,"palace_pos":7,"pred_1":"ความเจริญและการยอมรับกำลังมาถึง ความเข้าใจผิดระเหยหายไป โอกาสที่ไม่คาดหวังมาจากแหล่งที่ไม่น่าเป็นไปได้","pred_2":"ได้รับความโปรดปรานจากผู้ให้ทุน จงเดินหน้าด้วยความมั่นใจ","notes":["","วิญญาณกลับ: ของหาย/คนป่วย=มีโอกาสพบ/หาย","","","","","",""],"gender":""},{"id":110101,"upper_gua":"☴","lower_gua":"☲","stems":["乙","丁","己","癸","己","乙"],"branches":["卯","巳","未","亥","丑","卯"],"so_markers":["","o","","","s","","","","","","酉","",""],"hidden":["","","","ยศศักดิ์","",""],"liu_qin":["พี่น้อง","ลูกหลาน","ทรัพย์สิน","พ่อแม่","ทรัพย์สิน","พี่น้อง"],"element":"ไม้","hex_num":37,"name_en":"Family","name_th":"วิหารสุ่ง","name_cn":"เฟิงหั่วเจียเหริน","shi_stem":"丙","shi_branch":"寅","palace":2,"palace_pos":4,"pred_1":"ความสุขสำหรับครอบครัวเป็นสิ่งสำคัญ ดีสำหรับการเริ่มต้นครอบครัวและการรับบุตรบุญธรรม","pred_2":"แม่คือแกนกลางที่ยึดครอบครัวไว้ด้วยกัน ควรรับฟังความคิดเห็นของแม่เมื่อต้องตัดสินใจสำคัญ","notes":["","","","","","","",""],"gender":""},{"id":110110,"upper_gua":"☴","lower_gua":"☴","stems":["乙","丁","己","辛","癸","己"],"branches":["卯","巳","未","酉","亥","丑"],"so_markers":["s","","","o","","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["พี่น้อง","ลูกหลาน","ทรัพย์สิน","ยศศักดิ์","พ่อแม่","ทรัพย์สิน"],"element":"ไม้","hex_num":57,"name_en":"Gentle","name_th":"วิหารสุ่ง","name_cn":"ซุ่นเหว่ยเฟิง","shi_stem":"壬","shi_branch":"午","palace":2,"palace_pos":1,"pred_1":"ลมและน้ำนำโชคดีมาให้ แผนการแต่งงานดำเนินไปราบรื่น ความคาดหวังทางการเงินทั้งหมดเกินความคาดหมาย","pred_2":"คุณจะได้รับความนิยมและชื่อเสียงที่ยิ่งใหญ่ เมื่อลมพัดเรือก็แล่นราบรื่น","notes":["","","","หกเหลี่ยม: คนหาย=มีโอกาสพบ, ความรัก/แต่งงาน=ไม่เหมาะสม","","","",""],"gender":""},{"id":110111,"upper_gua":"☴","lower_gua":"☰","stems":["乙","丁","己","戊","甲","壬"],"branches":["卯","巳","未","辰","寅","子"],"so_markers":["","","o","","","s","","","","","酉","",""],"hidden":["","","","ยศศักดิ์","",""],"liu_qin":["พี่น้อง","ลูกหลาน","ทรัพย์สิน","ทรัพย์สิน","พี่น้อง","พ่อแม่"],"element":"ไม้","hex_num":9,"name_en":"Taming Gentle","name_th":"วิหารสุ่ง","name_cn":"เฟิงเทียนเสี่ยวซู่","shi_stem":"丁","shi_branch":"巳","palace":2,"palace_pos":8,"pred_1":"บ่งชี้ถึงช่วงพักผ่อนและเตรียมตัว สิ่งดีกำลังจะมาแต่มาทีละน้อย มีความยากลำบากพอสมควรอยู่บ้าง","pred_2":"แต่โชคลาภมีการปรับปรุงอย่างต่อเนื่องและมั่นคง","notes":["","","","","","","",""],"gender":""},{"id":111000,"upper_gua":"☰","lower_gua":"☷","stems":["戊","庚","丙","乙","丁","己"],"branches":["戌","申","午","卯","巳","未"],"so_markers":["o","","","s","","","","","","","","","子"],"hidden":["","","","","","ลูกหลาน"],"liu_qin":["พ่อแม่","พี่น้อง","ยศศักดิ์","ทรัพย์สิน","ยศศักดิ์","พ่อแม่"],"element":"ทอง","hex_num":12,"name_en":"Standstill","name_th":"วิหารเคี้ยง","name_cn":"เทียนตี้ผี","shi_stem":"庚","shi_branch":"戌","palace":9,"palace_pos":9,"pred_1":"ภาวะชะงักงัน ลำดับผิดที่ มีความไม่สามัคคี ความสับสน และความวุ่นวาย","pred_2":"อย่ายอมแพ้ต่อความโลภและความอยาก จงระวังอันตรายที่ซ่อนอยู่","notes":["","","","","","","",""],"gender":""},{"id":111001,"upper_gua":"☰","lower_gua":"☳","stems":["戊","庚","丙","戊","甲","壬"],"branches":["戌","申","午","辰","寅","子"],"so_markers":["","","s","","","o","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["ทรัพย์สิน","ยศศักดิ์","ลูกหลาน","ทรัพย์สิน","พี่น้อง","พ่อแม่"],"element":"ไม้","hex_num":25,"name_en":"Innocence","name_th":"วิหารสุ่ง","name_cn":"เทียนเหลยอู๋ว่าง","shi_stem":"己","shi_branch":"丑","palace":9,"palace_pos":2,"pred_1":"นกในกรงบ่งชี้ถึงกับดัก อย่าไว้วางใจง่ายเกินไปหรืออาจตกกับดัก คนรักกำลังทรยศคุณ","pred_2":"สุขภาพของคุณกำลังถดถอย พยายามถอนตัวจากพันธะและแผนการต่างๆ","notes":["","","","หกเหลี่ยม: คนหาย=มีโอกาสพบ, ความรัก/แต่งงาน=ไม่เหมาะสม","","","",""],"gender":""},{"id":111010,"upper_gua":"☰","lower_gua":"☵","stems":["戊","庚","丙","丙","戊","甲"],"branches":["戌","申","午","午","辰","寅"],"so_markers":["","","s","","","o","","","","","亥","",""],"hidden":["","","","ยศศักดิ์","",""],"liu_qin":["ลูกหลาน","ทรัพย์สิน","พี่น้อง","พี่น้อง","ลูกหลาน","พ่อแม่"],"element":"ไฟ","hex_num":6,"name_en":"Conflict","name_th":"วิหารลี้","name_cn":"เทียนสุ่ยซ่ง","shi_stem":"辛","shi_branch":"未","palace":9,"palace_pos":3,"pred_1":"ความขัดแย้งที่เกิดจากมุมมองที่ต่างกัน ทั้งในจิตใจหรือระหว่างเพื่อนและคนรอบข้าง ความขัดแย้งทั้งภายในและภายนอก","pred_2":"เป็นสัญญาณของความขัดแย้งทั้งในและนอก ข่าวร้ายสำหรับความสัมพันธ์และอาชีพการงาน ทุกฝ่ายจะเหนื่อยล้า","notes":["","","วิญญาณพเนจร: ของหาย/คนป่วย=ยากจะพบ/หาย","","","","",""],"gender":""},{"id":111011,"upper_gua":"☰","lower_gua":"☱","stems":["戊","庚","丙","己","乙","丁"],"branches":["戌","申","午","丑","卯","巳"],"so_markers":["","s","","","o","","","","子","","","",""],"hidden":["","ทรัพย์สิน","","","",""],"liu_qin":["พี่น้อง","ลูกหลาน","พ่อแม่","พี่น้อง","ยศศักดิ์","พ่อแม่"],"element":"ดิน","hex_num":10,"name_en":"Conduct","name_th":"วิหารกึ่ง","name_cn":"เทียนเจ๋อหลู่ว์","shi_stem":"戊","shi_branch":"辰","palace":9,"palace_pos":6,"pred_1":"ต้องเคารพผู้อาวุโสและยอมให้ประสบการณ์นำทาง เยาวชนควรเปิดใจรับฟัง ยอมรับความไม่เท่าเทียมของมนุษย์","pred_2":"ปราศจากความอิจฉาและความหงุดหงิดใจ จงปฏิบัติตนอย่างถูกต้องและสง่างาม","notes":["","","","","","","",""],"gender":""},{"id":111100,"upper_gua":"☰","lower_gua":"☶","stems":["戊","庚","丙","庚","丙","戊"],"branches":["戌","申","午","申","午","辰"],"so_markers":["","o","","","s","","","","","","","寅","子"],"hidden":["","","","","ทรัพย์สิน","ลูกหลาน"],"liu_qin":["พ่อแม่","พี่น้อง","ยศศักดิ์","พี่น้อง","ยศศักดิ์","พ่อแม่"],"element":"ทอง","hex_num":33,"name_en":"Retreat","name_th":"วิหารเคี้ยง","name_cn":"เทียนซานตุ้น","shi_stem":"乙","shi_branch":"酉","palace":9,"palace_pos":4,"pred_1":"ถึงเวลาอยู่บ้านไม่ใช่เดินทาง การเชิญผู้คนมาที่บ้านนำโชคดีมาให้","pred_2":"ความหยิ่งทะนงตนและความโกรธนำมาซึ่งความโชคร้ายร้ายแรง ไม่ใช่เวลาที่ดีสำหรับการแต่งงาน อย่าลงทุนเวลาหรือเงินในสิ่งใหม่","notes":["","","","","","","",""],"gender":""},{"id":111101,"upper_gua":"☰","lower_gua":"☲","stems":["戊","庚","丙","癸","己","乙"],"branches":["戌","申","午","亥","丑","卯"],"so_markers":["o","","","s","","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["ลูกหลาน","ทรัพย์สิน","พี่น้อง","ยศศักดิ์","ลูกหลาน","พ่อแม่"],"element":"ไฟ","hex_num":13,"name_en":"Fellowship","name_th":"วิหารลี้","name_cn":"เทียนหั่วถงเหริน","shi_stem":"壬","shi_branch":"寅","palace":9,"palace_pos":7,"pred_1":"บ่งชี้ถึงกลุ่มคนที่ทำงานร่วมกัน มีความชัดเจนและความแข็งแกร่ง มีพลังงานหยางมาก","pred_2":"บ่งชี้ถึงธรรมชาติที่ยืดหยุ่นท่ามกลางความคิดเห็นที่แข็งแกร่งหลายอย่าง สัญญาณดี แต่ดีกว่าถ้าลดความกระตือรือร้นลงบ้าง","notes":["","วิญญาณกลับ: ของหาย/คนป่วย=มีโอกาสพบ/หาย","","","","","",""],"gender":""},{"id":111110,"upper_gua":"☰","lower_gua":"☴","stems":["戊","庚","丙","辛","癸","己"],"branches":["戌","申","午","酉","亥","丑"],"so_markers":["","","o","","","s","","","","","","寅",""],"hidden":["","","","","ทรัพย์สิน",""],"liu_qin":["พ่อแม่","พี่น้อง","ยศศักดิ์","พี่น้อง","ลูกหลาน","พ่อแม่"],"element":"ทอง","hex_num":44,"name_en":"Encountering","name_th":"วิหารเคี้ยง","name_cn":"เทียนเฟิงโก้ว","shi_stem":"甲","shi_branch":"午","palace":9,"palace_pos":8,"pred_1":"เพื่อนเก่าพบกันโดยไม่คาดหมายและพบทอง โชคลาภจะมาถึงและจะยืนยาวนาน","pred_2":"คุณมีกรรมดีที่จะได้รับยศถาบรรดาศักดิ์และเกียรติยศอันสูงส่ง","notes":["","","","","","","",""],"gender":"หญิง"},{"id":111111,"upper_gua":"☰","lower_gua":"☰","stems":["戊","庚","丙","戊","甲","壬"],"branches":["戌","申","午","辰","寅","子"],"so_markers":["s","","","o","","","","","","","","",""],"hidden":["","","","","",""],"liu_qin":["พ่อแม่","พี่น้อง","ยศศักดิ์","พ่อแม่","ทรัพย์สิน","ลูกหลาน"],"element":"ทอง","hex_num":1,"name_en":"Creative","name_th":"วิหารเคี้ยง","name_cn":"เฉียนเหวยเทียน","shi_stem":"甲","shi_branch":"午","palace":9,"palace_pos":1,"pred_1":"ประโยชน์มากมายจากความพากเพียรและความมั่นคง ความสำเร็จแน่นอน จงไม่ลังเลในความตั้งใจ เชื่อสัญชาตญาณของคุณ สวรรค์สนับสนุนคุณ","pred_2":"เฉียนมีนัยสำคัญหากท่านประสบเรื่องน่ายินดีในวันที่ถามกว้า","notes":["","","","หกเหลี่ยม: คนหาย=มีโอกาสพบ, ความรัก/แต่งงาน=ไม่เหมาะสม","","","",""],"gender":"ชาย"}];
+let HDB = [], GM = {};
+
+const DBR = ['戌','辰','午','申','丑','亥','卯','子','酉','未','巳','寅'];
+const DBS = {
+  '壬':['Sickness','Small Deplete','Red Phoenix','Noble','Funeral Door','Grand Duke','Official','Green Dragon','Funeral Quest','White Tiger','Big Deplete','Six Combo'],
+  '甲':['White Tiger','Funeral Door','Official','Big Deplete','Sickness','Noble','Green Dragon','Funeral Quest','Red Phoenix','Small Deplete','Six Combo','Grand Duke'],
+  '乙':['Red Phoenix','Green Dragon','Six Combo','Small Deplete','Funeral Quest','White Tiger','Grand Duke','Noble','Big Deplete','Official','Funeral Door','Sickness'],
+  '戊':['Grand Duke','Big Deplete','White Tiger','Funeral Quest','Six Combo','Green Dragon','Small Deplete','Funeral Door','Sickness','Noble','Red Phoenix','Official'],
+  '丁':['Official','Funeral Quest','Grand Duke','Funeral Door','Red Phoenix','Small Deplete','Noble','Big Deplete','Six Combo','Green Dragon','Sickness','White Tiger'],
+  '丙':['Small Deplete','Sickness','Green Dragon','Six Combo','White Tiger','Big Deplete','Funeral Quest','Red Phoenix','Official','Funeral Door','Grand Duke','Noble'],
+  '己':['Noble','Six Combo','Small Deplete','Red Phoenix','Grand Duke','Funeral Quest','Funeral Door','Sickness','White Tiger','Big Deplete','Official','Green Dragon'],
+  '庚':['Funeral Door','White Tiger','Funeral Quest','Grand Duke','Small Deplete','Six Combo','Red Phoenix','Official','Green Dragon','Sickness','Noble','Big Deplete'],
+  '辛':['Green Dragon','Red Phoenix','Noble','Sickness','Official','Funeral Door','Big Deplete','Six Combo','Grand Duke','Funeral Quest','White Tiger','Small Deplete'],
+  '癸':['Funeral Quest','Official','Big Deplete','White Tiger','Green Dragon','Sickness','Six Combo','Grand Duke','Noble','Red Phoenix','Small Deplete','Funeral Door']
+};
+const DTH = {
+  'Green Dragon':'มังกรเขียว','Red Phoenix':'หงษ์แดง','Noble':'กิเลน',
+  'Six Combo':'ลิ้วเหอ','White Tiger':'เสือขาว','Grand Duke':'ไท่ซุย',
+  'Funeral Quest':'จงอี้','Funeral Door':'ประตูสุสาน','Sickness':'หยินฉิน',
+  'Small Deplete':'เสียวเฮ้ง','Big Deplete':'ต้าเฮ้ง','Official':'สวี่เสิน',
+  'Funeral':'หงส์แดง'
+};
+const DCL = {
+  'Green Dragon':'dgr','Red Phoenix':'drp','Noble':'dgk','Six Combo':'dgk',
+  'White Tiger':'dwt','Grand Duke':'ddt','Funeral Quest':'dfs','Funeral':'drp',
+  'Funeral Door':'dwt','Sickness':'dwt','Small Deplete':'drp','Big Deplete':'dfs','Official':'dgr'
+};
+const BTH = {'子':'ชวด','丑':'ฉลู','寅':'ขาล','卯':'เถาะ','辰':'มะโรง','巳':'มะเส็ง','午':'มะเมีย','未':'มะแม','申':'วอก','酉':'ระกา','戌':'จอ','亥':'กุน'};
+const PAL_TH = ['','คุน','ต้วย','ลี้','เจิ้น','สุ่น','คาน','เก็น','เคี้ยง'];
+
+function initData(data) {
+  HDB = data;
+  HDB.forEach(h => { GM[h.id] = h; });
+}
+
+function getShiYing(pp) {
+  const t={1:{s:0,y:3},2:{s:1,y:4},3:{s:2,y:5},4:{s:3,y:0},5:{s:4,y:1},6:{s:5,y:2},7:{s:3,y:0},8:{s:0,y:3}};
+  return t[pp] || {s:0,y:3};
+}
+
+function lookupGua(lines) {
+  const bits = lines.map(v => (v===1||v===2)?1:0);
+  const idStr = [bits[5],bits[4],bits[3],bits[2],bits[1],bits[0]].join('');
+  const id = parseInt(idStr,2);
+  return GM[id] || null;
+}
+
+function getDeity(stem, branch) {
+  const d = DBS[stem]; if(!d) return '';
+  const i = DBR.indexOf(branch); if(i<0) return '';
+  return d[i];
+}
+
+// ══════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════
+let coinState=[null,null,null], recLines=[], manLines=new Array(6).fill(null), curTab='coin';
+
+// ══════════════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════════════
+function switchTab(t) {
+  curTab=t;
+  ['coin','manual','random'].forEach(id=>{
+    document.getElementById('tb-'+id).classList.toggle('active',id===t);
+    document.getElementById('tab-'+id).style.display=id===t?'':'none';
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// COIN LOGIC
+// ══════════════════════════════════════════════════════════
+function toggleCoin(i) {
+  const el=document.getElementById('c'+i);
+  el.classList.add('spin'); setTimeout(()=>el.classList.remove('spin'),400);
+  coinState[i]=(coinState[i]===null)?1:(coinState[i]===1?0:null);
+  updateCoinsUI();
+}
+function randomToss() {
+  for(let i=0;i<3;i++){
+    const el=document.getElementById('c'+i);
+    el.classList.add('spin'); setTimeout(()=>el.classList.remove('spin'),400);
+    coinState[i]=Math.random()<0.5?1:0;
+  }
+  updateCoinsUI();
+}
+function updateCoinsUI() {
+  let sum=0,allSet=true;
+  coinState.forEach((v,i)=>{
+    const face=document.getElementById('cf'+i),el=document.getElementById('c'+i);
+    el.className='coin';
+    if(v===null){face.textContent='?';allSet=false;}
+    else if(v===1){face.textContent='☀';el.classList.add('heads');sum+=3;}
+    else{face.textContent='☽';el.classList.add('tails');sum+=2;}
+  });
+  const btn=document.getElementById('ccb'),disp=document.getElementById('csd');
+  btn.disabled=!allSet||recLines.length>=6;
+  if(!allSet){disp.textContent='';return;}
+  const msgs={
+    6:'เหรียญ 3 ก้อย (แต้มรวม 6) → หยินเปลี่ยน (— — ×)',
+    7:'เหรียญ 2 ก้อย 1 หัว (แต้มรวม 7) → หยางปกติ (————)',
+    8:'เหรียญ 2 หัว 1 ก้อย (แต้มรวม 8) → หยินปกติ (—— ——)',
+    9:'เหรียญ 3 หัว (แต้มรวม 9) → หยางเปลี่ยน (———— ○)'
+  };
+  disp.textContent=msgs[sum]||'';
+}
+function confirmCoinLine() {
+  const sum=coinState.reduce((a,v)=>a+(v===1?3:2),0);
+  const lt={6:3,7:1,8:0,9:2}[sum]; if(lt===undefined) return;
+  recLines.push(lt);
+  coinState=[null,null,null];
+  updateCoinsUI(); updateRecUI(); updateDots();
+  if(recLines.length===6) computeResult();
+}
+function updateDots() {
+  for(let i=0;i<6;i++) document.getElementById('d'+(i+1)).classList.toggle('done',i<recLines.length);
+  document.getElementById('cll').textContent=recLines.length<6?`${recLines.length+1} / 6`:'ครบ 6 เส้น ✓';
+}
+function updateRecUI() {
+  const c=document.getElementById('rl'); c.innerHTML='';
+  recLines.forEach((v,i)=>{
+    const b=document.createElement('div'); b.className='lvb';
+    const labels={1:[' yang','เส้น'+(i+1)+': ———— (หยาง)'],0:[' yin','เส้น'+(i+1)+': —— —— (หยิน)'],2:[' cy','เส้น'+(i+1)+': ————○ (หยางเปลี่ยน)'],3:[' cn','เส้น'+(i+1)+': —— ——× (หยินเปลี่ยน)']};
+    const [cls,txt]=labels[v]||[' ','เส้น'+(i+1)];
+    b.classList.add(cls.trim()); b.textContent=txt;
+    c.appendChild(b);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// MANUAL LOGIC
+// ══════════════════════════════════════════════════════════
+function initManualGrid() {
+  const g=document.getElementById('mg'); g.innerHTML='';
+  for(let i=0;i<6;i++){
+    const btn=document.createElement('div'); btn.className='mlb'; btn.id='ml'+(i+1);
+    btn.innerHTML=`<div class="mn">เส้น ${i+1}</div><div class="mg2">${miniSvg(manLines[i])}</div><div class="mt">${lineTypeName(manLines[i])}</div>`;
+    btn.onclick=()=>cycleML(i);
+    g.appendChild(btn);
+  }
+}
+function miniSvg(v) {
+  if(v===1) return '<svg width="38" height="12"><rect x="0" y="2" width="38" height="8" rx="4" fill="#d97706"/></svg>';
+  if(v===0) return '<svg width="38" height="12"><rect x="0" y="2" width="16" height="8" rx="4" fill="#2563eb"/><rect x="22" y="2" width="16" height="8" rx="4" fill="#2563eb"/></svg>';
+  if(v===2) return '<svg width="38" height="12"><rect x="0" y="2" width="38" height="8" rx="4" fill="#dc2626"/></svg>';
+  if(v===3) return '<svg width="38" height="12"><rect x="0" y="2" width="16" height="8" rx="4" fill="#0284c7"/><rect x="22" y="2" width="16" height="8" rx="4" fill="#0284c7"/></svg>';
+  return '<svg width="38" height="12"><text x="3" y="10" fill="#9e8675" font-size="9">คลิกเลือก</text></svg>';
+}
+function lineTypeName(v) {
+  return {1:'หยาง (7)',0:'หยิน (8)',2:'หยางเปลี่ยน ○',3:'หยินเปลี่ยน ×'}[v]||'-- เลือก --';
+}
+function cycleML(i) {
+  const v=manLines[i];
+  manLines[i]=(v===null)?1:(v===1)?0:(v===0)?2:(v===2)?3:1;
+  const v2=manLines[i], btn=document.getElementById('ml'+(i+1));
+  btn.className='mlb'+((v2===1||v2===2)?' ys':'')+((v2===0||v2===3)?' ns':'');
+  btn.querySelector('.mg2').innerHTML=miniSvg(v2);
+  btn.querySelector('.mt').textContent=lineTypeName(v2);
+}
+function confirmManual() {
+  if(manLines.some(v=>v===null)){alert('กรุณาเลือกประเภทของทุกเส้น (ครบ 6 เส้น)');return;}
+  recLines=[...manLines]; computeResult();
+}
+
+// ══════════════════════════════════════════════════════════
+// RANDOM LOGIC
+// ══════════════════════════════════════════════════════════
+function doRandom() {
+  const rvals=[6,7,8,9];
+  recLines=Array.from({length:6},()=>{
+    const r=rvals[Math.floor(Math.random()*4)];
+    return {6:3,7:1,8:0,9:2}[r];
+  });
+  computeResult();
+}
+
+// ══════════════════════════════════════════════════════════
+// COMPUTE RESULT
+// ══════════════════════════════════════════════════════════
+function computeResult() {
+  const main=lookupGua(recLines);
+  if(!main){alert('ไม่พบกว้าในฐานข้อมูล กรุณาตรวจสอบข้อมูล');return;}
+  const hasChg=recLines.some(v=>v===2||v===3);
+  const changed=hasChg?lookupGua(recLines.map(v=>v===2?0:v===3?1:v)):null;
+  const dayBranch=document.getElementById('db').value;
+  renderResult(main,changed,recLines,dayBranch);
+}
+
+// ══════════════════════════════════════════════════════════
+// RENDER RESULT
+// ══════════════════════════════════════════════════════════
+function renderResult(gua,chGua,lines,dayBranch) {
+  const rs=document.getElementById('rs');
+  rs.classList.add('vis');
+  setTimeout(()=>rs.scrollIntoView({behavior:'smooth',block:'start'}),100);
+
+  const q=document.getElementById('qi').value.trim();
+  document.getElementById('qdp').style.display=q?'':'none';
+  if(q) document.getElementById('qt').textContent=q;
+
+  const {s:shi,y:ying}=getShiYing(gua.palace_pos);
+  document.getElementById('mhn').textContent='กว้าที่ '+gua.hex_num;
+  document.getElementById('mcn').textContent=gua.name_en+' ('+gua.name_cn+')';
+  document.getElementById('mth').textContent=gua.name_th;
+  renderLines('mld',gua,lines,shi,ying,dayBranch);
+
+  const cgp=document.getElementById('cgp');
+  if(chGua){
+    cgp.style.display='';
+    const cl=lines.map(v=>v===2?0:v===3?1:v);
+    const {s:s2,y:y2}=getShiYing(chGua.palace_pos);
+    document.getElementById('chn').textContent='กว้าที่ '+chGua.hex_num;
+    document.getElementById('ccn').textContent=chGua.name_en+' ('+chGua.name_cn+')';
+    document.getElementById('cth').textContent=chGua.name_th;
+    renderLines('cld',chGua,cl,s2,y2,dayBranch);
+  } else cgp.style.display='none';
+
+  const eb=document.getElementById('eb');
+  eb.textContent='ธาตุ: '+(gua.element||'');
+  eb.className='elm-b '+(gua.element||'');
+
+  document.getElementById('pi').innerHTML=
+    'วิหาร: <span>'+(PAL_TH[gua.palace]||gua.palace)+'</span> &nbsp;&nbsp;|&nbsp;&nbsp; ตำแหน่งวิหาร: <span>'+gua.palace_pos+'</span>';
+
+  const pa=document.getElementById('pa'); pa.innerHTML='';
+  if(gua.pred_1) pa.innerHTML+='<div class="pred-box"><div class="pred-lbl">คำพยากรณ์ · กว้าหลัก ('+gua.name_cn+')</div><div class="pred-txt">'+gua.pred_1+'</div></div>';
+  if(gua.pred_2) pa.innerHTML+='<div class="pred-box"><div class="pred-lbl">คำทำนายเพิ่มเติม</div><div class="pred-txt">'+gua.pred_2+'</div></div>';
+  if(chGua&&chGua.pred_1) pa.innerHTML+='<div class="pred-box" style="border-color:rgba(184,134,11,0.4); background:#fffdf9;"><div class="pred-lbl" style="color:var(--gold-dark);">คำทำนาย · กว้าเปลี่ยน ('+chGua.name_en+' - '+chGua.name_cn+')</div><div class="pred-txt">'+chGua.pred_1+'</div></div>';
+
+  const na=document.getElementById('na'); na.innerHTML='';
+  const allN=[...(gua.notes||[]),...(chGua?chGua.notes||[]:[])].filter(n=>n&&n.trim());
+  if(allN.length) na.innerHTML='<div class="sp-notes"><div class="sp-lbl">⚡ หมายเหตุพิเศษ</div>'+allN.map(n=>'<div class="sp-txt">· '+n+'</div>').join('')+'</div>';
+}
+
+function renderLines(cid, gua, lines, shiIdx, yingIdx, dayBranch) {
+  const c=document.getElementById(cid); c.innerHTML='';
+  for(let row=0;row<6;row++){
+    const li=5-row, ln=li+1, lv=lines[li];
+    const isY=lv===1||lv===2, isC=lv===2||lv===3;
+    const isShi=li===shiIdx, isYing=li===yingIdx;
+
+    if(row===3){
+      const sep=document.createElement('hr');
+      sep.className='tsep';
+      c.appendChild(sep);
+    }
+
+    const row_el=document.createElement('div');
+    row_el.className='lr'+(isShi?' shi':'')+(isYing?' ying':'')+(isC?' chg':'');
+
+    const numEl=document.createElement('div');
+    numEl.className='lnum';
+    numEl.textContent=ln;
+
+    const gfx=document.createElement('div');
+    gfx.className='lgfx';
+    if(isY){
+      const b=document.createElement('div'); b.className='yb'; gfx.appendChild(b);
+    } else {
+      const b1=document.createElement('div'); b1.className='nb';
+      const gap=document.createElement('div'); gap.className='ng';
+      const b2=document.createElement('div'); b2.className='nb';
+      gfx.appendChild(b1); gfx.appendChild(gap); gfx.appendChild(b2);
+    }
+
+    const br=document.createElement('div');
+    br.className='lbr';
+    const branch=gua.branches?gua.branches[li]:'';
+    br.textContent=branch;
+    br.title=BTH[branch]||'';
+
+    const qinEl=document.createElement('div');
+    qinEl.className='lqin';
+    qinEl.textContent=gua.liu_qin?gua.liu_qin[li]:'';
+
+    const dtyEl=document.createElement('div');
+    dtyEl.className='ldty';
+    if(dayBranch && gua.stems){
+      const stem=gua.stems[li>=3?0:1];
+      const dname=getDeity(stem,branch);
+      if(dname){
+        dtyEl.textContent=DTH[dname]||dname;
+        dtyEl.classList.add(DCL[dname]||'');
+      }
+    }
+
+    const badges=document.createElement('div');
+    badges.style.cssText='display:flex;gap:3px;flex-wrap:wrap;flex-shrink:0;';
+    if(isShi){const b=document.createElement('span');b.className='sbg';b.textContent='世';b.title='ซื่อ (ตัวเอง)';badges.appendChild(b);}
+    if(isYing){const b=document.createElement('span');b.className='abg';b.textContent='應';b.title='อิ้ง (เป้าหมาย)';badges.appendChild(b);}
+    if(isC){const b=document.createElement('span');b.className='cbg';b.textContent=isY?'○':'×';b.title='เส้นเปลี่ยน';badges.appendChild(b);}
+    const hid=gua.hidden?gua.hidden[li]:'';
+    if(hid){const b=document.createElement('span');b.className='hbg';b.textContent='伏'+hid;b.title='เทพซ่อน';badges.appendChild(b);}
+
+    [numEl,gfx,br,qinEl,dtyEl,badges].forEach(el=>row_el.appendChild(el));
+    c.appendChild(row_el);
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// RESET
+// ══════════════════════════════════════════════════════════
+function resetAll() {
+  recLines=[]; coinState=[null,null,null]; manLines=new Array(6).fill(null);
+  [0,1,2].forEach(i=>{
+    document.getElementById('cf'+i).textContent='?';
+    document.getElementById('c'+i).className='coin';
+  });
+  document.getElementById('csd').textContent='';
+  document.getElementById('ccb').disabled=true;
+  document.getElementById('rl').innerHTML='';
+  updateDots(); initManualGrid();
+  document.getElementById('rs').classList.remove('vis');
+  document.getElementById('qdp').style.display='none';
+  document.getElementById('pa').innerHTML='';
+  document.getElementById('na').innerHTML='';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  const diEl = document.getElementById('di');
+  if (diEl) diEl.valueAsDate = new Date();
+  
+  initData(INLINE_HDB);
+  initManualGrid();
+  updateDots();
+});
+</script>
+</body>
+</html>

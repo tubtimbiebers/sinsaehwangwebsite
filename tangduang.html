@@ -739,6 +739,11 @@
         <span class="title">ฉีเหมินดุนเจี่ย</span>
         <span class="desc">ผังฉีเหมินดุนเจี่ย 9 วัง</span>
       </button>
+      <button type="button" class="selector-btn" data-tab="qimen_meta">
+        <span class="zh-icon">遁</span>
+        <span class="title">ฉีเหมิน (qimen meta)</span>
+        <span class="desc">ผังฉีเหมินดุนเจี่ย meta</span>
+      </button>
       <button type="button" class="selector-btn" data-tab="liuren">
         <span class="zh-icon">六</span>
         <span class="title">ลิ่วเหริน</span>
@@ -749,11 +754,21 @@
         <span class="title">จี่มุ้ยเต้าซิ่ว</span>
         <span class="desc">ผังพระราชวัง 12 เรือน 紫微斗数</span>
       </button>
-      <a href="https://iching-oracle-app.vercel.app/" target="_blank" class="selector-btn" style="text-decoration: none;">
+      <button type="button" class="selector-btn" data-tab="liuyao">
+        <span class="zh-icon">爻</span>
+        <span class="title">อี้จิงลิ่วเหยา</span>
+        <span class="desc">易經六爻 กว้าหกเส้น นาจี๋ หกญาติ</span>
+      </button>
+      <button type="button" class="selector-btn" data-tab="iching" style="display:none">
         <span class="zh-icon">卦</span>
         <span class="title">คำทำนายอี้จิง</span>
-        <span class="desc">อี้จิงโอราเคิล 64 ฉักลักษณ์ &#x2197;</span>
-      </a>
+        <span class="desc">อี้จิงโอราเคิล 64 ฉักลักษณ์</span>
+      </button>
+      <button type="button" class="selector-btn" data-tab="iching_oracle">
+        <span class="zh-icon">易</span>
+        <span class="title">เปิดคำทำนายอี้จิง</span>
+        <span class="desc">易經神諭 · ไพ่ทำนายออราเคิล</span>
+      </button>
       <button type="button" class="selector-btn" data-tab="taiyi">
         <span class="zh-icon">乙</span>
         <span class="title">ไท่ยี่</span>
@@ -1328,6 +1343,29 @@ function syncAndCalculate() {
     injectStyles();
     document.getElementById('resultSection').classList.remove('hidden');
     return;
+  } else if (activeProgram === 'qimen_meta') {
+    // qimen_meta logic
+    const setChildVal = (id, val) => {
+      const el = doc.getElementById(id);
+      if (el) el.value = val;
+    };
+    setChildVal('name', document.getElementById('p-name').value);
+    setChildVal('day', document.getElementById('p-day').value);
+    setChildVal('month', document.getElementById('p-month').value);
+    setChildVal('year', document.getElementById('p-year').value);
+    setChildVal('hour', document.getElementById('p-hour').value);
+    setChildVal('minute', document.getElementById('p-minute').value);
+    setChildVal('gender', document.getElementById('p-gender').value);
+
+    const childForm = doc.getElementById('f');
+    if (childForm) {
+      const btn = childForm.querySelector('button[type="submit"], #btnSubmit');
+      if (btn) btn.click();
+    }
+    
+    injectStyles();
+    document.getElementById('resultSection').classList.remove('hidden');
+    return;
   } else if (activeProgram === 'ziwei') {
     // จี่มุ้ยเต้าซิ่ว uses the same พ.ศ. year convention and Thai month names
     // as the parent form, so values pass through directly with no conversion.
@@ -1350,6 +1388,28 @@ function syncAndCalculate() {
     }
     // Same reason as the liuren branch above - ziwei is a standalone
     // top-level program, so skip the main-program tail (see comment there).
+    injectStyles();
+    document.getElementById('resultSection').classList.remove('hidden');
+    return;
+  } else if (activeProgram === 'liuyao') {
+    // Liuyao (อี้จิงลิ่วเหยา) เป็นศาสตร์เสี่ยงทายกว้าตามคำถามและเวลาปัจจุบัน
+    const setChildVal = (id, val) => {
+      const el = doc.getElementById(id);
+      if (el) el.value = val;
+    };
+    const pGender = document.getElementById('p-gender');
+    if (pGender) setChildVal('gi', pGender.value);
+
+    injectStyles();
+    document.getElementById('resultSection').classList.remove('hidden');
+    return;
+  } else if (activeProgram === 'iching') {
+    // Iching Cards (ไพ่อี้จิง 64 ฉักลักษณ์)
+    injectStyles();
+    document.getElementById('resultSection').classList.remove('hidden');
+    return;
+  } else if (activeProgram === 'iching_oracle') {
+    // เปิดคำทำนายอี้จิง (เวอร์ชันออราเคิลดั้งเดิม)
     injectStyles();
     document.getElementById('resultSection').classList.remove('hidden');
     return;
@@ -1420,6 +1480,13 @@ function switchTab(tabId) {
     } else {
       injectStyles();
     }
+  } else if (tabId === 'qimen_meta') {
+    if (activeProgram !== 'qimen_meta') {
+      activeProgram = 'qimen_meta';
+      iframe.src = 'vicha/qimen_meta.html';
+    } else {
+      injectStyles();
+    }
   } else if (tabId === 'liuren') {
     if (activeProgram !== 'liuren') {
       activeProgram = 'liuren';
@@ -1431,6 +1498,27 @@ function switchTab(tabId) {
     if (activeProgram !== 'ziwei') {
       activeProgram = 'ziwei';
       iframe.src = 'vicha/จี่มุ้ยเต้าซิ่ว.html';
+    } else {
+      injectStyles();
+    }
+  } else if (tabId === 'liuyao') {
+    if (activeProgram !== 'liuyao') {
+      activeProgram = 'liuyao';
+      iframe.src = 'vicha/liuyao.html';
+    } else {
+      injectStyles();
+    }
+  } else if (tabId === 'iching') {
+    if (activeProgram !== 'iching') {
+      activeProgram = 'iching';
+      iframe.src = 'vicha/iching/index.html';
+    } else {
+      injectStyles();
+    }
+  } else if (tabId === 'iching_oracle') {
+    if (activeProgram !== 'iching_oracle') {
+      activeProgram = 'iching_oracle';
+      iframe.src = 'vicha/iching_oracle.html';
     } else {
       injectStyles();
     }
@@ -1494,7 +1582,7 @@ document.querySelectorAll('.selector-btn').forEach(btn => {
 
 iframe.addEventListener('load', function() {
   injectStyles();
-  if (activeProgram === 'main' || activeProgram === 'liuren' || activeProgram === 'ziwei' || activeProgram === 'taiyi' || activeProgram === 'qizheng') {
+  if (activeProgram === 'main' || activeProgram === 'liuren' || activeProgram === 'ziwei' || activeProgram === 'taiyi' || activeProgram === 'qizheng' || activeProgram === 'qimen_meta' || activeProgram === 'liuyao' || activeProgram === 'iching' || activeProgram === 'iching_oracle') {
     setTimeout(syncAndCalculate, 100);
   } else {
     setTimeout(resizeFrame, 150);
@@ -1507,7 +1595,7 @@ setInterval(resizeFrame, 1000);
 // ── Hash switching logic for header links ──
 function checkHashAndSwitch() {
   const hash = window.location.hash.substring(1);
-  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen', 'liuren', 'ziwei', 'taiyi', 'qizheng'];
+  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen', 'qimen_meta', 'liuren', 'ziwei', 'liuyao', 'iching', 'iching_oracle', 'taiyi', 'qizheng'];
   if (hash && validTabs.includes(hash)) {
     document.getElementById('resultSection').classList.remove('hidden');
     switchTab(hash);

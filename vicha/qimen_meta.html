@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ฉีเหมินดุนเจี่ย (Qimen Meta)</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@300;400;700&family=Noto+Sans+Thai:wght@300;400;600&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
+  <style>
+    :root {
+      --crimson: #C0392B;
+      --gold: #B8860B;
+      --gold-pale: rgba(184, 134, 11, 0.12);
+      --cream-warm: #FDF6E3;
+      --cream-deep: #E8D5A3;
+      --charcoal: #2C1810;
+      --charcoal-soft: #6B4226;
+      --white: #FFFFFF;
+    }
+
+    body {
+      font-family: 'Noto Sans Thai', sans-serif;
+      background: transparent;
+      color: var(--charcoal);
+      margin: 0;
+      padding: 10px;
+    }
+
+    h1 {
+      font-family: 'Noto Serif Thai', serif;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 5px;
+      text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+    }
+
+    .info-bar {
+      background: var(--cream-warm);
+      border: 1px solid var(--cream-deep);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: var(--charcoal-soft);
+      font-size: 12px;
+    }
+
+    .info-value {
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 16px;
+    }
+
+    .qimen-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 8px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Luo Shu order to CSS grid order mapping */
+    /* 
+       4 9 2
+       3 5 7
+       8 1 6
+    */
+    .palace-4 {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .palace-9 {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .palace-2 {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    .palace-3 {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .palace-5 {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .palace-7 {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    .palace-8 {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+    .palace-1 {
+      grid-column: 2;
+      grid-row: 3;
+    }
+
+    .palace-6 {
+      grid-column: 3;
+      grid-row: 3;
+    }
+
+    .palace {
+      background: var(--white);
+      border: 2px solid var(--cream-deep);
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      position: relative;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .palace.kong-wang {
+      border-color: #999;
+      background: #f9f9f9;
+    }
+
+    .palace.kong-wang::after {
+      content: "空";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 60px;
+      color: rgba(0, 0, 0, 0.04);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .p-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--charcoal-soft);
+      z-index: 1;
+    }
+
+    .p-star-door-deity {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--crimson);
+      z-index: 1;
+      margin-bottom: 5px;
+    }
+
+    .p-star-door-deity>span {
+      text-align: center;
+      line-height: 1.2;
+      flex: 1;
+      padding: 0 2px;
+    }
+
+    .en-text {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--crimson);
+      margin-top: 3px;
+    }
+
+    .p-stems {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 10px;
+      z-index: 1;
+    }
+
+    .tian-pan {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .di-pan {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--charcoal);
+    }
+
+    .hidden-jia {
+      font-size: 11px;
+      color: #999;
+      font-weight: 400;
+      margin-left: 1px;
+      vertical-align: middle;
+    }
+
+    .p-structures {
+      font-size: 10px;
+      margin-bottom: 5px;
+      text-align: center;
+      min-height: 14px;
+    }
+
+    .struct-ausp {
+      color: #d32f2f;
+      font-weight: 600;
+      margin: 0 2px;
+    }
+
+    .struct-inau {
+      color: #424242;
+      font-weight: 600;
+      margin: 0 2px;
+    }
+
+    .yi-ma-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-size: 14px;
+      margin-left: 4px;
+    }
+
+    .ma-kong {
+      font-size: 10px;
+      color: #999;
+      font-weight: 600;
+      background: #eee;
+      border-radius: 3px;
+      padding: 0 3px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>ผังฉีเหมินตุ้นเจี่ย (Qimen Meta)</h1>
+  <div id="qimen-container">
+    <div class="info-bar" id="infoBar">
+      <!-- Info injected here -->
+    </div>
+
+    <div class="qimen-grid" id="qimenGrid">
+      <!-- 9 Palaces injected here -->
+    </div>
+  </div>
+
+  <form id="f" class="hidden">
+    <!-- Hidden inputs to receive data from parent tangduang.html -->
+    <input type="hidden" id="name">
+    <input type="hidden" id="gender">
+    <input type="hidden" id="day">
+    <input type="hidden" id="month">
+    <input type="hidden" id="year">
+    <input type="hidden" id="hour">
+    <input type="hidden" id="minute">
+    <button type="submit" id="btnSubmit">Calc</button>
+  </form>
+
+  <script>
+    // QMDJ Logic (Translated from qimen_dunjia.py)
+
+    const GAN = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
+    const ZHI = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+
+    const JIEQI_NAMES = [
+      "冬至", "小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨",
+      "立夏", "小满", "芒种",  // 0-11 = 陽遁
+      "夏至", "小暑", "大暑", "立秋", "处暑", "白露", "秋分", "寒露", "霜降",
+      "立冬", "小雪", "大雪"   // 12-23 = 陰遁
+    ];
+
+    const JU_TABLE = {
+      "冬至": [1, 7, 4], "小寒": [2, 8, 5], "大寒": [3, 9, 6],
+      "立春": [8, 5, 2], "雨水": [9, 6, 3], "惊蛰": [1, 7, 4],
+      "春分": [3, 9, 6], "清明": [4, 1, 7], "谷雨": [5, 2, 8],
+      "立夏": [4, 1, 7], "小满": [5, 2, 8], "芒种": [6, 3, 9],
+      "夏至": [9, 3, 6], "小暑": [8, 2, 5], "大暑": [7, 1, 4],
+      "立秋": [2, 5, 8], "处暑": [1, 4, 7], "白露": [9, 3, 6],
+      "秋分": [7, 1, 4], "寒露": [6, 9, 3], "霜降": [5, 8, 2],
+      "立冬": [6, 9, 3], "小雪": [5, 8, 2], "大雪": [4, 7, 1]
+    };
+
+    const PALACE_INFO = {
+      1: { name: "坎", dir: "N" },
+      2: { name: "坤", dir: "SW" },
+      3: { name: "震", dir: "E" },
+      4: { name: "巽", dir: "SE" },
+      5: { name: "中", dir: "Center" },
+      6: { name: "乾", dir: "NW" },
+      7: { name: "兑", dir: "W" },
+      8: { name: "艮", dir: "NE" },
+      9: { name: "离", dir: "S" }
+    };
+
+    const NUMERIC_RING = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const RING8 = [1, 8, 3, 4, 9, 2, 7, 6]; // Clockwise Ba Gua ring
+    const CENTER_BORROW_PALACE = 2;
+
+    const STAR_HOME = { 1: "天蓬<br><span class='en-text'>Grass</span>", 8: "天任<br><span class='en-text'>Official</span>", 3: "天冲<br><span class='en-text'>Aggressor</span>", 4: "天辅<br><span class='en-text'>Assistant</span>", 9: "天英<br><span class='en-text'>Hero</span>", 2: "天芮<br><span class='en-text'>Rice</span>", 7: "天柱<br><span class='en-text'>Pillar</span>", 6: "天心<br><span class='en-text'>Heart</span>", 5: "天禽<br><span class='en-text'>Heavenly Rice</span>" };
+    const DOOR_HOME = { 1: "休门<br><span class='en-text'>Rest</span>", 8: "生门<br><span class='en-text'>Birth</span>", 3: "伤门<br><span class='en-text'>Injury</span>", 4: "杜门<br><span class='en-text'>Delusion</span>", 9: "景门<br><span class='en-text'>View</span>", 2: "死门<br><span class='en-text'>Death</span>", 7: "惊门<br><span class='en-text'>Shocking</span>", 6: "开门<br><span class='en-text'>Open</span>" };
+    const DEITY_SEQUENCE = ["值符<br><span class='en-text'>Commander</span>", "螣蛇<br><span class='en-text'>Snake</span>", "太阴<br><span class='en-text'>Supreme Yin</span>", "六合<br><span class='en-text'>Harmonies</span>", "白虎<br><span class='en-text'>Tiger</span>", "玄武<br><span class='en-text'>Warrior</span>", "九地<br><span class='en-text'>Earth</span>", "九天<br><span class='en-text'>Heaven</span>"];
+    const SANQI_LIUYI_SEQ = ["戊", "己", "庚", "辛", "壬", "癸", "丁", "丙", "乙"];
+
+    const XUN_SUBSTITUTE = { "甲子": "戊", "甲戌": "己", "甲申": "庚", "甲午": "辛", "甲辰": "壬", "甲寅": "癸" };
+    const XUN_KONGWANG = {
+      "甲子": ["戌", "亥"], "甲戌": ["申", "酉"], "甲申": ["午", "未"],
+      "甲午": ["辰", "巳"], "甲辰": ["寅", "卯"], "甲寅": ["子", "丑"]
+    };
+
+    const YUAN_OF_FUTOU = {
+      "甲子": "上", "己巳": "中", "甲戌": "下", "己卯": "上", "甲申": "中", "己丑": "下",
+      "甲午": "上", "己亥": "中", "甲辰": "下", "己酉": "上", "甲寅": "中", "己未": "下"
+    };
+
+    const GANZHI_60 = [];
+    const GANZHI_INDEX = {};
+    for (let i = 0; i < 60; i++) {
+      let gz = GAN[i % 10] + ZHI[i % 12];
+      GANZHI_60.push(gz);
+      GANZHI_INDEX[gz] = i;
+    }
+
+    function findXunHead(ganzhi) {
+      let idx = GANZHI_INDEX[ganzhi];
+      let start = Math.floor(idx / 10) * 10;
+      return GANZHI_60[start];
+    }
+
+    function findFutou(ganzhi) {
+      let idx = GANZHI_INDEX[ganzhi];
+      let start = Math.floor(idx / 5) * 5;
+      return GANZHI_60[start];
+    }
+
+    function buildPalaceSequence(startPalace, ascending, ring = NUMERIC_RING) {
+      let n = ring.length;
+      let startPos = ring.indexOf(startPalace);
+      let seq = [];
+      for (let i = 0; i < n; i++) {
+        let pos = ascending ? (startPos + i) % n : (startPos - i + n) % n;
+        seq.push(ring[pos]);
+      }
+      return seq;
+    }
+
+    function borrow(palace) {
+      return palace === 5 ? CENTER_BORROW_PALACE : palace;
+    }
+
+    function getZhiShiLanding(p0, xun_head_hour, hour_gz, ascending) {
+      // Count hours from xun head to current hour
+      let xun_idx = GANZHI_INDEX[xun_head_hour];
+      let hr_idx = GANZHI_INDEX[hour_gz];
+      let steps = (hr_idx - xun_idx + 60) % 60; // Should be 0 to 9
+
+      let current = p0;
+      for (let i = 0; i < steps; i++) {
+        current = ascending ? current + 1 : current - 1;
+        if (current > 9) current = 1;
+        if (current < 1) current = 9;
+      }
+      return current;
+    }
+
+    const SUBSTITUTE_TO_XUN = { "戊": "甲子", "己": "甲戌", "庚": "甲申", "辛": "甲午", "壬": "甲辰", "癸": "甲寅" };
+
+    function formatStem(stem) {
+      if (!stem) return "";
+      let parts = stem.split(" ");
+      return parts.map(s => {
+        let jia = SUBSTITUTE_TO_XUN[s];
+        if (jia) {
+          return `${s}<span class="hidden-jia">(${jia})</span>`;
+        }
+        return s;
+      }).join(" ");
+    }
+
+    function evaluateStructures(p, t_stem, d_stem, door, star, deity) {
+      let structs = [];
+
+      let t_parts = t_stem.split(" ");
+      for (let t of t_parts) {
+        if (!t) continue;
+
+        // Common Auspicious - 青龙返首: Tian 丙 on Di 戊
+        if (t === "丙" && d_stem === "戊") structs.push({ name: "青龙返首<br><span class='en-text'>Dragon Returns</span>", type: "struct-ausp" });
+        // 飞鸟跌穴: Tian 戊 on Di 丙
+        if (t === "戊" && d_stem === "丙") structs.push({ name: "飞鸟跌穴<br><span class='en-text'>Die Xue</span>", type: "struct-ausp" });
+
+        // Common Inauspicious
+        if (t === "乙" && d_stem === "辛") structs.push({ name: "青龙逃走<br><span class='en-text'>Long Zou</span>", type: "struct-inau" });
+        if (t === "辛" && d_stem === "乙") structs.push({ name: "白虎猖狂<br><span class='en-text'>Tiger Mad</span>", type: "struct-inau" });
+        if (t === "丁" && d_stem === "癸") structs.push({ name: "朱雀投江<br><span class='en-text'>Bird Falls</span>", type: "struct-inau" });
+        if (t === "癸" && d_stem === "丁") structs.push({ name: "螣蛇夭矫<br><span class='en-text'>Snake Distorts</span>", type: "struct-inau" });
+        // 刑格 Xing Ge: 庚 in Tian Pan of ANY palace (庚 hunts 甲)
+        if (t === "庚") structs.push({ name: "刑格<br><span class='en-text'>Xing Ge</span>", type: "struct-inau" });
+
+        // Jiu Dun (Nine Escapes) - simplified standard rules
+        if (t === "丙" && d_stem === "丁" && ["开门", "休门", "生门", "Open", "Rest", "Birth"].some(x => door && door.includes(x))) structs.push({ name: "天遁<br><span class='en-text'>Tian Dun</span>", type: "struct-ausp" });
+        if (t === "乙" && d_stem === "己" && ["开门", "休门", "生门", "Open", "Rest", "Birth"].some(x => door && door.includes(x))) structs.push({ name: "地遁<br><span class='en-text'>Di Dun</span>", type: "struct-ausp" });
+        if (t === "丁" && deity && deity.includes("太阴")) structs.push({ name: "人遁<br><span class='en-text'>Ren Dun</span>", type: "struct-ausp" });
+        if (t === "乙" && deity && deity.includes("六合") && ["开门", "休门", "生门", "Open", "Rest", "Birth"].some(x => door && door.includes(x))) structs.push({ name: "云遁<br><span class='en-text'>Yun Dun</span>", type: "struct-ausp" });
+        if (t === "乙" && p === 4 && ["开门", "休门", "生门", "Open", "Rest", "Birth"].some(x => door && door.includes(x))) structs.push({ name: "风遁<br><span class='en-text'>Feng Dun</span>", type: "struct-ausp" });
+        if (t === "乙" && p === 1 && ["开门", "休门", "生门", "Open", "Rest", "Birth"].some(x => door && door.includes(x))) structs.push({ name: "龙遁<br><span class='en-text'>Long Dun</span>", type: "struct-ausp" });
+        if (t === "乙" && p === 7 && ["开门", "休门", "生门", "Open", "Rest", "Birth"].some(x => door && door.includes(x))) structs.push({ name: "虎遁<br><span class='en-text'>Hu Dun</span>", type: "struct-ausp" });
+        if (t === "丙" && deity && deity.includes("九天")) structs.push({ name: "神遁<br><span class='en-text'>Shen Dun</span>", type: "struct-ausp" });
+        if (t === "丁" && deity && deity.includes("九地")) structs.push({ name: "鬼遁<br><span class='en-text'>Gui Dun</span>", type: "struct-ausp" });
+      }
+      return structs;
+    }
+
+    function calculateChart(dateObj) {
+      let solar = Solar.fromYmdHms(dateObj.getFullYear(), dateObj.getMonth() + 1, dateObj.getDate(), dateObj.getHours(), dateObj.getMinutes(), dateObj.getSeconds());
+      let lunar = solar.getLunar();
+      let bazi = lunar.getEightChar();
+
+      let year_gz = bazi.getYear();
+      let month_gz = bazi.getMonth();
+      let day_gz = bazi.getDay();
+      let hour_gz = bazi.getTime();
+
+      // 1. 節氣
+      let jq = lunar.getPrevJieQi(true);
+      let jie_qi = jq.getName();
+      let jq_index = JIEQI_NAMES.indexOf(jie_qi);
+      let dun = jq_index <= 11 ? "陽遁" : "陰遁";
+      let ascending = (dun === "陽遁");
+
+      // 2. 三元 (Yuan)
+      let futou_day = findFutou(day_gz);
+      let yuan = YUAN_OF_FUTOU[futou_day];
+
+      // 3. 局數 (Ju Number)
+      let juArr = JU_TABLE[jie_qi];
+      let ju_number = yuan === "上" ? juArr[0] : (yuan === "中" ? juArr[1] : juArr[2]);
+
+      // 4. Di Pan
+      let di_pan_seq = buildPalaceSequence(ju_number, ascending);
+      let di_pan = {};
+      di_pan_seq.forEach((p, i) => { di_pan[p] = SANQI_LIUYI_SEQ[i]; });
+
+      // 5. Zhi Fu and Zhi Shi
+      let xun_head_hour = findXunHead(hour_gz);
+      let substitute_stem = XUN_SUBSTITUTE[xun_head_hour];
+      let hour_stem = hour_gz[0];
+      let search_stem = hour_stem === "甲" ? substitute_stem : hour_stem;
+
+      let stem_to_palace = {};
+      for (let k in di_pan) stem_to_palace[di_pan[k]] = parseInt(k);
+
+      let p0 = stem_to_palace[substitute_stem];
+      let landing = stem_to_palace[search_stem];
+
+      let zhi_fu_star = STAR_HOME[p0];
+      let zhi_shi_door = DOOR_HOME[borrow(p0)];
+
+      // 6. Tian Pan Stems & Stars (Rotate on RING8)
+      let tian_pan = {};
+      let tian_star = {};
+
+      let p0_r = borrow(p0);
+      let landing_r = borrow(landing);
+      let idx_p0_r = RING8.indexOf(p0_r);
+      let idx_landing_r = RING8.indexOf(landing_r);
+      let shift_star = idx_landing_r - idx_p0_r;
+
+      RING8.forEach((palace, i) => {
+        let src_idx = (i - shift_star + 8) % 8;
+        let src_palace = RING8[src_idx];
+        tian_pan[palace] = di_pan[src_palace];
+        tian_star[palace] = STAR_HOME[src_palace];
+      });
+
+      // 7. Eight Doors (Rotate on RING8 based on Zhi Shi landing)
+      let landing_door = getZhiShiLanding(p0_r, xun_head_hour, hour_gz, ascending);
+      // Zhi Shi always stays on RING8. If it lands on 5, it borrows 2.
+      landing_door = borrow(landing_door);
+      let idx_landing_door = RING8.indexOf(landing_door);
+      let shift_door = idx_landing_door - idx_p0_r;
+
+      let tian_door = {};
+      RING8.forEach((palace, i) => {
+        let src_idx = (i - shift_door + 8) % 8;
+        let src_palace = RING8[src_idx];
+        tian_door[palace] = DOOR_HOME[src_palace];
+      });
+
+      // 8. Eight Deities (Start at landing_r, go forward if Yang, backward if Yin)
+      let tian_deity = {};
+      for (let i = 0; i < 8; i++) {
+        let pos = ascending ? (idx_landing_r + i) % 8 : (idx_landing_r - i + 8) % 8;
+        tian_deity[RING8[pos]] = DEITY_SEQUENCE[i];
+      }
+
+      // 9. Kong Wang
+      let kong_wang_day = XUN_KONGWANG[findXunHead(day_gz)];
+      let zhi_to_palace = {
+        "子": 1, "丑": 8, "寅": 8, "卯": 3, "辰": 4, "巳": 4,
+        "午": 9, "未": 2, "申": 2, "酉": 7, "戌": 6, "亥": 6
+      };
+      let kong_wang_palaces = new Set(kong_wang_day.map(z => zhi_to_palace[z]));
+
+      // 10. 驿马 Yi Ma (Travelling Horse) - from Day Branch
+      const day_zhi = day_gz[1]; // second char is the branch
+      const YI_MA_MAP = {
+        "申": 8, "子": 8, "辰": 8,  // 申子辰 → 寅 → palace 8 (艮)
+        "亥": 4, "卯": 4, "未": 4,  // 亥卯未 → 巳 → palace 4 (巽)
+        "寅": 2, "午": 2, "戌": 2,  // 寅午戌 → 申 → palace 2 (坤)
+        "巳": 6, "酉": 6, "丑": 6   // 巳酉丑 → 亥 → palace 6 (乾)
+      };
+      let yi_ma_palace = YI_MA_MAP[day_zhi] || 0;
+      let is_ma_kong = kong_wang_palaces.has(yi_ma_palace);
+
+      let palaces = {};
+      for (let p = 1; p <= 9; p++) {
+        if (p === 5) {
+          // Center palace is mostly empty in UI, only shows Di Pan.
+          palaces[p] = {
+            palace: p,
+            name: PALACE_INFO[p].name,
+            dir: PALACE_INFO[p].dir,
+            di_pan_stem: di_pan[p],
+            tian_pan_stem: "",
+            star: "",
+            door: "",
+            deity: "",
+            is_kong_wang: false,
+            is_yi_ma: false,
+            is_ma_kong: false
+          };
+        } else {
+          let star_display = tian_star[p];
+          let tian_pan_display = tian_pan[p];
+
+          let structs = evaluateStructures(p, tian_pan_display, di_pan[p], tian_door[p], star_display, tian_deity[p]);
+
+          palaces[p] = {
+            palace: p,
+            name: PALACE_INFO[p].name,
+            dir: PALACE_INFO[p].dir,
+            di_pan_stem: di_pan[p],
+            tian_pan_stem: tian_pan_display,
+            star: star_display,
+            door: tian_door[p] || "",
+            deity: tian_deity[p] || "",
+            is_kong_wang: kong_wang_palaces.has(p),
+            is_yi_ma: (p === yi_ma_palace),
+            is_ma_kong: is_ma_kong,
+            structures: structs
+          };
+        }
+      }
+
+      return {
+        dt: dateObj, year_gz, month_gz, day_gz, hour_gz,
+        jie_qi, dun, yuan, ju_number, zhi_fu_star, zhi_shi_door, landing, palaces
+      };
+    }
+
+    function renderChart(chart) {
+      // Render Info Bar
+      const infoBar = document.getElementById('infoBar');
+      infoBar.innerHTML = `
+            <div class="info-item"><span class="info-label">วันเวลา</span><span class="info-value">${chart.dt.toLocaleString('th-TH')}</span></div>
+            <div class="info-item"><span class="info-label">ปาจื้อ (กานจือ)</span><span class="info-value">${chart.year_gz} ${chart.month_gz} ${chart.day_gz} ${chart.hour_gz}</span></div>
+            <div class="info-item"><span class="info-label">เทศกาล (Jie Qi)</span><span class="info-value">${chart.jie_qi}</span></div>
+            <div class="info-item"><span class="info-label">ระบบ (Dun / Ju)</span><span class="info-value">${chart.dun} ${chart.ju_number} 局 (${chart.yuan}元)</span></div>
+            <div class="info-item"><span class="info-label">จื้อฝู (Zhi Fu)</span><span class="info-value">${chart.zhi_fu_star}</span></div>
+            <div class="info-item"><span class="info-label">จื้อสื่อ (Zhi Shi)</span><span class="info-value">${chart.zhi_shi_door}</span></div>
+        `;
+
+      // Render Grid
+      const grid = document.getElementById('qimenGrid');
+      grid.innerHTML = '';
+      for (let p = 1; p <= 9; p++) {
+        const data = chart.palaces[p];
+        const div = document.createElement('div');
+        div.className = `palace palace-${p} ${data.is_kong_wang ? 'kong-wang' : ''}`;
+
+        let structHTML = (data.structures || []).map(s => `<span class="${s.type}">${s.name}</span>`).join(" ");
+
+        div.innerHTML = `
+                <div class="p-header">
+                    <span>วัง ${p} ${data.name}</span>
+                    <span>${data.dir} ${data.is_yi_ma ? '<span class="yi-ma-badge" title="驿马 Yi Ma">🐎' + (data.is_ma_kong ? '<span class="ma-kong">空</span>' : '') + '</span>' : ''}</span>
+                </div>
+                <div class="p-structures">
+                    ${structHTML}
+                </div>
+                <div class="p-star-door-deity">
+                    <span>${data.deity}</span>
+                    <span>${data.star}</span>
+                    <span>${data.door}</span>
+                </div>
+                <div class="p-stems">
+                    <span class="tian-pan">${formatStem(data.tian_pan_stem)}</span>
+                    <span class="di-pan">${formatStem(data.di_pan_stem)}</span>
+                </div>
+            `;
+        grid.appendChild(div);
+      }
+
+      // Notify parent iframe resized
+      if (window.parent && window.parent.resizeFrame) {
+        window.parent.resizeFrame();
+      }
+    }
+
+    document.getElementById('f').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const monthNames = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
+
+      let yBE = parseInt(document.getElementById('year').value) || 2568;
+      let yCE = yBE > 2400 ? yBE - 543 : yBE;
+      let mIdx = monthNames.indexOf(document.getElementById('month').value);
+      let d = parseInt(document.getElementById('day').value) || 1;
+      let h = parseInt(document.getElementById('hour').value) || 12;
+      let min = parseInt(document.getElementById('minute').value) || 0;
+
+      if (mIdx === -1) mIdx = 0;
+
+      let dt = new Date(yCE, mIdx, d, h, min, 0);
+      let chart = calculateChart(dt);
+      renderChart(chart);
+    });
+
+    // Auto-init on load with current time if empty
+    window.addEventListener('load', () => {
+      if (!document.getElementById('year').value) {
+        let now = new Date();
+        let chart = calculateChart(now);
+        renderChart(chart);
+      }
+    });
+  </script>
+</body>
+
+</html>
