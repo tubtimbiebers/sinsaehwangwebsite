@@ -1358,7 +1358,6 @@ input, textarea, select { font-family: inherit; }
 }
 .popup-close:hover { background: var(--white); transform: scale(1.08); }
 .popup-image {
-  height: 160px;
   background: var(--grad-crimson);
   display: flex;
   align-items: center;
@@ -1366,8 +1365,9 @@ input, textarea, select { font-family: inherit; }
   font-size: 3.5rem;
   color: var(--white);
   overflow: hidden;
+  min-height: 80px;
 }
-.popup-image img { width: 100%; height: 100%; object-fit: cover; }
+.popup-image img { width: 100%; height: auto; max-height: 60vh; object-fit: contain; display: block; }
 .popup-body { padding: var(--sp-xl); text-align: center; }
 .popup-body h3 {
   font-family: var(--font-serif);
