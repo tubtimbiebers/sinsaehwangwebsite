@@ -31,13 +31,112 @@
       color: var(--text-primary);
       margin-top: var(--sp-xl);
     }
-    .article-content h2, .article-content h3 {
+
+    /* ── Prose typography reset — controls all HTML tags inside content ── */
+    .article-content h1 {
       font-family: var(--font-serif);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin: var(--sp-xl) 0 var(--sp-sm);
+      line-height: 1.35;
+    }
+    .article-content h2 {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
       color: var(--crimson);
       margin: var(--sp-lg) 0 var(--sp-sm);
+      line-height: 1.4;
+    }
+    .article-content h3 {
+      font-family: var(--font-serif);
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin: var(--sp-md) 0 var(--sp-xs);
+    }
+    .article-content h4, .article-content h5, .article-content h6 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin: var(--sp-sm) 0 var(--sp-xs);
     }
     .article-content p {
       margin-bottom: var(--sp-md);
+    }
+    .article-content ul, .article-content ol {
+      margin: var(--sp-sm) 0 var(--sp-md) 1.5rem;
+    }
+    .article-content li {
+      margin-bottom: 0.35rem;
+    }
+    .article-content a {
+      color: var(--crimson);
+      text-decoration: underline;
+      word-break: break-all;
+    }
+    .article-content strong, .article-content b {
+      font-weight: 700;
+      color: var(--charcoal);
+    }
+    .article-content em, .article-content i {
+      font-style: italic;
+    }
+    /* Images — never overflow the column, always readable */
+    .article-content img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: var(--sp-md) auto;
+      border-radius: var(--r-md);
+      box-shadow: var(--shadow-sm);
+    }
+    /* Tables */
+    .article-content table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: var(--sp-md) 0;
+      overflow-x: auto;
+      display: block;
+    }
+    .article-content th, .article-content td {
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    .article-content th {
+      background: var(--cream-deep);
+      font-weight: 700;
+    }
+    .article-content blockquote {
+      border-left: 4px solid var(--gold);
+      background: var(--cream);
+      margin: var(--sp-md) 0;
+      padding: var(--sp-sm) var(--sp-md);
+      font-style: italic;
+      color: var(--text-secondary);
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    }
+    .article-content hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: var(--sp-lg) 0;
+    }
+    .article-content pre, .article-content code {
+      font-family: monospace;
+      font-size: 0.85rem;
+      background: var(--cream-deep);
+      border-radius: var(--r-sm);
+    }
+    .article-content pre {
+      padding: var(--sp-sm) var(--sp-md);
+      overflow-x: auto;
+    }
+    .article-content code {
+      padding: 2px 6px;
     }
     .article-figure {
       margin: 0 0 var(--sp-xl);
