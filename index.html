@@ -784,7 +784,15 @@ function applyPopupContent(popup) {
   if (!overlay) return;
   overlay.dataset.enabled = popup.enabled === false ? '0' : '1';
   if (popup.title) document.getElementById('popupTitle').textContent = popup.title;
-  if (popup.desc)  document.getElementById('popupDesc').textContent  = popup.desc;
+  if (popup.desc) {
+    // Strip URLs and truncate to 120 chars for readability
+    let desc = popup.desc
+      .replace(/https?:\/\/\S+/g, '')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+    if (desc.length > 120) desc = desc.slice(0, 120).replace(/\s+\S*$/, '') + '…';
+    document.getElementById('popupDesc').textContent = desc;
+  }
   if (popup.articleBtnText) document.getElementById('popupArticleBtn').textContent = popup.articleBtnText;
   if (popup.articleBtnUrl) {
     const btn = document.getElementById('popupArticleBtn');

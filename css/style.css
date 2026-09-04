@@ -1333,9 +1333,11 @@ input, textarea, select { font-family: inherit; }
   position: relative;
   background: var(--white);
   border-radius: var(--r-xl);
-  max-width: 420px;
+  max-width: 460px;
   width: 100%;
-  overflow: hidden;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
   box-shadow: var(--shadow-xl);
   transform: translateY(20px) scale(0.96);
   transition: transform var(--t-mid);
@@ -1344,10 +1346,10 @@ input, textarea, select { font-family: inherit; }
 .popup-close {
   position: absolute;
   top: 12px; right: 12px;
-  z-index: 1;
-  width: 32px; height: 32px;
+  z-index: 10;
+  width: 34px; height: 34px;
   border-radius: var(--r-full);
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.92);
   color: var(--charcoal);
   display: flex;
   align-items: center;
@@ -1355,6 +1357,7 @@ input, textarea, select { font-family: inherit; }
   font-size: 1.1rem;
   cursor: pointer;
   transition: background var(--t-fast), transform var(--t-fast);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
 }
 .popup-close:hover { background: var(--white); transform: scale(1.08); }
 .popup-image {
@@ -1367,17 +1370,24 @@ input, textarea, select { font-family: inherit; }
   overflow: hidden;
   min-height: 80px;
 }
-.popup-image img { width: 100%; height: auto; max-height: 60vh; object-fit: contain; display: block; }
-.popup-body { padding: var(--sp-xl); text-align: center; }
+.popup-image img { width: 100%; height: auto; max-height: 45vh; object-fit: contain; display: block; }
+.popup-body { padding: var(--sp-xl) var(--sp-xl) var(--sp-lg); text-align: left; }
 .popup-body h3 {
   font-family: var(--font-serif);
-  font-size: 1.25rem;
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--charcoal);
   margin-bottom: var(--sp-sm);
+  line-height: 1.4;
 }
-.popup-body p { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: var(--sp-lg); line-height: 1.6; }
-.popup-actions { display: flex; gap: var(--sp-sm); flex-direction: column; }
-.popup-actions .btn-primary, .popup-actions .btn-outline { width: 100%; justify-content: center; }
+.popup-body p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--sp-lg);
+  line-height: 1.7;
+}
+.popup-actions { display: flex; gap: var(--sp-sm); flex-direction: row; flex-wrap: wrap; }
+.popup-actions .btn-primary, .popup-actions .btn-outline { flex: 1; min-width: 120px; justify-content: center; }
 
 /* ── CTA BANNER ── */
 .program-pro-banner {
