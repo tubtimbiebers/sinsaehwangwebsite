@@ -10,3 +10,8 @@ node_modules/
 *.txt
 .DS_Store
 Thumbs.db
+__pycache__/
+*.pyc
+test_bazi.js
+run_check*
+.vscode/

@@ -776,8 +776,13 @@
       </button>
       <button type="button" class="selector-btn" data-tab="qizheng">
         <span class="zh-icon">政</span>
-        <span class="title">เซ็กเจ่งสี่อื้อ</span>
-        <span class="desc">七政四餘 โหราศาสตร์จีนคลาสสิก</span>
+        <span class="title">เซ็กเจ่งสี่อื้อ (v1)</span>
+        <span class="desc">七政四餘 รุ่นคลาสสิก</span>
+      </button>
+      <button type="button" class="selector-btn" data-tab="qizheng_v2">
+        <span class="zh-icon">政</span>
+        <span class="title">เซ็กเจ่งสี่อื้อ (v2)</span>
+        <span class="desc">七政四餘 · กว๋อเหล่า จินซาน (Guolao)</span>
       </button>
     </div>
     
@@ -1240,8 +1245,8 @@ function syncAndCalculate() {
   const doc = getIframeDoc();
   if (!doc) return;
 
-  if (activeProgram === 'qizheng') {
-    // Qi Zheng Si Yu — sync birth date/time then trigger calculation
+  if (activeProgram === 'qizheng' || activeProgram === 'qizheng_v2') {
+    // Qi Zheng Si Yu (v1 & v2) — sync birth date/time then trigger calculation
     let yearBE = parseInt(document.getElementById('p-year').value) || 2568;
     let yearCE = yearBE > 2400 ? yearBE - 543 : yearBE;
     const monthNames = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
@@ -1532,7 +1537,14 @@ function switchTab(tabId) {
   } else if (tabId === 'qizheng') {
     if (activeProgram !== 'qizheng') {
       activeProgram = 'qizheng';
-      iframe.src = 'vicha/qizheng.html';
+      iframe.src = 'vicha/qizheng_v1.html';
+    } else {
+      injectStyles();
+    }
+  } else if (tabId === 'qizheng_v2') {
+    if (activeProgram !== 'qizheng_v2') {
+      activeProgram = 'qizheng_v2';
+      iframe.src = 'vicha/qizheng_v2.html';
     } else {
       injectStyles();
     }
@@ -1582,7 +1594,7 @@ document.querySelectorAll('.selector-btn').forEach(btn => {
 
 iframe.addEventListener('load', function() {
   injectStyles();
-  if (activeProgram === 'main' || activeProgram === 'liuren' || activeProgram === 'ziwei' || activeProgram === 'taiyi' || activeProgram === 'qizheng' || activeProgram === 'qimen_meta' || activeProgram === 'liuyao' || activeProgram === 'iching' || activeProgram === 'iching_oracle') {
+  if (activeProgram === 'main' || activeProgram === 'liuren' || activeProgram === 'ziwei' || activeProgram === 'taiyi' || activeProgram === 'qizheng' || activeProgram === 'qizheng_v2' || activeProgram === 'qimen_meta' || activeProgram === 'liuyao' || activeProgram === 'iching' || activeProgram === 'iching_oracle') {
     setTimeout(syncAndCalculate, 100);
   } else {
     setTimeout(resizeFrame, 150);
@@ -1595,7 +1607,7 @@ setInterval(resizeFrame, 1000);
 // ── Hash switching logic for header links ──
 function checkHashAndSwitch() {
   const hash = window.location.hash.substring(1);
-  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen', 'qimen_meta', 'liuren', 'ziwei', 'liuyao', 'iching', 'iching_oracle', 'taiyi', 'qizheng'];
+  const validTabs = ['seven', 'zodiac', 'taksamahayuk', 'daohern', 'bazi', 'duthit', 'qimen', 'qimen_meta', 'liuren', 'ziwei', 'liuyao', 'iching', 'iching_oracle', 'taiyi', 'qizheng', 'qizheng_v2'];
   if (hash && validTabs.includes(hash)) {
     document.getElementById('resultSection').classList.remove('hidden');
     switchTab(hash);
