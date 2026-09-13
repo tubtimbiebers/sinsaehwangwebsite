@@ -8,6 +8,34 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Noto+Sans+Thai:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css?v=12" />
+  <style>
+    .toolbar { display:flex; gap:var(--sp-md); align-items:center; flex-wrap:wrap; margin-bottom:var(--sp-lg); }
+    .search-input { flex:1; min-width:200px; padding:0.6rem var(--sp-md); border:1px solid var(--border); border-radius:var(--r-md); font-size:0.875rem; outline:none; }
+    .search-input:focus { border-color:var(--crimson); }
+    select.form-select { padding:0.6rem var(--sp-md); border:1px solid var(--border); border-radius:var(--r-md); font-size:0.875rem; outline:none; background:var(--white); cursor:pointer; }
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:200; display:none; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+    .modal-overlay.open { display:flex; }
+    .modal { background:var(--white); border-radius:var(--r-xl); width:680px; max-width:96vw; max-height:90vh; overflow-y:auto; }
+    .modal-header { padding:var(--sp-xl); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; background:var(--white); z-index:1; }
+    .modal-close { font-size:1.4rem; cursor:pointer; color:var(--gray-500); border:none; background:none; padding:4px 8px; }
+    .modal-close:hover { color:var(--crimson); }
+    .loading-row td { text-align:center; padding:2rem; color:var(--gray-400); }
+    .pagination { display:flex; gap:8px; align-items:center; justify-content:center; margin-top:var(--sp-lg); }
+    .page-btn { padding:0.4rem 0.8rem; border:1px solid var(--border); border-radius:var(--r-md); background:var(--white); cursor:pointer; font-size:0.8rem; }
+    .page-btn.active { background:var(--crimson); color:#fff; border-color:var(--crimson); }
+    .page-btn:disabled { opacity:0.4; cursor:not-allowed; }
+    .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--sp-md); margin-bottom:var(--sp-xl); }
+    .stat-mini { background:var(--white); border:1px solid var(--border); border-radius:var(--r-lg); padding:var(--sp-lg); text-align:center; }
+    .stat-mini .num { font-size:1.6rem; font-weight:700; color:var(--crimson); }
+    .stat-mini .lbl { font-size:0.72rem; color:var(--gray-500); margin-top:4px; }
+    .time-badge { display:inline-block; background:var(--cream-deep); color:var(--charcoal); font-weight:700; padding:3px 10px; border-radius:var(--r-md); font-size:0.82rem; font-family:monospace; }
+    .today-section { margin-bottom:var(--sp-xl); }
+    .today-card { background:linear-gradient(135deg,#8b1a1a,#c0392b); color:#fff; border-radius:var(--r-xl); padding:var(--sp-xl); }
+    .today-card h3 { font-family:var(--font-serif); font-size:1rem; opacity:0.85; margin-bottom:var(--sp-md); }
+    .today-item { background:rgba(255,255,255,0.12); border-radius:var(--r-md); padding:var(--sp-md); margin-bottom:8px; display:flex; gap:var(--sp-md); align-items:center; }
+    .today-time { font-weight:700; font-size:0.95rem; min-width:52px; }
+    @media(max-width:700px){ .stats-row{grid-template-columns:repeat(2,1fr);} }
+  </style>
 </head>
 <body class="admin-body">
 <script>if(!sessionStorage.getItem('admin_auth')) window.location.href='/admin';</script>
@@ -21,76 +49,363 @@
     <nav class="admin-nav">
       <div class="admin-nav-section">
         <div class="admin-nav-label">ภาพรวม</div>
-        <a href="/admin/dashboard.html" class="admin-nav-item" id="nav-dashboard">
-          <span class="nav-icon">📊</span> Dashboard
-        </a>
+        <a href="/admin/dashboard.html" class="admin-nav-item"><span class="nav-icon">📊</span> Dashboard</a>
       </div>
       <div class="admin-nav-section">
         <div class="admin-nav-label">เนื้อหา</div>
-        <a href="/admin/homepage.html" class="admin-nav-item" id="nav-homepage">
-          <span class="nav-icon">🏠</span> แก้ไขหน้าแรก
-        </a>
-        <a href="/admin/posts.html" class="admin-nav-item" id="nav-posts">
-          <span class="nav-icon">📝</span> บทความ
-        </a>
-        <a href="/admin/categories.html" class="admin-nav-item" id="nav-categories">
-          <span class="nav-icon">🏷️</span> หมวดหมู่
-        </a>
-        <a href="/admin/testimonials.html" class="admin-nav-item" id="nav-testimonials">
-          <span class="nav-icon">💬</span> รีวิว
-        </a>
+        <a href="/admin/homepage.html" class="admin-nav-item"><span class="nav-icon">🏠</span> แก้ไขหน้าแรก</a>
+        <a href="/admin/posts.html" class="admin-nav-item"><span class="nav-icon">📝</span> บทความ</a>
+        <a href="/admin/categories.html" class="admin-nav-item"><span class="nav-icon">🏷️</span> หมวดหมู่</a>
+        <a href="/admin/testimonials.html" class="admin-nav-item"><span class="nav-icon">💬</span> รีวิว</a>
       </div>
       <div class="admin-nav-section">
         <div class="admin-nav-label">ลูกค้า</div>
-        <a href="/admin/consultations.html" class="admin-nav-item" id="nav-consult">
-          <span class="nav-icon">🔮</span> คำปรึกษา
-        </a>
-        <a href="/admin/customers.html" class="admin-nav-item" id="nav-customers">
-          <span class="nav-icon">👥</span> ลูกค้า
-        </a>
-        <a href="/admin/appointments.html" class="admin-nav-item active" id="nav-appointments">
-          <span class="nav-icon">📅</span> นัดหมาย
-        </a>
+        <a href="/admin/consultations.html" class="admin-nav-item"><span class="nav-icon">🔮</span> คำปรึกษา</a>
+        <a href="/admin/customers.html" class="admin-nav-item"><span class="nav-icon">👥</span> ลูกค้า</a>
+        <a href="/admin/appointments.html" class="admin-nav-item active"><span class="nav-icon">📅</span> นัดหมาย</a>
       </div>
       <div class="admin-nav-section">
         <div class="admin-nav-label">ระบบ</div>
-        <a href="/admin/settings.html" class="admin-nav-item" id="nav-settings">
-          <span class="nav-icon">⚙️</span> ตั้งค่า
-        </a>
-        <a href="/admin/seo.html" class="admin-nav-item" id="nav-seo">
-          <span class="nav-icon">🔍</span> SEO
-        </a>
-        <a href="#" class="admin-nav-item" id="nav-logout" onclick="logout()">
-          <span class="nav-icon">🚪</span> ออกจากระบบ
-        </a>
+        <a href="/admin/settings.html" class="admin-nav-item"><span class="nav-icon">⚙️</span> ตั้งค่า</a>
+        <a href="/admin/seo.html" class="admin-nav-item"><span class="nav-icon">🔍</span> SEO</a>
+        <a href="#" class="admin-nav-item" onclick="doLogout()"><span class="nav-icon">🚪</span> ออกจากระบบ</a>
       </div>
     </nav>
+    <div style="padding:var(--sp-lg);border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="font-size:0.7rem;color:var(--gray-600);text-align:center;">
+        <a href="/index.html" target="_blank" style="color:var(--gold-bright);">ดูหน้าเว็บ ↗</a>
+      </div>
+    </div>
   </aside>
 
   <main class="admin-main">
     <div class="admin-topbar">
-      <span class="admin-topbar-title">📅 นัดหมาย</span>
+      <div style="display:flex;align-items:center;gap:var(--sp-md);">
+        <button id="menuToggle" onclick="document.getElementById('adminSidebar').classList.toggle('open')"
+          style="display:none;padding:6px;border:1px solid var(--border);border-radius:var(--r-md);cursor:pointer;background:var(--white);">☰</button>
+        <span class="admin-topbar-title">📅 นัดหมาย</span>
+      </div>
       <div class="admin-user"><div class="admin-avatar">ซ</div><span>ซินแสหวาง</span></div>
     </div>
+
     <div class="admin-content">
-      <div class="admin-card">
-        <div style="padding:var(--sp-xl,2rem);text-align:center;color:var(--gray-500);">
-          <div style="font-size:2.4rem;margin-bottom:0.75rem;">📅</div>
-          <div style="font-size:1rem;font-weight:600;color:var(--charcoal);margin-bottom:0.4rem;">หน้านี้ยังไม่เปิดใช้งาน</div>
-          <div style="font-size:0.85rem;">ฟีเจอร์ "นัดหมาย" กำลังอยู่ระหว่างการพัฒนา</div>
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-mini"><div class="num" id="st-total">–</div><div class="lbl">นัดทั้งหมด</div></div>
+        <div class="stat-mini"><div class="num" id="st-today">–</div><div class="lbl">วันนี้</div></div>
+        <div class="stat-mini"><div class="num" id="st-pending">–</div><div class="lbl">รอยืนยัน</div></div>
+        <div class="stat-mini"><div class="num" id="st-confirmed">–</div><div class="lbl">ยืนยันแล้ว</div></div>
+      </div>
+
+      <!-- Today's appointments -->
+      <div class="today-section">
+        <div class="today-card">
+          <h3>📅 นัดหมายวันนี้</h3>
+          <div id="todayList"><div style="opacity:0.7;font-size:0.9rem;">กำลังโหลด...</div></div>
         </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <input type="text" class="search-input" placeholder="🔍 ค้นหาชื่อ / บริการ..." id="searchInput" oninput="filterRows()" />
+        <select class="form-select" id="stFilter" onchange="filterRows()">
+          <option value="">ทุกสถานะ</option>
+          <option value="รอยืนยัน">รอยืนยัน</option>
+          <option value="ยืนยันแล้ว">ยืนยันแล้ว</option>
+          <option value="เสร็จสิ้น">เสร็จสิ้น</option>
+          <option value="ยกเลิก">ยกเลิก</option>
+        </select>
+        <button class="btn-primary" onclick="openNew()">+ เพิ่มนัดหมาย</button>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <span class="admin-card-title">รายการนัดหมายทั้งหมด</span>
+          <span id="rowCount" style="font-size:0.8rem;color:var(--gray-500);"></span>
+        </div>
+        <table>
+          <thead>
+            <tr><th>ชื่อลูกค้า</th><th>บริการ</th><th>วันที่</th><th>เวลา</th><th>ช่องทาง</th><th>สถานะ</th><th>จัดการ</th></tr>
+          </thead>
+          <tbody id="apptTbody">
+            <tr class="loading-row"><td colspan="7">⏳ กำลังโหลด...</td></tr>
+          </tbody>
+        </table>
+        <div class="pagination" id="pagination"></div>
       </div>
     </div>
   </main>
 </div>
 
+<!-- Modal -->
+<div class="modal-overlay" id="apptModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 style="font-family:var(--font-serif);font-size:1.1rem;" id="modalTitle">เพิ่มนัดหมาย</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="admin-form">
+      <form id="apptForm" onsubmit="saveRow(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>ชื่อลูกค้า <span style="color:var(--crimson)">*</span></label>
+            <input type="text" class="form-control" id="aName" required placeholder="เช่น คุณสมศรี" />
+          </div>
+          <div class="form-group">
+            <label>เบอร์โทร</label>
+            <input type="text" class="form-control" id="aPhone" placeholder="08x-xxx-xxxx" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>บริการ <span style="color:var(--crimson)">*</span></label>
+            <select class="form-control" id="aService">
+              <option>โหราศาสตร์จีน</option>
+              <option>โหราศาสตร์ไทย</option>
+              <option>ฮวงจุ้ย</option>
+              <option>อี้จิง</option>
+              <option>ราศีจีน</option>
+              <option>คู่สีมงคล</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ช่องทาง</label>
+            <select class="form-control" id="aChannel">
+              <option>ออนไลน์</option>
+              <option>พบตรง</option>
+              <option>โทรศัพท์</option>
+              <option>Line</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>วันที่นัด <span style="color:var(--crimson)">*</span></label>
+            <input type="date" class="form-control" id="aDate" required />
+          </div>
+          <div class="form-group">
+            <label>เวลา <span style="color:var(--crimson)">*</span></label>
+            <input type="time" class="form-control" id="aTime" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="grid-column:1/-1">
+            <label>สถานะ</label>
+            <select class="form-control" id="aStatus">
+              <option value="รอยืนยัน">รอยืนยัน</option>
+              <option value="ยืนยันแล้ว">ยืนยันแล้ว</option>
+              <option value="เสร็จสิ้น">เสร็จสิ้น</option>
+              <option value="ยกเลิก">ยกเลิก</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="grid-column:1/-1">
+            <label>บันทึก / รายละเอียด</label>
+            <textarea class="form-control" id="aNote" rows="3" placeholder="รายละเอียดเพิ่มเติม..."></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-outline" onclick="closeModal()">ยกเลิก</button>
+          <button type="submit" class="btn-primary" id="saveBtn">💾 บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script src="/js/main.js"></script>
 <script>
-function logout() {
-  sessionStorage.removeItem('admin_auth');
-  sessionStorage.removeItem('admin_key');
-  window.location.href = '/admin';
+const API_KEY = sessionStorage.getItem('admin_key') || '';
+const PAGE_SIZE = 20;
+let allRows = [], filtered = [], editId = null, currentPage = 1;
+
+async function apiFetch(url, options = {}) {
+  const res = await fetch(url, {
+    ...options,
+    headers: { 'Content-Type': 'application/json', 'X-Admin-Key': API_KEY, ...(options.headers || {}) }
+  });
+  if (!res.ok) { const err = await res.json().catch(() => ({})); throw new Error(err.error || 'API error ' + res.status); }
+  return res.json();
 }
+
+async function loadAll() {
+  try {
+    allRows = await apiFetch('/api/appointments');
+    allRows.sort((a,b) => (a.date+a.time||'') < (b.date+b.time||'') ? 1 : -1);
+    updateStats(); renderToday(); filterRows();
+  } catch(e) {
+    document.getElementById('apptTbody').innerHTML =
+      `<tr class="loading-row"><td colspan="7" style="color:#e57373;">❌ ไม่สามารถโหลดข้อมูล: ${e.message}<br><small>กรุณาตรวจสอบว่ารัน local-server.js แล้ว</small></td></tr>`;
+    document.getElementById('todayList').innerHTML = '<div style="opacity:0.7;font-size:0.9rem;">ไม่สามารถโหลดข้อมูลได้</div>';
+  }
+}
+
+function updateStats() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('st-total').textContent     = allRows.length;
+  document.getElementById('st-today').textContent     = allRows.filter(r => r.date === today).length;
+  document.getElementById('st-pending').textContent   = allRows.filter(r => r.status === 'รอยืนยัน').length;
+  document.getElementById('st-confirmed').textContent = allRows.filter(r => r.status === 'ยืนยันแล้ว').length;
+}
+
+function renderToday() {
+  const today = new Date().toISOString().split('T')[0];
+  const todayRows = allRows.filter(r => r.date === today).sort((a,b) => (a.time||'') > (b.time||'') ? 1 : -1);
+  const el = document.getElementById('todayList');
+  if (!todayRows.length) { el.innerHTML = '<div style="opacity:0.7;font-size:0.9rem;">ไม่มีนัดหมายวันนี้</div>'; return; }
+  el.innerHTML = todayRows.map(r => {
+    const stColor = r.status==='ยืนยันแล้ว'?'#4caf50':r.status==='รอยืนยัน'?'#ff9800':'#9e9e9e';
+    return `<div class="today-item">
+      <span class="today-time">${escHtml(r.time||'?')}</span>
+      <div style="flex:1;">
+        <div style="font-weight:600;">${escHtml(r.name)}</div>
+        <div style="font-size:0.8rem;opacity:0.8;">${escHtml(r.service||'')} · ${escHtml(r.channel||'')}</div>
+      </div>
+      <span style="background:${stColor};color:#fff;padding:2px 10px;border-radius:20px;font-size:0.72rem;font-weight:600;">${escHtml(r.status)}</span>
+    </div>`;
+  }).join('');
+}
+
+function filterRows() {
+  const q  = document.getElementById('searchInput').value.toLowerCase();
+  const st = document.getElementById('stFilter').value;
+  filtered = allRows.filter(r =>
+    (!q  || r.name.toLowerCase().includes(q) || (r.service||'').toLowerCase().includes(q)) &&
+    (!st || r.status === st)
+  );
+  currentPage = 1; renderTable();
+}
+
+function renderTable() {
+  const tbody = document.getElementById('apptTbody');
+  document.getElementById('rowCount').textContent = filtered.length + ' รายการ';
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const page  = filtered.slice(start, start + PAGE_SIZE);
+  if (!page.length) { tbody.innerHTML = '<tr class="loading-row"><td colspan="7">ไม่พบข้อมูล</td></tr>'; renderPagination(0); return; }
+  const today = new Date().toISOString().split('T')[0];
+  tbody.innerHTML = page.map(r => {
+    const stClass = r.status==='ยืนยันแล้ว'?'success':r.status==='รอยืนยัน'?'warning':r.status==='ยกเลิก'?'danger':'info';
+    const isToday = r.date === today;
+    return `<tr ${isToday?'style="background:rgba(139,26,26,0.04);"':''}>
+      <td>
+        <strong>${escHtml(r.name)}</strong>
+        ${isToday?'<span style="font-size:0.65rem;background:var(--crimson);color:#fff;padding:1px 6px;border-radius:10px;margin-left:6px;">วันนี้</span>':''}
+        ${r.phone?`<br><small style="color:var(--gray-400);">${escHtml(r.phone)}</small>`:''}
+      </td>
+      <td>${escHtml(r.service||'–')}</td>
+      <td style="white-space:nowrap;">${escHtml(r.date||'–')}</td>
+      <td><span class="time-badge">${escHtml(r.time||'–')}</span></td>
+      <td>${escHtml(r.channel||'–')}</td>
+      <td><span class="badge badge-${stClass}">${escHtml(r.status)}</span></td>
+      <td style="white-space:nowrap;">
+        <button onclick="editRow('${r.id}')" style="background:#1976d2;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.75rem;">✏️</button>
+        <button onclick="deleteRow('${r.id}')" style="background:#f44336;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.75rem;">🗑</button>
+      </td>
+    </tr>`;
+  }).join('');
+  renderPagination(filtered.length);
+}
+
+function renderPagination(total) {
+  const pages = Math.ceil(total / PAGE_SIZE);
+  const el = document.getElementById('pagination');
+  if (pages <= 1) { el.innerHTML = ''; return; }
+  let html = `<button class="page-btn" onclick="gotoPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+  for (let i = 1; i <= pages; i++) {
+    if (i === 1 || i === pages || Math.abs(i - currentPage) <= 2)
+      html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="gotoPage(${i})">${i}</button>`;
+    else if (Math.abs(i - currentPage) === 3) html += '<span style="padding:0 4px;color:var(--gray-400)">…</span>';
+  }
+  html += `<button class="page-btn" onclick="gotoPage(${currentPage+1})" ${currentPage===pages?'disabled':''}>›</button>`;
+  el.innerHTML = html;
+}
+function gotoPage(n) { currentPage = n; renderTable(); }
+
+function openNew() {
+  editId = null;
+  document.getElementById('modalTitle').textContent = 'เพิ่มนัดหมาย';
+  document.getElementById('apptForm').reset();
+  document.getElementById('aDate').value = new Date().toISOString().split('T')[0];
+  // Auto-set to next hour
+  const h = new Date().getHours() + 1;
+  document.getElementById('aTime').value = `${String(h).padStart(2,'0')}:00`;
+  document.getElementById('apptModal').classList.add('open');
+}
+
+function editRow(id) {
+  const r = allRows.find(x => String(x.id) === String(id));
+  if (!r) return;
+  editId = r.id;
+  document.getElementById('modalTitle').textContent = 'แก้ไขนัดหมาย';
+  document.getElementById('aName').value    = r.name    || '';
+  document.getElementById('aPhone').value   = r.phone   || '';
+  document.getElementById('aService').value = r.service || 'โหราศาสตร์จีน';
+  document.getElementById('aChannel').value = r.channel || 'ออนไลน์';
+  document.getElementById('aDate').value    = r.date    || '';
+  document.getElementById('aTime').value    = r.time    || '';
+  document.getElementById('aStatus').value  = r.status  || 'รอยืนยัน';
+  document.getElementById('aNote').value    = r.note    || '';
+  document.getElementById('apptModal').classList.add('open');
+}
+
+async function saveRow(e) {
+  e.preventDefault();
+  const btn = document.getElementById('saveBtn');
+  btn.textContent = '⏳...'; btn.disabled = true;
+  const body = {
+    name:    document.getElementById('aName').value,
+    phone:   document.getElementById('aPhone').value,
+    service: document.getElementById('aService').value,
+    channel: document.getElementById('aChannel').value,
+    date:    document.getElementById('aDate').value,
+    time:    document.getElementById('aTime').value,
+    status:  document.getElementById('aStatus').value,
+    note:    document.getElementById('aNote').value,
+  };
+  try {
+    if (editId) {
+      const updated = await apiFetch('/api/appointments/' + editId, { method:'PUT', body: JSON.stringify(body) });
+      const idx = allRows.findIndex(x => String(x.id) === String(editId));
+      if (idx > -1) allRows[idx] = updated;
+    } else {
+      const created = await apiFetch('/api/appointments', { method:'POST', body: JSON.stringify(body) });
+      allRows.unshift(created);
+    }
+    updateStats(); renderToday(); filterRows(); closeModal();
+    showToast('บันทึกสำเร็จ ✓', 'success');
+  } catch(err) { alert('เกิดข้อผิดพลาด: ' + err.message); }
+  finally { btn.textContent = '💾 บันทึก'; btn.disabled = false; }
+}
+
+async function deleteRow(id) {
+  const r = allRows.find(x => String(x.id) === String(id));
+  if (!confirm(`ลบนัดหมายของ "${r?.name}" วันที่ ${r?.date} เวลา ${r?.time} ?\nการดำเนินการนี้ไม่สามารถยกเลิกได้`)) return;
+  try {
+    await apiFetch('/api/appointments/' + id, { method:'DELETE' });
+    allRows = allRows.filter(x => String(x.id) !== String(id));
+    updateStats(); renderToday(); filterRows(); showToast('ลบแล้ว', 'success');
+  } catch(err) { alert('เกิดข้อผิดพลาด: ' + err.message); }
+}
+
+function closeModal() { document.getElementById('apptModal').classList.remove('open'); }
+function escHtml(str) { return String(str||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function showToast(msg,type='info') {
+  const t=document.createElement('div');
+  t.style.cssText=`position:fixed;bottom:2rem;right:2rem;z-index:9999;padding:0.8rem 1.4rem;border-radius:var(--r-lg);background:${type==='success'?'#2e7d32':'#c62828'};color:#fff;font-size:0.875rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.3);`;
+  t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2800);
+}
+function doLogout() {
+  if(confirm('ออกจากระบบ?')){ sessionStorage.removeItem('admin_auth'); sessionStorage.removeItem('admin_key'); window.location.href='/admin'; }
+}
+const mq=window.matchMedia('(max-width:900px)');
+document.getElementById('menuToggle').style.display=mq.matches?'block':'none';
+mq.addEventListener('change',e=>{ document.getElementById('menuToggle').style.display=e.matches?'block':'none'; });
+document.getElementById('apptModal').addEventListener('click',function(e){ if(e.target===this) closeModal(); });
+
+// Support ?new=1 to open modal directly
+if (new URLSearchParams(location.search).get('new') === '1') document.addEventListener('DOMContentLoaded', () => openNew());
+document.addEventListener('DOMContentLoaded', loadAll);
 </script>
 </body>
 </html>

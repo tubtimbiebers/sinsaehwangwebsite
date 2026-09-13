@@ -18,9 +18,13 @@ if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 process.on('uncaughtException', err => console.error('Uncaught Exception:', err));
 process.on('unhandledRejection', err => console.error('Unhandled Rejection:', err));
 
-const ARTICLES_FILE  = path.join(DATA_DIR, 'articles.json');
-const HOMEPAGE_FILE  = path.join(DATA_DIR, 'homepage.json');
-const CATEGORIES_FILE = path.join(DATA_DIR, 'categories.json');
+const ARTICLES_FILE      = path.join(DATA_DIR, 'articles.json');
+const HOMEPAGE_FILE      = path.join(DATA_DIR, 'homepage.json');
+const CATEGORIES_FILE    = path.join(DATA_DIR, 'categories.json');
+const CONSULTATIONS_FILE = path.join(DATA_DIR, 'consultations.json');
+const CUSTOMERS_FILE     = path.join(DATA_DIR, 'customers.json');
+const APPOINTMENTS_FILE  = path.join(DATA_DIR, 'appointments.json');
+const TESTIMONIALS_FILE  = path.join(DATA_DIR, 'testimonials.json');
 
 // ── middleware ──────────────────────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
@@ -200,6 +204,57 @@ app.get('/api/stats', (_req, res) => {
   const cats = readJSON(CATEGORIES_FILE, []);
   res.json({ total: articles.length, published, draft, categories: cats.length });
 });
+
+// ═══════════════════════════════════════════════════════════════════════════
+// GENERIC CRUD FACTORY  (GET /api/:col, GET /api/:col/:id, POST, PUT, DELETE)
+// ═══════════════════════════════════════════════════════════════════════════
+
+function crudRoutes(route, file) {
+  // GET all
+  app.get(route, (_req, res) => res.json(readJSON(file, [])));
+
+  // GET single
+  app.get(route + '/:id', (req, res) => {
+    const items = readJSON(file, []);
+    const item = items.find(i => String(i.id) === req.params.id);
+    if (!item) return res.status(404).json({ error: 'Not found' });
+    res.json(item);
+  });
+
+  // POST create
+  app.post(route, requireAuth, (req, res) => {
+    const items = readJSON(file, []);
+    const newItem = { id: Date.now(), ...req.body, createdAt: new Date().toISOString() };
+    items.unshift(newItem);
+    writeJSON(file, items);
+    res.status(201).json(newItem);
+  });
+
+  // PUT update
+  app.put(route + '/:id', requireAuth, (req, res) => {
+    const items = readJSON(file, []);
+    const idx = items.findIndex(i => String(i.id) === req.params.id);
+    if (idx === -1) return res.status(404).json({ error: 'Not found' });
+    items[idx] = { ...items[idx], ...req.body, updatedAt: new Date().toISOString() };
+    writeJSON(file, items);
+    res.json(items[idx]);
+  });
+
+  // DELETE
+  app.delete(route + '/:id', requireAuth, (req, res) => {
+    let items = readJSON(file, []);
+    const before = items.length;
+    items = items.filter(i => String(i.id) !== req.params.id);
+    if (items.length === before) return res.status(404).json({ error: 'Not found' });
+    writeJSON(file, items);
+    res.json({ ok: true });
+  });
+}
+
+crudRoutes('/api/consultations', CONSULTATIONS_FILE);
+crudRoutes('/api/customers',     CUSTOMERS_FILE);
+crudRoutes('/api/appointments',  APPOINTMENTS_FILE);
+crudRoutes('/api/testimonials',  TESTIMONIALS_FILE);
 
 const server = app.listen(3333, () => {
   console.log('\n╔═══════════════════════════════════════════╗');

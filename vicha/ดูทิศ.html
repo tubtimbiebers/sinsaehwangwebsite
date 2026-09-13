@@ -1125,7 +1125,18 @@ const FUNCS = {
 };
 
 function eqLoose(a, b) {
-  if (typeof a === 'number' || typeof b === 'number') return toNumLoose(a) === toNumLoose(b) && (typeof a === 'number' || typeof b === 'number');
+  if (a === b) return true;
+  if (isErr(a) || isErr(b)) return false;
+  const aBlank = (a === BLANK || a === null || a === undefined || a === '');
+  const bBlank = (b === BLANK || b === null || b === undefined || b === '');
+  if (aBlank && bBlank) return true;
+  if (aBlank !== bBlank) return false;
+
+  const numA = toNum(a);
+  const numB = toNum(b);
+  if (!isErr(numA) && !isErr(numB) && (typeof a === 'number' || typeof b === 'number')) {
+    return Math.abs(numA - numB) < 1e-9;
+  }
   return toStr(a).toLowerCase() === toStr(b).toLowerCase();
 }
 function matchCriteria(val, crit) {

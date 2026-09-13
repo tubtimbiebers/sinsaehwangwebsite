@@ -328,6 +328,216 @@ table.dh-info { border-collapse:collapse; width:100%; font-size:14px; }
   .bz-worship { display:flex; gap:12px; flex-wrap:wrap; }
   .bz-worship-box { flex:1; min-width:260px; border:2px solid #2e7d32; border-radius:6px; padding:10px 14px; background:#fdf6ee; }
   .bz-worship-box .bz-worship-title { font-weight:700; color:#2e7d32; margin-bottom:4px; }
+
+  /* ═══════════ คงบ่วง (Kong Wang) Highlight Styles ═══════════ */
+  .bz-kw-summary-card {
+    background: linear-gradient(135deg, #fffdf8 0%, #fcf7ff 100%);
+    border: 1px solid #d3adf7;
+    border-left: 5px solid #722ed1;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(114, 46, 209, 0.09);
+  }
+  .bz-kw-hdr {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #531dab;
+    font-size: 13.5px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .bz-kw-badge-title {
+    background: #722ed1;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .bz-kw-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    color: #4a3821;
+  }
+  .bz-kw-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #fff;
+    padding: 3px 10px;
+    border-radius: 5px;
+    border: 1px solid #e9d8fd;
+  }
+  .bz-kw-hit-alert {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff1f0;
+    border: 1px solid #ffa39e;
+    color: #cf1322;
+    padding: 3px 12px;
+    border-radius: 5px;
+    font-weight: 700;
+  }
+  .bz-kw-no-hit {
+    color: #389e0d;
+    background: #f6ffed;
+    border: 1px solid #b7eb8f;
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-weight: 600;
+  }
+
+  /* Pillar Table Kong Wang Highlight */
+  table.bz-pillar.bz-pillar-kw {
+    border: 2.5px solid #722ed1 !important;
+    box-shadow: 0 0 12px rgba(114, 46, 209, 0.22);
+    position: relative;
+    border-radius: 6px;
+  }
+  table.bz-pillar.bz-pillar-kw th {
+    background: linear-gradient(135deg, #531dab 0%, #722ed1 100%) !important;
+    border-color: #391085 !important;
+  }
+  .bz-kw-pillar-badge {
+    display: inline-block;
+    background: #fff;
+    color: #722ed1;
+    font-size: 10px;
+    font-weight: 800;
+    border-radius: 3px;
+    padding: 1px 5px;
+    margin-top: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  table.bz-pillar td.bz-char.bz-kw-char {
+    background: #f9f0ff !important;
+    border: 2px dashed #9254de !important;
+    position: relative;
+  }
+  table.bz-pillar td.bz-char.bz-kw-char::after {
+    content: 'คงบ่วง';
+    position: absolute;
+    bottom: 2px;
+    right: 3px;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #722ed1;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0 4px;
+    border-radius: 2px;
+    border: 1px solid #d3adf7;
+    line-height: 1.2;
+  }
+  table.bz-pillar td.bz-thai.bz-kw-thai {
+    background: #f9f0ff !important;
+    color: #531dab !important;
+    font-weight: 700;
+  }
+  table.bz-mini.bz-mini-kw {
+    border: 2px solid #722ed1 !important;
+  }
+  table.bz-mini.bz-mini-kw th {
+    background: #722ed1 !important;
+    color: #fff !important;
+  }
+
+  /* ═══════════ วัยจร 10 ปี (Decade Period) Active Highlight ═══════════ */
+  .bz-active-decade-banner {
+    background: linear-gradient(135deg, #fef9e7 0%, #fff2cc 100%);
+    border: 1.5px solid #d4af37;
+    border-radius: 8px;
+    padding: 8px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #614700;
+    box-shadow: 0 2px 5px rgba(212, 175, 55, 0.15);
+  }
+  .bz-active-decade-banner b { color: #873800; }
+  .bz-active-pin {
+    background: linear-gradient(135deg, #b8860b 0%, #d4af37 100%);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+
+  /* Table Decade Highlight */
+  table.bz-decade td.bz-col-active {
+    background: #fffdf2 !important;
+    border-left: 2.5px solid #d4af37 !important;
+    border-right: 2.5px solid #d4af37 !important;
+  }
+  table.bz-decade tr.bz-pct td.bz-col-active {
+    background: linear-gradient(180deg, #d4af37 0%, #b8860b 100%) !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    border-top: 2.5px solid #b8860b !important;
+    border-left: 2.5px solid #b8860b !important;
+    border-right: 2.5px solid #b8860b !important;
+    position: relative;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+  }
+  table.bz-decade tr.bz-pct td.bz-col-active .bz-cur-tag {
+    display: block;
+    font-size: 9.5px;
+    background: #873800;
+    color: #fff;
+    border-radius: 3px;
+    padding: 1px 3px;
+    margin-bottom: 2px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  table.bz-decade td.bz-char.bz-col-active {
+    font-size: 19px !important;
+    font-weight: 900 !important;
+    background: #fff5db !important;
+  }
+  table.bz-decade tr:last-child td.bz-col-active {
+    border-bottom: 2.5px solid #d4af37 !important;
+  }
+
+  /* Table 10y Highlight */
+  table.bz-10y td.bz-col-active {
+    background: #fffdf5 !important;
+    border-left: 1.5px solid #d4af37 !important;
+    border-right: 1.5px solid #d4af37 !important;
+  }
+  table.bz-10y tr:last-child td.bz-col-active {
+    border-bottom: 1.5px solid #d4af37 !important;
+  }
+  table.bz-10y tr td.bz-yr-current {
+    background: #ffe58f !important;
+    color: #873800 !important;
+    font-weight: 800 !important;
+  }
+  table.bz-10y tr td.bz-char-current {
+    background: #fff1b8 !important;
+    font-weight: 800 !important;
+  }
+  .bz-kw-badge-elem {
+    background: #f9f0ff;
+    color: #722ed1;
+    border: 1px solid #d3adf7;
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
 </style>
 </head>
 <body>
@@ -1509,7 +1719,18 @@ const FUNCS = {
 };
 
 function eqLoose(a, b) {
-  if (typeof a === 'number' || typeof b === 'number') return toNumLoose(a) === toNumLoose(b) && (typeof a === 'number' || typeof b === 'number');
+  if (a === b) return true;
+  if (isErr(a) || isErr(b)) return false;
+  const aBlank = (a === BLANK || a === null || a === undefined || a === '');
+  const bBlank = (b === BLANK || b === null || b === undefined || b === '');
+  if (aBlank && bBlank) return true;
+  if (aBlank !== bBlank) return false;
+
+  const numA = toNum(a);
+  const numB = toNum(b);
+  if (!isErr(numA) && !isErr(numB) && (typeof a === 'number' || typeof b === 'number')) {
+    return Math.abs(numA - numB) < 1e-9;
+  }
   return toStr(a).toLowerCase() === toStr(b).toLowerCase();
 }
 function matchCriteria(val, crit) {
@@ -2364,21 +2585,93 @@ function bzBuildRefLookups() {
 function bzElemOfStem(ch) { bzBuildRefLookups(); return BZ_STEM_ELEM_LOOKUP[ch] || ''; }
 function bzThaiOfBranch(ch) { bzBuildRefLookups(); return BZ_BRANCH_THAI_LOOKUP[ch] || ''; }
 
+const BZ_STEMS = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+const BZ_BRANCHES = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+const BZ_BRANCH_THAI_MAP = {
+  '子': 'ชวด', '丑': 'ฉลู', '寅': 'ขาล', '卯': 'เถาะ',
+  '辰': 'มะโรง', '巳': 'มะเส็ง', '午': 'มะเมีย', '未': 'มะแม',
+  '申': 'วอก', '酉': 'ระกา', '戌': 'จอ', '亥': 'กุน'
+};
+
+function bzGetKongWang(stemCh, branchCh) {
+  const s = BZ_STEMS.indexOf(stemCh) + 1;
+  const b = BZ_BRANCHES.indexOf(branchCh) + 1;
+  if (s === 0 || b === 0) return [];
+  let diff = (b - s) % 12;
+  if (diff < 0) diff += 12;
+  const kw1Idx = (diff + 10) % 12;
+  const kw2Idx = (diff + 11) % 12;
+  return [BZ_BRANCHES[kw1Idx], BZ_BRANCHES[kw2Idx]];
+}
+
 function buildBaZiPillars() {
   const wrap = document.getElementById('bzPillarsWrap');
-  let html = '<div class="bz-pillars">';
+
+  // Compute Kong Wang (คงบ่วง) for Day and Year pillars
+  const dayStem = bzCell('K5'), dayBranch = bzCell('K6');
+  const yearStem = bzCell('Q5'), yearBranch = bzCell('Q6');
+  const dayKW = bzGetKongWang(dayStem, dayBranch);
+  const yearKW = bzGetKongWang(yearStem, yearBranch);
+
+  // Check each of the 4 main pillars
+  const kwHits = [];
+  const pillarKWMap = {};
   for (const p of BZ_PILLARS) {
-    html += '<table class="bz-pillar"><tr><th>' + p.label + '</th></tr>';
+    const b = bzCell(p.branch);
+    const isDayKW = (p.label.indexOf('วัน') === -1) && dayKW.includes(b);
+    const isYearKW = (p.label.indexOf('ปี') === -1) && yearKW.includes(b);
+    const types = [];
+    if (isDayKW) types.push('คงบ่วงวัน');
+    if (isYearKW) types.push('คงบ่วงปี');
+    if (types.length > 0) {
+      pillarKWMap[p.label] = types;
+      kwHits.push({
+        pillar: p.label.split(' ')[0],
+        branch: b,
+        thai: bzThaiOfBranch(b),
+        types: types.join(' + ')
+      });
+    }
+  }
+
+  // Build Kong Wang Summary Card
+  const dayKWStr = dayKW.map(ch => ch + ' (' + (BZ_BRANCH_THAI_MAP[ch] || '') + ')').join(', ');
+  const yearKWStr = yearKW.map(ch => ch + ' (' + (BZ_BRANCH_THAI_MAP[ch] || '') + ')').join(', ');
+  let kwSummaryHtml = '<div class="bz-kw-summary-card">';
+  kwSummaryHtml += '<div class="bz-kw-hdr"><span class="bz-kw-badge-title">คงบ่วง (空亡)</span> <b>การวิเคราะห์คงบ่วงประจำดวงชะตา:</b></div>';
+  kwSummaryHtml += '<div class="bz-kw-body">';
+  kwSummaryHtml += '<span class="bz-kw-item"><b>คงบ่วงวัน (หลัก):</b> ' + (dayKWStr || '-') + '</span>';
+  kwSummaryHtml += '<span class="bz-kw-item"><b>คงบ่วงปี:</b> ' + (yearKWStr || '-') + '</span>';
+  if (kwHits.length > 0) {
+    const hitList = kwHits.map(h => '<b>' + h.pillar + '</b> [' + h.branch + ' ' + h.thai + ' - ' + h.types + ']').join(', ');
+    kwSummaryHtml += '<span class="bz-kw-hit-alert">⚠️ ดวงนี้ตกคงบ่วงที่: ' + hitList + '</span>';
+  } else {
+    kwSummaryHtml += '<span class="bz-kw-no-hit">✓ ไม่มีเสาใดใน 4 เสาหลักตกคงบ่วง</span>';
+  }
+  kwSummaryHtml += '</div></div>';
+
+  let html = kwSummaryHtml + '<div class="bz-pillars">';
+  for (const p of BZ_PILLARS) {
+    const kwTypes = pillarKWMap[p.label];
+    const isKW = Boolean(kwTypes && kwTypes.length > 0);
+    const tblCls = isKW ? 'bz-pillar bz-pillar-kw' : 'bz-pillar';
+    html += '<table class="' + tblCls + '"><tr><th>' + p.label;
+    if (isKW) {
+      html += '<br><span class="bz-kw-pillar-badge">⚠️ ' + kwTypes.join('/') + '</span>';
+    }
+    html += '</th></tr>';
     html += '<tr><td class="bz-gua">' + bzColorText(bzCell(p.guaTop)) + '</td></tr>';
     html += '<tr><td class="bz-char">' + bzColorText(bzCell(p.stem)) + '</td></tr>';
     html += '<tr><td class="bz-elem">' + bzCell(p.elem) + '</td></tr>';
     html += '<tr><td class="bz-gua">' + bzColorText(bzCell(p.guaBottom)) + '</td></tr>';
-    html += '<tr><td class="bz-char">' + bzColorText(bzCell(p.branch)) + '</td></tr>';
-    html += '<tr><td class="bz-thai">' + bzCell(p.thai) + '</td></tr>';
+    const branchCh = bzCell(p.branch);
+    const branchCls = isKW ? 'bz-char bz-kw-char' : 'bz-char';
+    html += '<tr><td class="' + branchCls + '">' + bzColorText(branchCh) + '</td></tr>';
+    const thaiCls = isKW ? 'bz-thai bz-kw-thai' : 'bz-thai';
+    const thaiText = bzCell(p.thai) + (isKW ? ' <small style="color:#722ed1;font-weight:700;">(' + kwTypes.join('/') + ')</small>' : '');
+    html += '<tr><td class="' + thaiCls + '">' + thaiText + '</td></tr>';
     const hiddenStr = p.hiddenCols.map(a => bzCell(a)).filter(v => v && v.trim()).join('');
     html += '<tr><td class="bz-hidden">' + bzColorText(hiddenStr) + '</td></tr>';
-    // ฐาน: นับอิม + แต้ม ของเสาหลักนี้เอง (G9/J9/M9/P9 ฯลฯ อยู่ใต้เสาหลักในชีทจริง
-    // เรียงตามลำดับ เวลาเกิด/วันเกิด/เดือนเกิด/ปีเกิด ไม่ใช่ใต้เสาเสริม)
     if (p.elemBlock) {
       const c = p.elemBlock;
       const elemName = bzCell(c + '9');
@@ -2392,16 +2685,20 @@ function buildBaZiPillars() {
 
   html += '<div class="bz-side">';
   for (const m of bzMiniPillars()) {
-    html += '<table class="bz-mini"><tr><th>' + m.label.replace('\n', ' ') + '</th></tr>';
+    const mBranch = bzCell(m.branch);
+    const isMiniKW = dayKW.includes(mBranch) || yearKW.includes(mBranch);
+    const miniCls = isMiniKW ? 'bz-mini bz-mini-kw' : 'bz-mini';
+    html += '<table class="' + miniCls + '"><tr><th>' + m.label.replace('\n', ' ');
+    if (isMiniKW) html += '<br><span style="font-size:9px;color:#722ed1;font-weight:700;">คงบ่วง</span>';
+    html += '</th></tr>';
     html += '<tr><td>' + bzColorText(bzCell(m.stem)) + '</td></tr>';
-    html += '<tr><td>' + bzColorText(bzCell(m.branch)) + '</td></tr>';
+    html += '<tr><td' + (isMiniKW ? ' style="background:#f9f0ff;color:#722ed1;font-weight:800;"' : '') + '>' + bzColorText(mBranch) + '</td></tr>';
     html += '<tr><td class="bz-hidden-mini">' + bzColorText(bzCell(m.hidden)) + '</td></tr>';
     html += '</table>';
   }
   html += '</div>';
 
-  // วัน เดือน ปี เวลาจร ณ ปัจจุบัน (คอลัมน์ S/T/U/V) - เรียงเป็น 4 เสาแนวนอนสไตล์เดียวกับ
-  // เสาหลัก 4 เสาด้านบน (ไม่ใช่กล่องเล็กแบบเสาเสริม) ตามที่ขอ
+  // วัน เดือน ปี เวลาจร ณ ปัจจุบัน (คอลัมน์ S/T/U/V)
   const BZ_NOW_PILLARS = [
     { label: 'วัยจร (เวลา)', dateAddr: 'S4', isTime: true, stem: 'S5', branch: 'S7', hidden: 'S8' },
     { label: 'วันจร', dateAddr: 'T4', stem: 'T5', branch: 'T7', hidden: 'T8' },
@@ -2442,36 +2739,140 @@ const BZ_DECADE_COLS = [['C', 'D'], ['E', 'F'], ['G', 'H'], ['I', 'J'], ['K', 'L
 
 function buildBaZi100() {
   const wrap = document.getElementById('bz100Wrap');
-  // หมายเหตุ: แถวธาตุ+แต้ม (G9/J9/M9/P9) ย้ายไปแสดงใต้ตารางเสาเสริม
-  // (ลัคนา/ทรัพย์สิน/ปฏิสนธิ/หัวใจ) แล้ว ดู buildBaZiPillars()
-  let html = '<table class="bz-decade">';
-  html += '<tr class="bz-pct">' + BZ_DECADE_COLS.map(([c]) => {
+  const currentAge = Math.floor(parseFloat(bzCell('F2')) || 0);
+
+  // Determine active decade column
+  let activeColIdx = -1;
+  const colAges = BZ_DECADE_COLS.map(([c], idx) => {
+    const rawVal = bzRaw(c + '10');
+    const start = Math.floor(Number(rawVal) || 0);
+    const end = start + 9;
+    return { idx, col: c, start, end };
+  });
+
+  for (const item of colAges) {
+    if (currentAge >= item.start && currentAge <= item.end) {
+      activeColIdx = item.idx;
+      break;
+    }
+  }
+  if (activeColIdx === -1 && colAges.length > 0) {
+    const last = colAges[colAges.length - 1];
+    const first = colAges[0];
+    if (currentAge < last.start) activeColIdx = colAges.length - 1;
+    else if (currentAge > first.end) activeColIdx = 0;
+  }
+
+  let activeBanner = '';
+  const activeItem = colAges[activeColIdx];
+  if (activeItem) {
+    const activeColC = BZ_DECADE_COLS[activeColIdx][0];
+    const activeColD = BZ_DECADE_COLS[activeColIdx][1];
+    const stem = bzCell(activeColC + '11');
+    const elem = bzCell(activeColD + '11');
+    const branch = bzCell(activeColC + '12');
+    const thai = bzCell(activeColD + '12');
+    activeBanner = '<div class="bz-active-decade-banner">' +
+      '<span class="bz-active-pin">★ วัยจรปัจจุบัน</span>' +
+      '<span>อายุปัจจุบัน <b>' + currentAge + ' ปี</b> อยู่ในช่วงวัยจร 10 ปี: <b>' + stem + branch + '</b> (' + thai + ' / ' + elem + ') &nbsp;•&nbsp; ช่วงอายุ <b>' + activeItem.start + ' – ' + activeItem.end + ' ปี</b></span>' +
+    '</div>';
+  }
+
+  let html = activeBanner + '<table class="bz-decade">';
+  // แถวอายุ (Header)
+  html += '<tr class="bz-pct">' + BZ_DECADE_COLS.map(([c], idx) => {
     const v = bzRaw(c + '10');
     const shown = (typeof v === 'number') ? Math.round(v) : v;
-    return '<td>' + shown + '</td>';
+    const isAct = (idx === activeColIdx);
+    const cls = isAct ? ' class="bz-col-active"' : '';
+    const tag = isAct ? '<span class="bz-cur-tag">★ ปัจจุบัน</span>' : '';
+    return '<td' + cls + '>' + tag + shown + '</td>';
   }).join('') + '</tr>';
-  html += '<tr>' + BZ_DECADE_COLS.map(([c, d]) => '<td class="bz-char">' + bzColorText(bzCell(c + '11')) + '</td>').join('') + '</tr>';
-  html += '<tr>' + BZ_DECADE_COLS.map(([c, d]) => '<td>' + bzCell(d + '11') + '</td>').join('') + '</tr>';
-  html += '<tr>' + BZ_DECADE_COLS.map(([c, d]) => '<td class="bz-char">' + bzColorText(bzCell(c + '12')) + '</td>').join('') + '</tr>';
-  html += '<tr>' + BZ_DECADE_COLS.map(([c, d]) => '<td>' + bzCell(d + '12') + '</td>').join('') + '</tr>';
-  html += '<tr>' + BZ_DECADE_COLS.map(([c, d]) => '<td class="bz-hidden">' + bzColorText(bzCell(c + '13')) + '</td>').join('') + '</tr>';
+
+  // แถวเทียนกาน (ราศีฟ้า) - ตัวอักษรจีน
+  html += '<tr>' + BZ_DECADE_COLS.map(([c, d], idx) => {
+    const isAct = (idx === activeColIdx);
+    const cls = isAct ? ' class="bz-char bz-col-active"' : ' class="bz-char"';
+    return '<td' + cls + '>' + bzColorText(bzCell(c + '11')) + '</td>';
+  }).join('') + '</tr>';
+
+  // แถวธาตุ (เช่น น้ำ(ล))
+  html += '<tr>' + BZ_DECADE_COLS.map(([c, d], idx) => {
+    const isAct = (idx === activeColIdx);
+    const cls = isAct ? ' class="bz-col-active"' : '';
+    return '<td' + cls + '>' + bzCell(d + '11') + '</td>';
+  }).join('') + '</tr>';
+
+  // แถวตี้จือ (ราศีดิน) - ตัวอักษรจีน
+  html += '<tr>' + BZ_DECADE_COLS.map(([c, d], idx) => {
+    const isAct = (idx === activeColIdx);
+    const cls = isAct ? ' class="bz-char bz-col-active"' : ' class="bz-char"';
+    return '<td' + cls + '>' + bzColorText(bzCell(c + '12')) + '</td>';
+  }).join('') + '</tr>';
+
+  // แถวชื่อราศีไทย (เช่น กุน/ชวด)
+  html += '<tr>' + BZ_DECADE_COLS.map(([c, d], idx) => {
+    const isAct = (idx === activeColIdx);
+    const cls = isAct ? ' class="bz-col-active"' : '';
+    return '<td' + cls + '>' + bzCell(d + '12') + '</td>';
+  }).join('') + '</tr>';
+
+  // แถวราศีแฝง (hidden stems)
+  html += '<tr>' + BZ_DECADE_COLS.map(([c, d], idx) => {
+    const isAct = (idx === activeColIdx);
+    const cls = isAct ? ' class="bz-hidden bz-col-active"' : ' class="bz-hidden"';
+    return '<td' + cls + '>' + bzColorText(bzCell(c + '13')) + '</td>';
+  }).join('') + '</tr>';
+
   html += '</table>';
   wrap.innerHTML = html;
 }
 
 function buildBaZi10y() {
   const wrap = document.getElementById('bz10yWrap');
+  const currentAge = Math.floor(parseFloat(bzCell('F2')) || 0);
+  const transitYr = bzCell('V4');
+
+  let activeColIdx = -1;
+  const colAges = BZ_DECADE_COLS.map(([c], idx) => {
+    const rawVal = bzRaw(c + '10');
+    const start = Math.floor(Number(rawVal) || 0);
+    return { idx, start, end: start + 9 };
+  });
+  for (const item of colAges) {
+    if (currentAge >= item.start && currentAge <= item.end) {
+      activeColIdx = item.idx;
+      break;
+    }
+  }
+
   let html = '<table class="bz-10y">';
   for (let r = 14; r <= 23; r++) {
     html += '<tr>';
-    for (const [c, d] of BZ_DECADE_COLS) {
-      html += '<td class="bz-yr">' + bzCell(c + r) + '</td><td class="bz-char">' + bzColorText(bzCell(d + r)) + '</td>';
+    for (let idx = 0; idx < BZ_DECADE_COLS.length; idx++) {
+      const [c, d] = BZ_DECADE_COLS[idx];
+      const isActCol = (idx === activeColIdx);
+      const yrVal = bzCell(c + r);
+      const pillarVal = bzCell(d + r);
+      const isCurYr = Boolean(yrVal && yrVal === transitYr);
+
+      let yrCls = 'bz-yr';
+      if (isActCol) yrCls += ' bz-col-active';
+      if (isCurYr) yrCls += ' bz-yr-current';
+
+      let charCls = 'bz-char';
+      if (isActCol) charCls += ' bz-col-active';
+      if (isCurYr) charCls += ' bz-char-current';
+
+      html += '<td class="' + yrCls + '">' + (isCurYr ? '★ ' : '') + yrVal + '</td>';
+      html += '<td class="' + charCls + '">' + bzColorText(pillarVal) + '</td>';
     }
     html += '</tr>';
   }
   html += '</table>';
   wrap.innerHTML = html;
 }
+
 
 function buildBaZiTransit() {
   const wrap = document.getElementById('bzTransitWrap');
@@ -2557,7 +2958,9 @@ function buildBaZiElements() {
     html += '<td class="bz-char">' + bzColorText(bzCell('R' + r)) + '</td>';
     html += '<td>' + bzCell('T' + r) + '</td>';
     html += '<td>' + bzCell('U' + r) + '</td>';
-    html += '<td class="bz-char">' + bzColorText(bzCell('V' + r)) + '</td>';
+    const kwVal = bzCell('V' + r);
+    const kwBadge = (kwVal && kwVal.trim()) ? '<span class="bz-kw-badge-elem">' + bzColorText(kwVal) + '</span>' : '';
+    html += '<td class="bz-char" style="text-align:center;">' + kwBadge + '</td>';
     html += '</tr>';
   }
   html += '</table>';

@@ -8,6 +8,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Noto+Sans+Thai:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css?v=12" />
+  <style>
+    .seo-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-xl); }
+    .preview-box { border:1px solid var(--border); border-radius:var(--r-md); padding:var(--sp-lg); background:var(--white); }
+    .preview-title { font-size:1.05rem; color:#1a0dab; text-decoration:underline; cursor:pointer; margin-bottom:4px; font-family:arial,sans-serif; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .preview-url { font-size:0.78rem; color:#006621; margin-bottom:4px; font-family:arial,sans-serif; }
+    .preview-desc { font-size:0.82rem; color:#545454; line-height:1.5; font-family:arial,sans-serif; }
+    .char-bar { height:4px; border-radius:2px; margin-top:4px; }
+    .checklist { list-style:none; padding:0; }
+    .checklist li { display:flex; align-items:flex-start; gap:var(--sp-sm); padding:var(--sp-sm) 0; border-bottom:1px solid var(--border); font-size:0.875rem; }
+    .checklist li:last-child { border-bottom:none; }
+    .check-icon { font-size:1rem; flex-shrink:0; margin-top:1px; }
+    .score-ring { width:80px; height:80px; border-radius:50%; border:6px solid var(--crimson); display:flex; align-items:center; justify-content:center; font-size:1.4rem; font-weight:700; color:var(--crimson); }
+    .score-good { border-color:#2e7d32; color:#2e7d32; }
+    .score-warn { border-color:#f57c00; color:#f57c00; }
+    .kw-tag { display:inline-block; background:var(--cream-deep); color:var(--gold-deep); font-size:0.75rem; padding:4px 10px; border-radius:20px; margin:4px 2px; }
+    .kw-add { background:var(--crimson); color:#fff; border:none; padding:4px 10px; border-radius:20px; font-size:0.75rem; cursor:pointer; }
+    @media(max-width:900px){ .seo-grid{grid-template-columns:1fr;} }
+  </style>
 </head>
 <body class="admin-body">
 <script>if(!sessionStorage.getItem('admin_auth')) window.location.href='/admin';</script>
@@ -21,76 +39,319 @@
     <nav class="admin-nav">
       <div class="admin-nav-section">
         <div class="admin-nav-label">ภาพรวม</div>
-        <a href="/admin/dashboard.html" class="admin-nav-item" id="nav-dashboard">
-          <span class="nav-icon">📊</span> Dashboard
-        </a>
+        <a href="/admin/dashboard.html" class="admin-nav-item"><span class="nav-icon">📊</span> Dashboard</a>
       </div>
       <div class="admin-nav-section">
         <div class="admin-nav-label">เนื้อหา</div>
-        <a href="/admin/homepage.html" class="admin-nav-item" id="nav-homepage">
-          <span class="nav-icon">🏠</span> แก้ไขหน้าแรก
-        </a>
-        <a href="/admin/posts.html" class="admin-nav-item" id="nav-posts">
-          <span class="nav-icon">📝</span> บทความ
-        </a>
-        <a href="/admin/categories.html" class="admin-nav-item" id="nav-categories">
-          <span class="nav-icon">🏷️</span> หมวดหมู่
-        </a>
-        <a href="/admin/testimonials.html" class="admin-nav-item" id="nav-testimonials">
-          <span class="nav-icon">💬</span> รีวิว
-        </a>
+        <a href="/admin/homepage.html" class="admin-nav-item"><span class="nav-icon">🏠</span> แก้ไขหน้าแรก</a>
+        <a href="/admin/posts.html" class="admin-nav-item"><span class="nav-icon">📝</span> บทความ</a>
+        <a href="/admin/categories.html" class="admin-nav-item"><span class="nav-icon">🏷️</span> หมวดหมู่</a>
+        <a href="/admin/testimonials.html" class="admin-nav-item"><span class="nav-icon">💬</span> รีวิว</a>
       </div>
       <div class="admin-nav-section">
         <div class="admin-nav-label">ลูกค้า</div>
-        <a href="/admin/consultations.html" class="admin-nav-item" id="nav-consult">
-          <span class="nav-icon">🔮</span> คำปรึกษา
-        </a>
-        <a href="/admin/customers.html" class="admin-nav-item" id="nav-customers">
-          <span class="nav-icon">👥</span> ลูกค้า
-        </a>
-        <a href="/admin/appointments.html" class="admin-nav-item" id="nav-appointments">
-          <span class="nav-icon">📅</span> นัดหมาย
-        </a>
+        <a href="/admin/consultations.html" class="admin-nav-item"><span class="nav-icon">🔮</span> คำปรึกษา</a>
+        <a href="/admin/customers.html" class="admin-nav-item"><span class="nav-icon">👥</span> ลูกค้า</a>
+        <a href="/admin/appointments.html" class="admin-nav-item"><span class="nav-icon">📅</span> นัดหมาย</a>
       </div>
       <div class="admin-nav-section">
         <div class="admin-nav-label">ระบบ</div>
-        <a href="/admin/settings.html" class="admin-nav-item" id="nav-settings">
-          <span class="nav-icon">⚙️</span> ตั้งค่า
-        </a>
-        <a href="/admin/seo.html" class="admin-nav-item active" id="nav-seo">
-          <span class="nav-icon">🔍</span> SEO
-        </a>
-        <a href="#" class="admin-nav-item" id="nav-logout" onclick="logout()">
-          <span class="nav-icon">🚪</span> ออกจากระบบ
-        </a>
+        <a href="/admin/settings.html" class="admin-nav-item"><span class="nav-icon">⚙️</span> ตั้งค่า</a>
+        <a href="/admin/seo.html" class="admin-nav-item active"><span class="nav-icon">🔍</span> SEO</a>
+        <a href="#" class="admin-nav-item" onclick="doLogout()"><span class="nav-icon">🚪</span> ออกจากระบบ</a>
       </div>
     </nav>
+    <div style="padding:var(--sp-lg);border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="font-size:0.7rem;color:var(--gray-600);text-align:center;">
+        <a href="/index.html" target="_blank" style="color:var(--gold-bright);">ดูหน้าเว็บ ↗</a>
+      </div>
+    </div>
   </aside>
 
   <main class="admin-main">
     <div class="admin-topbar">
-      <span class="admin-topbar-title">🔍 SEO</span>
+      <div style="display:flex;align-items:center;gap:var(--sp-md);">
+        <button id="menuToggle" onclick="document.getElementById('adminSidebar').classList.toggle('open')"
+          style="display:none;padding:6px;border:1px solid var(--border);border-radius:var(--r-md);cursor:pointer;background:var(--white);">☰</button>
+        <span class="admin-topbar-title">🔍 SEO Manager</span>
+      </div>
       <div class="admin-user"><div class="admin-avatar">ซ</div><span>ซินแสหวาง</span></div>
     </div>
+
     <div class="admin-content">
-      <div class="admin-card">
-        <div style="padding:var(--sp-xl,2rem);text-align:center;color:var(--gray-500);">
-          <div style="font-size:2.4rem;margin-bottom:0.75rem;">🔍</div>
-          <div style="font-size:1rem;font-weight:600;color:var(--charcoal);margin-bottom:0.4rem;">หน้านี้ยังไม่เปิดใช้งาน</div>
-          <div style="font-size:0.85rem;">ฟีเจอร์ "SEO" กำลังอยู่ระหว่างการพัฒนา</div>
+
+      <!-- SEO Score -->
+      <div class="admin-card" style="margin-bottom:var(--sp-xl);">
+        <div class="admin-card-header">
+          <span class="admin-card-title">📊 คะแนน SEO โดยรวม</span>
+          <button class="btn-primary" onclick="runSeoCheck()" id="checkBtn">🔍 ตรวจสอบ SEO</button>
+        </div>
+        <div style="padding:var(--sp-xl);display:grid;grid-template-columns:auto 1fr;gap:var(--sp-xl);align-items:start;">
+          <div style="text-align:center;">
+            <div class="score-ring score-good" id="seoScore">–</div>
+            <div style="font-size:0.72rem;color:var(--gray-500);margin-top:8px;">SEO Score</div>
+          </div>
+          <div>
+            <ul class="checklist" id="seoChecklist">
+              <li><span class="check-icon">⏳</span> <span>กำลังตรวจสอบ...</span></li>
+            </ul>
+          </div>
         </div>
       </div>
+
+      <div class="seo-grid">
+
+        <!-- Meta Tags Editor -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span class="admin-card-title">🏷️ Meta Tags หน้าหลัก</span>
+          </div>
+          <div class="admin-form" style="padding:var(--sp-xl);">
+            <div class="form-group">
+              <label>Title Tag <span style="color:var(--crimson)">*</span></label>
+              <input type="text" class="form-control" id="metaTitle" maxlength="60"
+                placeholder="ซินแสหวาง | โหราศาสตร์จีน ฮวงจุ้ย อี้จิง"
+                value="ซินแสหวาง | โหราศาสตร์จีน ฮวงจุ้ย อี้จิง" oninput="updateMeta()" />
+              <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                <small style="color:var(--gray-400);">แนะนำ 50–60 ตัวอักษร</small>
+                <small id="titleLen" style="color:var(--gray-400);">0/60</small>
+              </div>
+              <div class="char-bar" id="titleBar" style="background:var(--cream-deep);"></div>
+            </div>
+
+            <div class="form-group">
+              <label>Meta Description</label>
+              <textarea class="form-control" id="metaDesc" maxlength="160" rows="3"
+                placeholder="คำอธิบาย SEO..." oninput="updateMeta()">ซินแสหวาง ผู้เชี่ยวชาญโหราศาสตร์จีน ฮวงจุ้ย อี้จิง และโหราศาสตร์ไทย ให้คำปรึกษาด้านชะตาชีวิต การเงิน ความรัก และสุขภาพ</textarea>
+              <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                <small style="color:var(--gray-400);">แนะนำ 120–160 ตัวอักษร</small>
+                <small id="descLen" style="color:var(--gray-400);">0/160</small>
+              </div>
+              <div class="char-bar" id="descBar" style="background:var(--cream-deep);"></div>
+            </div>
+
+            <div class="form-group">
+              <label>Canonical URL</label>
+              <input type="url" class="form-control" id="metaCanonical" placeholder="https://sinsaehwang.com/" value="https://sinsaehwang.com/" />
+            </div>
+
+            <div class="form-group">
+              <label>OG Image URL (Open Graph)</label>
+              <input type="text" class="form-control" id="metaOgImage" placeholder="https://sinsaehwang.com/images/og.jpg" />
+            </div>
+
+            <button class="btn-primary" onclick="saveMetaTags()">💾 บันทึก Meta Tags</button>
+          </div>
+        </div>
+
+        <!-- Preview + Keywords -->
+        <div style="display:flex;flex-direction:column;gap:var(--sp-xl);">
+
+          <!-- Search Preview -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <span class="admin-card-title">👁 ตัวอย่างผลการค้นหา</span>
+            </div>
+            <div style="padding:var(--sp-xl);">
+              <div style="font-size:0.72rem;color:var(--gray-400);margin-bottom:var(--sp-md);">Google Preview</div>
+              <div class="preview-box">
+                <div class="preview-title" id="previewTitle">ซินแสหวาง | โหราศาสตร์จีน ฮวงจุ้ย อี้จิง</div>
+                <div class="preview-url" id="previewUrl">https://sinsaehwang.com › หน้าหลัก</div>
+                <div class="preview-desc" id="previewDesc">ซินแสหวาง ผู้เชี่ยวชาญโหราศาสตร์จีน ฮวงจุ้ย อี้จิง และโหราศาสตร์ไทย ให้คำปรึกษาด้านชะตาชีวิต การเงิน ความรัก และสุขภาพ</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Keywords -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <span class="admin-card-title">🔑 คีย์เวิร์ดเป้าหมาย</span>
+            </div>
+            <div style="padding:var(--sp-xl);">
+              <div id="kwList" style="margin-bottom:var(--sp-md);">
+                <span class="kw-tag">ซินแส</span>
+                <span class="kw-tag">โหราศาสตร์จีน</span>
+                <span class="kw-tag">ฮวงจุ้ย</span>
+                <span class="kw-tag">อี้จิง</span>
+                <span class="kw-tag">ดูดวง</span>
+                <span class="kw-tag">โหราศาสตร์ไทย</span>
+              </div>
+              <div style="display:flex;gap:var(--sp-sm);">
+                <input type="text" class="form-control" id="kwInput" placeholder="เพิ่มคีย์เวิร์ด..."
+                  style="flex:1;" onkeydown="if(event.key==='Enter'){addKeyword();event.preventDefault();}" />
+                <button class="kw-add" onclick="addKeyword()">+ เพิ่ม</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sitemap & Robots -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <span class="admin-card-title">🗺️ Sitemap & Robots</span>
+            </div>
+            <div style="padding:var(--sp-xl);display:flex;flex-direction:column;gap:var(--sp-md);">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-size:0.875rem;font-weight:600;">sitemap.xml</div>
+                  <div style="font-size:0.72rem;color:var(--gray-400);">สร้าง Sitemap อัตโนมัติ</div>
+                </div>
+                <button class="btn-outline" onclick="generateSitemap()" style="font-size:0.8rem;padding:0.4rem 0.8rem;">⚡ สร้าง</button>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:var(--sp-md);">
+                <div>
+                  <div style="font-size:0.875rem;font-weight:600;">robots.txt</div>
+                  <div style="font-size:0.72rem;color:var(--gray-400);">จัดการ robots.txt</div>
+                </div>
+                <a href="/robots.txt" target="_blank" class="btn-outline" style="font-size:0.8rem;padding:0.4rem 0.8rem;text-decoration:none;">ดู ↗</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </main>
 </div>
 
 <script src="/js/main.js"></script>
 <script>
-function logout() {
-  sessionStorage.removeItem('admin_auth');
-  sessionStorage.removeItem('admin_key');
-  window.location.href = '/admin';
+const API_KEY = sessionStorage.getItem('admin_key') || '';
+let keywords = ['ซินแส','โหราศาสตร์จีน','ฮวงจุ้ย','อี้จิง','ดูดวง','โหราศาสตร์ไทย'];
+
+function updateMeta() {
+  const title = document.getElementById('metaTitle').value;
+  const desc  = document.getElementById('metaDesc').value;
+
+  document.getElementById('titleLen').textContent = title.length + '/60';
+  document.getElementById('descLen').textContent  = desc.length + '/160';
+
+  const tPct = Math.min((title.length / 60) * 100, 100);
+  const dPct = Math.min((desc.length / 160) * 100, 100);
+  const tColor = tPct > 90 ? '#f44336' : tPct > 70 ? '#4caf50' : '#ff9800';
+  const dColor = dPct > 90 ? '#f44336' : dPct > 70 ? '#4caf50' : '#ff9800';
+  document.getElementById('titleBar').style.cssText = `height:4px;border-radius:2px;margin-top:4px;background:linear-gradient(to right,${tColor} ${tPct}%,var(--cream-deep) ${tPct}%)`;
+  document.getElementById('descBar').style.cssText  = `height:4px;border-radius:2px;margin-top:4px;background:linear-gradient(to right,${dColor} ${dPct}%,var(--cream-deep) ${dPct}%)`;
+
+  document.getElementById('previewTitle').textContent = title || '(ไม่มีชื่อ)';
+  document.getElementById('previewDesc').textContent  = desc  || '(ไม่มีคำอธิบาย)';
 }
+
+function saveMetaTags() {
+  const data = {
+    title:     document.getElementById('metaTitle').value,
+    desc:      document.getElementById('metaDesc').value,
+    canonical: document.getElementById('metaCanonical').value,
+    ogImage:   document.getElementById('metaOgImage').value,
+    keywords:  keywords,
+  };
+  localStorage.setItem('sinsae_seo', JSON.stringify(data));
+  showToast('บันทึก Meta Tags สำเร็จ ✓', 'success');
+}
+
+function loadSaved() {
+  const data = JSON.parse(localStorage.getItem('sinsae_seo') || '{}');
+  if (data.title)     document.getElementById('metaTitle').value     = data.title;
+  if (data.desc)      document.getElementById('metaDesc').value      = data.desc;
+  if (data.canonical) document.getElementById('metaCanonical').value = data.canonical;
+  if (data.ogImage)   document.getElementById('metaOgImage').value   = data.ogImage;
+  if (data.keywords)  keywords = data.keywords;
+  updateMeta();
+  renderKeywords();
+}
+
+function addKeyword() {
+  const kw = document.getElementById('kwInput').value.trim();
+  if (!kw || keywords.includes(kw)) { document.getElementById('kwInput').value = ''; return; }
+  keywords.push(kw);
+  document.getElementById('kwInput').value = '';
+  renderKeywords();
+}
+
+function removeKeyword(kw) {
+  keywords = keywords.filter(k => k !== kw);
+  renderKeywords();
+}
+
+function renderKeywords() {
+  document.getElementById('kwList').innerHTML = keywords.map(k =>
+    `<span class="kw-tag">${escHtml(k)} <span onclick="removeKeyword('${escHtml(k)}')" style="cursor:pointer;margin-left:4px;opacity:0.6;">✕</span></span>`
+  ).join('');
+}
+
+async function runSeoCheck() {
+  const btn = document.getElementById('checkBtn');
+  btn.textContent = '⏳ กำลังตรวจสอบ...'; btn.disabled = true;
+
+  const title = document.getElementById('metaTitle').value;
+  const desc  = document.getElementById('metaDesc').value;
+
+  const checks = [
+    { label: 'Title Tag มีคำหลัก (ซินแส / โหราศาสตร์)', pass: /ซินแส|โหราศาสตร์/.test(title) },
+    { label: `Title Tag มีความยาวเหมาะสม (${title.length} ตัวอักษร)`, pass: title.length >= 30 && title.length <= 60 },
+    { label: `Meta Description มีความยาวเหมาะสม (${desc.length} ตัวอักษร)`, pass: desc.length >= 80 && desc.length <= 160 },
+    { label: 'มีคีย์เวิร์ดเป้าหมาย', pass: keywords.length >= 3 },
+  ];
+
+  // Try to also check live articles for SEO fields
+  try {
+    const arts = await fetch('/api/articles').then(r => r.json());
+    const noMeta = arts.filter(a => !a.metaDesc && a.status === 'เผยแพร่').length;
+    const noImg  = arts.filter(a => !a.image  && a.status === 'เผยแพร่').length;
+    checks.push({ label: `บทความเผยแพร่มี Meta Description ครบ (ขาด ${noMeta} บทความ)`, pass: noMeta === 0 });
+    checks.push({ label: `บทความเผยแพร่มีรูปภาพครบ (ขาด ${noImg} บทความ)`, pass: noImg === 0 });
+  } catch { /* server not running */ }
+
+  const passing = checks.filter(c => c.pass).length;
+  const score = Math.round((passing / checks.length) * 100);
+
+  const scoreEl = document.getElementById('seoScore');
+  scoreEl.textContent = score;
+  scoreEl.className = 'score-ring ' + (score >= 80 ? 'score-good' : score >= 50 ? 'score-warn' : '');
+
+  document.getElementById('seoChecklist').innerHTML = checks.map(c => `
+    <li>
+      <span class="check-icon">${c.pass ? '✅' : '❌'}</span>
+      <span style="color:${c.pass?'var(--charcoal)':'#c62828'};">${escHtml(c.label)}</span>
+    </li>`).join('');
+
+  btn.textContent = '🔍 ตรวจสอบ SEO'; btn.disabled = false;
+  showToast(`คะแนน SEO: ${score}/100`, score >= 70 ? 'success' : 'error');
+}
+
+function generateSitemap() {
+  const pages = ['/', '/blog.html', '/about.html', '/consult.html', '/contact.html',
+    '/iching.html', '/fengshui.html', '/numerology.html', '/thai-astrology.html',
+    '/chinese-astrology.html', '/lucky-colors.html'];
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${pages.map(p => `  <url>
+    <loc>https://sinsaehwang.com${p}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>${p==='/'?'1.0':'0.8'}</priority>
+  </url>`).join('\n')}
+</urlset>`;
+  const blob = new Blob([xml], { type: 'text/xml' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'sitemap.xml';
+  a.click();
+  showToast('ดาวน์โหลด sitemap.xml สำเร็จ', 'success');
+}
+
+function escHtml(str) { return String(str||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function showToast(msg, type='info') {
+  const t=document.createElement('div');
+  t.style.cssText=`position:fixed;bottom:2rem;right:2rem;z-index:9999;padding:0.8rem 1.4rem;border-radius:var(--r-lg);background:${type==='success'?'#2e7d32':'#c62828'};color:#fff;font-size:0.875rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.3);`;
+  t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2800);
+}
+function doLogout() {
+  if(confirm('ออกจากระบบ?')){ sessionStorage.removeItem('admin_auth'); sessionStorage.removeItem('admin_key'); window.location.href='/admin'; }
+}
+const mq=window.matchMedia('(max-width:900px)');
+document.getElementById('menuToggle').style.display=mq.matches?'block':'none';
+mq.addEventListener('change',e=>{ document.getElementById('menuToggle').style.display=e.matches?'block':'none'; });
+document.addEventListener('DOMContentLoaded', () => { loadSaved(); updateMeta(); });
 </script>
 </body>
 </html>
